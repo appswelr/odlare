@@ -75,11 +75,10 @@ nav a:hover{opacity:1;color:var(--fin)}
 
 /* Móviles */
 .phones{position:relative;height:560px}
-.phone{position:absolute;width:250px;aspect-ratio:600/1231;border-radius:40px;background:var(--phone);padding:9px;box-shadow:0 30px 60px rgba(20,27,58,.25),0 0 0 1px rgba(255,255,255,.06) inset}
-.phone img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:32px;display:block}
-.phone::after{content:"";position:absolute;top:18px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#000}
-.hero .p1{right:150px;top:24px;transform:rotate(-5deg);z-index:2}
-.hero .p2{right:0;top:70px;transform:rotate(6deg);z-index:1;opacity:.97}
+.phone{position:absolute;width:250px;aspect-ratio:9/19.4;border-radius:27px;padding:2.5px;background:linear-gradient(140deg,#5a5e68 0%,#1c1e23 14%,#2e3138 30%,#0e0f12 52%,#33363e 72%,#141519 88%,#4b4f59 100%);box-shadow:0 0 0 .5px rgba(0,0,0,.7),inset 0 0 0 .6px rgba(255,255,255,.28),0 44px 70px -24px rgba(20,27,58,.5),0 18px 34px -14px rgba(20,27,58,.35)}
+.phone .scr{position:relative;width:100%;height:100%;border-radius:24.5px;overflow:hidden;background:#F4F5FA;border:3.5px solid #08090c;display:flex;flex-direction:column}.phone .scr img{flex:1;min-height:0;width:100%;object-fit:cover;object-position:center top;display:block}.phone .sb{flex:none;height:22px;display:flex;align-items:center;justify-content:space-between;padding:2px 16px 0 20px;font:700 10px/1 "Plus Jakarta Sans",sans-serif;color:#141B3A;letter-spacing:.01em}.phone .sb svg{height:9px;width:auto;display:block}.phone .sb .ico{display:flex;gap:4px;align-items:center}.phone .scr::before{content:"";position:absolute;top:6px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#2b3550 0 18%,#07080c 45%);z-index:2}.phone .scr::after{content:"";position:absolute;inset:0;background:linear-gradient(118deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 30%);pointer-events:none;z-index:3}.phone::before{content:"";position:absolute;right:-2.5px;top:21%;width:2.5px;height:14%;border-radius:0 2px 2px 0;background:linear-gradient(90deg,#0f1013,#3d4049)}.phone::after{content:"";position:absolute;right:-2.5px;top:38%;width:2.5px;height:7%;border-radius:0 2px 2px 0;background:linear-gradient(90deg,#0f1013,#3d4049)}
+.hero .p1{right:150px;top:20px;transform:rotate(-4deg);z-index:2}
+.hero .p2{right:0;top:64px;transform:rotate(5deg);z-index:1}
 
 /* Secciones */
 section{padding:72px 0}
@@ -104,6 +103,10 @@ section{padding:72px 0}
 .play small{display:block;font-size:11px;font-weight:600;opacity:.75;letter-spacing:.02em}
 .play svg{width:22px;height:22px}
 .price{font-size:14px;font-weight:600;color:var(--muted);padding:8px 2px}
+.noti{position:absolute;z-index:4;left:-34px;bottom:6px;width:262px;display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:18px;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);box-shadow:0 20px 40px -12px rgba(20,27,58,.35);font-size:13px;line-height:1.35;color:var(--text);animation:notiIn .8s .4s both,flota 5s 1.2s ease-in-out infinite}
+.noti img{width:34px;height:34px;border-radius:9px;flex:none}.noti b{color:var(--ink)}.noti .t{color:var(--muted);font-size:11.5px;margin-left:6px}.noti p{margin:2px 0}.noti em{font-style:normal;font-weight:700;color:var(--fin);font-size:12.5px}
+@keyframes notiIn{from{opacity:0;transform:translateY(14px) scale(.96)}}
+@media (prefers-reduced-motion:reduce){.noti{animation:none}}
 .media{display:flex;justify-content:center;position:relative;z-index:1}
 .media .phone{position:relative;width:270px}
 .app.pronto{display:block;padding:40px 56px}
@@ -175,6 +178,7 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
   .phones{height:470px;max-width:400px;margin:0 auto;width:100%}
   .hero .phone{width:205px}
   .hero .p1{left:0;right:auto}.hero .p2{right:0}
+  .noti{left:auto;right:-4px;bottom:24px;width:230px;font-size:12px}
   .app{grid-template-columns:1fr;padding:32px 22px;gap:30px}
   .app .media{order:-1}
   .media .phone{width:230px}
@@ -231,8 +235,14 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
       </div>
     </div>
     <div class="phones" aria-hidden="true">
-      <div class="phone p2"><img data-img="fin2" src="img/fin2-es.jpg" alt=""></div>
-      <div class="phone p1"><img data-img="fin" src="img/fin-es.jpg" alt=""></div>
+      <div class="phone p2"><div class="scr"><div class="sb"><span>12:30</span><span class="ico"><svg viewBox="0 0 16 11"><path d="M1 10h2V7H1zM5 10h2V5H5zM9 10h2V3H9zM13 10h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 14 11"><path d="M7 10.5 0.5 3.6a9.4 9.4 0 0 1 13 0z" fill="currentColor"/></svg><svg viewBox="0 0 22 11"><rect x="0.6" y="0.6" width="18" height="9.8" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="2.4" y="2.4" width="11.5" height="6.2" rx="1.3" fill="currentColor"/><rect x="19.8" y="3.6" width="1.6" height="3.8" rx=".8" fill="currentColor"/></svg></span></div><img data-img="fin2" src="img/fin2-es.jpg" alt=""></div></div>
+      <div class="noti">
+        <img src="img/icono-finanzas.png" alt="">
+        <div><b>Mis Finanzas</b><span class="t" data-es="ahora" data-en="now">ahora</span>
+          <p data-es="Pagaste <b>£17.43</b> en Súper" data-en="You paid <b>£17.43</b> at Supermarket">Pagaste <b>£17.43</b> en Súper</p>
+          <em data-es="✓ Toca para apuntarlo" data-en="✓ Tap to add it">✓ Toca para apuntarlo</em></div>
+      </div>
+      <div class="phone p1"><div class="scr"><div class="sb"><span>12:30</span><span class="ico"><svg viewBox="0 0 16 11"><path d="M1 10h2V7H1zM5 10h2V5H5zM9 10h2V3H9zM13 10h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 14 11"><path d="M7 10.5 0.5 3.6a9.4 9.4 0 0 1 13 0z" fill="currentColor"/></svg><svg viewBox="0 0 22 11"><rect x="0.6" y="0.6" width="18" height="9.8" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="2.4" y="2.4" width="11.5" height="6.2" rx="1.3" fill="currentColor"/><rect x="19.8" y="3.6" width="1.6" height="3.8" rx=".8" fill="currentColor"/></svg></span></div><img data-img="fin" src="img/fin-es.jpg" alt=""></div></div>
     </div>
   </div>
 </section>
@@ -262,7 +272,7 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
           <span class="price" data-es="30 días gratis, sin tarjeta" data-en="30 days free, no card needed">30 días gratis, sin tarjeta</span>
         </div>
       </div>
-      <div class="media"><div class="phone"><img data-img="fin" src="img/fin-es.jpg" alt="Mis Finanzas"></div></div>
+      <div class="media"><div class="phone"><div class="scr"><div class="sb"><span>12:30</span><span class="ico"><svg viewBox="0 0 16 11"><path d="M1 10h2V7H1zM5 10h2V5H5zM9 10h2V3H9zM13 10h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 14 11"><path d="M7 10.5 0.5 3.6a9.4 9.4 0 0 1 13 0z" fill="currentColor"/></svg><svg viewBox="0 0 22 11"><rect x="0.6" y="0.6" width="18" height="9.8" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="2.4" y="2.4" width="11.5" height="6.2" rx="1.3" fill="currentColor"/><rect x="19.8" y="3.6" width="1.6" height="3.8" rx=".8" fill="currentColor"/></svg></span></div><img data-img="fin" src="img/fin-es.jpg" alt="Mis Finanzas"></div></div></div>
     </article>
 
     <article class="app pronto rv" style="--c:var(--com)">
