@@ -1,4 +1,4 @@
-/* PuntoBalance 5.0.0-alpha5 · «Tus datos»: copias de seguridad, exportar y cambiar de hoja (como «Copias y exportar» de Mis Finanzas).
+/* PuntoBalance 5.0.0-alpha6 · «Tus datos»: copias de seguridad, exportar y cambiar de hoja (como «Copias y exportar» de Mis Finanzas).
    Todo vive en el Google Drive de la persona (permiso drive.file: la app solo ve lo que ella crea):
    - carpeta «PuntoBalance» › «Copias de seguridad»  (appProperties puntobalance = carpeta / copias)
    - la hoja de trabajo lleva puntobalance = 1; otras hojas suyas = 2; las copias = copia
@@ -420,5 +420,5 @@
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boton); else boton();
   window.addEventListener("load", function () { setTimeout(automatico, 6000); });
-  window.pbDatos = { copiar: copiar, carpetas: carpetas, hojas: hojas, preparar: preparar, escribir: escribir };
+  window.pbDatos = { copiar: copiar, carpetas: carpetas, hojas: hojas, preparar: preparar, escribir: escribir, elegirHojaGoogle: elegirHojaGoogle };
 })();

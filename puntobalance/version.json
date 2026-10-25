@@ -1,7 +1,16 @@
 {
- "ver": "5.0.0-alpha5",
+ "ver": "5.0.0-alpha6",
  "fecha": "25 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha6",
+   "fecha": "25 oct 2026",
+   "cambios": [
+    "PuntoBalance se usa solo instalada, en su propia ventana, como un programa",
+    "Al empezar: «Empezar de cero» o «Ya tengo una hoja con mis datos»",
+    "Avisos con el diseño de la app (sin el texto del navegador)"
+   ]
+  },
   {
    "ver": "5.0.0-alpha5",
    "fecha": "25 oct 2026",
