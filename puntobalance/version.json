@@ -1,0 +1,33 @@
+{
+ "ver": "5.0.0-alpha3",
+ "fecha": "25 oct 2026",
+ "novedades": [
+  {
+   "ver": "5.0.0-alpha3",
+   "fecha": "25 oct 2026",
+   "cambios": [
+    "«Acerca de» en pantalla completa, como en Mis Finanzas",
+    "Buscar actualizaciones y aviso cuando hay una versión nueva",
+    "Lista de novedades de cada versión",
+    "Menú más limpio: abajo solo «PuntoBalance · versión»",
+    "Preparada para «Entrar con Google»"
+   ]
+  },
+  {
+   "ver": "5.0.0-alpha2",
+   "fecha": "25 oct 2026",
+   "cambios": [
+    "Movimientos en tabla tipo hoja de cálculo",
+    "El formulario queda en blanco al guardar"
+   ]
+  },
+  {
+   "ver": "5.0.0-alpha1",
+   "fecha": "25 oct 2026",
+   "cambios": [
+    "Primera versión web instalable: ingresos, gastos, facturas PDF, dashboard e impuestos",
+    "Entrar con Google o Probar sin cuenta"
+   ]
+  }
+ ]
+}

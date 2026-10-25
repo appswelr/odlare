@@ -191,6 +191,21 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
 .resumen{max-width:800px;margin:0 auto;background:var(--card);border-radius:24px;padding:36px 40px;box-shadow:var(--shadow)}.resumen h2{font-size:26px;margin-bottom:14px}.resumen ul{padding-left:20px;display:grid;gap:8px;font-size:15.5px}.resumen .btn{margin-top:22px;height:auto;min-height:52px;padding:12px 24px;text-align:center}
 .volver{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--fin);text-decoration:none;margin:32px 0 18px}
 @media (max-width:900px){.resumen{padding:28px 22px}}
+.app.pb{--c:#1B2B5B}
+.app.pb .media{display:flex;justify-content:center}
+.lap{width:100%;max-width:560px}.lap .pant{background:#0F1220;border-radius:16px 16px 4px 4px;padding:10px;box-shadow:0 20px 40px rgba(20,27,58,.25)}.lap .pant img{display:block;width:100%;border-radius:6px}
+.lap .base{height:14px;background:linear-gradient(#D9DCE6,#B9BDCB);border-radius:0 0 14px 14px;margin:0 -26px}
+.pbbtn{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.pbbtn a{display:flex;align-items:center;gap:14px;border-radius:18px;padding:12px 18px;text-decoration:none}
+.pbbtn a svg{width:28px;height:28px;flex:none}
+.pbbtn a small{display:block;font-size:12px;font-weight:600;opacity:.8}.pbbtn a b{font-size:16px}
+.pbbtn .pc{background:#1B2B5B;color:#fff;box-shadow:0 10px 24px rgba(27,43,91,.3)}
+.pbbtn .an{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.pbpasos{display:flex;gap:8px;margin:14px 0 4px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.pbpasos span{background:var(--bg2);border-radius:999px;padding:6px 12px}.pbpasos b{color:#1B2B5B}
+.pbmeta{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.pbmeta .price{font-weight:700;color:#12804A}
+.pbmeta .cod{font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -273,6 +288,32 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
         </div>
       </div>
       <div class="media"><div class="phone"><div class="scr"><div class="sb"><span>12:30</span><span class="ico"><svg viewBox="0 0 16 11"><path d="M1 10h2V7H1zM5 10h2V5H5zM9 10h2V3H9zM13 10h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 14 11"><path d="M7 10.5 0.5 3.6a9.4 9.4 0 0 1 13 0z" fill="currentColor"/></svg><svg viewBox="0 0 22 11"><rect x="0.6" y="0.6" width="18" height="9.8" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="2.4" y="2.4" width="11.5" height="6.2" rx="1.3" fill="currentColor"/><rect x="19.8" y="3.6" width="1.6" height="3.8" rx=".8" fill="currentColor"/></svg></span></div><img data-img="fin" src="img/fin-es.jpg" alt="Mis Finanzas"></div></div></div>
+    </article>
+
+    <article class="app pb rv">
+      <div>
+        <div class="top">
+          <img src="img/icono-puntobalance.png" alt="PuntoBalance">
+          <div><h3>PuntoBalance</h3><div class="tag">Las cuentas de tu negocio, en orden</div></div>
+        </div>
+        <p class="desc">Para DJs, eventos y pequeños negocios. Apunta ingresos y gastos, haz facturas en PDF en un minuto y sabe cuánto ganas de verdad.</p>
+        <ul class="feats">
+          <li><span class="ck"><svg><use href="#ck"/></svg></span><span><b>Facturas en un minuto.</b> En PDF, listas para enviar por correo o WhatsApp.</span></li>
+          <li><span class="ck"><svg><use href="#ck"/></svg></span><span><b>Lo que ganas de verdad.</b> Ingresos menos gastos, por mes, con gráficos.</span></li>
+          <li><span class="ck"><svg><use href="#ck"/></svg></span><span><b>Impuestos (HMRC).</b> Te ayuda con tu Self Assessment.</span></li>
+          <li><span class="ck"><svg><use href="#ck"/></svg></span><span><b>Tus datos, solo tuyos.</b> En una hoja de tu propio Google Drive.</span></li>
+        </ul>
+        <div class="pbbtn">
+          <a class="pc" href="puntobalance/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg><span><small>Computadora y tablet</small><b>Abrir e instalar</b></span></a>
+          <a class="an" href="puntobalance/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg><span><small>Celular Android</small><b>Abrir e instalar</b></span></a>
+        </div>
+        <div class="pbpasos"><span><b>1</b> Abre PuntoBalance</span><span><b>2</b> Pulsa «Instalar»</span><span><b>3</b> Listo: su icono en tu escritorio</span></div>
+        <div class="pbmeta">
+          <span class="play"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small>MÁS ADELANTE EN</small>Google Play</span></span>
+          <span class="price">Gratis mientras está en prueba</span>
+        </div>
+      </div>
+      <div class="media"><div class="lap"><div class="pant"><img src="img/pb-pc.png" alt="PuntoBalance en la computadora"></div><div class="base"></div></div></div>
     </article>
 
     <article class="app pronto rv" style="--c:var(--com)">
