@@ -22,10 +22,11 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  *         SUBTOTAL y PERIODO se escriben como valor (no fórmula); periodos de cualquier día de inicio.
  *         alpha2: movimientos en tabla tipo hoja de cálculo (con Nº); el formulario queda en blanco al guardar.
  *         alpha3: «Acerca de» en pantalla completa (como Mis Finanzas), buscar actualizaciones y novedades.
+ *         alpha4: «Tus datos» (copias de seguridad, exportar, cambiar de hoja); menú con los colores de Odlare.
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha3';
+const VERSION = '5.0.0-alpha4';
 const VERSION_FECHA = '25 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────

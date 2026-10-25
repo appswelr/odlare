@@ -15,12 +15,13 @@
 <script src="demo.js"></script>
 <script src="pdf.js"></script>
 <script src="cuenta.js"></script>
+<script src="datos.js"></script>
 <script src="app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@800&display=swap" rel="stylesheet">
 <style>
 /* ===== Caparazón (menú lateral) ===== */
 
-  :root { --rail:#0F1220; --rail2:#1A1E33; --ink:#151A2D; --text:#1F2540; --muted:#6B7194; --line:#E6E8F1; --bg:#F4F5FA; --card:#FFFFFF; --accent:#4F46E5; --ok:#12B76A; --bad:#D92D20; }
+  :root { --rail:#1B2B5B; --rail2:#24386F; --ink:#151A2D; --text:#1F2540; --muted:#6B7194; --line:#E6E8F1; --bg:#F4F5FA; --card:#FFFFFF; --accent:#4F46E5; --ok:#12B76A; --bad:#D92D20; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
   body { font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--text); font-size: 14px; background: var(--bg); overflow: hidden; }
@@ -30,20 +31,21 @@
   .rail { width: 248px; flex: none; background: var(--rail); color: #C9CCE0; padding: 20px 22px 18px; display: flex; flex-direction: column; overflow: auto; }
   .rail img { display: block; width: 140px; height: 68px; object-fit: contain; object-position: left center; filter: brightness(0) invert(1); }
   .rail .period { margin-top: 14px; background: var(--rail2); border-radius: 14px; padding: 12px 16px; }
-  .rail .period small { display: block; font-size: 11px; color: #7C82A6; margin-bottom: 3px; }
+  .rail .period small { display: block; font-size: 11px; color: #9DB0E0; margin-bottom: 3px; }
   .rail .period b { color: #fff; font-size: 15px; font-weight: 500; }
   .rail .gap { height: 12px; }
-  .rail h3 { margin: 16px 0 4px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #7C82A6; font-weight: 500; }
+  .rail h3 { margin: 16px 0 4px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #9DB0E0; font-weight: 500; }
   .rb { display: flex; align-items: center; gap: 12px; width: calc(100% + 20px); margin: 0 -10px; padding: 7px 10px; border: 0; background: none; text-align: left; border-radius: 10px; color: #E4E6F2; }
-  .rb .i { width: 20px; height: 20px; flex: none; color: #9AA0C4; }
+  .rb .i { width: 20px; height: 20px; flex: none; color: #B9C6EA; }
   .rb .t { flex: 1; font-size: 13.5px; }
   .rb:hover { background: var(--rail2); }
-  .rb[aria-current="page"] { background: var(--accent); color: #fff; }
+  .rb[aria-current="page"] { background: #1E60E0; color: #fff; }
   .rb[aria-current="page"] .i { color: #fff; }
   .rail .grow { flex: 1; min-height: 10px; }
   .rail .ver { margin-top: 10px; }
-  .rail .ver .acerca { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: none; border: 0; border-radius: 10px; padding: 8px 6px; color: #9AA0C4; font-size: 12px; white-space: nowrap; }
+  .rail .ver .acerca { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: none; border: 0; border-radius: 10px; padding: 8px 6px; color: #B9C6EA; font-size: 12px; white-space: nowrap; }
   .rail .ver .acerca svg { width: 15px; height: 15px; flex: none; }
+  .rail .ver .acerca .pbi { width: 22px; height: 22px; border-radius: 6px; background: #1B2B5B; box-shadow: 0 0 0 1px rgba(255,255,255,.3); }
   .rail .ver .acerca:hover, .rail .ver .acerca[aria-current="page"] { background: var(--rail2); color: #fff; }
   .rail .ver .acerca .pdot { display: none; width: 8px; height: 8px; border-radius: 50%; background: #F4A62A; }
   .rail .ver .acerca.pb-nueva .pdot { display: inline-block; }
@@ -254,7 +256,7 @@
 .v-panel .pfil select { height: 42px; min-width: 240px; padding: 0 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; font: inherit; font-weight: 600; color: var(--ink); }
 
 /* ===== Formularios ===== */
-.v-form { --rail:#0F1220; --rail2:#1A1E33; --ink:#151A2D; --text:#1F2540; --muted:#6B7194; --line:#E6E8F1; --bg:#F6F6FA; --card:#FFFFFF; --accent:#4F46E5; --accent-soft:#EEF0FA; --ok:#12B76A; --bad:#D92D20; }
+.v-form { --rail:#1B2B5B; --rail2:#24386F; --ink:#151A2D; --text:#1F2540; --muted:#6B7194; --line:#E6E8F1; --bg:#F6F6FA; --card:#FFFFFF; --accent:#4F46E5; --accent-soft:#EEF0FA; --ok:#12B76A; --bad:#D92D20; }
 .v-form * { box-sizing: border-box; }
 .v-form .i { width: 18px; height: 18px; flex: none; }
 .v-form { flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100%; }
@@ -366,7 +368,7 @@
 .v-form .reg .btn[data-del]:hover { background: #D92D20; border-color: #D92D20; color: #fff; }
 .v-form .reg .btn.danger { background: #D92D20; border-color: #D92D20; color: #fff; }
 .v-form .logo-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 20px; margin: 0 0 14px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
-.v-form .lg-prev { width: 150px; height: 76px; border-radius: 12px; background: #0F1220; display: flex; align-items: center; justify-content: center; flex: none; }
+.v-form .lg-prev { width: 150px; height: 76px; border-radius: 12px; background: #1B2B5B; display: flex; align-items: center; justify-content: center; flex: none; }
 .v-form .lg-prev img { max-width: 124px; max-height: 56px; object-fit: contain; filter: brightness(0) invert(1); }
 .v-form .lg-txt { flex: 1; min-width: 220px; }
 .v-form .lg-txt b { color: var(--ink); font-size: 15px; }
@@ -819,7 +821,7 @@
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha3',fecha:'25 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha4',fecha:'25 oct 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1779,7 +1781,7 @@ function init_acerca(ROOT, P, S) {
     return '<span class="odl" style="font-size:' + fs + 'px;color:' + col + '"><span class="o"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="44" cy="58" r="32" fill="none" stroke="currentColor" stroke-width="20"/><circle cx="66.6" cy="35.4" r="13" fill="#F4A62A" stroke="' + bg + '" stroke-width="6"/></svg></span>dlare</span>';
   }
   // 5.0.0-alpha3: abajo del menú solo «ⓘ PuntoBalance · vX ›» (como Mis Finanzas); abre la pantalla «Acerca de»
-  $('sh-ver').innerHTML = '<button class="acerca" id="sh-acerca" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/></svg>PuntoBalance · v' + CFG.ver + '<i class="pdot"></i> ›</button>';
+  $('sh-ver').innerHTML = '<button class="acerca" id="sh-acerca" type="button"><svg class="pbi" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50.00" cy="51.17" r="35.94" fill="none" stroke="#fff" stroke-width="2.93"/><circle cx="75.41" cy="25.76" r="5.27" fill="#F4A62A" stroke="#1B2B5B" stroke-width="3.52" paint-order="stroke"/><rect x="28.9" y="26.11" width="36.36" height="50.73" rx="3.83" fill="#F3F5F9"/><path d="M53.97 26.11 L65.46 25.92 L65.46 37.41 Z" fill="#1B2B5B"/><path d="M53.97 26.11 L53.97 34.54 L56.84 37.41 L65.26 37.41 Z" fill="#CDD4E0"/><rect x="33.68" y="33.96" width="14.07" height="1.15" rx="0.57" fill="#101C3E"/><rect x="33.68" y="38.27" width="13.11" height="1.15" rx="0.57" fill="#101C3E"/><rect x="33.68" y="42.48" width="10.24" height="1.15" rx="0.57" fill="#101C3E"/><text x="33.87" y="57.7" font-family="Arial, sans-serif" font-weight="700" font-size="11.29" fill="#101C3E">£</text><rect x="27.37" y="67.07" width="4.59" height="9.77" rx="0.57" fill="#1E60E0"/><rect x="33.59" y="62.29" width="4.59" height="14.55" rx="0.57" fill="#1E60E0"/><rect x="39.71" y="59.13" width="4.6" height="17.71" rx="0.57" fill="#1E60E0"/><rect x="45.55" y="41.62" width="28.04" height="35.98" rx="3.83" fill="#1B2B5B"/><rect x="46.51" y="42.57" width="26.12" height="34.07" rx="3.06" fill="#FFFFFF"/><rect x="47.37" y="43.44" width="24.4" height="32.34" rx="2.49" fill="#101C3E"/><rect x="49.95" y="46.02" width="19.33" height="6.6" rx="1.15" fill="#1E60E0"/><rect x="49.95" y="55.78" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="49.95" y="62.19" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="49.95" y="68.51" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="55.78" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="62.19" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="68.51" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="64.31" y="55.78" width="4.97" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="64.31" y="62.19" width="4.97" height="10.63" rx="0.96" fill="#1E60E0"/></svg>PuntoBalance · v' + CFG.ver + '<i class="pdot"></i> ›</button>';
   $('sh-acerca').onclick = () => ir('acerca');
   function marcarAct() {
     const n = !!(window.PB_ACT && window.PB_ACT.estado().nueva);
@@ -1807,8 +1809,9 @@ function init_acerca(ROOT, P, S) {
     if (CUR && CUR.destroy) { try { CUR.destroy(); } catch (e) {} }
     const cont = $('vista');
     cont.innerHTML = '';
-    cont.appendChild($('tpl-' + vista).content.cloneNode(true));
-    CUR = Object.assign({ vista: vista }, VIEWS[vista](cont.firstElementChild, { tab: tab }, SHELL) || {});
+    const EXTRA = (window.PB_VISTAS || {})[vista];   // pantallas que añade la app instalable (p. ej. «Tus datos»)
+    if (EXTRA) cont.innerHTML = EXTRA.tpl; else cont.appendChild($('tpl-' + vista).content.cloneNode(true));
+    CUR = Object.assign({ vista: vista }, (EXTRA ? EXTRA.init : VIEWS[vista])(cont.firstElementChild, { tab: tab }, SHELL) || {});
     marcar(vista === 'form' ? 'form:' + (tab || 'ingreso') : vista);
   }
 

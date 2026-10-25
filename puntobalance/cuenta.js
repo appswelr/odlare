@@ -69,6 +69,11 @@
   window.pbCuenta = {
     token: token,
     correo: function () { return CUENTA ? CUENTA.correo : ""; },
+    api: g,
+    modo: function () { return leer("pb_modo"); },
+    hojaId: function () { return CUENTA ? CUENTA.hojaId : null; },
+    /** 5.0.0-alpha4: trabajar con otra hoja de PuntoBalance (Tus datos › Cambiar de hoja). */
+    usarHoja: function (id) { if (!CUENTA) return; CUENTA.hojaId = id; poner("pb_cuenta", CUENTA); location.reload(); },
     sesionCaducada: function () { TK = null; poner("pb_tk", null); },
     salir: function () {
       try { if (TK && TK.t && window.google && google.accounts) google.accounts.oauth2.revoke(TK.t, function () { }); } catch (e) { }
@@ -122,7 +127,7 @@
           .then(function (u) {
             CUENTA = { correo: u.email, nombre: u.name || "" };
             var q = "appProperties has { key='puntobalance' and value='1' } and trashed=false";
-            return g("GET", "https://www.googleapis.com/drive/v3/files?fields=files(id,name)&q=" + encodeURIComponent(q));
+            return g("GET", "https://www.googleapis.com/drive/v3/files?fields=files(id,name)&orderBy=modifiedTime%20desc&q=" + encodeURIComponent(q));
           })
           .then(function (j) {
             if (j.files && j.files.length) { CUENTA.hojaId = j.files[0].id; guardarYEntrar(); return; }

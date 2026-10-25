@@ -1,7 +1,17 @@
 {
- "ver": "5.0.0-alpha3",
+ "ver": "5.0.0-alpha4",
  "fecha": "25 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha4",
+   "fecha": "25 oct 2026",
+   "cambios": [
+    "Nueva pantalla «Tus datos»: copias de seguridad en tu Google Drive",
+    "Copia automática cada semana (guarda las 4 últimas)",
+    "Cambiar de hoja y volver a una copia",
+    "Exportar a Excel y CSV"
+   ]
+  },
   {
    "ver": "5.0.0-alpha3",
    "fecha": "25 oct 2026",
