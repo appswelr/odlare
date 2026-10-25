@@ -1,7 +1,19 @@
 {
- "ver": "5.0.0-alpha7",
- "fecha": "25 oct 2026",
+ "ver": "5.0.0-alpha8",
+ "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha8",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "Varios negocios en una sola hoja: elige el negocio arriba del menú (Todos, DJ, Apps…)",
+    "Cada negocio con su nombre, tipo, logo y numeración de facturas (DJ-013, OD-001…)",
+    "Dashboard, Facturas, Movimientos e Impuestos separados por negocio",
+    "Nuevo ingreso y Nuevo gasto: formulario arriba y movimientos abajo, más grandes y con buscador",
+    "Clientes, Proveedores y Categorías con su lista a la par; los clientes se pueden corregir",
+    "Nuevo tipo de negocio: Servicios / apps"
+   ]
+  },
   {
    "ver": "5.0.0-alpha7",
    "fecha": "25 oct 2026",

@@ -26,11 +26,13 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  *         alpha5: «Importar mi hoja anterior» con el selector de Google (Picker).
  *         alpha6: solo instalada (como un programa); «¿Cómo quieres empezar?»; diálogos propios.
  *         alpha7: el selector de la hoja anterior se abre en «Mi unidad», con carpetas.
+ *         alpha8: varios negocios en una sola hoja (pestaña Negocios, columnas NEGOCIO y Nº FACTURA);
+ *                 formularios arriba y movimientos abajo; listas de clientes, proveedores y categorías.
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha7';
-const VERSION_FECHA = '25 oct 2026';
+const VERSION = '5.0.0-alpha8';
+const VERSION_FECHA = '26 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────
 function onOpen() {
@@ -82,7 +84,9 @@ function getHubData() {
     avisos: revisarDatos_().length,
     recordatorio: ScriptApp.getProjectTriggers().some(t => t.getHandlerFunction() === 'enviarResumenSiToca'),
     logo: getLogo_(),
-    negocio: getNegocio()
+    negocio: getNegocio(),
+    negocios: negocios_(),
+    logos: logosNegocios_()
   };
 }
 function getRevision() { return revisarDatos_(); }
@@ -156,12 +160,12 @@ function periodoDe_(fecha) {
 function periodoActual_() { return periodoDe_(new Date()); }
 
 // ───────────────────────── Datos para el panel ─────────────────────────
-function getPanelData(etiquetaPeriodo) {
+function getPanelData(etiquetaPeriodo, negocio) {
   const periodos = leerTabla_('Periodos');
   const actual = etiquetaPeriodo || (periodoActual_() || periodos[0])['ETIQUETA'];
   const todos = actual === 'TODOS';
-  const ing = leerTabla_('Ingresos');
-  const gas = leerTabla_('Gastos');
+  const ing = filtrarNeg_(leerTabla_('Ingresos'), negocio);
+  const gas = filtrarNeg_(leerTabla_('Gastos'), negocio);
 
   const ingP = ing.filter(r => (todos || r['PERIODO UC'] === actual) && r['ESTADO'] !== 'CANCELLED' && r['ID FACTURA'] !== '');
   const gasP = gas.filter(r => (todos || r['PERIODO UC'] === actual) && r['ID GASTO'] !== '');
@@ -176,6 +180,8 @@ function getPanelData(etiquetaPeriodo) {
     const filas = ids[id];
     return {
       id: Number(id),
+      num: numDe_(filas[0]),
+      negocio: negDe_(filas[0]),
       cliente: filas[0]['CLIENTE'],
       fecha: fecha_(filas[0]['FECHA FACTURA']),
       evento: fecha_(filas[0]['FECHA EVENTO']),
@@ -206,8 +212,10 @@ function getPanelData(etiquetaPeriodo) {
 function construirFactura_(id) {
   const filas = leerTabla_('Ingresos').filter(r => Number(r['ID FACTURA']) === Number(id));
   if (!filas.length) throw new Error('No existe la factura ' + id + '.');
-  if (filas[0]['ESTADO'] === 'CANCELLED') throw new Error('La factura ' + id + ' está cancelada: no se crea PDF ni se envía.');
+  const num = numDe_(filas[0]), neg = negocioPorId_(negDe_(filas[0]));
+  if (filas[0]['ESTADO'] === 'CANCELLED') throw new Error('La factura ' + num + ' está cancelada: no se crea PDF ni se envía.');
   const cfg = config_();
+  if (neg && String(neg.nombreFactura || '').trim()) cfg.nombre = String(neg.nombreFactura).trim();
   const cli = leerTabla_('Clientes').find(c => c['NOMBRE'] === filas[0]['CLIENTE']) || {};
   const fechaFactura = filas[0]['FECHA FACTURA'];
   const vence = new Date(fechaFactura.getTime());
@@ -225,8 +233,10 @@ function construirFactura_(id) {
 
   return {
     cfg: cfg,
+    negocio: neg ? neg.id : '',
     f: {
-      id: id,
+      id: num,
+      idInterno: Number(id),
       fecha: fecha_(fechaFactura),
       vencimiento: fecha_(vence),
       cliente: cli,
@@ -243,9 +253,9 @@ function construirFactura_(id) {
 function getFacturaDatos(id, nota) {
   const d = construirFactura_(id);
   if (nota !== undefined && nota !== null) d.cfg.nota_factura = String(nota).trim();
-  d.logo = getLogo_() || LOGO_DEFECTO;
+  d.logo = getLogo_(prefLogo_(d.negocio)) || getLogo_() || LOGO_DEFECTO;
   d.carpeta = d.cfg.carpeta_facturas || 'Facturas PuntoBalance';
-  d.nombreArchivo = 'INVOICE_' + id + '_' + String(d.f.clienteNombre).trim().replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  d.nombreArchivo = 'INVOICE_' + d.f.id + '_' + String(d.f.clienteNombre).trim().replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
   d.para = d.f.cliente['EMAIL'] || '';
   return d;
 }
@@ -264,11 +274,11 @@ function pdfFactura_(id, nota) {
   const d = construirFactura_(id);
   if (nota !== undefined && nota !== null) d.cfg.nota_factura = String(nota).trim();
   const t = HtmlService.createTemplateFromFile('Factura');
-  t.logo = getLogo_() || LOGO_DEFECTO;
+  t.logo = getLogo_(prefLogo_(d.negocio)) || getLogo_() || LOGO_DEFECTO;
   t.cfg = d.cfg;
   t.f = d.f;
   const html = t.evaluate().getContent();
-  const nombre = 'INVOICE_' + id + '_' + String(d.f.clienteNombre).trim().replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  const nombre = 'INVOICE_' + d.f.id + '_' + String(d.f.clienteNombre).trim().replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
   const blob = Utilities.newBlob(html, 'text/html', nombre + '.html').getAs('application/pdf').setName(nombre + '.pdf');
   return { blob: blob, datos: d };
 }
@@ -296,8 +306,8 @@ function enviarFactura(id, nota) {
   MailApp.sendEmail({
     to: para,
     cc: d.cfg.email || '',
-    subject: 'Invoice #' + id + ' – ' + d.cfg.nombre,
-    htmlBody: '<p>Hello,</p><p>Please find attached invoice #' + esc_(id) + ' for ' + esc_(d.f.total) +
+    subject: 'Invoice #' + d.f.id + ' – ' + d.cfg.nombre,
+    htmlBody: '<p>Hello,</p><p>Please find attached invoice #' + esc_(d.f.id) + ' for ' + esc_(d.f.total) +
       ', due on ' + esc_(d.f.vencimiento) + '.</p><p>Kind regards,<br>' + esc_(d.cfg.nombre) + '</p>',
     attachments: [r.blob]
   });
@@ -361,7 +371,12 @@ function resumenPeriodo_(etiqueta) {
   const suma = (a) => a.reduce((t, r) => t + (Number(r['SUBTOTAL']) || 0), 0);
   const cats = {};
   gas.forEach(r => { const k = r['CATEGORÍA UC'] || 'Sin categoría'; cats[k] = (cats[k] || 0) + (Number(r['SUBTOTAL']) || 0); });
-  return { etiqueta: etiqueta, ingresos: suma(ing), gastos: suma(gas), ganancia: suma(ing) - suma(gas), cats: cats, nIng: ing.length, nGas: gas.length };
+  const negs = negocios_();
+  const porNegocio = negs.length > 1 ? negs.map(n => {
+    const i = suma(ing.filter(r => negDe_(r) === n.id)), g = suma(gas.filter(r => negDe_(r) === n.id));
+    return { nombre: n.nombre, ingresos: i, gastos: g, ganancia: i - g };
+  }) : [];
+  return { etiqueta: etiqueta, ingresos: suma(ing), gastos: suma(gas), ganancia: suma(ing) - suma(gas), cats: cats, nIng: ing.length, nGas: gas.length, porNegocio: porNegocio };
 }
 
 function htmlResumen_(r, avisos) {
@@ -506,7 +521,9 @@ function getFormData() {
     perMax: PERIODOS_MAX,
     ultimoPeriodo: (leerTabla_('Periodos').slice(-1)[0] || {})['ETIQUETA'] || '',
     periodos: leerTabla_('Periodos').map(p => ({ ini: iso_(p['INICIO']), fin: iso_(p['FIN']), etiqueta: p['ETIQUETA'] })),
-    negocio: getNegocio()
+    negocio: getNegocio(),
+    negocios: negocios_().map(n => Object.assign({ tipoInfo: NEGOCIOS[n.tipo] || NEGOCIOS.dj, numSig: siguienteNum_(n.id) }, n)),
+    tipos: Object.keys(NEGOCIOS).map(k => ({ clave: k, nombre: NEGOCIOS[k].nombre }))
   };
 }
 
@@ -522,15 +539,20 @@ function guardarIngreso(o) {
     if (clientes.indexOf(o.cliente) < 0) throw new Error('Elige un cliente de la lista. Si es nuevo, añádelo primero en la pestaña Cliente.');
     const precio = numero_(o.precio, 'Precio', 0);
     const cantidad = numero_(o.cantidad, 'Cantidad', 0.01);
+    const neg = negocioPorId_(o.negocio || negPrimero_());
+    if (!neg) throw new Error('Elige de qué negocio es este ingreso.');
     const s = hoja_('Ingresos');
     const id = siguienteId_('Ingresos');
+    const num = siguienteNum_(neg.id);
     const r = filaLibre_(s, true);
     const fe = fechaIso_(o.fechaEvento, 'fecha del evento');
     const calc = calcFila_(precio, cantidad, fe, o.estado);
     s.getRange(r, 1, 1, 13).setValues([[id, fechaIso_(o.fechaFactura, 'fecha de factura'), o.cliente,
-      String(o.descripcion || '').trim() || NEGOCIOS[negocio_()].desc, fe, o.unidad, precio, cantidad, calc[0], calc[1], o.formaPago, o.estado, 'NO']]);
+      String(o.descripcion || '').trim() || (NEGOCIOS[neg.tipo] || NEGOCIOS.dj).desc, fe, o.unidad, precio, cantidad, calc[0], calc[1], o.formaPago, o.estado, 'NO']]);
+    s.getRange(r, colDe_('Ingresos', 'NEGOCIO')).setValue(neg.id);
+    s.getRange(r, colDe_('Ingresos', 'Nº FACTURA')).setValue(num);
     SpreadsheetApp.flush();
-    return { id: id, subtotal: calc[0], periodo: calc[1] };
+    return { id: id, num: num, subtotal: calc[0], periodo: calc[1] };
   });
 }
 
@@ -548,11 +570,14 @@ function guardarGasto(o) {
     const existente = leerTabla_('Proveedores').map(p => p['NOMBRE']).find(n => String(n).toLowerCase() === proveedor.toLowerCase());
     if (existente) proveedor = existente; else anadirProveedor_(proveedor, '');
 
+    const neg = negocioPorId_(o.negocio || negPrimero_());
+    if (!neg) throw new Error('Elige de qué negocio es este gasto.');
     const s = hoja_('Gastos');
     const id = siguienteId_('Gastos');
     const r = filaLibre_(s, true);
     const calc = calcFila_(precio, cantidad, fecha, '');
     s.getRange(r, 1, 1, 12).setValues([[id, fecha, proveedor, String(o.descripcion || '').trim(), o.categoria, cantidad, o.unidad, precio, calc[0], calc[1], String(o.notas || '').trim(), 'NO']]);
+    s.getRange(r, colDe_('Gastos', 'NEGOCIO')).setValue(neg.id);
     SpreadsheetApp.flush();
     return { id: id, subtotal: calc[0], periodo: calc[1], proveedorNuevo: !existente };
   });
@@ -734,13 +759,14 @@ function getDashboardData() {
   const ingresos = leerTabla_('Ingresos').filter(r => r['ESTADO'] !== 'CANCELLED').map(r => ({
     id: n(r['ID FACTURA']), fecha: f(r['FECHA EVENTO']), factura: f(r['FECHA FACTURA']),
     cliente: String(r['CLIENTE'] || ''), desc: String(r['DESCRIPCIÓN'] || ''), total: n(r['SUBTOTAL']),
-    estado: String(r['ESTADO'] || ''), periodo: String(r['PERIODO UC'] || ''), pago: String(r['FORMA DE PAGO'] || '')
+    estado: String(r['ESTADO'] || ''), periodo: String(r['PERIODO UC'] || ''), pago: String(r['FORMA DE PAGO'] || ''),
+    negocio: negDe_(r), num: numDe_(r)
   }));
   const gastos = leerTabla_('Gastos').map(r => ({
     id: n(r['ID GASTO']), fecha: f(r['FECHA']), proveedor: String(r['PROVEEDOR'] || ''), desc: String(r['DESCRIPCIÓN'] || ''),
-    categoria: String(r['CATEGORÍA UC'] || ''), total: n(r['SUBTOTAL']), periodo: String(r['PERIODO UC'] || '')
+    categoria: String(r['CATEGORÍA UC'] || ''), total: n(r['SUBTOTAL']), periodo: String(r['PERIODO UC'] || ''), negocio: negDe_(r)
   }));
-  return { hoy: iso_(new Date()), actualizado: Utilities.formatDate(new Date(), TZ, 'HH:mm'), periodos: periodos, ingresos: ingresos, gastos: gastos };
+  return { negocios: negocios_(), hoy: iso_(new Date()), actualizado: Utilities.formatDate(new Date(), TZ, 'HH:mm'), periodos: periodos, ingresos: ingresos, gastos: gastos };
 }
 
 // ───────────────────────── Editar y eliminar registros ─────────────────────────
@@ -759,8 +785,8 @@ function listarRegistros(tipo) {
   const c = cfgHoja_(tipo);
   const f = v => (v instanceof Date ? iso_(v) : '');
   return leerTabla_(c.hoja).map(r => tipo === 'ingreso'
-    ? { id: Number(r[c.id]), fecha: f(r['FECHA EVENTO']), titulo: String(r['CLIENTE'] || ''), detalle: String(r['DESCRIPCIÓN'] || ''), total: Number(r['SUBTOTAL']) || 0, estado: String(r['ESTADO'] || '') }
-    : { id: Number(r[c.id]), fecha: f(r['FECHA']), titulo: String(r['PROVEEDOR'] || ''), detalle: String(r['DESCRIPCIÓN'] || ''), total: Number(r['SUBTOTAL']) || 0, estado: '' }
+    ? { id: Number(r[c.id]), num: numDe_(r), negocio: negDe_(r), fecha: f(r['FECHA EVENTO']), titulo: String(r['CLIENTE'] || ''), detalle: String(r['DESCRIPCIÓN'] || ''), total: Number(r['SUBTOTAL']) || 0, estado: String(r['ESTADO'] || '') }
+    : { id: Number(r[c.id]), num: String(r[c.id]), negocio: negDe_(r), fecha: f(r['FECHA']), titulo: String(r['PROVEEDOR'] || ''), detalle: String(r['DESCRIPCIÓN'] || ''), total: Number(r['SUBTOTAL']) || 0, estado: '' }
   ).sort((a, b) => b.id - a.id);
 }
 
@@ -771,9 +797,9 @@ function getRegistro(tipo, id) {
   if (!r) throw new Error('No encuentro el registro ' + id + '.');
   const f = v => (v instanceof Date ? iso_(v) : '');
   return tipo === 'ingreso'
-    ? { id: Number(id), cliente: r['CLIENTE'], descripcion: r['DESCRIPCIÓN'], fechaEvento: f(r['FECHA EVENTO']), fechaFactura: f(r['FECHA FACTURA']),
+    ? { id: Number(id), num: numDe_(r), negocio: negDe_(r), cliente: r['CLIENTE'], descripcion: r['DESCRIPCIÓN'], fechaEvento: f(r['FECHA EVENTO']), fechaFactura: f(r['FECHA FACTURA']),
         unidad: r['UNIDAD'], precio: r['PRECIO'], cantidad: r['CANTIDAD'], formaPago: r['FORMA DE PAGO'], estado: r['ESTADO'] }
-    : { id: Number(id), fecha: f(r['FECHA']), proveedor: r['PROVEEDOR'], descripcion: r['DESCRIPCIÓN'], categoria: r['CATEGORÍA UC'],
+    : { id: Number(id), negocio: negDe_(r), fecha: f(r['FECHA']), proveedor: r['PROVEEDOR'], descripcion: r['DESCRIPCIÓN'], categoria: r['CATEGORÍA UC'],
         unidad: r['UNIDAD'], cantidad: r['CANTIDAD'], precio: r['PRECIO'], notas: r['NOTAS'] };
 }
 
@@ -783,11 +809,16 @@ function actualizarIngreso(id, o) {
     const precio = numero_(o.precio, 'Precio', 0), cantidad = numero_(o.cantidad, 'Cantidad', 0.01);
     const ff = fechaIso_(o.fechaFactura, 'fecha de factura'), fe = fechaIso_(o.fechaEvento, 'fecha del evento');
     const s = hoja_('Ingresos'), r = filaDe_(s, id);
-    // No toca ID ni PROCESADO UC. SUBTOTAL y PERIODO se recalculan.
+    const antes = leerTabla_('Ingresos').find(x => Number(x['ID FACTURA']) === Number(id)) || {};
+    const neg = negocioPorId_(o.negocio || negDe_(antes)) || negocioPorId_(negPrimero_());
+    // No toca ID ni PROCESADO UC. SUBTOTAL y PERIODO se recalculan. Si cambia de negocio, la factura toma el número de ese negocio.
     const calc = calcFila_(precio, cantidad, fe, o.estado);
-    s.getRange(r, 2, 1, 11).setValues([[ff, o.cliente, String(o.descripcion || '').trim() || NEGOCIOS[negocio_()].desc, fe, o.unidad, precio, cantidad, calc[0], calc[1], o.formaPago, o.estado]]);
+    s.getRange(r, 2, 1, 11).setValues([[ff, o.cliente, String(o.descripcion || '').trim() || (NEGOCIOS[neg.tipo] || NEGOCIOS.dj).desc, fe, o.unidad, precio, cantidad, calc[0], calc[1], o.formaPago, o.estado]]);
+    let num = numDe_(antes);
+    if (neg.id !== negDe_(antes)) { num = siguienteNum_(neg.id); s.getRange(r, colDe_('Ingresos', 'Nº FACTURA')).setValue(num); }
+    s.getRange(r, colDe_('Ingresos', 'NEGOCIO')).setValue(neg.id);
     SpreadsheetApp.flush();
-    return { id: Number(id), subtotal: calc[0], periodo: calc[1] };
+    return { id: Number(id), num: num, subtotal: calc[0], periodo: calc[1] };
   });
 }
 
@@ -803,6 +834,7 @@ function actualizarGasto(id, o) {
     const s = hoja_('Gastos'), r = filaDe_(s, id);
     const calc = calcFila_(precio, cantidad, fecha, '');
     s.getRange(r, 2, 1, 10).setValues([[fecha, proveedor, String(o.descripcion || '').trim(), o.categoria, cantidad, o.unidad, precio, calc[0], calc[1], String(o.notas || '').trim()]]);
+    if (o.negocio && negocioPorId_(o.negocio)) s.getRange(r, colDe_('Gastos', 'NEGOCIO')).setValue(o.negocio);
     SpreadsheetApp.flush();
     return { id: Number(id), subtotal: calc[0], periodo: calc[1] };
   });
@@ -812,7 +844,7 @@ function actualizarGasto(id, o) {
 function eliminarRegistro(tipo, id) {
   return conBloqueo_(() => {
     const s = hoja_(cfgHoja_(tipo).hoja), r = filaDe_(s, id);
-    s.getRange(r, 1, 1, tipo === 'ingreso' ? 13 : 12).clearContent();
+    s.getRange(r, 1, 1, Math.max(s.getLastColumn(), tipo === 'ingreso' ? 13 : 12)).clearContent();
     return { id: Number(id) };
   });
 }
@@ -914,34 +946,37 @@ const ICONO_URL = '';
 // Logo genérico para la factura cuando no has subido uno propio.
 const LOGO_DEFECTO = 'data:image/png;base64,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';
 
-function getLogo_() {
+function getLogo_(pref) {
+  pref = pref || 'LOGO_';
   const pr = PropertiesService.getScriptProperties();
-  const n = Number(pr.getProperty('LOGO_N') || 0);
+  const n = Number(pr.getProperty(pref + 'N') || 0);
   if (!n) return '';
   let s = '';
-  for (let i = 0; i < n; i++) s += pr.getProperty('LOGO_' + i) || '';
+  for (let i = 0; i < n; i++) s += pr.getProperty(pref + i) || '';
   return /^data:image\/(png|jpeg);base64,[A-Za-z0-9+\/=]+$/.test(s) ? s : '';
 }
 
-function guardarLogo(dataUrl) {
+function guardarLogo(dataUrl, pref) {
+  pref = pref || 'LOGO_';
   const s = String(dataUrl || '');
   if (!/^data:image\/(png|jpeg);base64,[A-Za-z0-9+\/=]+$/.test(s)) throw new Error('Esa imagen no es válida. Usa un PNG o JPG.');
   if (s.length > 250000) throw new Error('La imagen es demasiado grande.');
-  quitarLogo_();
+  quitarLogo_(pref);
   const pr = PropertiesService.getScriptProperties();
   const obj = {};
   let n = 0;
-  for (let i = 0; i < s.length; i += LOGO_TROZO) obj['LOGO_' + n++] = s.substr(i, LOGO_TROZO);
-  obj['LOGO_N'] = String(n);
+  for (let i = 0; i < s.length; i += LOGO_TROZO) obj[pref + n++] = s.substr(i, LOGO_TROZO);
+  obj[pref + 'N'] = String(n);
   pr.setProperties(obj);
   return true;
 }
 
-function quitarLogo_() {
+function quitarLogo_(pref) {
+  pref = pref || 'LOGO_';
   const pr = PropertiesService.getScriptProperties();
-  const n = Number(pr.getProperty('LOGO_N') || 0);
-  for (let i = 0; i < n; i++) pr.deleteProperty('LOGO_' + i);
-  pr.deleteProperty('LOGO_N');
+  const n = Number(pr.getProperty(pref + 'N') || 0);
+  for (let i = 0; i < n; i++) pr.deleteProperty(pref + i);
+  pr.deleteProperty(pref + 'N');
 }
 function quitarLogo() { quitarLogo_(); return true; }
 
@@ -953,13 +988,15 @@ function getMovimientos(tipo) {
     return leerTabla_('Ingresos').filter(r => r['ID FACTURA'] !== '' && r['ESTADO'] !== 'CANCELLED').map(r => ({
       id: Number(r['ID FACTURA']), fecha: f(r['FECHA EVENTO']), cliente: String(r['CLIENTE'] || ''), desc: String(r['DESCRIPCIÓN'] || ''),
       unidad: String(r['UNIDAD'] || ''), precio: Number(r['PRECIO']) || 0, cantidad: Number(r['CANTIDAD']) || 0,
-      pago: String(r['FORMA DE PAGO'] || ''), estado: String(r['ESTADO'] || ''), periodo: String(r['PERIODO UC'] || ''), total: Number(r['SUBTOTAL']) || 0
+      pago: String(r['FORMA DE PAGO'] || ''), estado: String(r['ESTADO'] || ''), periodo: String(r['PERIODO UC'] || ''), total: Number(r['SUBTOTAL']) || 0,
+      negocio: negDe_(r), num: numDe_(r)
     })).sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id));
   }
   return leerTabla_('Gastos').filter(r => r['ID GASTO'] !== '').map(r => ({
     id: Number(r['ID GASTO']), fecha: f(r['FECHA']), prov: String(r['PROVEEDOR'] || ''), desc: String(r['DESCRIPCIÓN'] || ''),
     cat: String(r['CATEGORÍA UC'] || ''), unidad: String(r['UNIDAD'] || ''), cantidad: Number(r['CANTIDAD']) || 0, precio: Number(r['PRECIO']) || 0,
-    notas: String(r['NOTAS'] || ''), periodo: String(r['PERIODO UC'] || ''), total: Number(r['SUBTOTAL']) || 0
+    notas: String(r['NOTAS'] || ''), periodo: String(r['PERIODO UC'] || ''), total: Number(r['SUBTOTAL']) || 0,
+    negocio: negDe_(r), num: String(r['ID GASTO'])
   })).sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id));
 }
 
@@ -1032,6 +1069,11 @@ function getImpuestos(opts) {
   r.fechaDeclaracion = '31 ene ' + (y + 2);
   r.anios = Object.keys(anios).map(Number).sort((a, b) => b - a).map(etiquetaAnio_);
   r.pa = FISCAL.PA; r.trading = FISCAL.TRADING;
+  const negs = negocios_();
+  r.porNegocio = negs.length > 1 ? negs.map(n => {
+    const i = suma(ingY.filter(x => negDe_(x) === n.id), 'SUBTOTAL'), g = suma(gasY.filter(x => negDe_(x) === n.id), 'SUBTOTAL');
+    return { id: n.id, nombre: n.nombre, color: n.color, ingresos: Math.round(i * 100) / 100, gastos: Math.round(g * 100) / 100, beneficio: Math.round((i - g) * 100) / 100 };
+  }) : [];
   return r;
 }
 
@@ -1050,7 +1092,9 @@ const NEGOCIOS = {
   dj: { nombre: 'DJ / eventos', fecha: 'Fecha del evento', cliente: 'Cliente', desc: 'DJ SERVICES', unidad: 'Unit (por evento)',
         cats: ['Equipo', 'Música', 'Transporte', 'Gasolina', 'Publicidad', 'Teléfono'] },
   productos: { nombre: 'Venta de productos', fecha: 'Fecha de venta', cliente: 'Comprador', desc: 'VENTA', unidad: 'Unit (por pieza)',
-        cats: ['Filamento', 'Resina', 'Luz', 'Envíos', 'Comisión Wix / Etsy', 'Repuestos', 'Empaques', 'Publicidad'] }
+        cats: ['Filamento', 'Resina', 'Luz', 'Envíos', 'Comisión Wix / Etsy', 'Repuestos', 'Empaques', 'Publicidad'] },
+  servicios: { nombre: 'Servicios / apps', fecha: 'Fecha del servicio', cliente: 'Cliente', desc: 'SERVICES', unidad: 'Unit (por servicio)',
+        cats: ['Software', 'Suscripciones', 'Equipo', 'Internet', 'Dominio y web', 'Publicidad'] }
 };
 
 function negocio_() {
@@ -1066,16 +1110,18 @@ function getNegocio() {
 function guardarNegocio(clave) {
   if (!NEGOCIOS[clave]) throw new Error('Tipo de negocio no válido.');
   PropertiesService.getScriptProperties().setProperty('NEGOCIO', clave);
+  try { const n = negocios_()[0]; if (n && n.tipo !== clave) guardarNegocioDatos(Object.assign({}, n, { tipo: clave })); } catch (e) { }
   return getNegocio();
 }
 
 /** Añade las categorías sugeridas del tipo de negocio que todavía no existen (sin pasar del máximo). */
-function anadirCategoriasSugeridas() {
+function anadirCategoriasSugeridas(tipo) {
   return conBloqueo_(() => {
+    const clave = NEGOCIOS[tipo] ? tipo : negocio_();
     const ya = leerTabla_('Categorias').map(c => String(c['NOMBRE']).toLowerCase());
     const s = hoja_('Categorias');
     const anadidas = [], sinSitio = [];
-    NEGOCIOS[negocio_()].cats.forEach(n => {
+    NEGOCIOS[clave].cats.forEach(n => {
       if (ya.indexOf(n.toLowerCase()) >= 0) return;
       if (ya.length >= CAT_MAX) { sinSitio.push(n); return; }
       const r = filaLibre_(s, false);
@@ -1086,5 +1132,157 @@ function anadirCategoriasSugeridas() {
   });
 }
 
-return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getMovimientos: getMovimientos, getNegocio: getNegocio, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLogo: guardarLogo, guardarNegocio: guardarNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarRecordatorio: quitarRecordatorio };
+
+/* ====== Varios negocios en una sola hoja (5.0.0-alpha8) ======
+ * Pestaña «Negocios» (ID, NOMBRE, TIPO, PREFIJO, COLOR, NOMBRE EN FACTURA). El primero es el de siempre:
+ * las filas viejas sin NEGOCIO son suyas. Cada negocio numera sus facturas (DJ-013, OD-001…) en la columna Nº FACTURA;
+ * las facturas viejas se quedan con su número. ID FACTURA sigue siendo el número interno (único) de la fila. */
+const NEG_CABS = ['ID', 'NOMBRE', 'TIPO', 'PREFIJO', 'COLOR', 'NOMBRE EN FACTURA'];
+const NEG_COLORES = ['#4F46E5', '#F4A62A', '#16A34A', '#DC5A56', '#0EA5E9', '#9333EA', '#0F766E', '#BE185D'];
+let NEG_LISTO = false;
+
+function prefijoDe_(nombre) {
+  const p = String(nombre || '').trim().split(/\s+/)[0] || '';
+  const l = p.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  return (l.length <= 4 ? l : l.slice(0, 2)) || 'N';
+}
+
+/** Crea la pestaña Negocios y las columnas nuevas si faltan (hojas de antes de alpha8). */
+function asegurarNegocios_() {
+  if (NEG_LISTO) return;
+  const ss = ss_();
+  if (!ss.getSheetByName('Negocios')) {
+    const s = ss.insertSheet('Negocios');
+    s.getRange(1, 1, 1, NEG_CABS.length).setValues([NEG_CABS]).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1B2B5B');
+    s.setFrozenRows(1);
+    const nombre = String(config_().nombre || '').trim() || 'Mi negocio';
+    s.getRange(2, 1, 1, NEG_CABS.length).setValues([['n1', nombre, negocio_(), prefijoDe_(nombre), NEG_COLORES[0], '']]);
+  }
+  [['Ingresos', 'NEGOCIO'], ['Ingresos', 'Nº FACTURA'], ['Gastos', 'NEGOCIO']].forEach(x => {
+    const h = hoja_(x[0]);
+    const cab = h.getRange(1, 1, 1, Math.max(h.getLastColumn(), 1)).getValues()[0];
+    if (cab.indexOf(x[1]) >= 0) return;
+    let col = cab.length; while (col > 0 && (cab[col - 1] === '' || cab[col - 1] === null)) col--;
+    h.getRange(1, col + 1).setValue(x[1]).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1B2B5B');
+  });
+  NEG_LISTO = true;
+}
+
+function colDe_(hoja, titulo) {
+  asegurarNegocios_();
+  const h = hoja_(hoja);
+  const i = h.getRange(1, 1, 1, h.getLastColumn()).getValues()[0].indexOf(titulo);
+  if (i < 0) throw new Error('Falta la columna ' + titulo + ' en ' + hoja + '.');
+  return i + 1;
+}
+
+let NEG_CACHE = null;   // la lista se lee una vez por llamada (se usa en cada fila)
+function negocios_() {
+  if (NEG_CACHE && Date.now() - NEG_CACHE.t < 15000) return NEG_CACHE.l;
+  asegurarNegocios_();
+  const l = leerTabla_('Negocios').map((r, i) => ({
+    id: String(r['ID']), nombre: String(r['NOMBRE'] || 'Negocio'), tipo: NEGOCIOS[r['TIPO']] ? String(r['TIPO']) : 'dj',
+    prefijo: String(r['PREFIJO'] || ''), color: String(r['COLOR'] || NEG_COLORES[i % NEG_COLORES.length]), nombreFactura: String(r['NOMBRE EN FACTURA'] || '')
+  }));
+  NEG_CACHE = { t: Date.now(), l: l };
+  return l;
+}
+function negPrimero_() { const l = negocios_(); return l.length ? l[0].id : 'n1'; }
+function negocioPorId_(id) { return negocios_().find(n => n.id === String(id)) || null; }
+function negDe_(r) { return String(r['NEGOCIO'] || '') || negPrimero_(); }
+function numDe_(r) { const n = String(r['Nº FACTURA'] == null ? '' : r['Nº FACTURA']).trim(); return n || String(r['ID FACTURA']); }
+function filtrarNeg_(filas, id) { return id ? filas.filter(r => negDe_(r) === String(id)) : filas; }
+
+/** Siguiente número de factura del negocio: sigue desde el más alto que tenga (DJ-013 después de 12). */
+function siguienteNum_(id) {
+  const n = negocioPorId_(id); if (!n) return '';
+  let max = 0;
+  leerTabla_('Ingresos').forEach(r => {
+    if (negDe_(r) !== n.id) return;
+    const m = /(\d+)\s*$/.exec(numDe_(r));
+    if (m && Number(m[1]) > max) max = Number(m[1]);
+  });
+  return n.prefijo ? n.prefijo + '-' + String(max + 1).padStart(3, '0') : String(max + 1);
+}
+
+/** El primer negocio usa el logo de siempre (LOGO_…); los demás, el suyo (LOGO_n2_…). */
+function prefLogo_(id) { return !id || id === negPrimero_() ? 'LOGO_' : 'LOGO_' + id + '_'; }
+function logosNegocios_() { const o = {}; negocios_().forEach(n => { o[n.id] = getLogo_(prefLogo_(n.id)); }); return o; }
+function getNegocios() { return { lista: negocios_(), logos: logosNegocios_(), tipos: Object.keys(NEGOCIOS).map(k => Object.assign({ clave: k }, NEGOCIOS[k])) }; }
+
+function guardarNegocioDatos(o) {
+  NEG_CACHE = null;
+  return conBloqueo_(() => {
+    asegurarNegocios_();
+    const nombre = String(o.nombre || '').trim();
+    if (!nombre) throw new Error('Escribe el nombre del negocio.');
+    const tipo = NEGOCIOS[o.tipo] ? o.tipo : 'dj';
+    const prefijo = String(o.prefijo || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+    const lista = negocios_();
+    if (lista.some(n => n.id !== o.id && n.nombre.toLowerCase() === nombre.toLowerCase())) throw new Error('Ya tienes un negocio con ese nombre.');
+    if (prefijo && lista.some(n => n.id !== o.id && n.prefijo === prefijo)) throw new Error('Ese prefijo ya lo usa otro negocio. Elige otro (por ejemplo ' + prefijo + '2).');
+    const s = hoja_('Negocios');
+    const nf = String(o.nombreFactura || '').trim();
+    if (o.id) {
+      const r = lista.findIndex(n => n.id === o.id);
+      if (r < 0) throw new Error('No encuentro ese negocio.');
+      const fila = leerTabla_('Negocios')[r]._fila;
+      s.getRange(fila, 2, 1, 5).setValues([[nombre, tipo, prefijo, lista[r].color, nf]]);
+      if (r === 0) PropertiesService.getScriptProperties().setProperty('NEGOCIO', tipo);   // compatibilidad con «Mi negocio»
+      NEG_CACHE = null;
+      return { id: o.id };
+    }
+    if (lista.length >= 8) throw new Error('Puedes tener hasta 8 negocios.');
+    const id = 'n' + (lista.reduce((m, n) => Math.max(m, Number(String(n.id).replace(/\D/g, '')) || 0), 0) + 1);
+    const r = filaLibre_(s, false);
+    s.getRange(r, 1, 1, NEG_CABS.length).setValues([[id, nombre, tipo, prefijo || prefijoDe_(nombre), NEG_COLORES[lista.length % NEG_COLORES.length], nf]]);
+    NEG_CACHE = null;
+    return { id: id };
+  });
+}
+function guardarLogoNegocio(id, dataUrl) { return guardarLogo(dataUrl, prefLogo_(id)); }
+function quitarLogoNegocio(id) { quitarLogo_(prefLogo_(id)); return true; }
+
+/* ====== Listas a la par de Nuevo cliente / proveedor / categoría (5.0.0-alpha8) ====== */
+function getListas() {
+  const ing = leerTabla_('Ingresos').filter(r => r['ID FACTURA'] !== '' && r['ESTADO'] !== 'CANCELLED');
+  const gas = leerTabla_('Gastos').filter(r => r['ID GASTO'] !== '');
+  const facPorCli = {};
+  ing.forEach(r => { const k = String(r['CLIENTE']); (facPorCli[k] = facPorCli[k] || {})[r['ID FACTURA']] = 1; });
+  const gasPorProv = {}, porCat = {};
+  const y = anioFiscalDe_(new Date()), ini = new Date(y, 3, 6), fin = new Date(y + 1, 3, 5, 23, 59, 59);
+  gas.forEach(r => {
+    gasPorProv[String(r['PROVEEDOR'])] = (gasPorProv[String(r['PROVEEDOR'])] || 0) + 1;
+    if (r['FECHA'] instanceof Date && r['FECHA'] >= ini && r['FECHA'] <= fin) porCat[String(r['CATEGORÍA UC'])] = (porCat[String(r['CATEGORÍA UC'])] || 0) + (Number(r['SUBTOTAL']) || 0);
+  });
+  const t = v => String(v == null ? '' : v);
+  return {
+    anio: etiquetaAnio_(y),
+    clientes: leerTabla_('Clientes').map(c => ({ nombre: t(c['NOMBRE']), direccion: t(c['DIRECCIÓN']), ciudad: t(c['CIUDAD']), postcode: t(c['POSTCODE']),
+      telefono: t(c['TELÉFONO']), email: t(c['EMAIL']), facturas: Object.keys(facPorCli[t(c['NOMBRE'])] || {}).length })),
+    proveedores: leerTabla_('Proveedores').map(p => ({ nombre: t(p['NOMBRE']), notas: t(p['NOTAS']), gastos: gasPorProv[t(p['NOMBRE'])] || 0 })),
+    categorias: leerTabla_('Categorias').map(c => ({ nombre: t(c['NOMBRE']), descripcion: t(c['DESCRIPCIÓN']), total: Math.round((porCat[t(c['NOMBRE'])] || 0) * 100) / 100 }))
+  };
+}
+
+/** Corrige los datos de un cliente. Si cambia el nombre, también se cambia en sus ingresos. */
+function actualizarCliente(nombreViejo, o) {
+  return conBloqueo_(() => {
+    const nombre = String(o.nombre || '').trim();
+    if (!nombre) throw new Error('Escribe el nombre del cliente.');
+    const filas = leerTabla_('Clientes');
+    const c = filas.find(x => String(x['NOMBRE']) === String(nombreViejo));
+    if (!c) throw new Error('No encuentro ese cliente.');
+    if (nombre.toLowerCase() !== String(nombreViejo).toLowerCase() && filas.some(x => String(x['NOMBRE']).toLowerCase() === nombre.toLowerCase())) throw new Error('Ya hay otro cliente con ese nombre.');
+    hoja_('Clientes').getRange(c._fila, 1, 1, 6).setValues([[nombre, o.direccion || '', o.ciudad || '', o.postcode || '', o.telefono || '', o.email || '']]);
+    let cambiados = 0;
+    if (nombre !== String(nombreViejo)) {
+      const s = hoja_('Ingresos'), col = 3;
+      leerTabla_('Ingresos').forEach(r => { if (String(r['CLIENTE']) === String(nombreViejo)) { s.getRange(r._fila, col).setValue(nombre); cambiados++; } });
+    }
+    return { nombre: nombre, cambiados: cambiados };
+  });
+}
+
+return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
 })(window.PB_GAS.SpreadsheetApp, window.PB_GAS.Utilities, window.PB_GAS.Session, window.PB_GAS.LockService, window.PB_GAS.MailApp, window.PB_GAS.ScriptApp, window.PB_GAS.HtmlService, window.PB_GAS.PropertiesService, window.PB_GAS.DriveApp, window.PB_GAS.Logger);
