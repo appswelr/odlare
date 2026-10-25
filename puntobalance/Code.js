@@ -23,10 +23,11 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  *         alpha2: movimientos en tabla tipo hoja de cálculo (con Nº); el formulario queda en blanco al guardar.
  *         alpha3: «Acerca de» en pantalla completa (como Mis Finanzas), buscar actualizaciones y novedades.
  *         alpha4: «Tus datos» (copias de seguridad, exportar, cambiar de hoja); menú con los colores de Odlare.
+ *         alpha5: «Importar mi hoja anterior» con el selector de Google (Picker).
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha4';
+const VERSION = '5.0.0-alpha5';
 const VERSION_FECHA = '25 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────

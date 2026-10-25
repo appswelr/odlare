@@ -1,7 +1,16 @@
 {
- "ver": "5.0.0-alpha4",
+ "ver": "5.0.0-alpha5",
  "fecha": "25 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha5",
+   "fecha": "25 oct 2026",
+   "cambios": [
+    "«Importar mi hoja anterior»: trae tus ingresos, gastos, clientes, proveedores, categorías, periodos y datos de factura",
+    "Antes de importar se hace una copia de seguridad",
+    "La numeración de facturas sigue desde tu último número"
+   ]
+  },
   {
    "ver": "5.0.0-alpha4",
    "fecha": "25 oct 2026",

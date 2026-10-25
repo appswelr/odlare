@@ -1,4 +1,4 @@
-/* PuntoBalance 5.0.0-alpha4 · «Tus datos»: copias de seguridad, exportar y cambiar de hoja (como «Copias y exportar» de Mis Finanzas).
+/* PuntoBalance 5.0.0-alpha5 · «Tus datos»: copias de seguridad, exportar y cambiar de hoja (como «Copias y exportar» de Mis Finanzas).
    Todo vive en el Google Drive de la persona (permiso drive.file: la app solo ve lo que ella crea):
    - carpeta «PuntoBalance» › «Copias de seguridad»  (appProperties puntobalance = carpeta / copias)
    - la hoja de trabajo lleva puntobalance = 1; otras hojas suyas = 2; las copias = copia
@@ -119,6 +119,147 @@
     });
   }
 
+  /* ---------- importar mi hoja anterior (5.0.0-alpha5) ----------
+     La persona elige su hoja vieja en el selector de Google (Picker): con drive.file la app recibe permiso SOLO para esa hoja.
+     Se copian las pestañas por nombre de columna (no por posición). La hoja vieja solo se lee. Antes, copia de seguridad de la nueva. */
+  var PESTANAS = ["Ingresos", "Gastos", "Clientes", "Proveedores", "Categorias", "Periodos"];
+  function norm(t) { return String(t == null ? "" : t).normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toUpperCase(); }
+  function rango(t, r) { return "'" + t.replace(/'/g, "''") + "'" + (r ? "!" + r : ""); }
+  var pickerListo = null;
+  function cargarPicker() {
+    if (!pickerListo) pickerListo = new Promise(function (ok, mal) {
+      var s = document.createElement("script"); s.src = "https://apis.google.com/js/api.js";
+      s.onload = function () { window.gapi.load("picker", { callback: ok, onerror: function () { mal(new Error("No se pudo abrir el selector de Google.")); } }); };
+      s.onerror = function () { pickerListo = null; mal(new Error("No se pudo abrir el selector de Google. Revisa tu conexión.")); };
+      document.head.appendChild(s);
+    });
+    return pickerListo;
+  }
+  function elegirHojaGoogle() {
+    var CFG = window.PB_CONFIG || {};
+    if (!CFG.pickerKey) return Promise.reject(new Error("El selector de archivos todavía no está activado."));
+    return Promise.all([cargarPicker(), C().token()]).then(function (r) {
+      var tk = r[1];
+      return new Promise(function (ok) {
+        var P = window.google.picker;
+        var vista = new P.DocsView(P.ViewId.SPREADSHEETS).setMode(P.DocsViewMode.LIST).setIncludeFolders(false);
+        new P.PickerBuilder().addView(vista).setOAuthToken(tk).setDeveloperKey(CFG.pickerKey).setAppId(CFG.appId)
+          .setLocale("es").setTitle("Elige tu hoja anterior")
+          .setCallback(function (d) {
+            if (d.action === P.Action.PICKED && d.docs && d.docs[0]) ok({ id: d.docs[0].id, nombre: d.docs[0].name });
+            else if (d.action === P.Action.CANCEL) ok(null);
+          }).build().setVisible(true);
+      });
+    });
+  }
+  /** Lee la hoja vieja y prepara lo que se va a escribir en la nueva (sin escribir nada todavía). */
+  function preparar(viejaId) {
+    var nueva = C().hojaId(), R = { pest: {}, cuenta: {}, ultimaFactura: 0, config: null };
+    return api("GET", SH + viejaId + "?fields=" + encodeURIComponent("sheets.properties.title")).then(function (o) {
+      var hay = (o.sheets || []).map(function (x) { return x.properties.title; });
+      var porNorm = {}; hay.forEach(function (t) { porNorm[norm(t)] = t; });
+      var leer = PESTANAS.filter(function (t) { return porNorm[norm(t)]; });
+      if (!leer.length) throw new Error("Esa hoja no parece de PuntoBalance / DJ Facturación: no tiene pestañas de Ingresos ni Gastos.");
+      R.viejas = leer.map(function (t) { return porNorm[norm(t)]; });
+      R.leer = leer; R.tieneConfig = !!porNorm["CONFIG"]; R.configVieja = porNorm["CONFIG"];
+      var rv = R.viejas.map(function (t) { return "ranges=" + encodeURIComponent(rango(t)); });
+      if (R.tieneConfig) rv.push("ranges=" + encodeURIComponent(rango(R.configVieja, "A:C")));
+      var rn = leer.map(function (t) { return "ranges=" + encodeURIComponent(rango(t, "1:1")); }).concat(["ranges=" + encodeURIComponent(rango("Config", "A:C"))]);
+      return Promise.all([
+        api("GET", SH + viejaId + "/values:batchGet?" + rv.join("&") + "&valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=SERIAL_NUMBER"),
+        api("GET", SH + nueva + "/values:batchGet?" + rn.join("&") + "&valueRenderOption=UNFORMATTED_VALUE")
+      ]);
+    }).then(function (r) {
+      var viejo = r[0].valueRanges || [], nuevo = r[1].valueRanges || [];
+      R.leer.forEach(function (t, i) {
+        var vals = viejo[i].values || [], cab = (vals[0] || []).map(norm);
+        var dest = ((nuevo[i].values || [])[0] || []);
+        var filas = vals.slice(1).filter(function (f) { return f[0] !== undefined && f[0] !== null && String(f[0]).trim() !== ""; });
+        if (t === "Periodos") {   // INICIO, FIN, ETIQUETA (+ la lista del panel se rehace)
+          var ix = ["INICIO", "FIN", "ETIQUETA"].map(function (h) { return cab.indexOf(h); });
+          filas = filas.filter(function (f) { return typeof f[ix[0]] === "number" && typeof f[ix[1]] === "number"; });
+          var etq = filas.map(function (f) { return f[ix[2]]; });
+          var out = filas.map(function (f, k) { return [f[ix[0]], f[ix[1]], f[ix[2]], "", k === 0 ? "TODOS" : etq[k - 1]]; });
+          if (etq.length) out.push(["", "", "", "", etq[etq.length - 1]]);
+          R.pest[t] = out; R.cuenta[t] = filas.length;
+          if (filas.length) R.diaInicio = new Date(Math.round((filas[0][ix[0]] - 25569) * 864e5)).getUTCDate();
+          return;
+        }
+        var mapa = dest.map(function (h) { return cab.indexOf(norm(h)); });
+        R.pest[t] = filas.map(function (f) { return mapa.map(function (j) { var v = j < 0 ? "" : f[j]; return v == null ? "" : v; }); });
+        R.cuenta[t] = filas.length;
+        if (t === "Ingresos") {
+          var ic = dest.map(norm).indexOf("ID FACTURA"), ids = {};
+          R.pest[t].forEach(function (f) { var n = Number(f[ic]); if (n) { ids[n] = 1; if (n > R.ultimaFactura) R.ultimaFactura = n; } });
+          R.facturas = Object.keys(ids).length;
+        }
+      });
+      // Config: los valores de la hoja vieja para las claves que existan; el resto se queda como está
+      var cfgN = nuevo[R.leer.length].values || [], cfgV = R.tieneConfig ? (viejo[R.leer.length].values || []) : [];
+      if (cfgN.length) {
+        var old = {}; cfgV.slice(1).forEach(function (f) { if (f[0]) old[String(f[0]).trim()] = f[1]; });
+        var cambio = 0;
+        var filas = cfgN.slice(1).map(function (f) {
+          var k = String(f[0] || "").trim(), v = f[1];
+          if (k && Object.prototype.hasOwnProperty.call(old, k) && old[k] !== "" && old[k] != null) { v = old[k]; cambio++; }
+          if (k === "dia_inicio_periodo" && !Object.prototype.hasOwnProperty.call(old, k) && R.diaInicio) { v = R.diaInicio; cambio++; }
+          return [f[0] == null ? "" : f[0], v == null ? "" : v, f[2] == null ? "" : f[2]];
+        });
+        Object.keys(old).forEach(function (k) { if (!cfgN.some(function (f) { return String(f[0]).trim() === k; })) { filas.push([k, old[k], ""]); cambio++; } });
+        R.config = filas; R.configCambios = cambio;
+      }
+      return R;
+    });
+  }
+  function escribir(R) {
+    var nueva = C().hojaId();
+    var limpiar = R.leer.map(function (t) { return rango(t, "A2:Z"); });
+    var datos = R.leer.filter(function (t) { return R.pest[t].length; }).map(function (t) { return { range: rango(t, "A2"), values: R.pest[t] }; });
+    if (R.config) { limpiar.push(rango("Config", "A2:C")); datos.push({ range: rango("Config", "A2"), values: R.config }); }
+    return api("POST", SH + nueva + "/values:batchClear", { ranges: limpiar })
+      .then(function () { return datos.length ? api("POST", SH + nueva + "/values:batchUpdate", { valueInputOption: "RAW", data: datos }) : null; });
+  }
+  function importar(aviso) {
+    if (!conHoja()) return aviso("Entra con Google para importar tus datos.", "bad");
+    elegirHojaGoogle().then(function (h) {
+      if (!h) return;
+      if (h.id === C().hojaId()) return aviso("Esa es la hoja que ya estás usando.", "bad");
+      aviso("Leyendo «" + h.nombre + "»…", "w");
+      return preparar(h.id).then(function (R) { aviso(""); confirmar(h, R); });
+    }).catch(function (e) { aviso(e.message, "bad"); });
+  }
+  function confirmar(h, R) {
+    var N = { Ingresos: "Ingresos (filas)", Gastos: "Gastos", Clientes: "Clientes", Proveedores: "Proveedores", Categorias: "Categorías", Periodos: "Periodos" };
+    var v = document.createElement("div"); v.id = "pbHojas";
+    var filas = R.leer.map(function (t) {
+      var extra = t === "Ingresos" && R.ultimaFactura ? " · " + R.facturas + " facturas, hasta la nº " + R.ultimaFactura : t === "Periodos" && R.diaInicio === 7 ? " (del 7 al 6)" : "";
+      return "<div><span>" + N[t] + "</span><b>" + R.cuenta[t] + extra + "</b></div>";
+    }).join("") + (R.config ? "<div><span>Tus datos de factura (nombre, banco…)</span><b>✓</b></div>" : "");
+    v.innerHTML = '<div class="m"><h3>¿Importar «' + esc(h.nombre) + '»?</h3><p>Encontré esto en tu hoja anterior:</p>' +
+      '<div class="lst">' + filas + "</div>" +
+      '<div class="wn">⚠️ Tu hoja de ahora se llenará con estos datos (lo que tenga se reemplaza). Antes, la app hace una <b>copia de seguridad</b> por si acaso.</div>' +
+      '<p style="margin:0 0 4px">Tu hoja vieja <b>no se toca ni se borra</b>: la app solo la lee.</p><div class="err" id="pbHe"></div>' +
+      '<div class="b"><button type="button" id="pbHno">Cancelar</button><button type="button" class="si" id="pbHsi">Importar</button></div></div>';
+    document.body.appendChild(v);
+    v.querySelector("#pbHno").onclick = function () { v.remove(); };
+    v.querySelector("#pbHsi").onclick = function () {
+      var b = this, no = v.querySelector("#pbHno"); b.disabled = no.disabled = true;
+      b.textContent = "Haciendo la copia…";
+      copiar().then(function () { b.textContent = "Importando…"; return escribir(R); }).then(function () {
+        var res = R.leer.map(function (t) { return R.cuenta[t] + " " + N[t].toLowerCase().replace(" (filas)", ""); }).join(" · ");
+        v.querySelector(".m").innerHTML = '<div style="font-size:44px;text-align:center">✅</div><h3 style="text-align:center">¡Datos importados!</h3>' +
+          '<div class="okb">✓ ' + esc(res) + "</div>" +
+          (R.ultimaFactura ? "<p>Tu próxima factura será la <b>nº " + (R.ultimaFactura + 1) + "</b>. Ya puedes seguir metiendo datos aquí.</p>" : "<p>Ya puedes seguir metiendo datos aquí.</p>") +
+          "<p>Tu logo se sube otra vez en <b>Ajustes</b>. Si algo no se ve bien, en <b>Tus datos › Volver a una copia</b> vuelves a como estaba.</p>" +
+          '<div class="b"><button type="button" class="si" id="pbHfin">Ver mi Inicio</button></div>';
+        v.querySelector("#pbHfin").onclick = function () { location.reload(); };
+      }).catch(function (e) {
+        b.disabled = no.disabled = false; b.textContent = "Importar";
+        v.querySelector("#pbHe").textContent = "No se pudo importar: " + e.message + " Tu hoja no cambió (o vuelve a la copia en «Tus datos»).";
+      });
+    };
+  }
+
   /* ---------- puntito en el menú cuando cambia algo ---------- */
   function avisar() { document.dispatchEvent(new Event("pb-datos")); }
 
@@ -157,7 +298,9 @@
     "#pbHojas b{font-size:14px;color:#151A2D}#pbHojas small{display:block;color:#6B7194;font-size:12px}" +
     "#pbHojas .pill{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;background:#E8F7EE;color:#12804A;margin-left:6px}#pbHojas .pill.c{background:#EEF0FA;color:#4F46E5}" +
     "#pbHojas .b{display:flex;gap:8px;margin-top:12px}#pbHojas .b button{flex:1;border-radius:12px;padding:12px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;border:1px solid #CBD0E0;background:#fff;color:#151A2D}" +
-    "#pbHojas .b .si{background:#1B2B5B;border-color:#1B2B5B;color:#fff}#pbHojas .b .si:disabled{opacity:.45;cursor:default}#pbHojas .err{color:#D92D20;font-size:13px;margin-top:8px}";
+    "#pbHojas .b .si{background:#1B2B5B;border-color:#1B2B5B;color:#fff}#pbHojas .b .si:disabled{opacity:.45;cursor:default}#pbHojas .err{color:#D92D20;font-size:13px;margin-top:8px}" +
+    "#pbHojas .lst{border:1px solid #E6E8F1;border-radius:14px;overflow:hidden;margin:6px 0 12px}#pbHojas .lst div{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-top:1px solid #EEF0F6;font-size:14px}#pbHojas .lst div:first-child{border-top:0}#pbHojas .lst b{color:#1B2B5B;text-align:right}" +
+    "#pbHojas .wn{background:#FEF3DC;color:#7A4A06;border-radius:12px;padding:10px 12px;font-size:13px;margin-bottom:10px}#pbHojas .okb{background:#E8F7EE;color:#12804A;border-radius:12px;padding:10px 12px;font-size:13px;margin:8px 0 10px}#pbHojas .m p{line-height:1.45}";
   document.head.appendChild(css);
 
   /* ---------- la pantalla ---------- */
@@ -181,7 +324,7 @@
     '<div class="card"><h2>⬇️ Exportar</h2><div class="d">Para tu contable, para imprimir o para guardar en tu laptop.</div>' +
     '<div class="it"><div class="e">📗</div><div class="tx"><b>Excel (.xlsx)</b><small>Todas tus pestañas: ingresos, gastos, clientes…</small></div><button type="button" class="go" id="dt-xlsx">Bajar</button></div>' +
     '<div class="it"><div class="e">📄</div><div class="tx"><b>CSV de ingresos y gastos</b><small>Para otras apps o tu contable</small></div><button type="button" class="go" id="dt-csv">Bajar</button></div>' +
-    '<div class="it"><div class="e">📥</div><div class="tx"><b>Importar mi hoja anterior<span class="pronto">MUY PRONTO</span></b><small>Trae tus datos de otra hoja (ej. DJ_Invoice_v3.3)</small></div><button type="button" class="go" disabled>Importar</button></div>' +
+    '<div class="it"><div class="e">📥</div><div class="tx"><b>Importar mi hoja anterior</b><small>Trae tus datos de otra hoja (ej. DJ_Invoice_v3.3)</small></div><button type="button" class="go" id="dt-imp">Importar</button></div>' +
     '<div class="msg" id="dt-m2"></div></div>' +
     '</div></div>' +
     '<div class="nota">💡 <b>¿Compraste una laptop o un celular nuevo?</b> Abre PuntoBalance, pulsa <b>«Entrar con Google»</b> con el mismo Gmail y la app encuentra sola tu hoja. No se pierde nada, porque nada se guarda solo en el aparato.</div>' +
@@ -226,6 +369,7 @@
     $("dt-volver").onclick = function () { elegir(true); };
     boton("dt-xlsx", 2, function () { return excel().then(function (n) { return "✓ Descargado: " + n; }); }, "Preparando el Excel…");
     boton("dt-csv", 2, function () { return csv().then(function (n) { return "✓ Descargado: " + n; }); }, "Preparando el CSV…");
+    $("dt-imp").onclick = function () { msg(2, ""); importar(function (t, cl) { msg(2, t, cl); }); };
     pintar();
     var f = function () { if (vivo) pintar(); };
     document.addEventListener("pb-datos", f);
@@ -276,5 +420,5 @@
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boton); else boton();
   window.addEventListener("load", function () { setTimeout(automatico, 6000); });
-  window.pbDatos = { copiar: copiar, carpetas: carpetas, hojas: hojas };
+  window.pbDatos = { copiar: copiar, carpetas: carpetas, hojas: hojas, preparar: preparar, escribir: escribir };
 })();

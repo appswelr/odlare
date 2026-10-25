@@ -1,5 +1,5 @@
-/* GENERADO por herramientas/construir_web.py. PuntoBalance 5.0.0-alpha4 */
-const CACHE = "pb-5.0.0-alpha4";
+/* GENERADO por herramientas/construir_web.py. PuntoBalance 5.0.0-alpha5 */
+const CACHE = "pb-5.0.0-alpha5";
 const ARCHIVOS = ['./', 'index.html', 'config.js', 'motor.js', 'Code.js', 'demo.js', 'pdf.js', 'cuenta.js', 'datos.js', 'app.js', 'manifest.json', 'lib/jspdf.umd.min.js', 'iconos/icono-192.png', 'iconos/icono-512.png', 'iconos/favicon-48.png'];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ARCHIVOS)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
