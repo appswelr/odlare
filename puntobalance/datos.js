@@ -142,8 +142,12 @@
       var tk = r[1];
       return new Promise(function (ok) {
         var P = window.google.picker;
-        var vista = new P.DocsView(P.ViewId.SPREADSHEETS).setMode(P.DocsViewMode.LIST).setIncludeFolders(false);
-        new P.PickerBuilder().addView(vista).setOAuthToken(tk).setDeveloperKey(CFG.pickerKey).setAppId(CFG.appId)
+        // 5.0.0-alpha7: primero «Mi unidad» con carpetas (como en Drive), y aparte la lista de todas las hojas
+        var carpetas = new P.DocsView(P.ViewId.SPREADSHEETS).setMode(P.DocsViewMode.LIST).setIncludeFolders(true).setSelectFolderEnabled(false).setParent("root");
+        if (carpetas.setLabel) carpetas.setLabel("Mi unidad (carpetas)");
+        var todas = new P.DocsView(P.ViewId.SPREADSHEETS).setMode(P.DocsViewMode.LIST).setIncludeFolders(false);
+        if (todas.setLabel) todas.setLabel("Todas las hojas");
+        new P.PickerBuilder().addView(carpetas).addView(todas).setOAuthToken(tk).setDeveloperKey(CFG.pickerKey).setAppId(CFG.appId)
           .setLocale("es").setTitle("Elige tu hoja anterior")
           .setCallback(function (d) {
             if (d.action === P.Action.PICKED && d.docs && d.docs[0]) ok({ id: d.docs[0].id, nombre: d.docs[0].name });

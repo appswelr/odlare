@@ -1,7 +1,14 @@
 {
- "ver": "5.0.0-alpha6",
+ "ver": "5.0.0-alpha7",
  "fecha": "25 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha7",
+   "fecha": "25 oct 2026",
+   "cambios": [
+    "Al importar, la ventana de Google se abre en «Mi unidad» con tus carpetas, como en Drive"
+   ]
+  },
   {
    "ver": "5.0.0-alpha6",
    "fecha": "25 oct 2026",

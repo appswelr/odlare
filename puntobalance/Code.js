@@ -25,10 +25,11 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  *         alpha4: «Tus datos» (copias de seguridad, exportar, cambiar de hoja); menú con los colores de Odlare.
  *         alpha5: «Importar mi hoja anterior» con el selector de Google (Picker).
  *         alpha6: solo instalada (como un programa); «¿Cómo quieres empezar?»; diálogos propios.
+ *         alpha7: el selector de la hoja anterior se abre en «Mi unidad», con carpetas.
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha6';
+const VERSION = '5.0.0-alpha7';
 const VERSION_FECHA = '25 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────
