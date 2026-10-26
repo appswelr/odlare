@@ -1,7 +1,14 @@
 {
- "ver": "5.0.0-alpha14",
+ "ver": "5.0.0-alpha15",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha15",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "El correo de la licencia se ve mejor en el celular"
+   ]
+  },
   {
    "ver": "5.0.0-alpha14",
    "fecha": "26 oct 2026",

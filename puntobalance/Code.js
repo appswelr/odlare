@@ -35,10 +35,11 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  *         alpha12: licencias Premium (30 días de prueba, luego «solo ver»), códigos firmados y envío por correo.
  *         alpha13: licencias activadas (llave pública de Odlare).
  *         alpha14: logo de Odlare en el correo de la licencia.
+ *         alpha15: correo de la licencia ordenado en el celular (datos en una línea).
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha14';
+const VERSION = '5.0.0-alpha15';
 const VERSION_FECHA = '26 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────

@@ -272,7 +272,7 @@
   /* correo con la licencia (HTML para el email, con estilos en línea) */
   function htmlCorreo(o) {
     var base = location.origin + location.pathname.replace(/[^/]*$/, ""), icono = base + "iconos/icono-192.png", enlace = base + "?licencia=" + encodeURIComponent(o.codigo);
-    var fila = function (a, b) { return '<tr><td style="padding:10px 16px;border-top:1px solid #EEF0F6;color:#6B7194;font-size:14px">' + a + '</td><td style="padding:10px 16px;border-top:1px solid #EEF0F6;text-align:right;font-weight:700;color:#151A2D;font-size:14px">' + b + "</td></tr>"; };
+    var fila = function (a, b) { return '<tr><td style="padding:10px 6px 10px 14px;border-top:1px solid #EEF0F6;color:#6B7194;font-size:14px;white-space:nowrap;width:1%">' + a + '</td><td style="padding:10px 14px 10px 6px;border-top:1px solid #EEF0F6;text-align:right;font-weight:700;color:#151A2D;font-size:14px;overflow-wrap:break-word">' + b + "</td></tr>"; };
     var plan = (PLANES[o.plan] || {}).nombre || o.plan;
     return '<!doctype html><html><body style="margin:0;background:#F2F4F9;font-family:Segoe UI,Arial,sans-serif">' +
       '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F2F4F9;padding:26px 0"><tr><td align="center">' +
@@ -284,7 +284,7 @@
       '<div style="font-size:22px;font-weight:800;color:#151A2D;margin-bottom:6px">¡Gracias' + (o.nombre ? ", " + esc(o.nombre.split(" ")[0]) : "") + "! 🎉</div>" +
       "Tu <b>PuntoBalance Premium</b> ya está listo. Gracias por confiar en nosotros" + (o.plan === "fundador" ? " y por ser de los primeros: tienes el <b>precio de fundador</b>" : o.plan === "regalo" ? ". Es un <b>regalo</b> de Odlare" : "") + "." +
       '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #E3E6EF;border-radius:14px;margin:18px 0;border-collapse:separate">' +
-      fila("Nº de licencia", esc(o.num)).replace("border-top:1px solid #EEF0F6;", "").replace("border-top:1px solid #EEF0F6;", "") + fila("Plan", esc(plan)) + fila("Cuenta de Google", esc(o.gmail)) + fila("Válida hasta", fechaLarga(o.hasta)) + (o.importe ? fila("Importe pagado", esc(o.importe)) : "") + "</table>" +
+      fila("Nº de licencia", esc(o.num)).replace("border-top:1px solid #EEF0F6;", "").replace("border-top:1px solid #EEF0F6;", "") + fila("Plan", esc(plan)) + fila("Cuenta de Google", esc(o.gmail).replace("@", "<wbr>@")) + fila("Válida hasta", fechaLarga(o.hasta)) + (o.importe ? fila("Importe pagado", esc(o.importe)) : "") + "</table>" +
       '<div style="text-align:center;margin:22px 0 6px"><a href="' + enlace + '" style="display:inline-block;background:#1E60E0;color:#ffffff;text-decoration:none;font-weight:800;font-size:16px;padding:14px 46px;border-radius:12px">Activar Premium</a></div>' +
       '<div style="text-align:center;font-size:12.5px;color:#6B7194">Pulsa el botón y abre PuntoBalance: se activa solo.</div>' +
       '<p style="margin:20px 0 6px;font-size:13.5px"><b>¿El botón no funciona?</b> Copia este código:</p>' +
