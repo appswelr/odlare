@@ -188,6 +188,8 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
   section{padding:52px 0}
 }
 @media (max-width:420px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.hero .phone{width:180px}.phones{height:410px}.bar .odl{font-size:25px}}
+.pbpriv{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:700;color:var(--muted);text-decoration:none}.pbpriv:hover{color:var(--ink);text-decoration:underline}
+.resumen .polt{margin-top:20px;font-weight:700;color:var(--ink)}.resumen .dosbtn{display:flex;gap:10px;flex-wrap:wrap}.resumen .dosbtn .btn{margin-top:10px;gap:10px}.resumen .dosbtn img{width:28px;height:28px;border-radius:8px}
 .resumen{max-width:800px;margin:0 auto;background:var(--card);border-radius:24px;padding:36px 40px;box-shadow:var(--shadow)}.resumen h2{font-size:26px;margin-bottom:14px}.resumen ul{padding-left:20px;display:grid;gap:8px;font-size:15.5px}.resumen .btn{margin-top:22px;height:auto;min-height:52px;padding:12px 24px;text-align:center}
 .volver{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--fin);text-decoration:none;margin:32px 0 18px}
 @media (max-width:900px){.resumen{padding:28px 22px}}
@@ -312,6 +314,7 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
           <span class="play"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small>MÁS ADELANTE EN</small>Google Play</span></span>
           <span class="price">Gratis mientras está en prueba</span>
         </div>
+        <a class="pbpriv" href="privacidad-puntobalance.html">Política de privacidad de PuntoBalance ›</a>
       </div>
       <div class="media"><div class="lap"><div class="pant"><img src="img/pb-pc.png" alt="PuntoBalance en la computadora"></div><div class="base"></div></div></div>
     </article>
@@ -361,8 +364,13 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
         <li data-es="Nunca pedimos contraseñas, PIN ni números completos de tarjeta o cuenta." data-en="We never ask for passwords, PINs or full card or account numbers.">Nunca pedimos contraseñas, PIN ni números completos de tarjeta o cuenta.</li>
         <li data-es="Los avisos de pago se leen en tu teléfono y no salen de él." data-en="Payment alerts are read on your phone and never leave it.">Los avisos de pago se leen en tu teléfono y no salen de él.</li>
         <li data-es="Los pagos de Premium los gestiona Google Play." data-en="Premium payments are handled by Google Play.">Los pagos de Premium los gestiona Google Play.</li>
+        <li data-es="PuntoBalance guarda todo en una hoja de tu Google Drive y solo puede ver los archivos que ella misma crea." data-en="PuntoBalance keeps everything in a sheet in your Google Drive and can only see the files it creates.">PuntoBalance guarda todo en una hoja de tu Google Drive y solo puede ver los archivos que ella misma crea.</li>
       </ul>
-      <a class="btn sec" href="privacidad.html" data-es="Leer la política completa" data-en="Read the full policy">Leer la política completa</a>
+      <p class="polt" data-es="Lee la política completa de cada app:" data-en="Read each app's full policy:">Lee la política completa de cada app:</p>
+      <div class="dosbtn">
+        <a class="btn sec" href="privacidad.html"><img src="img/icono-finanzas.png" alt=""><span data-es="Mis Finanzas" data-en="My Finances">Mis Finanzas</span></a>
+        <a class="btn sec" href="privacidad-puntobalance.html"><img src="img/icono-puntobalance.png" alt="">PuntoBalance</a>
+      </div>
     </div>
   </div>
 </section>
