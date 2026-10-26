@@ -393,6 +393,17 @@ html[data-tema="oscuro"] .v-form .hist .sumbar { background: #18254C; } html[dat
 @media (max-width: 1100px) { .v-form section.lista.on { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .v-form section.dual .fcol { grid-template-columns: 1fr; } .v-form section.dual .fcol > .preview, .v-form section.dual .fcol > .taxline { grid-column: 1; grid-row: auto; } .v-form section.dual .fcol > .grid > .full, .v-form section.dual .fcol > .grid > .wide { grid-column: 1 / -1; } }
 .v-form .fcol { min-width: 0; }
+/* 5.0.0-alpha18 · Clientes, Proveedores y Categorías: lista abajo a todo lo ancho */
+.v-form .hist .hh.lh { flex-wrap: wrap; gap: 10px; justify-content: flex-start; }
+.v-form .hist .hh.lh .cnt { background: #F4F6FC; border-radius: 8px; padding: 4px 10px; font-size: 12px; color: var(--muted); }
+.v-form .hist .hh.lh .buscar { margin: 0 0 0 auto; width: 340px; max-width: 100%; padding: 7px 11px; font-size: 13px; border-radius: 9px; }
+.v-form .hist table.hoja[class*="lst-"] { table-layout: auto; }
+.v-form .hist table.hoja[class*="lst-"] th { width: auto !important; }
+.v-form .hist table.hoja[class*="lst-"] td.x { max-width: 300px; }
+.v-form .hist .hoja .corr { color: #9A5B00; font-size: 11.5px; font-weight: 600; }
+.v-form section.dual .fcol > .grid > .editando { margin: 0; }
+html[data-tema="oscuro"] .v-form .hist .hh.lh .cnt { background: #18254C; }
+@media (max-width: 760px) { .v-form .hist .hh.lh .buscar { width: 100%; margin-left: 0; } }
 /* 5.0.0-alpha17 · Ajustes en pestañas + ficha por negocio */
 .v-form section#t-ajustes { background: none; border: 0; padding: 0; }
 .v-form .ajtabs { display: inline-flex; gap: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px; margin-bottom: 14px; flex-wrap: wrap; }
@@ -963,7 +974,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
     <div class="ac-wil">Wilber Eraldo</div>
     <a class="ac-esc" href="mailto:apps.welr@gmail.com" target="_blank" rel="noopener">✉️ Escríbenos</a>
     <div class="ac-mail">apps.welr@gmail.com</div>
-    <a class="ac-pol" href="https://appswelr.github.io/odlare/privacidad.html" target="_blank" rel="noopener">Política de privacidad</a>
+    <a class="ac-pol" href="https://appswelr.github.io/odlare/privacidad-puntobalance.html" target="_blank" rel="noopener">Política de privacidad</a>
     <div class="ac-cp">© 2026 · Todos los derechos reservados</div>
   </div>
 </div>
@@ -1088,44 +1099,46 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
   </section>
 
   <!-- PROVEEDOR -->
-  <section id="t-proveedor" class="lista">
+  <section id="t-proveedor" class="dual">
     <h2>Nuevo proveedor</h2>
     <div class="fcol">
     <div class="grid">
-      <div class="full"><label for="p-nombre">Nombre</label><input id="p-nombre"></div>
-      <div class="full"><label for="p-notas">Notas (opcional)</label><input id="p-notas"></div>
+      <div class="c2"><label for="p-nombre">Nombre</label><input id="p-nombre" placeholder="Ej. Shell"></div>
+      <div class="c2"><label for="p-notas">Notas (opcional)</label><input id="p-notas" placeholder="Ej. Gasolina para ir a los eventos"></div>
     </div>
+    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Proveedores en tu lista</span><b id="p-r-n">…</b></div><div class="rr"><span>Con gastos apuntados</span><b id="p-r-f">…</b></div><button class="btn primary rg" id="p-rg" type="button">Guardar proveedor</button><button class="btn rl" id="p-rl" type="button">Limpiar</button><div class="rmsg" id="p-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="ls-proveedor"></aside>
   </section>
 
   <!-- CLIENTE -->
-  <section id="t-cliente" class="lista">
+  <section id="t-cliente" class="dual">
     <h2>Nuevo cliente</h2>
     <div class="fcol">
-    <div id="c-editando" class="editando hidden"><span id="c-edtxt"></span><button type="button" id="c-cancel">Cancelar</button></div>
     <div class="grid">
-      <div class="full"><label for="c-nombre">Nombre</label><input id="c-nombre"></div>
-      <div class="full"><label for="c-dir">Dirección</label><input id="c-dir"></div>
-      <div><label for="c-ciudad">Ciudad</label><input id="c-ciudad"></div>
-      <div><label for="c-post">Postcode</label><input id="c-post"></div>
-      <div><label for="c-tel">Teléfono</label><input id="c-tel" type="tel"></div>
-      <div><label for="c-email">Email</label><input id="c-email" type="email"><div class="hint">Lo usa el botón "Enviar al cliente".</div></div>
+      <div id="c-editando" class="c4 editando hidden"><span id="c-edtxt"></span><button type="button" id="c-cancel">Cancelar</button></div>
+      <div class="c2"><label for="c-nombre">Nombre</label><input id="c-nombre" placeholder="Ej. Bar El Puerto"></div>
+      <div class="c2"><label for="c-dir">Dirección</label><input id="c-dir" placeholder="Ej. 12 High Street"></div>
+      <div><label for="c-ciudad">Ciudad</label><input id="c-ciudad" placeholder="Ej. Swansea"></div>
+      <div><label for="c-post">Postcode</label><input id="c-post" placeholder="Ej. SA1 1AA"></div>
+      <div><label for="c-tel">Teléfono</label><input id="c-tel" type="tel" placeholder="Ej. 07700 900000"></div>
+      <div><label for="c-email">Email</label><input id="c-email" type="email" placeholder="cliente@correo.com"></div>
     </div>
+    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Clientes en tu lista</span><b id="c-r-n">…</b></div><div class="rr"><span>Con facturas</span><b id="c-r-f">…</b></div><button class="btn primary rg" id="c-rg" type="button">Guardar cliente</button><button class="btn rl" id="c-rl" type="button">Limpiar</button><div class="rmsg" id="c-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="ls-cliente"></aside>
   </section>
 
   <!-- CATEGORÍA -->
-  <section id="t-categoria" class="lista">
+  <section id="t-categoria" class="dual">
     <h2>Nueva categoría</h2>
     <div class="fcol">
     <div class="grid">
-      <div class="full"><label for="k-nombre">Nombre</label><input id="k-nombre" placeholder="Por ejemplo: Insurance"></div>
-      <div class="full"><label for="k-desc">Descripción (opcional)</label><input id="k-desc" placeholder="Qué tipo de gastos van aquí"></div>
+      <div class="c2"><label for="k-nombre">Nombre</label><input id="k-nombre" placeholder="Por ejemplo: Insurance"></div>
+      <div class="c2"><label for="k-desc">Descripción (opcional)</label><input id="k-desc" placeholder="Qué tipo de gastos van aquí"></div>
+      <div class="c4 hint">Al guardarla aparece al instante en el formulario de gastos y en los resúmenes. <span id="k-cupo"></span></div>
     </div>
-    <div class="hint" style="margin-top:10px">Al guardarla aparece al instante en el formulario de gastos, en la lista de la hoja Gastos y en el resumen del Panel.</div>
-    <div class="hint" id="k-cupo"></div>
+    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Categorías usadas</span><b id="k-r-n">…</b></div><div class="rr"><span>Gastado este año</span><b id="k-r-t">…</b></div><button class="btn primary rg" id="k-rg" type="button">Guardar categoría</button><button class="btn rl" id="k-rl" type="button">Limpiar</button><div class="rmsg" id="k-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="ls-categoria"></aside>
   </section>
@@ -1214,7 +1227,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha17',fecha:'26 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha18',fecha:'26 oct 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1437,8 +1450,8 @@ function init_form(ROOT, P, S) {
 
   function msg(t, tipo) {
     const m = $('msg'); m.textContent = t; m.className = tipo || '';
-    const yo = TAB === 'ingreso' ? 'i-msg' : TAB === 'gasto' ? 'g-msg' : '';
-    ['i-msg', 'g-msg'].forEach((id) => { const x = $(id); if (!x) return; x.textContent = id === yo ? t : ''; x.className = 'rmsg ' + (id === yo ? tipo || '' : ''); });
+    const yo = ({ ingreso: 'i-msg', gasto: 'g-msg', cliente: 'c-msg', proveedor: 'p-msg', categoria: 'k-msg' })[TAB] || '';
+    ['i-msg', 'g-msg', 'c-msg', 'p-msg', 'k-msg'].forEach((id) => { const x = $(id); if (!x) return; x.textContent = id === yo ? t : ''; x.className = 'rmsg ' + (id === yo ? tipo || '' : ''); });
   }
 
   function cargar(despues) {
@@ -1515,6 +1528,7 @@ function init_form(ROOT, P, S) {
   }
   function syncRg() {
     ['ingreso', 'gasto'].forEach((t) => { const b = $(t === 'ingreso' ? 'i-rg' : 'g-rg'); if (b && !b.disabled) b.textContent = EDIT && EDIT.tipo === t ? 'Guardar cambios' : (t === 'ingreso' ? 'Guardar ingreso' : 'Guardar gasto'); });
+    [['c-rg', EDITCLI ? 'Guardar cambios' : 'Guardar cliente'], ['p-rg', 'Guardar proveedor'], ['k-rg', 'Guardar categoría']].forEach((x) => { const b = $(x[0]); if (b && !b.disabled) b.textContent = x[1]; });
   }
   function periodoDe(iso) { const p = D && D.periodos.find((x) => x.ini <= iso && iso <= x.fin); return p ? p.etiqueta : ''; }
 
@@ -1540,7 +1554,7 @@ function init_form(ROOT, P, S) {
     S.marcar('form:' + tab);
     document.querySelectorAll('section').forEach((s) => s.classList.toggle('on', s.id === 't-' + tab));
     $('guardar').classList.toggle('hidden', tab === 'registros');
-    const pie = ROOT.querySelector('.foot'); if (pie) pie.classList.toggle('hidden', tab === 'ingreso' || tab === 'gasto' || (tab === 'ajustes' && AJTAB !== 'general'));
+    const pie = ROOT.querySelector('.foot'); if (pie) pie.classList.toggle('hidden', ['ingreso', 'gasto', 'cliente', 'proveedor', 'categoria'].indexOf(tab) >= 0 || (tab === 'ajustes' && AJTAB !== 'general'));
     $('guardar').textContent = EDIT && EDIT.tipo === tab ? 'Guardar cambios' : { registros: '', ingreso: 'Guardar ingreso', gasto: 'Guardar gasto', proveedor: 'Guardar proveedor', cliente: 'Guardar cliente',
       categoria: 'Guardar categoría', periodos: 'Añadir periodos', ajustes: 'Guardar ajustes' }[tab];
     if (tab === 'ajustes') { cargarAjustes(); cargarMN(); }
@@ -1605,9 +1619,11 @@ function init_form(ROOT, P, S) {
   $('g-rg').onclick = () => $('guardar').onclick();
   function limpiarForm(t) { if (EDIT && EDIT.tipo === t) cancelarEdicion(true); else limpiar(t); msg(''); previews(); }
   $('i-rl').onclick = () => limpiarForm('ingreso');
+  ['c', 'p', 'k'].forEach((p) => { $(p + '-rg').onclick = () => $('guardar').onclick(); $(p + '-rl').onclick = () => limpiarForm(TAB); });
   $('g-rl').onclick = () => limpiarForm('gasto');
   $('guardar').onclick = () => {
-    const tab = TAB, btn = (tab === 'ingreso' || tab === 'gasto') ? $(tab === 'ingreso' ? 'i-rg' : 'g-rg') : $('guardar'), texto = btn.textContent;
+    const RG = { ingreso: 'i-rg', gasto: 'g-rg', cliente: 'c-rg', proveedor: 'p-rg', categoria: 'k-rg' };
+    const tab = TAB, btn = RG[tab] ? $(RG[tab]) : $('guardar'), texto = btn.textContent;
     if ((tab === 'ingreso' || tab === 'gasto') && D && (D.negocios || []).length > 1 && !NF[tab]) { msg('Elige tu negocio arriba a la derecha.', 'err'); const b = $('negsel'); if (b) b.classList.add('open'); return; }
     btn.disabled = true; btn.textContent = 'Guardando…'; msg('');
     const ok = (r) => {
@@ -1921,6 +1937,13 @@ function init_form(ROOT, P, S) {
     google.script.run.withSuccessHandler((l) => { LISTAS = l; listaPintar(t); })
       .withFailureHandler((e) => { box.innerHTML = '<div class="vacio">No he podido cargar la lista: ' + esc(e.message) + '</div>'; }).getListas();
   }
+  function resumenListas() {
+    if (!LISTAS) return;
+    const put = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+    put('c-r-n', LISTAS.clientes.length); put('c-r-f', LISTAS.clientes.filter((x) => x.facturas > 0).length);
+    put('p-r-n', LISTAS.proveedores.length); put('p-r-f', LISTAS.proveedores.filter((x) => x.gastos > 0).length);
+    put('k-r-n', LISTAS.categorias.length + (D ? ' de ' + D.catMax : '')); put('k-r-t', gbp(LISTAS.categorias.reduce((a, x) => a + (Number(x.total) || 0), 0)));
+  }
   function listaFilas(t) {
     const q = LQ[t];
     const l = (LISTAS && LISTAS[t === 'cliente' ? 'clientes' : t === 'proveedor' ? 'proveedores' : 'categorias']) || [];
@@ -1931,14 +1954,16 @@ function init_form(ROOT, P, S) {
     const box = $('ls-' + t), l = listaFilas(t);
     const total = ((LISTAS && LISTAS[t === 'cliente' ? 'clientes' : t === 'proveedor' ? 'proveedores' : 'categorias']) || []).length;
     const tit = { cliente: 'Tus clientes', proveedor: 'Tus proveedores', categoria: 'Tus categorías' }[t];
-    const cab = t === 'cliente' ? ['Nombre', 'Ciudad', 'Postcode', 'Email', 'Teléfono', 'Facturas'] : t === 'proveedor' ? ['Nombre', 'Notas', 'Gastos'] : ['Nombre', 'Descripción', 'Gastado ' + (LISTAS ? LISTAS.anio : '')];
+    resumenListas();
+    const cab = t === 'cliente' ? ['Nombre', 'Dirección', 'Ciudad', 'Postcode', 'Teléfono', 'Email', 'Facturas'] : t === 'proveedor' ? ['Nombre', 'Notas', 'Gastos'] : ['Nombre', 'Descripción', 'Gastado ' + (LISTAS ? LISTAS.anio : '')];
     const fila = (x) => t === 'cliente'
-      ? '<tr data-cli="' + attr(x.nombre) + '"' + (x.nombre === EDITCLI ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b></td><td class="x">' + esc(x.ciudad) + '</td><td class="x">' + esc(x.postcode) + '</td><td class="x" title="' + attr(x.email) + '">' + esc(x.email) + '</td><td class="x">' + esc(x.telefono) + '</td><td class="m">' + x.facturas + '</td></tr>'
+      ? '<tr data-cli="' + attr(x.nombre) + '"' + (x.nombre === EDITCLI ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b>' + (x.nombre === EDITCLI ? ' <span class="corr">✏️ corrigiendo</span>' : '') + '</td><td class="x" title="' + attr(x.direccion) + '">' + esc(x.direccion) + '</td><td class="x">' + esc(x.ciudad) + '</td><td class="x">' + esc(x.postcode) + '</td><td class="x">' + esc(x.telefono) + '</td><td class="x" title="' + attr(x.email) + '">' + esc(x.email) + '</td><td class="m">' + x.facturas + '</td></tr>'
       : t === 'proveedor'
         ? '<tr><td class="x"><b>' + esc(x.nombre) + '</b></td><td class="x" title="' + attr(x.notas) + '">' + esc(x.notas) + '</td><td class="m">' + x.gastos + '</td></tr>'
         : '<tr><td class="x"><b>' + esc(x.nombre) + '</b></td><td class="x" title="' + attr(x.descripcion) + '">' + esc(x.descripcion) + '</td><td class="m">' + gbp(x.total) + '</td></tr>';
-    box.innerHTML = '<div class="hh"><b>' + tit + ' (' + total + ')</b><button class="btn" type="button" data-lcopiar="1">Copiar lista</button></div>' +
-      '<input class="buscar" type="search" id="lq-' + t + '" placeholder="🔍 Buscar" value="' + attr(LQ[t]) + '">' +
+    box.innerHTML = '<div class="hh lh"><b>' + tit + '</b><span class="cnt">' + total + ' ' + ({ cliente: 'clientes', proveedor: 'proveedores', categoria: 'categorías' }[t]) + '</span>' +
+      '<input class="buscar" type="search" id="lq-' + t + '" placeholder="🔍 ' + ({ cliente: 'Buscar cliente, ciudad, email…', proveedor: 'Buscar proveedor o nota…', categoria: 'Buscar categoría…' }[t]) + '" value="' + attr(LQ[t]) + '">' +
+      '<button class="btn" type="button" data-lcopiar="1">Copiar lista</button></div>' +
       (l.length ? '<div class="tw"><table class="hoja lst-' + t + '"><thead><tr>' + cab.map((x, k) => '<th' + (k === cab.length - 1 ? ' class="m"' : '') + '>' + x + '</th>').join('') + '</tr></thead><tbody>' + l.map(fila).join('') + '</tbody></table></div>'
         : '<div class="vacio">' + (total ? 'No hay nada con esa búsqueda.' : 'Todavía no hay ninguno. Añade el primero con el formulario.') + '</div>') +
       (t === 'cliente' && l.length ? '<div class="nota">Pulsa un cliente y sus datos pasan al formulario para corregirlos.</div>' : '');
@@ -1968,12 +1993,14 @@ function init_form(ROOT, P, S) {
     $('c-nombre').value = x.nombre; $('c-dir').value = x.direccion; $('c-ciudad').value = x.ciudad; $('c-post').value = x.postcode; $('c-tel').value = x.telefono; $('c-email').value = x.email;
     $('c-edtxt').textContent = 'Corrigiendo a ' + x.nombre;
     $('c-editando').classList.remove('hidden');
-    $('guardar').textContent = 'Guardar cambios'; msg('');
+    $('guardar').textContent = 'Guardar cambios'; msg(''); syncRg();
     listaPintar('cliente');
+    const sc = ROOT.querySelector('.scroll'); if (sc) sc.scrollTo({ top: 0, behavior: 'smooth' });
   }
   function finEditarCliente() {
     EDITCLI = null; $('c-editando').classList.add('hidden');
     if (TAB === 'cliente') $('guardar').textContent = 'Guardar cliente';
+    syncRg();
     if (LISTAS) listaPintar('cliente');
   }
   $('c-cancel').onclick = () => { ['c-nombre', 'c-dir', 'c-ciudad', 'c-post', 'c-tel', 'c-email'].forEach((id) => ($(id).value = '')); finEditarCliente(); };

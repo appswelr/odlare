@@ -292,7 +292,7 @@
       '<p style="font-size:13.5px;margin:16px 0 0">1. Abre PuntoBalance en tu computadora o celular.<br>2. Ve a <b>Premium › Tengo un código</b>.<br>3. Pega el código y pulsa <b>Activar</b>. ¡Listo!</p>' +
       '<p style="font-size:13px;margin:16px 0 8px;color:#3A4058">El código solo funciona con tu cuenta <b>' + esc(o.gmail) + "</b>. Guarda este correo por si cambias de computadora.</p></td></tr>" +
       '<tr><td style="background:#F7F8FC;padding:16px 32px;font-size:12px;color:#6B7194;line-height:1.6;border-top:1px solid #EEF0F6">¿Dudas? Escríbenos a <b style="color:#1B2B5B">' + esc(CFG.envio || "apps.welr@gmail.com") + "</b> · Responderemos lo antes posible.<br>PuntoBalance es una app de <b style=\"color:#1B2B5B\">Odlare</b> · Reino Unido · " +
-      '<a href="https://appswelr.github.io/odlare/privacidad.html" style="color:#1E60E0">Política de privacidad</a></td></tr></table></td></tr></table></body></html>';
+      '<a href="https://appswelr.github.io/odlare/privacidad-puntobalance.html" style="color:#1E60E0">Política de privacidad</a></td></tr></table></td></tr></table></body></html>';
   }
   function textoCorreo(o) {
     var base = location.origin + location.pathname.replace(/[^/]*$/, "");

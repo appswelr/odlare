@@ -1,7 +1,16 @@
 {
- "ver": "5.0.0-alpha17",
+ "ver": "5.0.0-alpha18",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha18",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "Clientes, Proveedores y Categorías como Ingresos y Gastos: el formulario arriba y la lista abajo, a todo lo ancho",
+    "Al salir ya no se borra el permiso de Google: no te lo vuelve a pedir cada vez",
+    "Política de privacidad propia de PuntoBalance"
+   ]
+  },
   {
    "ver": "5.0.0-alpha17",
    "fecha": "26 oct 2026",

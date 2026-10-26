@@ -77,7 +77,8 @@
     usarHoja: function (id) { if (!CUENTA) return; CUENTA.hojaId = id; poner("pb_cuenta", CUENTA); location.reload(); },
     sesionCaducada: function () { TK = null; poner("pb_tk", null); },
     salir: function () {
-      try { if (TK && TK.t && window.google && google.accounts) google.accounts.oauth2.revoke(TK.t, function () { }); } catch (e) { }
+      // 5.0.0-alpha18: al salir NO se quita el permiso de Google (si no, lo pedía otra vez cada vez que entrabas).
+      // Para quitarlo del todo: myaccount.google.com › Seguridad › Apps de terceros.
       poner("pb_tk", null); poner("pb_cuenta", null); poner("pb_modo", null); location.reload();
     }
   };
