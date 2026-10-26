@@ -9,7 +9,7 @@ window.PB_CONFIG = {
   // 5.0.0-alpha12 · Licencias. «pub» es la llave PÚBLICA (solo sirve para comprobar códigos). La privada vive en el Drive de Wilber.
   // Mientras «pub» esté vacía, la prueba no se corta (nadie se queda bloqueado).
   licencias: {
-    pub: "",
+    pub: {"kty":"EC","crv":"P-256","x":"KAM0wr6LTk3hXVwhPoGRyzbEgUPQ7WwWMA2krpi6H_g","y":"ec996UXrVltLLZkHcCUiZnduej80itjOVZbazzn0OJg"},
     admins: ["djwinkeyodlare@gmail.com", "apps.welr@gmail.com"],
     envio: "apps.welr@gmail.com",
     whatsapp: "",

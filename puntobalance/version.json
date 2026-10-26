@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha12",
+ "ver": "5.0.0-alpha13",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha13",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "Licencias Premium activadas: ya puedes activar tu código",
+    "Empieza a contar tu prueba de 30 días"
+   ]
+  },
   {
    "ver": "5.0.0-alpha12",
    "fecha": "26 oct 2026",
