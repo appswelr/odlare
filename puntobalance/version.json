@@ -1,7 +1,17 @@
 {
- "ver": "5.0.0-alpha8",
+ "ver": "5.0.0-alpha9",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha9",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "Arriba del menú, siempre PuntoBalance",
+    "El selector de negocio muestra el logo de cada negocio",
+    "Los logos se ven en sus colores (ya no salen en blanco)",
+    "Factura de cada negocio: tipo de fecha (Event / Sale / Service date), nota al pie, email y teléfono propios"
+   ]
+  },
   {
    "ver": "5.0.0-alpha8",
    "fecha": "26 oct 2026",

@@ -28,10 +28,11 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  *         alpha7: el selector de la hoja anterior se abre en «Mi unidad», con carpetas.
  *         alpha8: varios negocios en una sola hoja (pestaña Negocios, columnas NEGOCIO y Nº FACTURA);
  *                 formularios arriba y movimientos abajo; listas de clientes, proveedores y categorías.
+ *         alpha9: PuntoBalance arriba del menú; logos de negocio en color; factura de cada negocio (fecha, nota, email, teléfono).
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha8';
+const VERSION = '5.0.0-alpha9';
 const VERSION_FECHA = '26 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────
@@ -215,7 +216,14 @@ function construirFactura_(id) {
   const num = numDe_(filas[0]), neg = negocioPorId_(negDe_(filas[0]));
   if (filas[0]['ESTADO'] === 'CANCELLED') throw new Error('La factura ' + num + ' está cancelada: no se crea PDF ni se envía.');
   const cfg = config_();
-  if (neg && String(neg.nombreFactura || '').trim()) cfg.nombre = String(neg.nombreFactura).trim();
+  if (neg) {
+    if (neg.nombreFactura.trim()) cfg.nombre = neg.nombreFactura.trim();
+    if (neg.email) cfg.email = neg.email;
+    if (neg.telefono) cfg.telefono = neg.telefono;
+    // la nota: la de su negocio; el primer negocio, si no tiene, usa la de Ajustes (la de siempre)
+    cfg.nota_factura = neg.nota || (neg.id === negPrimero_() ? (cfg.nota_factura || '') : '');
+  }
+  const fechaCol = neg ? FECHA_LINEA[neg.fechaLinea] : 'Date';
   const cli = leerTabla_('Clientes').find(c => c['NOMBRE'] === filas[0]['CLIENTE']) || {};
   const fechaFactura = filas[0]['FECHA FACTURA'];
   const vence = new Date(fechaFactura.getTime());
@@ -223,7 +231,7 @@ function construirFactura_(id) {
 
   const lineas = filas.map(r => ({
     desc: r['DESCRIPCIÓN'],
-    fecha: fecha_(r['FECHA EVENTO']),
+    fecha: fechaCol ? fecha_(r['FECHA EVENTO']) : '',
     qty: r['CANTIDAD'],
     unidad: r['UNIDAD'],
     precio: libras_(r['PRECIO']),
@@ -237,6 +245,7 @@ function construirFactura_(id) {
     f: {
       id: num,
       idInterno: Number(id),
+      fechaCol: fechaCol,
       fecha: fecha_(fechaFactura),
       vencimiento: fecha_(vence),
       cliente: cli,
@@ -668,8 +677,18 @@ function anadirPeriodos(n) {
 }
 
 /** Nota al pie guardada en Ajustes (se muestra en el aviso antes de crear el PDF). */
-function getNotaFactura() {
+function getNotaFactura(id) {
+  if (id) { try { return String(construirFactura_(id).cfg.nota_factura || ''); } catch (e) { } }
   return String(config_().nota_factura || '');
+}
+
+/** «Guardar esta nota para las próximas»: se guarda en el negocio de esa factura (5.0.0-alpha9). */
+function guardarNotaNegocio(id, nota) {
+  const filas = leerTabla_('Ingresos').filter(r => Number(r['ID FACTURA']) === Number(id));
+  const neg = filas.length ? negocioPorId_(negDe_(filas[0])) : negocioPorId_(negPrimero_());
+  if (!neg) return false;
+  guardarNegocioDatos(Object.assign({}, neg, { nota: String(nota || '') }));
+  return true;
 }
 
 function getAjustes() {
@@ -1137,7 +1156,9 @@ function anadirCategoriasSugeridas(tipo) {
  * Pestaña «Negocios» (ID, NOMBRE, TIPO, PREFIJO, COLOR, NOMBRE EN FACTURA). El primero es el de siempre:
  * las filas viejas sin NEGOCIO son suyas. Cada negocio numera sus facturas (DJ-013, OD-001…) en la columna Nº FACTURA;
  * las facturas viejas se quedan con su número. ID FACTURA sigue siendo el número interno (único) de la fila. */
-const NEG_CABS = ['ID', 'NOMBRE', 'TIPO', 'PREFIJO', 'COLOR', 'NOMBRE EN FACTURA'];
+const NEG_CABS = ['ID', 'NOMBRE', 'TIPO', 'PREFIJO', 'COLOR', 'NOMBRE EN FACTURA', 'FECHA EN FACTURA', 'NOTA FACTURA', 'EMAIL', 'TELÉFONO'];
+const FECHA_LINEA = { event: 'Event date', sale: 'Sale date', service: 'Service date', none: '' };
+const FECHA_TIPO = { dj: 'event', productos: 'sale', servicios: 'service' };
 const NEG_COLORES = ['#4F46E5', '#F4A62A', '#16A34A', '#DC5A56', '#0EA5E9', '#9333EA', '#0F766E', '#BE185D'];
 let NEG_LISTO = false;
 
@@ -1156,7 +1177,11 @@ function asegurarNegocios_() {
     s.getRange(1, 1, 1, NEG_CABS.length).setValues([NEG_CABS]).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1B2B5B');
     s.setFrozenRows(1);
     const nombre = String(config_().nombre || '').trim() || 'Mi negocio';
-    s.getRange(2, 1, 1, NEG_CABS.length).setValues([['n1', nombre, negocio_(), prefijoDe_(nombre), NEG_COLORES[0], '']]);
+    s.getRange(2, 1, 1, NEG_CABS.length).setValues([['n1', nombre, negocio_(), prefijoDe_(nombre), NEG_COLORES[0], '', '', '', '', '']]);
+  } else {
+    const s = ss.getSheetByName('Negocios');
+    const cab = s.getRange(1, 1, 1, Math.max(s.getLastColumn(), 1)).getValues()[0];
+    NEG_CABS.forEach(t => { if (cab.indexOf(t) < 0) { let col = cab.length; while (col > 0 && (cab[col - 1] === '' || cab[col - 1] === null)) col--; s.getRange(1, col + 1).setValue(t).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1B2B5B'); cab.splice(col, 0, t); } });
   }
   [['Ingresos', 'NEGOCIO'], ['Ingresos', 'Nº FACTURA'], ['Gastos', 'NEGOCIO']].forEach(x => {
     const h = hoja_(x[0]);
@@ -1182,7 +1207,9 @@ function negocios_() {
   asegurarNegocios_();
   const l = leerTabla_('Negocios').map((r, i) => ({
     id: String(r['ID']), nombre: String(r['NOMBRE'] || 'Negocio'), tipo: NEGOCIOS[r['TIPO']] ? String(r['TIPO']) : 'dj',
-    prefijo: String(r['PREFIJO'] || ''), color: String(r['COLOR'] || NEG_COLORES[i % NEG_COLORES.length]), nombreFactura: String(r['NOMBRE EN FACTURA'] || '')
+    prefijo: String(r['PREFIJO'] || ''), color: String(r['COLOR'] || NEG_COLORES[i % NEG_COLORES.length]), nombreFactura: String(r['NOMBRE EN FACTURA'] || ''),
+    fechaLinea: FECHA_LINEA.hasOwnProperty(r['FECHA EN FACTURA']) ? String(r['FECHA EN FACTURA']) : (FECHA_TIPO[r['TIPO']] || 'event'),
+    nota: String(r['NOTA FACTURA'] == null ? '' : r['NOTA FACTURA']), email: String(r['EMAIL'] || ''), telefono: String(r['TELÉFONO'] || '')
   }));
   NEG_CACHE = { t: Date.now(), l: l };
   return l;
@@ -1223,11 +1250,13 @@ function guardarNegocioDatos(o) {
     if (prefijo && lista.some(n => n.id !== o.id && n.prefijo === prefijo)) throw new Error('Ese prefijo ya lo usa otro negocio. Elige otro (por ejemplo ' + prefijo + '2).');
     const s = hoja_('Negocios');
     const nf = String(o.nombreFactura || '').trim();
+    const fl = FECHA_LINEA.hasOwnProperty(o.fechaLinea) ? o.fechaLinea : (FECHA_TIPO[tipo] || 'event');
+    const extra = [fl, String(o.nota || '').trim(), String(o.email || '').trim(), String(o.telefono || '').trim()];
     if (o.id) {
       const r = lista.findIndex(n => n.id === o.id);
       if (r < 0) throw new Error('No encuentro ese negocio.');
       const fila = leerTabla_('Negocios')[r]._fila;
-      s.getRange(fila, 2, 1, 5).setValues([[nombre, tipo, prefijo, lista[r].color, nf]]);
+      s.getRange(fila, 2, 1, 9).setValues([[nombre, tipo, prefijo, lista[r].color, nf].concat(extra)]);
       if (r === 0) PropertiesService.getScriptProperties().setProperty('NEGOCIO', tipo);   // compatibilidad con «Mi negocio»
       NEG_CACHE = null;
       return { id: o.id };
@@ -1235,7 +1264,7 @@ function guardarNegocioDatos(o) {
     if (lista.length >= 8) throw new Error('Puedes tener hasta 8 negocios.');
     const id = 'n' + (lista.reduce((m, n) => Math.max(m, Number(String(n.id).replace(/\D/g, '')) || 0), 0) + 1);
     const r = filaLibre_(s, false);
-    s.getRange(r, 1, 1, NEG_CABS.length).setValues([[id, nombre, tipo, prefijo || prefijoDe_(nombre), NEG_COLORES[lista.length % NEG_COLORES.length], nf]]);
+    s.getRange(r, 1, 1, NEG_CABS.length).setValues([[id, nombre, tipo, prefijo || prefijoDe_(nombre), NEG_COLORES[lista.length % NEG_COLORES.length], nf].concat(extra)]);
     NEG_CACHE = null;
     return { id: id };
   });
@@ -1284,5 +1313,5 @@ function actualizarCliente(nombreViejo, o) {
   });
 }
 
-return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
+return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
 })(window.PB_GAS.SpreadsheetApp, window.PB_GAS.Utilities, window.PB_GAS.Session, window.PB_GAS.LockService, window.PB_GAS.MailApp, window.PB_GAS.ScriptApp, window.PB_GAS.HtmlService, window.PB_GAS.PropertiesService, window.PB_GAS.DriveApp, window.PB_GAS.Logger);

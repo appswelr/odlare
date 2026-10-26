@@ -36,8 +36,8 @@
     [c["DIRECCIÓN"], [c["CIUDAD"], c["POSTCODE"]].filter(Boolean).join(" "), c["TELÉFONO"]].filter(Boolean).forEach(function (l, i) { doc.text(texto(l), X1, y + 5 + i * 4, { align: "right" }); });
     y += 30;
     // tabla
-    var cols = [[X0, "Description", "left"], [X0 + 76, "Date", "left"], [X0 + 110, "Qty", "right"], [X0 + 114, "Unit", "left"], [X0 + 152, "Price", "right"], [X1, "Total", "right"]];
-    cols.forEach(function (cc) { k(cc[1], cc[0], y, cc[2]); });
+    var cols = [[X0, "Description", "left"], [X0 + 76, f.fechaCol === undefined ? "Date" : f.fechaCol, "left"], [X0 + 110, "Qty", "right"], [X0 + 114, "Unit", "left"], [X0 + 152, "Price", "right"], [X1, "Total", "right"]];
+    cols.forEach(function (cc) { if (cc[1]) k(cc[1], cc[0], y, cc[2]); });
     y += 2.5; doc.setDrawColor(INK[0], INK[1], INK[2]); doc.setLineWidth(0.3); doc.line(X0, y, X1, y);
     (f.lineas || []).forEach(function (l) {
       if (y > 250) { doc.addPage(); y = 20; }
