@@ -507,6 +507,8 @@
     return (f ? Promise.resolve() : cargar(HOJA_ID)).then(function () { return correr(fn, args || []); });
   }
   function ejecutar(fn, args) {
+    // 5.0.0-alpha12: con la prueba terminada y sin Premium, la app queda en «solo ver» (licencia.js decide)
+    if (window.pbPermitir && !window.pbPermitir(fn)) return Promise.reject(window.pbErrorLicencia ? window.pbErrorLicencia() : new Error("Activa PuntoBalance Premium para seguir."));
     var tarea = cola.then(function () { return listo; }).then(function () {
       if (LOCAL[fn]) return LOCAL[fn].apply(null, args.concat([fresco]));
       return fresco(fn, args);

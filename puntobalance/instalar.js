@@ -1,4 +1,4 @@
-/* PuntoBalance 5.0.0-alpha6 · Solo instalada, como un programa (aprobado 25 oct 2026).
+/* PuntoBalance 5.0.0-alpha6/alpha12 · Solo instalada, como un programa (aprobado 25 oct 2026).
    Si la página se abre en una pestaña normal del navegador, NO se muestra la app: solo la pantalla «Instala PuntoBalance».
    La app se usa solo instalada (su propia ventana, icono en el escritorio). Para pruebas: añadir ?navegador=1 a la dirección. */
 (function () {
@@ -8,6 +8,9 @@
   var publicada = location.protocol === "https:" && !/claude|anthropic|usercontent/.test(location.hostname);
   if (standalone || !publicada || q.get("navegador") === "1") return;
   window.PB_SOLO_INSTALAR = true;
+  // enlace «Activar Premium» del correo: guardamos el código para que la app instalada lo active sola
+  var licPend = q.get("licencia");
+  if (licPend) { try { localStorage.setItem("pb_lic_pend", licPend); } catch (e) { } try { history.replaceState(null, "", location.pathname); } catch (e) { } }
 
   var ua = navigator.userAgent;
   var ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -48,6 +51,7 @@
       cuerpo = "<p>Se instala en tu computadora o tablet y se abre en su propia ventana, como un programa.</p>" +
         '<div class="pasos">¿Ya la tienes instalada? Ábrela desde el <b>icono de tu escritorio</b> o el <b>menú Inicio</b>.<br>Si no, pulsa el icono <b>⊕ Instalar</b> que sale a la derecha de la barra de direcciones.</div>';
     }
+    if (licPend) cuerpo = '<p class="ok" style="background:#E8F7EE;border-radius:12px;padding:10px 12px">🎉 Tu código Premium quedó guardado.</p><p>Abre PuntoBalance (el icono de tu escritorio o del celular) y se <b>activa solo</b>. Si no tienes la app todavía, instálala primero.</p>' + cuerpo;
     v.querySelector("#pbInsC").innerHTML = cuerpo;
     var b = v.querySelector("#pbInsB");
     if (b) b.onclick = function () { if (!aviso) return; b.disabled = true; aviso.prompt(); aviso.userChoice.then(function (r) { if (r && r.outcome === "accepted") instalada = true; aviso = null; pintar(); }); };

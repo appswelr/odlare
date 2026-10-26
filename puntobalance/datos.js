@@ -216,6 +216,7 @@
     });
   }
   function escribir(R) {
+    if (window.pbPermitir && !window.pbPermitir("guardarImportacion")) return Promise.reject(window.pbErrorLicencia());
     var nueva = C().hojaId();
     var limpiar = R.leer.map(function (t) { return rango(t, "A2:Z"); });
     var datos = R.leer.filter(function (t) { return R.pest[t].length; }).map(function (t) { return { range: rango(t, "A2"), values: R.pest[t] }; });

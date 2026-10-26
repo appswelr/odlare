@@ -1,7 +1,17 @@
 {
- "ver": "5.0.0-alpha11",
+ "ver": "5.0.0-alpha12",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha12",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "PuntoBalance Premium: 30 días de prueba con todo, sin tarjeta",
+    "Pantalla «Premium» con los planes y «Tengo un código» para activar tu licencia",
+    "La licencia llega por correo con un botón «Activar Premium»; vale en todos tus aparatos",
+    "Si la prueba o la licencia terminan, la app queda en «solo ver»: tus datos siguen ahí y puedes exportarlos"
+   ]
+  },
   {
    "ver": "5.0.0-alpha11",
    "fecha": "26 oct 2026",
