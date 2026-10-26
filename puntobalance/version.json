@@ -1,7 +1,16 @@
 {
- "ver": "5.0.0-alpha9",
+ "ver": "5.0.0-alpha10",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha10",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "Movimientos con todas las columnas, como en la hoja de cálculo (vista completa)",
+    "Botón «Vista completa / Sencilla»; la app recuerda tu elección",
+    "«Copiar lista» copia todas las columnas"
+   ]
+  },
   {
    "ver": "5.0.0-alpha9",
    "fecha": "26 oct 2026",

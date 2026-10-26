@@ -385,6 +385,14 @@
 .v-form .hist .hoja td:last-child, .v-form .hist .hoja th:last-child { border-right: 0; }
 .v-form .hist .hoja tbody tr:nth-child(even) td { background: #F7F8FC; }
 .v-form .hist .hoja tbody tr:hover td { background: #EEF0FF; }
+.v-form .hist .hoja.completa { table-layout: auto; min-width: 1100px; }
+.v-form .hist .hoja.completa th { width: auto !important; }
+.v-form .hist .hoja.completa td.w { max-width: 280px; } .v-form .hist .hoja.completa td.x { max-width: 170px; }
+.v-form .hist .hoja.completa .r { text-align: right; font-variant-numeric: tabular-nums; }
+.v-form .hist .hoja.completa td.n, .v-form .hist .hoja.completa th.n { width: auto !important; max-width: 90px; }
+.v-form .hist .hoja.completa .mu { color: var(--muted); }
+.v-form .hist .hoja.completa .t { background: #F5F7FF; }
+.v-form .hist .hh .vista { margin-left: auto; display: inline-flex; gap: 4px; }
 .v-form .hist .hoja .n { width: 42px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
 .v-form .hist .hoja th.n { color: #C9D0E6; }
 .v-form .hist .hoja .d { width: 72px; font-variant-numeric: tabular-nums; }
@@ -909,7 +917,7 @@
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha9',fecha:'26 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha10',fecha:'26 oct 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1095,6 +1103,7 @@ function init_form(ROOT, P, S) {
   let D = null, TAB = P.tab || 'ingreso', EDIT = null, REG = [], REGTIPO = 'ingreso';
   // 5.0.0-alpha8: negocio de cada formulario, listas a la par y «Mis negocios»
   const NF = { ingreso: '', gasto: '' };
+  let VISTA = 'completa'; try { VISTA = localStorage.getItem('pb_vista') || 'completa'; } catch (e) { }
   let LISTAS = null, EDITCLI = null, MN = null, MNED = null, LOGOPARA = '';
   const LQ = { cliente: '', proveedor: '', categoria: '' };
   const $ = (id) => document.getElementById(id);
@@ -1388,9 +1397,31 @@ function init_form(ROOT, P, S) {
       (conNeg ? '<td>' + S.pill(r.negocio) + '</td>' : '') +
       '<td class="m">' + gbp(r.total) + '</td><td class="b"><button class="cp" type="button" data-cp="' + r.id + '" title="Copiar al formulario" aria-label="Copiar ' + (t === 'gasto' ? 'gasto' : 'factura') + ' ' + r.id + ' al formulario">' + IC_COPY + '</button></td></tr>';
     const kT = cab.length - 2;
-    const tabla = '<div class="tw"><table class="hoja' + (conNeg ? ' conneg' : '') + '"><thead><tr>' + cab.map((x, k) => '<th' + (k === kT ? ' class="m"' : k === 0 ? ' class="n"' : '') + '>' + x + '</th>').join('') + '</tr></thead><tbody>' +
-      vis.map(fila).join('') + '</tbody><tfoot><tr><td colspan="' + kT + '">' + (h.todo || lista.length <= 10 ? 'Total (' + lista.length + ')' : 'Total de los ' + lista.length + ' (se ven 10)') + '</td><td class="m">' + gbp(total) + '</td><td></td></tr></tfoot></table></div>';
-    h.box.innerHTML = '<div class="hh"><b>' + h.titulo + '</b><button class="btn" type="button" data-cl="1">Copiar lista</button></div>' +
+    const pie = (h.todo || lista.length <= 10 ? 'Total (' + lista.length + ')' : 'Total de los ' + lista.length + ' (se ven 10)');
+    let tabla = '<div class="tw"><table class="hoja' + (conNeg ? ' conneg' : '') + '"><thead><tr>' + cab.map((x, k) => '<th' + (k === kT ? ' class="m"' : k === 0 ? ' class="n"' : '') + '>' + x + '</th>').join('') + '</tr></thead><tbody>' +
+      vis.map(fila).join('') + '</tbody><tfoot><tr><td colspan="' + kT + '">' + pie + '</td><td class="m">' + gbp(total) + '</td><td></td></tr></tfoot></table></div>';
+    // 5.0.0-alpha10: vista completa, con todas las columnas de la hoja de cálculo
+    if (VISTA === 'completa') {
+      const negCol = S.negocios && S.negocios().length > 1;
+      const sino = (v) => (String(v).toUpperCase() === 'SI' || String(v).toUpperCase() === 'SÍ' || v === true ? 'SÍ' : (v ? esc(v) : 'NO'));
+      const C = t === 'gasto'
+        ? [['Nº', (r) => esc(r.num || r.id), 'n'], ['Fecha', (r) => fd(r.fecha)], ['Proveedor', (r) => esc(r.prov), 'x'], ['Descripción', (r) => esc(r.desc), 'x w'],
+           ['Categoría', (r) => '<i class="' + catClase(r.cat) + '">' + esc(r.cat) + '</i>'], ['Unidad', (r) => esc(r.unidad)], ['Cant.', (r) => esc(r.cantidad), 'r'],
+           ['Precio', (r) => gbp(r.precio), 'r'], ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], ['Periodo UC', (r) => esc(r.periodo)], ['Notas', (r) => esc(r.notas), 'x mu'],
+           ['Procesado UC', (r) => sino(r.procesado), 'mu']]
+        : [['Nº', (r) => esc(r.num || r.id), 'n'], ['F. evento', (r) => fd(r.fecha)], ['F. factura', (r) => fd(r.factura)], ['Cliente', (r) => esc(r.cliente), 'x'],
+           ['Descripción', (r) => esc(r.desc), 'x w'], ['Unidad', (r) => esc(r.unidad)], ['Precio', (r) => gbp(r.precio), 'r'], ['Cant.', (r) => esc(r.cantidad), 'r'],
+           ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], ['Pago', (r) => esc(r.pago)],
+           ['Estado', (r) => '<i class="' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + (r.estado === 'PAID' ? 'Cobrado' : 'Pendiente') + '</i>'],
+           ['Periodo UC', (r) => esc(r.periodo)], ['Procesado UC', (r) => sino(r.procesado), 'mu']];
+      if (negCol) C.push(['Negocio', (r) => S.pill(r.negocio)]);
+      const kTot = C.findIndex((x) => x[0] === 'Total');
+      tabla = '<div class="tw"><table class="hoja completa"><thead><tr>' + C.map((x) => '<th class="' + (/(^| )r( |$)/.test(x[2] || '') ? 'r' : '') + '">' + x[0] + '</th>').join('') + '<th></th></tr></thead><tbody>' +
+        vis.map((r) => '<tr>' + C.map((x) => '<td class="' + (x[2] || '') + '"' + (/x/.test(x[2] || '') ? ' title="' + attr(String(x[1](r)).replace(/<[^>]+>/g, '')) + '"' : '') + '>' + x[1](r) + '</td>').join('') +
+          '<td class="b"><button class="cp" type="button" data-cp="' + r.id + '" title="Copiar al formulario" aria-label="Copiar ' + r.id + ' al formulario">' + IC_COPY + '</button></td></tr>').join('') +
+        '</tbody><tfoot><tr><td colspan="' + kTot + '">' + pie + '</td><td class="r">' + gbp(total) + '</td><td colspan="' + (C.length - kTot) + '"></td></tr></tfoot></table></div>';
+    }
+    h.box.innerHTML = '<div class="hh"><b>' + h.titulo + '</b><span class="vista"><button class="chip" type="button" data-vista="completa" aria-pressed="' + (VISTA === 'completa') + '">Vista completa</button><button class="chip" type="button" data-vista="sencilla" aria-pressed="' + (VISTA !== 'completa') + '">Sencilla</button></span><button class="btn" type="button" data-cl="1">Copiar lista</button></div>' +
       '<div class="fil">' + sel('hp-' + t, 'Periodo', h.per, pers, 'Todos los periodos') + sel('hf-' + t, h.filLabel, h.fil, fils, t === 'gasto' ? 'Todas' : 'Todos') + '</div>' +
       '<input class="buscar" type="search" id="hq-' + t + '" placeholder="🔍 Buscar" value="' + attr(h.q || '') + '">' +
       '<div class="chips"><button class="chip" type="button" data-todo="1" aria-pressed="' + h.todo + '">Mostrar todo</button><button class="chip" type="button" data-todo="0" aria-pressed="' + !h.todo + '">Solo los últimos 10</button>' +
@@ -1425,11 +1456,16 @@ function init_form(ROOT, P, S) {
     });
     h.box.addEventListener('click', (ev) => {
       const b = ev.target.closest('button'); if (!b) return;
-      if (b.dataset.todo) { h.todo = b.dataset.todo === '1'; histPintar(t); }
+      if (b.dataset.vista) { VISTA = b.dataset.vista; try { localStorage.setItem('pb_vista', VISTA); } catch (e) { } histPintar(t); }
+      else if (b.dataset.todo) { h.todo = b.dataset.todo === '1'; histPintar(t); }
       else if (b.dataset.cl) {
         const l = histFiltrado(t);
-        const cab = t === 'gasto' ? ['Fecha', 'Proveedor', 'Descripción', 'Categoría', 'Total'] : ['Nº', 'Fecha', 'Cliente', 'Descripción', 'Estado', 'Total'];
-        const filas = l.map((r) => (t === 'gasto' ? [fechaTxt(r.fecha), r.prov, r.desc, r.cat, r.total.toFixed(2)] : [r.num || r.id, fechaTxt(r.fecha), r.cliente, r.desc, r.estado, r.total.toFixed(2)]).join('\t'));
+        const nn = (id) => { const x = S.negInfo && S.negInfo(id); return x ? x.nombre : ''; };
+        const filas = l.map((r) => (t === 'gasto'
+          ? [r.num || r.id, fechaTxt(r.fecha), r.prov, r.desc, r.cat, r.unidad, r.cantidad, r.precio, r.total.toFixed(2), r.periodo, r.notas, r.procesado, nn(r.negocio)]
+          : [r.num || r.id, fechaTxt(r.fecha), fechaTxt(r.factura), r.cliente, r.desc, r.unidad, r.precio, r.cantidad, r.total.toFixed(2), r.pago, r.estado, r.periodo, r.procesado, nn(r.negocio)]).join('\t'));
+        const cab = t === 'gasto' ? ['Nº', 'Fecha', 'Proveedor', 'Descripción', 'Categoría', 'Unidad', 'Cantidad', 'Precio', 'Total', 'Periodo UC', 'Notas', 'Procesado UC', 'Negocio']
+          : ['Nº', 'Fecha evento', 'Fecha factura', 'Cliente', 'Descripción', 'Unidad', 'Precio', 'Cantidad', 'Total', 'Pago', 'Estado', 'Periodo UC', 'Procesado UC', 'Negocio'];
         copiarTexto([cab.join('\t')].concat(filas).join('\n')); msg('Lista copiada (' + l.length + '). Ya puedes pegarla donde quieras.', 'ok');
       } else if (b.dataset.cp) {
         const r = h.data.find((x) => x.id === Number(b.dataset.cp)); if (!r) return;

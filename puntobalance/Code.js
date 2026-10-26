@@ -29,10 +29,11 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  *         alpha8: varios negocios en una sola hoja (pestaña Negocios, columnas NEGOCIO y Nº FACTURA);
  *                 formularios arriba y movimientos abajo; listas de clientes, proveedores y categorías.
  *         alpha9: PuntoBalance arriba del menú; logos de negocio en color; factura de cada negocio (fecha, nota, email, teléfono).
+ *         alpha10: movimientos con todas las columnas (vista completa o sencilla).
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha9';
+const VERSION = '5.0.0-alpha10';
 const VERSION_FECHA = '26 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────
@@ -1008,14 +1009,14 @@ function getMovimientos(tipo) {
       id: Number(r['ID FACTURA']), fecha: f(r['FECHA EVENTO']), cliente: String(r['CLIENTE'] || ''), desc: String(r['DESCRIPCIÓN'] || ''),
       unidad: String(r['UNIDAD'] || ''), precio: Number(r['PRECIO']) || 0, cantidad: Number(r['CANTIDAD']) || 0,
       pago: String(r['FORMA DE PAGO'] || ''), estado: String(r['ESTADO'] || ''), periodo: String(r['PERIODO UC'] || ''), total: Number(r['SUBTOTAL']) || 0,
-      negocio: negDe_(r), num: numDe_(r)
+      negocio: negDe_(r), num: numDe_(r), factura: f(r['FECHA FACTURA']), procesado: String(r['PROCESADO UC'] || '')
     })).sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id));
   }
   return leerTabla_('Gastos').filter(r => r['ID GASTO'] !== '').map(r => ({
     id: Number(r['ID GASTO']), fecha: f(r['FECHA']), prov: String(r['PROVEEDOR'] || ''), desc: String(r['DESCRIPCIÓN'] || ''),
     cat: String(r['CATEGORÍA UC'] || ''), unidad: String(r['UNIDAD'] || ''), cantidad: Number(r['CANTIDAD']) || 0, precio: Number(r['PRECIO']) || 0,
     notas: String(r['NOTAS'] || ''), periodo: String(r['PERIODO UC'] || ''), total: Number(r['SUBTOTAL']) || 0,
-    negocio: negDe_(r), num: String(r['ID GASTO'])
+    negocio: negDe_(r), num: String(r['ID GASTO']), procesado: String(r['PROCESADO UC'] || '')
   })).sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id));
 }
 
