@@ -279,7 +279,7 @@
       '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #E3E6EF">' +
       '<tr><td style="background:#1B2B5B;padding:22px 28px"><table role="presentation" width="100%"><tr><td width="56"><img src="' + icono + '" width="46" height="46" alt="" style="display:block;border-radius:12px"></td>' +
       '<td style="color:#ffffff"><div style="font-size:20px;font-weight:800">PuntoBalance</div><div style="font-size:12px;color:#B9C6EA">Tu negocio, en orden</div></td>' +
-      '<td align="right" style="color:#ffffff;font-weight:900;font-size:18px">Odlare</td></tr></table></td></tr>' +
+      '<td align="right"><img src="https://appswelr.github.io/odlare/img/odlare-blanco.png" width="88" height="36" alt="Odlare" style="display:block;border:0;color:#ffffff;font-weight:900;font-size:18px"></td></tr></table></td></tr>' +
       '<tr><td style="padding:28px 32px 8px;color:#1F2540;font-size:15px;line-height:1.6">' +
       '<div style="font-size:22px;font-weight:800;color:#151A2D;margin-bottom:6px">¡Gracias' + (o.nombre ? ", " + esc(o.nombre.split(" ")[0]) : "") + "! 🎉</div>" +
       "Tu <b>PuntoBalance Premium</b> ya está listo. Gracias por confiar en nosotros" + (o.plan === "fundador" ? " y por ser de los primeros: tienes el <b>precio de fundador</b>" : o.plan === "regalo" ? ". Es un <b>regalo</b> de Odlare" : "") + "." +

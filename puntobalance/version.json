@@ -1,7 +1,14 @@
 {
- "ver": "5.0.0-alpha13",
+ "ver": "5.0.0-alpha14",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha14",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "El correo de la licencia ahora lleva el logo de Odlare"
+   ]
+  },
   {
    "ver": "5.0.0-alpha13",
    "fecha": "26 oct 2026",
