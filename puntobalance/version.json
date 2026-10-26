@@ -1,7 +1,18 @@
 {
- "ver": "5.0.0-alpha10",
+ "ver": "5.0.0-alpha11",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha11",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "Modo oscuro (Ajustes › Apariencia: Claro, Oscuro o Automático)",
+    "Dashboard con dos vistas: «Periodo UC» (como siempre) y «Año HMRC» con tabla mes a mes y gráfico de categorías",
+    "Movimientos: filtro Desde/Hasta, resumen (ingresos, gastos, beneficio) y botones Editar/Eliminar en cada fila",
+    "Inicio: «Hola» con días para cerrar el periodo, pendiente de cobro, última copia y fecha del HMRC",
+    "Bloqueo por inactividad (opcional) para tu privacidad"
+   ]
+  },
   {
    "ver": "5.0.0-alpha10",
    "fecha": "26 oct 2026",

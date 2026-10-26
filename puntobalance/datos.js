@@ -424,5 +424,5 @@
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boton); else boton();
   window.addEventListener("load", function () { setTimeout(automatico, 6000); });
-  window.pbDatos = { copiar: copiar, carpetas: carpetas, hojas: hojas, preparar: preparar, escribir: escribir, elegirHojaGoogle: elegirHojaGoogle };
+  window.pbDatos = { ultimaCopia: function () { return conHoja() ? info().then(function (f) { return Number((f.appProperties || {}).pb_ult || 0); }) : Promise.resolve(null); }, copiar: copiar, carpetas: carpetas, hojas: hojas, preparar: preparar, escribir: escribir, elegirHojaGoogle: elegirHojaGoogle };
 })();

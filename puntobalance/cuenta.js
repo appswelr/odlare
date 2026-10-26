@@ -69,6 +69,7 @@
   window.pbCuenta = {
     token: token,
     correo: function () { return CUENTA ? CUENTA.correo : ""; },
+    nombre: function () { return CUENTA ? (CUENTA.nombre || "") : ""; },
     api: g,
     modo: function () { return leer("pb_modo"); },
     hojaId: function () { return CUENTA ? CUENTA.hojaId : null; },
@@ -235,6 +236,32 @@
     };
     sv.appendChild(d);
   }
+
+  /* ---------- 5.0.0-alpha11: bloqueo por inactividad (pantalla de privacidad) ----------
+     Si no tocas la app durante los minutos elegidos (Ajustes, en este aparato), se tapa todo y hay que «Continuar con Google». */
+  var ULT = Date.now(), BLOQ = null;
+  function minutos() { try { return Number(localStorage.getItem("pb_bloqueo") || 0); } catch (e) { return 0; } }
+  function bloquear() {
+    if (BLOQ || leer("pb_modo") !== "hoja" || !CUENTA) return;
+    BLOQ = document.createElement("div"); BLOQ.id = "pbLock";
+    BLOQ.innerHTML = '<div class="c"><img src="iconos/icono-192.png" alt=""><h3>PuntoBalance está bloqueado</h3><p>Por tu privacidad, se tapó la app después de ' + minutos() + ' minutos sin usarla.<br><b>' + esc(CUENTA.correo) + "</b></p>" +
+      '<button type="button" class="g">' + G + 'Continuar con Google</button><div class="err" hidden></div></div>';
+    document.body.appendChild(BLOQ);
+    BLOQ.querySelector("button").onclick = function () {
+      var b = this; b.disabled = true;
+      pedirToken(false).then(function () { if (BLOQ) BLOQ.remove(); BLOQ = null; ULT = Date.now(); },
+        function (e) { b.disabled = false; var m = BLOQ.querySelector(".err"); m.hidden = false; m.textContent = e.message; });
+    };
+  }
+  ["pointerdown", "keydown", "wheel", "touchstart", "mousemove"].forEach(function (ev) { document.addEventListener(ev, function () { if (!BLOQ) ULT = Date.now(); }, { passive: true }); });
+  function revisarBloqueo() { var m = minutos(); if (m > 0 && !BLOQ && Date.now() - ULT > m * 60000) bloquear(); }
+  setInterval(revisarBloqueo, 20000);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") revisarBloqueo(); });
+  window.pbBloqueo = { minutos: minutos, poner: function (m) { try { localStorage.setItem("pb_bloqueo", String(m || 0)); } catch (e) { } ULT = Date.now(); }, disponible: function () { return leer("pb_modo") === "hoja" && !!CUENTA; } };
+  css.textContent += "#pbLock{position:fixed;inset:0;z-index:500;background:rgba(14,23,48,.96);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px}" +
+    "#pbLock .c{background:#fff;border-radius:22px;max-width:380px;width:100%;padding:28px 24px;text-align:center;color:#1F2540;box-shadow:0 20px 50px rgba(0,0,0,.4)}" +
+    "#pbLock img{width:72px;height:72px;border-radius:18px}#pbLock h3{margin:12px 0 6px;font-size:20px;color:#151A2D}#pbLock p{margin:0 0 18px;color:#5B6080;font-size:14px;line-height:1.5}" +
+    "#pbLock .g{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:1.5px solid #D5DAE6;border-radius:14px;padding:13px;font:inherit;font-weight:800;font-size:15px;background:#fff;color:#151A2D;cursor:pointer}#pbLock .err{color:#D92D20;font-size:13px;margin-top:10px}";
 
   function inicio() {
     if (window.PB_SOLO_INSTALAR) return;   // instalar.js enseña «Instala PuntoBalance»

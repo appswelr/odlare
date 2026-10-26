@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){try{var t=localStorage.getItem('pb_tema')||'claro';if(t==='auto')t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'oscuro':'claro';document.documentElement.setAttribute('data-tema',t);}catch(e){}})();</script>
 <title>PuntoBalance</title>
 <meta name="theme-color" content="#1B2B5B">
 <link rel="manifest" href="manifest.json">
@@ -160,7 +161,16 @@
   .v-inicio button:disabled { opacity: .55; cursor: progress; }
   .v-inicio .i { width: 20px; height: 20px; flex: none; }
   .v-inicio h1 { margin: 0; font-size: 26px; letter-spacing: -.02em; color: var(--ink); font-weight: 700; }
-  .v-inicio .lead { margin: 4px 0 20px; color: var(--muted); font-size: 13.5px; }
+  .v-inicio .lead { margin: 4px 0 16px; color: var(--muted); font-size: 13.5px; }
+  .v-inicio .estado { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .v-inicio .estado .card { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; cursor: default; }
+  .v-inicio .estado .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 19px; flex: none; }
+  .v-inicio .estado small { display: block; font-size: 11.5px; color: var(--muted); }
+  .v-inicio .estado b { font-size: 15.5px; color: var(--ink); }
+  .v-inicio .estado .ok { color: #12804A; } .v-inicio .estado .warn { color: #C2410C; }
+  .v-inicio h2.qq { margin-top: 4px; }
+  @media (max-width: 1100px) { .v-inicio .estado { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  html[data-tema="oscuro"] .v-inicio .estado .ic { background: #1C2A52 !important; }
   .v-inicio .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .v-inicio .h { display: flex; flex-direction: column; gap: 22px; padding: 18px 18px 16px; border-radius: 18px; min-height: 124px; justify-content: space-between; align-items: flex-start; transition: transform .12s; }
   .v-inicio .h .ib2 { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
@@ -312,12 +322,28 @@
 .v-form .hist .hoja th.n, .v-form .hist .hoja td.n { width: 84px !important; overflow: hidden; text-overflow: ellipsis; }
 .v-form .hist .hoja td .npill i { padding: 0 !important; width: 7px !important; height: 7px; border-radius: 50% !important; }
 .v-form .hist .hoja td .npill { font-size: 10.5px; padding: 1px 8px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.v-form .hist .fil { flex-wrap: wrap; align-items: flex-end; }
+.v-form .hist .fil .fd { flex: 0 0 150px; } .v-form .hist .fil .fd input { padding: 6px 10px; font-size: 12.5px; border-radius: 9px; }
+.v-form .hist .fil .limpiar { flex: none; margin-bottom: 2px; }
+.v-form .hist .sumbar { display: flex; gap: 26px; flex-wrap: wrap; align-items: center; background: #F4F6FC; border-radius: 12px; padding: 10px 14px; margin: 4px 0 10px; }
+.v-form .hist .sumbar small { display: block; font-size: 11px; color: var(--muted); } .v-form .hist .sumbar b { font-size: 16px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.v-form .hist .sumbar .g { color: #12804A; } .v-form .hist .sumbar .r { color: #D92D20; } .v-form .hist .sumbar .nt { font-size: 11.5px; color: var(--muted); margin-left: auto; }
+html[data-tema="oscuro"] .v-form .hist .sumbar { background: #18254C; } html[data-tema="oscuro"] .v-form .hist .sumbar .g { color: #4ADE80; } html[data-tema="oscuro"] .v-form .hist .sumbar .r { color: #F87171; }
+.v-form .hist .hoja .ac { width: 66px !important; padding: 3px 5px; white-space: nowrap; }
+.v-form .hist .hoja th.ac { color: #C9D0E6; }
+.v-form .hist .hoja .ac button { width: 26px; height: 24px; border-radius: 7px; border: 1px solid transparent; display: inline-grid; place-items: center; padding: 0; cursor: pointer; margin-right: 3px; }
+.v-form .hist .hoja .ac .ed { background: #E8F0FE; color: #1E60E0; border-color: #C9DAFC; } .v-form .hist .hoja .ac .del { background: #FDECEC; color: #D92D20; border-color: #F8C9C9; }
 .v-form .hist .buscar { width: 100%; margin: 4px 0 6px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 13px; }
 .v-form .hist .hoja tr.sel td { background: #FFF7E0 !important; }
 .v-form .hist .hoja tr[data-cli] { cursor: pointer; }
 .v-form .editando { background: #FEF3C7; color: #78350F; border-radius: 10px; padding: 8px 12px; font-size: 13px; margin-bottom: 10px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 .v-form .editando button { border: 0; background: none; font: inherit; font-weight: 700; color: inherit; text-decoration: underline; cursor: pointer; }
 /* Mis negocios */
+.v-form .apar { background: #F7F8FC; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-bottom: 16px; }
+.v-form .apar > b { font-size: 15px; color: var(--ink); } .v-form .apar > p { margin: 4px 0 10px; color: var(--muted); font-size: 13px; }
+.v-form .aps { display: flex; gap: 6px; flex-wrap: wrap; }
+.v-form .aps button { flex: 1; min-width: 110px; border: 1.5px solid var(--line); background: #fff; border-radius: 10px; padding: 9px; font-weight: 700; font-size: 13px; color: var(--ink); }
+.v-form .aps button[aria-pressed="true"] { border-color: #1E60E0; background: #F2F6FF; }
 .v-form .mn { background: #F7F8FC; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-bottom: 16px; }
 .v-form .mn > b { font-size: 15px; color: var(--ink); } .v-form .mn > p { margin: 4px 0 12px; color: var(--muted); font-size: 13px; }
 .v-form .mn .nr { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; margin-bottom: 8px; }
@@ -543,6 +569,38 @@
 .v-dashboard h1 { margin: 0; font-size: 22px; font-weight: 650; letter-spacing: -.01em; }
 .v-dashboard .sub { margin: 2px 0 0; color: var(--text2); font-size: 13px; }
 .v-dashboard .filtro { display: flex; align-items: center; gap: 6px; }
+.v-dashboard .modo { display: inline-flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-top: 10px; }
+.v-dashboard .modo button { border: 0; background: none; border-radius: 9px; padding: 7px 14px; font-size: 13px; font-weight: 700; color: var(--text2); cursor: pointer; }
+.v-dashboard .modo button[aria-pressed="true"] { background: #1B2B5B; color: #fff; }
+html[data-tema="oscuro"] .v-dashboard .modo button[aria-pressed="true"] { background: #4F46E5; }
+.v-dashboard .anios { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 4px; }
+.v-dashboard .anios span { font-size: 13px; color: var(--muted); margin-right: 4px; }
+.v-dashboard .anios button { border: 1px solid var(--border); background: var(--surface); border-radius: 10px; padding: 7px 14px; font-weight: 700; font-size: 13px; cursor: pointer; color: var(--text); }
+.v-dashboard .anios button[aria-pressed="true"] { background: #1B2B5B; color: #fff; border-color: #1B2B5B; }
+.v-dashboard .anios .lnk { margin-left: auto; color: #1E60E0; border-color: transparent; background: none; }
+.v-dashboard .kpi4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.v-dashboard .kpi4 .k { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid; border-radius: 12px; padding: 12px 14px; }
+.v-dashboard .kpi4 small { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.v-dashboard .kpi4 b { display: block; font-size: 22px; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+.v-dashboard .kpi4 i { font-style: normal; font-size: 12px; color: var(--muted); }
+.v-dashboard .kpi4 .g { color: #12804A; } .v-dashboard .kpi4 .r { color: #D92D20; }
+.v-dashboard .tmes { overflow-x: auto; margin-top: 10px; }
+.v-dashboard .tmes table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 760px; }
+.v-dashboard .tmes th { text-align: right; font-size: 11px; color: var(--muted); font-weight: 700; padding: 6px 6px; border-bottom: 1px solid var(--border); text-transform: uppercase; }
+.v-dashboard .tmes td { text-align: right; padding: 7px 6px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+.v-dashboard .tmes th:first-child, .v-dashboard .tmes td:first-child { text-align: left; }
+.v-dashboard .tmes td.g { color: #12804A; } .v-dashboard .tmes td.r { color: #D92D20; } .v-dashboard .tmes td.z { color: var(--muted); }
+.v-dashboard .tmes td:last-child, .v-dashboard .tmes th:last-child { font-weight: 800; background: var(--wash); }
+.v-dashboard .leyenda { font-size: 12px; color: var(--muted); text-align: center; margin-top: 8px; }
+.v-dashboard .donutw { display: flex; gap: 20px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+.v-dashboard .donut { width: 150px; height: 150px; border-radius: 50%; position: relative; flex: none; }
+.v-dashboard .donut::after { content: ""; position: absolute; inset: 34px; border-radius: 50%; background: var(--surface); }
+.v-dashboard .donut b { position: absolute; inset: 0; display: grid; place-items: center; z-index: 1; font-size: 13px; text-align: center; line-height: 1.3; }
+.v-dashboard .dleg { flex: 1; min-width: 200px; font-size: 13px; }
+.v-dashboard .dleg div { display: flex; align-items: center; gap: 8px; padding: 4px 0; } .v-dashboard .dleg i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.v-dashboard .dleg span { flex: 1; } .v-dashboard .dleg em { font-style: normal; color: var(--muted); font-size: 12px; width: 38px; text-align: right; }
+html[data-tema="oscuro"] .v-dashboard .kpi4 .g, html[data-tema="oscuro"] .v-dashboard .tmes td.g { color: #4ADE80; } html[data-tema="oscuro"] .v-dashboard .kpi4 .r, html[data-tema="oscuro"] .v-dashboard .tmes td.r { color: #F87171; }
+@media (max-width: 900px) { .v-dashboard .kpi4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .v-dashboard .filtro select { height: 42px; min-width: 230px; max-width: 62vw; padding: 0 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-weight: 600; }
 .v-dashboard .ico { width: 42px; height: 42px; display: grid; place-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; font-size: 15px; }
 .v-dashboard .ico:hover:not(:disabled) { background: var(--wash); }
@@ -652,6 +710,60 @@
 .v-dashboard .negbar button[aria-pressed="true"] { background: #1B2B5B; color: #fff; }
 .v-dashboard h1 { font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #151A2D; }
 
+/* ===== 5.0.0-alpha11 · Modo oscuro ===== */
+html[data-tema="oscuro"] { color-scheme: dark; }
+html[data-tema="oscuro"] body, html[data-tema="oscuro"] #vista { --ink:#EEF1FA; --text:#D3D9EE; --muted:#93A0C8; --line:#26365F; --bg:#0B1224; --card:#131D38; --accent:#6D7CFF; --accent-soft:#1C2A52; background: #0B1224; color: #D3D9EE; }
+html[data-tema="oscuro"] .rail { --rail:#0E1730; --rail2:#18254C; background: #0E1730; }
+html[data-tema="oscuro"] .v-inicio, html[data-tema="oscuro"] .v-panel, html[data-tema="oscuro"] .v-form, html[data-tema="oscuro"] .v-impuestos, html[data-tema="oscuro"] .v-acerca, html[data-tema="oscuro"] .v-datos {
+  --ink:#EEF1FA; --text:#D3D9EE; --muted:#93A0C8; --line:#26365F; --bg:#0B1224; --card:#131D38; --accent:#7C8BFF; --accent-soft:#1C2A52; background: #0B1224; color: #D3D9EE; }
+html[data-tema="oscuro"] .v-dashboard { --page:#0B1224; --surface:#131D38; --text:#EEF1FA; --text2:#B8C1E0; --muted:#8E9BC4; --grid:#26365F; --base:#3A4A78; --border:rgba(255,255,255,.10); --wash:rgba(255,255,255,.06); --good:#4ADE80; }
+html[data-tema="oscuro"] .v-dashboard .c-cero { background: #131D38 !important; color: #EEF1FA; }
+html[data-tema="oscuro"] .mtop, html[data-tema="oscuro"] .tb { background: #0E1730; border-color: #26365F; color: #D3D9EE; }
+html[data-tema="oscuro"] .mtop b { color: #fff; } html[data-tema="oscuro"] .mtop .mb { background: #18254C; border-color: #26365F; color: #fff; }
+html[data-tema="oscuro"] .v-acerca .rond, html[data-tema="oscuro"] .v-acerca .ac-upd, html[data-tema="oscuro"] .v-acerca .ac-nov, html[data-tema="oscuro"] .v-acerca .bt2 button:not(.amb), html[data-tema="oscuro"] .v-acerca .ac-esc { background: #131D38; color: #EEF1FA; border-color: #33467A; }
+html[data-tema="oscuro"] .v-inicio .h.s, html[data-tema="oscuro"] .v-inicio .row, html[data-tema="oscuro"] .v-inicio .card { background: #131D38; border-color: #26365F; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-inicio .ib, html[data-tema="oscuro"] .v-inicio .h.s .ib2 { background: #1C2A52; color: #A5B0FF; }
+html[data-tema="oscuro"] .v-panel .tile.t-cero, html[data-tema="oscuro"] .v-panel #nota-box, html[data-tema="oscuro"] .v-panel .card, html[data-tema="oscuro"] .v-panel table { background: #131D38; color: #D3D9EE; }
+html[data-tema="oscuro"] .v-form section, html[data-tema="oscuro"] .v-form .hist, html[data-tema="oscuro"] .v-form section.dual .fcol, html[data-tema="oscuro"] .v-form section.lista > .fcol { background: #131D38; border-color: #26365F; }
+html[data-tema="oscuro"] .v-form section.dual, html[data-tema="oscuro"] .v-form section.lista { background: none; }
+html[data-tema="oscuro"] .v-form input, html[data-tema="oscuro"] .v-form select, html[data-tema="oscuro"] .v-form textarea, html[data-tema="oscuro"] .v-form .mn .ed textarea { background: #0F1830; border-color: #2C3D6B; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-form input:focus, html[data-tema="oscuro"] .v-form select:focus, html[data-tema="oscuro"] .v-form textarea:focus { background: #0F1830; }
+html[data-tema="oscuro"] .v-form .foot { background: #0B1224; border-color: #26365F; }
+html[data-tema="oscuro"] .v-form .btn:not(.primary):not(.danger) { background: #18254C; border-color: #33467A; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-form .hist .hoja td { color: #D3D9EE; border-color: #22305A; background: #131D38; }
+html[data-tema="oscuro"] .v-form .hist .hoja tbody tr:nth-child(even) td { background: #172347; }
+html[data-tema="oscuro"] .v-form .hist .hoja tbody tr:hover td { background: #1E2C58; }
+html[data-tema="oscuro"] .v-form .hist .hoja tfoot td { background: #18254C; color: #fff; }
+html[data-tema="oscuro"] .v-form .hist .tw { border-color: #26365F; }
+html[data-tema="oscuro"] .v-form .hist .hoja.completa .t { background: #1A2650; }
+html[data-tema="oscuro"] .v-form .hist .chip { background: #18254C; color: #B8C1E0; } html[data-tema="oscuro"] .v-form .hist .chip[aria-pressed="true"] { background: #4F46E5; color: #fff; }
+html[data-tema="oscuro"] .v-form .hist .buscar { background: #0F1830; border-color: #2C3D6B; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-form .negch button, html[data-tema="oscuro"] .v-form .mn .ed .tipos button, html[data-tema="oscuro"] .v-form .mn .ed .fechas button, html[data-tema="oscuro"] .v-form .aps button { background: #0F1830; border-color: #2C3D6B; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-form .negch button[aria-pressed="true"], html[data-tema="oscuro"] .v-form .mn .ed .tipos button[aria-pressed="true"], html[data-tema="oscuro"] .v-form .mn .ed .fechas button[aria-pressed="true"], html[data-tema="oscuro"] .v-form .aps button[aria-pressed="true"] { background: #1C2A52; border-color: #6D7CFF; }
+html[data-tema="oscuro"] .v-form .mn, html[data-tema="oscuro"] .v-form .apar { background: #101A33; border-color: #26365F; }
+html[data-tema="oscuro"] .v-form .mn .nr, html[data-tema="oscuro"] .v-form .mn .ed { background: #131D38; border-color: #2C3D6B; }
+html[data-tema="oscuro"] .v-form #edit-banner, html[data-tema="oscuro"] .v-form .editando { background: #3B2F0B; color: #FDE68A; }
+html[data-tema="oscuro"] .v-impuestos .card, html[data-tema="oscuro"] .v-impuestos .t4, html[data-tema="oscuro"] .v-impuestos .btn, html[data-tema="oscuro"] .v-impuestos .sub select, html[data-tema="oscuro"] .v-impuestos .sueldo input { background: #131D38; border-color: #2C3D6B; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-impuestos .nota { background: #18254C; }
+html[data-tema="oscuro"] .v-datos .card, html[data-tema="oscuro"] .v-datos .demo { background: #131D38; border-color: #26365F; }
+html[data-tema="oscuro"] .v-datos .hoja { background: #18254C; } html[data-tema="oscuro"] .v-datos .e { background: #1C2A52; }
+html[data-tema="oscuro"] .v-datos .go:not(.p) { background: #131D38; color: #EEF1FA; border-color: #6D7CFF; }
+html[data-tema="oscuro"] .v-datos .nota { background: #14254D; border-color: #26407A; color: #D3D9EE; }
+html[data-tema="oscuro"] #pbDlg .c, html[data-tema="oscuro"] #pbHojas .m { background: #131D38; color: #D3D9EE; }
+html[data-tema="oscuro"] #pbDlg h3, html[data-tema="oscuro"] #pbHojas h3, html[data-tema="oscuro"] #pbHojas b { color: #fff; }
+html[data-tema="oscuro"] #pbDlg .b button:not(.si), html[data-tema="oscuro"] #pbHojas .b button:not(.si), html[data-tema="oscuro"] #pbHojas label { background: #0F1830; border-color: #2C3D6B; color: #EEF1FA; }
+html[data-tema="oscuro"] .npill { filter: brightness(1.25); }
+html[data-tema="oscuro"] .v-panel td, html[data-tema="oscuro"] .v-panel th, html[data-tema="oscuro"] .v-panel .scroll, html[data-tema="oscuro"] .v-panel tr { background: #131D38; color: #D3D9EE; border-color: #22305A; }
+html[data-tema="oscuro"] .v-panel th { background: #18254C; color: #93A0C8; }
+html[data-tema="oscuro"] .v-panel nav { background: #18254C; } html[data-tema="oscuro"] .v-panel nav button[aria-selected="true"] { background: #2A3B6E; color: #fff; }
+html[data-tema="oscuro"] .v-panel .pfil select, html[data-tema="oscuro"] .v-panel .btn:not(.primary) { background: #131D38; border-color: #2C3D6B; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-panel .tile.t-cero .k, html[data-tema="oscuro"] .v-panel .tile.t-cero .s { color: #B8C1E0; } html[data-tema="oscuro"] .v-panel .tile.t-cero .v { color: #fff !important; }
+html[data-tema="oscuro"] .v-panel .bar { background: #22305A; }
+html[data-tema="oscuro"] .v-panel #nota-box textarea { background: #0F1830; color: #EEF1FA; border-color: #2C3D6B; }
+html[data-tema="oscuro"] .v-dashboard h1, html[data-tema="oscuro"] .v-dashboard h2 { color: #EEF1FA; }
+html[data-tema="oscuro"] .v-dashboard .filtro select, html[data-tema="oscuro"] .v-dashboard .ico, html[data-tema="oscuro"] .v-dashboard .tbtn { background: #131D38; color: #EEF1FA; border-color: rgba(255,255,255,.14); }
+html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
+
 </style>
 </head>
 <body>
@@ -704,8 +816,15 @@
 
 <template id="tpl-inicio">
 <div class="v-inicio">
-  <h1>¿Qué quieres hacer?</h1>
-  <p class="lead">Todo lo que guardes aquí se escribe en tu hoja de cálculo.</p>
+  <h1 id="ini-hola">Hola 👋</h1>
+  <p class="lead" id="ini-fecha"></p>
+  <div class="estado" id="ini-est">
+    <div class="card"><span class="ic" style="background:#E0E7FF">📅</span><div><small>Faltan para cerrar el periodo</small><b id="e-dias">…</b></div></div>
+    <div class="card"><span class="ic" style="background:#FFEDD5">⏳</span><div><small>Pendiente de cobro</small><b id="e-pend">…</b></div></div>
+    <div class="card" id="e-copia-c"><span class="ic" style="background:#DCFCE7">☁️</span><div><small>Última copia de seguridad</small><b id="e-copia">…</b></div></div>
+    <div class="card"><span class="ic" style="background:#FEF3C7">🏛️</span><div><small id="e-hmrc-l">Próxima fecha HMRC</small><b id="e-hmrc">…</b></div></div>
+  </div>
+  <h2 class="qq">¿Qué quieres hacer?</h2>
   <div class="hero">
     <button class="h p" type="button" data-go="dashboard"><span class="ib2"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span><b>Dashboard</b><small>Gráficos y resumen por periodo</small></span></button>
     <button class="h s" type="button" data-go="panel"><span class="ib2"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span><b>Facturas y PDF</b><small>Crear, enviar y marcar pagadas</small></span></button>
@@ -871,6 +990,14 @@
   <!-- AJUSTES -->
   <section id="t-ajustes">
     <h2>Ajustes de la factura y del resumen</h2>
+    <div class="apar" id="apar">
+      <b>Apariencia y seguridad</b><p>Se guarda en este aparato.</p>
+      <div class="grid">
+        <div class="full"><label>Tema</label><div class="aps" id="ap-tema"><button type="button" data-tema="claro">☀️ Claro</button><button type="button" data-tema="oscuro">🌙 Oscuro</button><button type="button" data-tema="auto">🖥️ Automático</button></div></div>
+        <div class="full" id="ap-bloq-w"><label>Bloquear la app si no la uso</label><div class="aps" id="ap-bloq"><button type="button" data-min="0">Nunca</button><button type="button" data-min="15">15 min</button><button type="button" data-min="30">30 min</button><button type="button" data-min="60">60 min</button></div>
+          <div class="hint">Tapa tus números si te alejas de la computadora. Para volver, «Continuar con Google».</div></div>
+      </div>
+    </div>
     <div class="mn" id="mn">
       <b>Mis negocios</b>
       <p>Cada negocio con su nombre, su tipo, su logo y su numeración de facturas. Todos se guardan en la misma hoja.</p>
@@ -901,7 +1028,8 @@
   <header>
     <div>
       <h1>Dashboard</h1>
-      <p class="sub">Ingresos y gastos por periodo de Universal Credit</p>
+      <p class="sub" id="d-sub">Ingresos y gastos por periodo de Universal Credit</p>
+      <div class="modo" role="group" aria-label="Vista"><button type="button" data-modo="uc">📅 Periodo UC</button><button type="button" data-modo="hmrc">🏛️ Año HMRC</button></div>
     </div>
     <div class="filtro" role="group" aria-label="Periodo">
       <button class="ico" id="prev" aria-label="Periodo anterior">&#9664;</button>
@@ -917,7 +1045,7 @@
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha10',fecha:'26 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha11',fecha:'26 oct 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -928,6 +1056,33 @@ function init_inicio(ROOT, P, S) {
   let REC = false;
   function pintarRec() { const b = $('b-rec'); if (!b) return; b.classList.toggle('on', REC); $('d-rec').textContent = REC ? 'Activado: el día 7 recibes el resumen por email.' : 'Desactivado.'; }
 
+  /* 5.0.0-alpha11: saludo y tarjetas de estado */
+  const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'], MESL = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const gbpI = (n) => '£' + (Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  (function () { const h = new Date(); $('ini-fecha').textContent = DIAS[h.getDay()].replace(/^./, (x) => x.toUpperCase()) + ' ' + h.getDate() + ' de ' + MESL[h.getMonth()] + ' de ' + h.getFullYear(); })();
+  S.hub((d) => {
+    if (!d || !$('ini-hola')) return;
+    const nom = String((window.pbCuenta && window.pbCuenta.nombre && window.pbCuenta.nombre()) || d.nombre || '').trim().split(/\s+/)[0];
+    $('ini-hola').textContent = 'Hola' + (nom ? ', ' + nom : '') + ' 👋';
+    if (d.periodo) $('ini-fecha').textContent += ' · periodo ' + d.periodo;
+    if (d.periodoFin) {
+      const f = new Date(d.periodoFin + 'T23:59:59'), dias = Math.max(0, Math.ceil((f - new Date()) / 864e5));
+      $('e-dias').textContent = dias === 0 ? 'hoy se cierra' : dias + (dias === 1 ? ' día' : ' días'); $('e-dias').className = dias <= 3 ? 'warn' : '';
+    } else $('e-dias').textContent = '—';
+    const pe = d.pendiente || { total: 0, n: 0 };
+    $('e-pend').textContent = pe.total ? gbpI(pe.total) + ' · ' + pe.n + (pe.n === 1 ? ' factura' : ' facturas') : 'nada pendiente'; $('e-pend').className = pe.total ? 'warn' : 'ok';
+    if (d.hmrc) { $('e-hmrc').textContent = d.hmrc.fecha; $('e-hmrc-l').textContent = 'Declaración ' + d.hmrc.anio + ' (HMRC)'; }
+  });
+  if (window.pbDatos && window.pbDatos.ultimaCopia) {
+    window.pbDatos.ultimaCopia().then((ms) => {
+      if (ms === null) { $('e-copia').textContent = 'modo de ejemplo'; return; }
+      if (!ms) { $('e-copia').textContent = 'nunca · haz una'; $('e-copia').className = 'warn'; return; }
+      const dd = new Date(ms), hoy = new Date(), hh = String(dd.getHours()).padStart(2, '0') + ':' + String(dd.getMinutes()).padStart(2, '0');
+      const dias = Math.floor((new Date(hoy.toDateString()) - new Date(dd.toDateString())) / 864e5);
+      $('e-copia').textContent = dias <= 0 ? 'hoy, ' + hh : dias === 1 ? 'ayer, ' + hh : 'hace ' + dias + ' días'; $('e-copia').className = dias > 7 ? 'warn' : 'ok';
+    }).catch(() => { $('e-copia').textContent = '—'; });
+    $('e-copia-c').style.cursor = 'pointer'; $('e-copia-c').onclick = () => S.ir('datos');
+  } else $('e-copia-c').classList.add('hidden');
   S.hub((d) => {
     const n = $('n-rev'); if (!n) return;
     if (!d) { n.textContent = '—'; return; }
@@ -1258,14 +1413,14 @@ function init_form(ROOT, P, S) {
         periodos: r && r.anadidos + ' periodos añadidos, hasta ' + r.ultimo,
         ajustes: 'Ajustes guardados (' + r + (r === 1 ? ' cambio)' : ' cambios)')
       };
-      const editado = !!EDIT;
+      const editado = !!EDIT, volverA = (EDIT && EDIT.desde) || 'registros';
       if (editado) { textos[tab] = (tab === 'ingreso' ? 'Factura ' + (r.num || r.id) : 'Gasto nº ' + r.id) + ' actualizado · ' + gbp(r.subtotal) + ' · ' + r.periodo; cancelarEdicion(true); REG = []; }
       limpiar(tab);
       if (tab === 'ajustes') AJ = null;
       if (tab === 'cliente' || tab === 'proveedor' || tab === 'categoria') { LISTAS = null; listaCargar(tab); }
       cargar(() => { if (tab === 'cliente') $('i-cliente').value = r.nombre; if (tab === 'categoria') $('g-cat').value = r.nombre; });
       msg(textos[tab], 'ok');
-      if (editado) { mostrar('registros'); msg(textos[tab], 'ok'); }
+      if (editado) { mostrar(volverA); msg(textos[tab], 'ok'); }
     };
     const fail = (e) => { btn.disabled = false; btn.textContent = texto; msg(e.message.replace(/^Exception: /, ''), 'err'); };
     const run = google.script.run.withSuccessHandler(ok).withFailureHandler(fail);
@@ -1284,10 +1439,10 @@ function init_form(ROOT, P, S) {
 
   /* ---------- Editar / borrar ---------- */
   function cancelarEdicion(silencio) {
-    const tab = EDIT && EDIT.tipo; EDIT = null;
+    const tab = EDIT && EDIT.tipo, volverA = (EDIT && EDIT.desde) || 'registros'; EDIT = null;
     $('edit-banner').classList.add('hidden');
     if (tab) limpiar(tab);
-    if (!silencio) mostrar('registros');
+    if (!silencio) mostrar(volverA);
     else if (tab) $('guardar').textContent = tab === 'ingreso' ? 'Guardar ingreso' : 'Guardar gasto';
   }
   $('edit-cancel').onclick = () => cancelarEdicion(false);
@@ -1327,9 +1482,11 @@ function init_form(ROOT, P, S) {
   });
 
   function editar(id) {
+    const desde = TAB;
     msg('Cargando…');
     google.script.run.withSuccessHandler((r) => {
-      const tipo = REGTIPO; EDIT = { tipo: tipo, id: id, num: r.num };
+      const tipo = REGTIPO; EDIT = { tipo: tipo, id: id, num: r.num, desde: desde === 'registros' ? 'registros' : tipo };
+      const sc = ROOT.querySelector('.scroll'); if (sc) sc.scrollTop = 0;
       if (r.negocio) NF[tipo] = r.negocio;
       mostrar(tipo);
       if (tipo === 'ingreso') {
@@ -1366,8 +1523,21 @@ function init_form(ROOT, P, S) {
   function histFiltrado(t) {
     const h = H[t];
     const ng = S.negocio ? S.negocio() : '';
-    return (h.data || []).filter((r) => (!ng || r.negocio === ng) && (!h.per || r.periodo === h.per) && (!h.fil || r[h.filKey] === h.fil) && (!h.q || [r.num, r.fecha, r.cliente, r.prov, r.desc, r.cat].join(' ').toLowerCase().indexOf(h.q) >= 0));
+    return (h.data || []).filter((r) => (!ng || r.negocio === ng) && (!h.per || r.periodo === h.per) && (!h.fil || r[h.filKey] === h.fil) && (!h.q || [r.num, r.fecha, r.cliente, r.prov, r.desc, r.cat].join(' ').toLowerCase().indexOf(h.q) >= 0)
+      && (!h.desde || r.fecha >= h.desde) && (!h.hasta || r.fecha <= h.hasta));
   }
+  /* 5.0.0-alpha11: el otro tipo (ingresos ↔ gastos) con el mismo periodo, fechas y negocio, para el resumen */
+  function histOtro(t) {
+    const h = H[t], o = H[t === 'gasto' ? 'ingreso' : 'gasto'], ng = S.negocio ? S.negocio() : '';
+    if (!o.data) {
+      if (!o.pidiendo) { o.pidiendo = true; google.script.run.withSuccessHandler((l) => { o.data = l; o.pidiendo = false; if (TAB === t) histPintar(t); }).withFailureHandler(() => { o.pidiendo = false; }).getMovimientos(t === 'gasto' ? 'ingreso' : 'gasto'); }
+      return null;
+    }
+    return o.data.filter((r) => (!ng || r.negocio === ng) && (!h.per || r.periodo === h.per) && (!h.desde || r.fecha >= h.desde) && (!h.hasta || r.fecha <= h.hasta));
+  }
+  const IC_ED = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>';
+  const IC_DEL = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
+  const accs = (r, t) => '<td class="ac"><button class="ed" type="button" data-hed="' + r.id + '" title="Editar" aria-label="Editar ' + attr(r.num || r.id) + '">' + IC_ED + '</button><button class="del" type="button" data-hdel="' + r.id + '" title="Eliminar" aria-label="Eliminar ' + attr(r.num || r.id) + '">' + IC_DEL + '</button></td>';
   function histPintar(t) {
     const h = H[t];
     if (!h.data) { h.box.innerHTML = '<div class="hh"><b>' + h.titulo + '</b></div><div class="vacio">Cargando…</div>'; return; }
@@ -1377,6 +1547,13 @@ function init_form(ROOT, P, S) {
       items.map((x) => '<option' + (x === val ? ' selected' : '') + '>' + esc(x) + '</option>').join('') + '</select></div>';
     const lista = histFiltrado(t);
     const total = lista.reduce((a, r) => a + r.total, 0);
+    // 5.0.0-alpha11: franja de resumen (registros, ingresos, gastos y beneficio con los mismos filtros)
+    const otro = histOtro(t), totO = otro ? otro.reduce((a, r) => a + r.total, 0) : null;
+    const tI = t === 'ingreso' ? total : totO, tG = t === 'gasto' ? total : totO, ben = tI === null || tG === null ? null : tI - tG;
+    const sumbar = '<div class="sumbar"><div><small>Registros</small><b>' + (lista.length + (otro ? otro.length : 0)) + '</b></div>' +
+      '<div><small>Ingresos</small><b class="g">' + (tI === null ? '…' : gbp(tI)) + '</b></div><div><small>Gastos</small><b class="r">' + (tG === null ? '…' : gbp(tG)) + '</b></div>' +
+      '<div><small>Beneficio</small><b class="' + (ben === null ? '' : ben < 0 ? 'r' : 'g') + '">' + (ben === null ? '…' : (ben < 0 ? '-' : '') + gbp(Math.abs(ben))) + '</b></div>' +
+      (h.fil ? '<div class="nt">' + (t === 'gasto' ? 'Gastos' : 'Ingresos') + ' solo de «' + esc(h.fil) + '»</div>' : '') + '</div>';
     const vis = h.todo ? lista : lista.slice(0, 10);
     let rep = '';
     if (h.fil && !h.per && lista.length) {
@@ -1389,7 +1566,7 @@ function init_form(ROOT, P, S) {
     const fd = (iso) => { const x = fechaTxt(iso); return x.slice(0, 6) + x.slice(8); };   // dd/mm/aa
     const conNeg = !(S.negocio && S.negocio()) && S.negocios && S.negocios().length > 1;
     const cab = (t === 'gasto' ? ['Nº', 'Fecha', 'Proveedor', 'Descripción', 'Categoría'] : ['Nº', 'Fecha', 'Cliente', 'Descripción', 'Estado']).concat(conNeg ? ['Negocio'] : [], ['Total', '']);
-    const fila = (r) => '<tr>' +
+    const fila = (r) => '<tr>' + accs(r, t) +
       '<td class="n" title="' + attr(r.num || r.id) + '">' + esc(r.num || r.id) + '</td><td class="d">' + fd(r.fecha) + '</td>' +
       (t === 'gasto'
         ? '<td class="x" title="' + attr(r.prov) + '">' + esc(r.prov) + '</td><td class="x" title="' + attr(r.desc) + '">' + esc(r.desc) + '</td><td><i class="' + catClase(r.cat) + '">' + esc(r.cat) + '</i></td>'
@@ -1398,8 +1575,8 @@ function init_form(ROOT, P, S) {
       '<td class="m">' + gbp(r.total) + '</td><td class="b"><button class="cp" type="button" data-cp="' + r.id + '" title="Copiar al formulario" aria-label="Copiar ' + (t === 'gasto' ? 'gasto' : 'factura') + ' ' + r.id + ' al formulario">' + IC_COPY + '</button></td></tr>';
     const kT = cab.length - 2;
     const pie = (h.todo || lista.length <= 10 ? 'Total (' + lista.length + ')' : 'Total de los ' + lista.length + ' (se ven 10)');
-    let tabla = '<div class="tw"><table class="hoja' + (conNeg ? ' conneg' : '') + '"><thead><tr>' + cab.map((x, k) => '<th' + (k === kT ? ' class="m"' : k === 0 ? ' class="n"' : '') + '>' + x + '</th>').join('') + '</tr></thead><tbody>' +
-      vis.map(fila).join('') + '</tbody><tfoot><tr><td colspan="' + kT + '">' + pie + '</td><td class="m">' + gbp(total) + '</td><td></td></tr></tfoot></table></div>';
+    let tabla = '<div class="tw"><table class="hoja' + (conNeg ? ' conneg' : '') + ' conac"><thead><tr><th class="ac">Acciones</th>' + cab.map((x, k) => '<th' + (k === kT ? ' class="m"' : k === 0 ? ' class="n"' : '') + '>' + x + '</th>').join('') + '</tr></thead><tbody>' +
+      vis.map(fila).join('') + '</tbody><tfoot><tr><td colspan="' + (kT + 1) + '">' + pie + '</td><td class="m">' + gbp(total) + '</td><td></td></tr></tfoot></table></div>';
     // 5.0.0-alpha10: vista completa, con todas las columnas de la hoja de cálculo
     if (VISTA === 'completa') {
       const negCol = S.negocios && S.negocios().length > 1;
@@ -1416,13 +1593,16 @@ function init_form(ROOT, P, S) {
            ['Periodo UC', (r) => esc(r.periodo)], ['Procesado UC', (r) => sino(r.procesado), 'mu']];
       if (negCol) C.push(['Negocio', (r) => S.pill(r.negocio)]);
       const kTot = C.findIndex((x) => x[0] === 'Total');
-      tabla = '<div class="tw"><table class="hoja completa"><thead><tr>' + C.map((x) => '<th class="' + (/(^| )r( |$)/.test(x[2] || '') ? 'r' : '') + '">' + x[0] + '</th>').join('') + '<th></th></tr></thead><tbody>' +
-        vis.map((r) => '<tr>' + C.map((x) => '<td class="' + (x[2] || '') + '"' + (/x/.test(x[2] || '') ? ' title="' + attr(String(x[1](r)).replace(/<[^>]+>/g, '')) + '"' : '') + '>' + x[1](r) + '</td>').join('') +
+      tabla = '<div class="tw"><table class="hoja completa"><thead><tr><th class="ac">Acciones</th>' + C.map((x) => '<th class="' + (/(^| )r( |$)/.test(x[2] || '') ? 'r' : '') + '">' + x[0] + '</th>').join('') + '<th></th></tr></thead><tbody>' +
+        vis.map((r) => '<tr>' + accs(r, t) + C.map((x) => '<td class="' + (x[2] || '') + '"' + (/x/.test(x[2] || '') ? ' title="' + attr(String(x[1](r)).replace(/<[^>]+>/g, '')) + '"' : '') + '>' + x[1](r) + '</td>').join('') +
           '<td class="b"><button class="cp" type="button" data-cp="' + r.id + '" title="Copiar al formulario" aria-label="Copiar ' + r.id + ' al formulario">' + IC_COPY + '</button></td></tr>').join('') +
-        '</tbody><tfoot><tr><td colspan="' + kTot + '">' + pie + '</td><td class="r">' + gbp(total) + '</td><td colspan="' + (C.length - kTot) + '"></td></tr></tfoot></table></div>';
+        '</tbody><tfoot><tr><td colspan="' + (kTot + 1) + '">' + pie + '</td><td class="r">' + gbp(total) + '</td><td colspan="' + (C.length - kTot) + '"></td></tr></tfoot></table></div>';
     }
     h.box.innerHTML = '<div class="hh"><b>' + h.titulo + '</b><span class="vista"><button class="chip" type="button" data-vista="completa" aria-pressed="' + (VISTA === 'completa') + '">Vista completa</button><button class="chip" type="button" data-vista="sencilla" aria-pressed="' + (VISTA !== 'completa') + '">Sencilla</button></span><button class="btn" type="button" data-cl="1">Copiar lista</button></div>' +
-      '<div class="fil">' + sel('hp-' + t, 'Periodo', h.per, pers, 'Todos los periodos') + sel('hf-' + t, h.filLabel, h.fil, fils, t === 'gasto' ? 'Todas' : 'Todos') + '</div>' +
+      '<div class="fil">' + sel('hp-' + t, 'Periodo', h.per, pers, 'Todos los periodos') + sel('hf-' + t, h.filLabel, h.fil, fils, t === 'gasto' ? 'Todas' : 'Todos') +
+        '<div class="fd"><label for="hd-' + t + '">Desde</label><input type="date" id="hd-' + t + '" value="' + attr(h.desde || '') + '"></div>' +
+        '<div class="fd"><label for="hh-' + t + '">Hasta</label><input type="date" id="hh-' + t + '" value="' + attr(h.hasta || '') + '"></div>' +
+        (h.desde || h.hasta || h.per || h.fil || h.q ? '<button class="chip limpiar" type="button" data-limpiar="1">✕ Quitar filtros</button>' : '') + '</div>' + sumbar +
       '<input class="buscar" type="search" id="hq-' + t + '" placeholder="🔍 Buscar" value="' + attr(h.q || '') + '">' +
       '<div class="chips"><button class="chip" type="button" data-todo="1" aria-pressed="' + h.todo + '">Mostrar todo</button><button class="chip" type="button" data-todo="0" aria-pressed="' + !h.todo + '">Solo los últimos 10</button>' +
       '<span class="sum">' + lista.length + ' ' + h.unit + ' · <b>' + gbp(total) + '</b></span></div>' + rep +
@@ -1451,6 +1631,8 @@ function init_form(ROOT, P, S) {
     h.box.addEventListener('change', (ev) => {
       if (ev.target.id === 'hp-' + t) h.per = ev.target.value;
       else if (ev.target.id === 'hf-' + t) h.fil = ev.target.value;
+      else if (ev.target.id === 'hd-' + t) h.desde = ev.target.value;
+      else if (ev.target.id === 'hh-' + t) h.hasta = ev.target.value;
       else return;
       histPintar(t);
     });
@@ -1458,6 +1640,18 @@ function init_form(ROOT, P, S) {
       const b = ev.target.closest('button'); if (!b) return;
       if (b.dataset.vista) { VISTA = b.dataset.vista; try { localStorage.setItem('pb_vista', VISTA); } catch (e) { } histPintar(t); }
       else if (b.dataset.todo) { h.todo = b.dataset.todo === '1'; histPintar(t); }
+      else if (b.dataset.limpiar) { h.per = ''; h.fil = ''; h.q = ''; h.desde = ''; h.hasta = ''; histPintar(t); }
+      else if (b.dataset.hed) { REGTIPO = t; editar(Number(b.dataset.hed)); }
+      else if (b.dataset.hdel) {
+        const id = Number(b.dataset.hdel), r = (h.data || []).find((x) => x.id === id) || {};
+        const pregunta = window.pbDialogo ? window.pbDialogo({ icono: '🗑️', titulo: '¿Eliminar ' + (t === 'gasto' ? 'el gasto nº ' : 'la factura ') + (r.num || id) + '?', texto: esc((r.cliente || r.prov || '') + ' · ' + (r.desc || '') + ' · ' + gbp(r.total)) + '<br>Esto no se puede deshacer (salvo volviendo a una copia en «Tus datos»).', si: 'Eliminar', peligro: true })
+          : Promise.resolve(confirm('¿Eliminar ' + (r.num || id) + '?'));
+        pregunta.then((si) => {
+          if (!si) return;
+          google.script.run.withSuccessHandler(() => { msg((t === 'gasto' ? 'Gasto nº ' : 'Factura ') + (r.num || id) + ' eliminado.', 'ok'); h.data = null; histCargar(t, true); cargar(); })
+            .withFailureHandler((e) => msg(e.message.replace(/^Exception: /, ''), 'err')).eliminarRegistro(t, id);
+        });
+      }
       else if (b.dataset.cl) {
         const l = histFiltrado(t);
         const nn = (id) => { const x = S.negInfo && S.negInfo(id); return x ? x.nombre : ''; };
@@ -1575,6 +1769,18 @@ function init_form(ROOT, P, S) {
     if (LISTAS) listaPintar('cliente');
   }
   $('c-cancel').onclick = () => { ['c-nombre', 'c-dir', 'c-ciudad', 'c-post', 'c-tel', 'c-email'].forEach((id) => ($(id).value = '')); finEditarCliente(); };
+
+  /* ---------- 5.0.0-alpha11: Apariencia y seguridad ---------- */
+  function pintarApar() {
+    let t = 'claro'; try { t = localStorage.getItem('pb_tema') || 'claro'; } catch (e) { }
+    $('ap-tema').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tema === t)));
+    const disp = window.pbBloqueo && window.pbBloqueo.disponible();
+    $('ap-bloq-w').classList.toggle('hidden', !disp);
+    if (disp) { const m = String(window.pbBloqueo.minutos()); $('ap-bloq').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.min === m))); }
+  }
+  $('ap-tema').addEventListener('click', (e) => { const b = e.target.closest('button[data-tema]'); if (!b) return; S.tema(b.dataset.tema); pintarApar(); });
+  $('ap-bloq').addEventListener('click', (e) => { const b = e.target.closest('button[data-min]'); if (!b || !window.pbBloqueo) return; window.pbBloqueo.poner(Number(b.dataset.min)); pintarApar(); });
+  pintarApar();
 
   /* ---------- 5.0.0-alpha8: Ajustes › Mis negocios (nombre, tipo, prefijo, nombre en factura y logo de cada uno) ---------- */
   const mnm = (t, tipo) => { const m = $('mn-msg'); m.textContent = t || ''; m.style.color = tipo === 'err' ? 'var(--bad)' : (tipo === 'ok' ? '#067647' : ''); };
@@ -1863,6 +2069,8 @@ function movimientos(r) {
 
 /* ───────────── Interfaz ───────────── */
 let D = null, SEL = null, VIS = [], MOV = 'todo', MAS = 15, TABLA = false;
+let MODO = 'uc', ANIO = null, IMP = {};
+try { MODO = localStorage.getItem('pb_dash') === 'hmrc' ? 'hmrc' : 'uc'; } catch (e) { }
 const $ = (id) => document.getElementById(id);
 
 function cargar(primera) {
@@ -1901,7 +2109,63 @@ function deltaHtml(act, prev, buenoSiSube, etq) {
   return '<div class="delta ' + cls + '">' + (sube ? '▲ ' : '▼ ') + fmt(Math.abs(dif)) + ' vs ' + esc(etq) + '</div>';
 }
 
+/* ===== 5.0.0-alpha11: Año HMRC (6 abr – 5 abr) ===== */
+const anioDe = (iso) => { const y = Number(String(iso).slice(0, 4)); return String(iso).slice(5) >= '04-06' ? y : y - 1; };
+const etqAnio = (y) => y + '-' + String(y + 1).slice(2);
+function itemsAnio(y) { const a = y + '-04-06', b = (y + 1) + '-04-05'; return D.periodos.filter((p) => p.ini >= a && p.ini <= b); }
+const PAL = ['#1E60E0', '#F4A62A', '#16A34A', '#DC5A56', '#9333EA', '#0EA5E9', '#BE185D', '#0F766E', '#64748B'];
+function pintarModo() {
+  ROOT.querySelectorAll('.modo button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.modo === MODO)));
+  ROOT.querySelector('.filtro').style.visibility = MODO === 'hmrc' ? 'hidden' : '';
+  $('d-sub').textContent = MODO === 'hmrc' ? 'Tu año fiscal del HMRC (6 de abril – 5 de abril), mes a mes' : 'Ingresos y gastos por periodo de Universal Credit';
+}
+function pintarHMRC() {
+  const anios = {}; anios[anioDe(D.hoy)] = 1;
+  D.ingresos.concat(D.gastos).forEach((x) => { if (x.fecha) anios[anioDe(x.fecha)] = 1; });
+  const lista = Object.keys(anios).map(Number).sort((a, b) => a - b);
+  if (ANIO === null || lista.indexOf(ANIO) < 0) ANIO = anioDe(D.hoy);
+  const a = ANIO + '-04-06', b = (ANIO + 1) + '-04-05', enAnio = (x) => x.fecha >= a && x.fecha <= b;
+  const ing = D.ingresos.filter(enAnio), gas = D.gastos.filter(enAnio), s = (l) => l.reduce((t, x) => t + x.total, 0);
+  const tI = s(ing), tG = s(gas), ben = tI - tG, nF = Object.keys(ing.reduce((o, x) => (o[x.num || x.id] = 1, o), {})).length;
+  const it = itemsAnio(ANIO), imp = IMP[ANIO];
+  let h = '<div class="anios"><span>Año fiscal:</span>' + lista.map((y) => '<button type="button" data-anio="' + y + '" aria-pressed="' + (y === ANIO) + '">' + etqAnio(y) + '</button>').join('') +
+    '<button type="button" class="lnk" data-ir="impuestos">Ver el cálculo de impuestos ›</button></div>' +
+    '<div class="kpi4"><div class="k" style="border-top-color:#16A34A"><small>Ingresos del año</small><b>' + esc(fmt(tI)) + '</b><i>' + nF + (nF === 1 ? ' factura' : ' facturas') + '</i></div>' +
+    '<div class="k" style="border-top-color:#DC5A56"><small>Gastos del año</small><b>' + esc(fmt(tG)) + '</b><i>' + gas.length + (gas.length === 1 ? ' gasto' : ' gastos') + '</i></div>' +
+    '<div class="k" style="border-top-color:#1E60E0"><small>Beneficio</small><b class="' + (ben < 0 ? 'r' : 'g') + '">' + esc(fmt(ben)) + '</b><i class="' + (ben < 0 ? 'r' : 'g') + '">' + (ben < 0 ? '▼ Gastaste más de lo que entró' : '✔ Estás ganando') + '</i></div>' +
+    '<div class="k" style="border-top-color:#F4A62A"><small>Impuesto estimado</small><b id="k-imp">' + (imp ? esc(fmt(imp.aPagar)) : '…') + '</b><i id="k-imp2" class="' + (imp && !imp.tocaPagar ? 'g' : '') + '">' + (imp ? (imp.tocaPagar ? '! Tocaría pagar' : '✔ No toca pagar') : 'calculando…') + '</i></div></div>';
+  if (!ing.length && !gas.length) {
+    h += '<div class="card"><div class="vacio">Este año fiscal todavía no tiene ingresos ni gastos.</div></div>';
+  } else {
+    h += '<section class="card"><div class="cardhead"><div><h2>Flujo de ingresos y gastos del año</h2><p class="sub">Por periodo UC dentro del año ' + etqAnio(ANIO) + '</p></div></div>' +
+      '<div class="legend"><span class="k"><i class="sw s1"></i>Ingresos<b>' + esc(fmt(it.reduce((t, x) => t + x.ing, 0))) + '</b></span><span class="k"><i class="sw s2"></i>Gastos<b>' + esc(fmt(it.reduce((t, x) => t + x.gas, 0))) + '</b></span></div>' +
+      '<div id="chart1"></div>';
+    const n0 = (v, cls) => Math.abs(v) < 0.005 ? '<td class="z">–</td>' : '<td class="' + (cls || '') + '">' + Math.round(v).toLocaleString('en-GB') + '</td>';
+    const sI = it.reduce((t, x) => t + x.ing, 0), sG = it.reduce((t, x) => t + x.gas, 0);
+    h += '<div class="tmes"><table><thead><tr><th>Concepto</th>' + it.map((p) => '<th>' + MESES[Number(p.ini.split('-')[1]) - 1] + '</th>').join('') + '<th>Año</th></tr></thead><tbody>' +
+      '<tr><td class="g"><b>Ingresos</b></td>' + it.map((p) => n0(p.ing)).join('') + n0(sI, 'g') + '</tr>' +
+      '<tr><td class="r"><b>Gastos</b></td>' + it.map((p) => n0(p.gas)).join('') + n0(sG, 'r') + '</tr>' +
+      '<tr><td><b>Beneficio</b></td>' + it.map((p) => n0(p.ing - p.gas, p.ing - p.gas < 0 ? 'r' : 'g')).join('') + n0(sI - sG, sI - sG < 0 ? 'r' : 'g') + '</tr></tbody></table></div>' +
+      '<div class="leyenda"><span style="color:#12804A">● Verde</span> = ganaste ese mes · <span style="color:#D92D20">● Rojo</span> = gastaste más de lo que entró. Las tarjetas de arriba cuentan por fecha (6 abr – 5 abr), como el HMRC.</div></section>';
+    const cats = agrupar(gas, 'categoria', 'Sin categoría'), cli = agrupar(ing, 'cliente', 'Sin cliente');
+    let acc = 0; const totC = cats.reduce((t, x) => t + x.v, 0) || 1;
+    const top = cats.slice(0, 8); if (cats.length > 8) top.push({ n: 'Otras', v: cats.slice(8).reduce((t, x) => t + x.v, 0) });
+    const grad = top.map((x, i) => { const a0 = acc; acc += x.v / totC * 100; return PAL[i % PAL.length] + ' ' + a0.toFixed(2) + '% ' + acc.toFixed(2) + '%'; }).join(',');
+    h += '<div class="two"><section class="card"><h2>Gastos por categoría</h2><p class="sub">Año ' + etqAnio(ANIO) + '</p>' +
+      (top.length ? '<div class="donutw"><div class="donut" style="background:conic-gradient(' + grad + ')"><b>' + esc(fmt(tG)) + '<br><small style="font-weight:400;color:var(--muted)">gastos</small></b></div><div class="dleg">' +
+        top.map((x, i) => '<div><i style="background:' + PAL[i % PAL.length] + '"></i><span>' + esc(x.n) + '</span><b>' + esc(fmt(x.v)) + '</b><em>' + Math.round(x.v / totC * 100) + '%</em></div>').join('') + '</div></div>' : '<div class="vacio">Sin gastos este año.</div>') + '</section>' +
+      '<section class="card"><h2>Ingresos por cliente</h2><p class="sub">Año ' + etqAnio(ANIO) + '</p>' + (cli.length ? hbarsHtml(cli.slice(0, 10), 's1') : '<div class="vacio">Sin ingresos este año.</div>') + '</section></div>';
+  }
+  $('d-main').innerHTML = h;
+  $('foot').innerHTML = '<span>Actualizado a las ' + esc(D.actualizado) + '</span>';
+  dibujarGrafico();
+  if (!imp) google.script.run.withSuccessHandler((r) => { IMP[ANIO] = r; const e = $('k-imp'); if (e) { e.textContent = fmt(r.aPagar); $('k-imp2').textContent = r.tocaPagar ? '! Tocaría pagar' : '✔ No toca pagar'; $('k-imp2').className = r.tocaPagar ? '' : 'g'; } })
+    .withFailureHandler(() => { const e = $('k-imp'); if (e) { e.textContent = '—'; $('k-imp2').textContent = ''; } }).getImpuestos({ anio: etqAnio(ANIO) });
+}
+
 function pintar() {
+  pintarModo();
+  if (MODO === 'hmrc') return pintarHMRC();
   const sel = SEL, p = D.periodos.find((x) => x.etiqueta === sel), r = resumen(D, sel);
   // filtro
   $('d-periodo').innerHTML = '<option value="TODOS">Todos los periodos</option>' + VIS.map((x) =>
@@ -1978,7 +2242,7 @@ function tablaPeriodos(it) {
 
 function dibujarGrafico() {
   const c = $('chart1'); if (!c || TABLA) return;
-  const v = ventana(D, SEL); c.dataset.ok = '1';
+  const v = MODO === 'hmrc' ? { items: itemsAnio(ANIO), selIdx: -1 } : ventana(D, SEL); c.dataset.ok = '1';
   c.innerHTML = svgPeriodos(v.items, v.selIdx, Math.max(280, Math.floor(c.clientWidth || 600)));
   c._items = v.items;
 }
@@ -2007,10 +2271,13 @@ on(document, 'focusout', ocultarTip);
 $('d-periodo').addEventListener('change', (e) => { SEL = e.target.value; MAS = 15; pintar(); });
 $('prev').addEventListener('click', () => { const i = VIS.findIndex((x) => x.etiqueta === SEL); if (i >= 0 && i < VIS.length - 1) { SEL = VIS[i + 1].etiqueta; MAS = 15; pintar(); } });
 $('next').addEventListener('click', () => { const i = VIS.findIndex((x) => x.etiqueta === SEL); if (i > 0) { SEL = VIS[i - 1].etiqueta; MAS = 15; pintar(); } });
-$('recargar').addEventListener('click', () => cargar());
+$('recargar').addEventListener('click', () => { IMP = {}; cargar(); });
+ROOT.querySelector('.modo').addEventListener('click', (e) => { const b = e.target.closest('button[data-modo]'); if (!b) return; MODO = b.dataset.modo; try { localStorage.setItem('pb_dash', MODO); } catch (x) { } pintar(); });
 $('d-main').addEventListener('click', (e) => {
   const t = e.target.closest('button'); if (!t) return;
   if (t.id === 'vtabla') { TABLA = !TABLA; pintar(); }
+  else if (t.dataset.anio) { ANIO = Number(t.dataset.anio); pintar(); }
+  else if (t.dataset.ir) { S.ir(t.dataset.ir); }
   else if (t.dataset.mov) { MOV = t.dataset.mov; MAS = 15; pintar(); }
   else if (t.id === 'mas') { MAS += 25; pintar(); }
 });
@@ -2168,6 +2435,12 @@ function init_acerca(ROOT, P, S) {
   const LOGO_DEF = $('sh-logo').getAttribute('src');
   function setLogo(u) { $('sh-logo').src = u || LOGO_DEF; }
   const SHELL = { ir: ir, marcar: marcar, hub: hub, setLogo: setLogo, logo: () => $('sh-logo').getAttribute('src'), odlare: odlare, volver: () => ir(ULT || 'inicio'),
+    tema: (t) => {
+      try { localStorage.setItem('pb_tema', t); } catch (e) { }
+      const r = t === 'auto' ? (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro') : t;
+      document.documentElement.setAttribute('data-tema', r);
+      if (CUR && CUR.vista === 'dashboard') ir('dashboard', true);
+    },
     negocio: negActual, negocios: () => NEGS, negInfo: negInfo, setNegocio: setNegocio, negociosCargados: negociosCargados, logos: () => LOGOS,
     pill: (id) => { const n = negInfo(id); return n ? '<span class="npill" style="background:' + escS(n.color) + '1F;color:' + escS(n.color) + '"><i style="background:' + escS(n.color) + '"></i>' + escS(n.nombre) + '</span>' : ''; } };
   window.SHELL = SHELL;

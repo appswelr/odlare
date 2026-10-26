@@ -30,10 +30,12 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  *                 formularios arriba y movimientos abajo; listas de clientes, proveedores y categorías.
  *         alpha9: PuntoBalance arriba del menú; logos de negocio en color; factura de cada negocio (fecha, nota, email, teléfono).
  *         alpha10: movimientos con todas las columnas (vista completa o sencilla).
+ *         alpha11: modo oscuro; Dashboard con «Periodo UC» y «Año HMRC»; movimientos con fechas, resumen y editar/borrar;
+ *                  Inicio «Hola» con tarjetas de estado; bloqueo por inactividad.
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha10';
+const VERSION = '5.0.0-alpha11';
 const VERSION_FECHA = '26 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────
@@ -88,7 +90,15 @@ function getHubData() {
     logo: getLogo_(),
     negocio: getNegocio(),
     negocios: negocios_(),
-    logos: logosNegocios_()
+    logos: logosNegocios_(),
+    // 5.0.0-alpha11: tarjetas de estado del Inicio
+    periodoFin: p && p['FIN'] instanceof Date ? iso_(p['FIN']) : '',
+    pendiente: (function () {
+      const pe = leerTabla_('Ingresos').filter(r => r['ESTADO'] === 'PENDING' && r['ID FACTURA'] !== '');
+      return { total: Math.round(pe.reduce((t, r) => t + (Number(r['SUBTOTAL']) || 0), 0) * 100) / 100, n: Object.keys(pe.reduce((o, r) => (o[r['ID FACTURA']] = 1, o), {})).length };
+    })(),
+    hmrc: (function () { const y = anioFiscalDe_(new Date()); return { fecha: '31 ene ' + (y + 2), anio: etiquetaAnio_(y) }; })(),
+    nombre: String(config_().nombre || '')
   };
 }
 function getRevision() { return revisarDatos_(); }
