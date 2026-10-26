@@ -369,6 +369,79 @@ html[data-tema="oscuro"] .v-form .hist .sumbar { background: #18254C; } html[dat
 @media (max-width: 1100px) { .v-form section.lista.on { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .v-form section.dual .fcol { grid-template-columns: 1fr; } .v-form section.dual .fcol > .preview, .v-form section.dual .fcol > .taxline { grid-column: 1; grid-row: auto; } .v-form section.dual .fcol > .grid > .full, .v-form section.dual .fcol > .grid > .wide { grid-column: 1 / -1; } }
 .v-form .fcol { min-width: 0; }
+/* 5.0.0-alpha16 · Nuevo ingreso / gasto: formulario compacto + tarjeta Resumen + «Elige tu negocio» */
+.v-form .top { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.v-form .top .tt { flex: 1; min-width: 200px; }
+.v-form .foot.hidden { display: none !important; }
+.v-form .negsel { position: relative; width: 290px; max-width: 100%; }
+.v-form .negsel > label { text-transform: uppercase; font-weight: 600; letter-spacing: .06em; font-size: 10.5px; margin-bottom: 4px; }
+.v-form #negsel-b { width: 100%; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 12px 0 7px; border: 1.5px solid #DCDFEC; background: #fff; border-radius: 12px; font: inherit; font-weight: 700; font-size: 14px; color: var(--ink); cursor: pointer; text-align: left; }
+.v-form #negsel-b:hover, .v-form .negsel.open #negsel-b { border-color: #1E60E0; box-shadow: 0 0 0 3px rgba(30,96,224,.12); }
+.v-form #negsel-b.falta { border-color: #F59E0B; padding-left: 12px; }
+.v-form .negsel .nn { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v-form .negsel .ph { color: var(--muted); font-weight: 600; }
+.v-form .negsel .ch { color: var(--muted); font-size: 12px; transition: transform .15s; }
+.v-form .negsel.open .ch { transform: rotate(180deg); }
+.v-form .negsel .nt { width: 46px; height: 30px; border-radius: 8px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; flex: none; }
+.v-form .negsel .nt img { max-width: 42px; max-height: 26px; object-fit: contain; }
+.v-form .negsel .nt b { width: 100%; height: 100%; display: grid; place-items: center; color: #fff; font-size: 11px; font-weight: 800; }
+.v-form .negsel-l { display: none; position: absolute; z-index: 30; top: calc(100% + 6px); left: 0; right: 0; max-height: 360px; overflow: auto; background: #fff; border: 1px solid #DCDFEC; border-radius: 14px; box-shadow: 0 14px 34px rgba(27,43,91,.18); padding: 6px; }
+.v-form .negsel.open .negsel-l { display: block; }
+.v-form .negsel-l button { width: 100%; display: flex; align-items: center; gap: 10px; border: 0; background: none; border-radius: 9px; padding: 7px 8px; font: inherit; font-weight: 700; font-size: 13.5px; color: var(--ink); cursor: pointer; text-align: left; }
+.v-form .negsel-l button:hover { background: #F2F5FC; }
+.v-form .negsel-l button[aria-selected="true"] { background: #EEF3FE; }
+.v-form .negsel-l .ok { color: #1E60E0; font-weight: 800; }
+.v-form .negsel-l .add { color: #1E60E0; border-top: 1px solid var(--line); border-radius: 0 0 9px 9px; margin-top: 4px; padding: 10px; }
+.v-form section.dual .fcol { grid-template-columns: minmax(0, 1fr) 270px; gap: 0 20px; padding: 16px 0 16px 20px; align-items: stretch; }
+.v-form section.dual .fcol > .grid { grid-column: 1; grid-row: 1; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 12px; align-content: start; }
+.v-form section.dual .fcol > .grid > div { min-width: 0; }
+.v-form section.dual .fcol > .grid > .c2 { grid-column: span 2; }
+.v-form section.dual .fcol > .grid > .c3 { grid-column: span 3; }
+.v-form section.dual .fcol > .grid > .c4 { grid-column: 1 / -1; }
+.v-form section.dual .fcol > .taxline { grid-column: 1; grid-row: 2; margin-top: 10px; }
+.v-form section.dual .fcol label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.v-form section.dual .fcol input, .v-form section.dual .fcol select { padding: 8px 11px; font-size: 13.5px; border-radius: 9px; min-height: 38px; }
+.v-form section.dual .fcol .hint { font-size: 11px; margin-top: 3px; }
+.v-form section.dual .fcol .link { font-size: 11.5px; margin-top: 4px; }
+.v-form .resumen { grid-column: 2; grid-row: 1 / span 2; margin: -16px 0; padding: 16px 18px; background: #F7F9FE; border-left: 1px solid var(--line); border-radius: 0 18px 18px 0; display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.v-form .resumen h3 { margin: 0 0 2px; font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.v-form .resumen .rr { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.v-form .resumen .rr b { color: var(--ink); font-weight: 700; text-align: right; overflow-wrap: anywhere; }
+.v-form .resumen .rt { border-top: 1px dashed #D4DAE8; margin-top: 4px; padding-top: 8px; display: flex; justify-content: space-between; align-items: baseline; color: var(--muted); font-weight: 600; font-size: 13px; }
+.v-form .resumen .rt b { font-size: 28px; color: var(--ink); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.v-form .resumen .btn.rg { width: 100%; height: 44px; margin-top: auto; font-size: 14.5px; background: #1E60E0; border-color: #1E60E0; color: #fff; }
+.v-form .resumen .btn.rg:hover { background: #1A52C2; border-color: #1A52C2; }
+.v-form .resumen .rl { width: 100%; height: 36px; }
+.v-form .resumen .rmsg { font-size: 12px; line-height: 1.35; color: var(--muted); }
+.v-form .resumen .rmsg:empty { display: none; }
+.v-form .resumen .rmsg.ok { color: #166534; } .v-form .resumen .rmsg.err { color: var(--bad); }
+.v-form .hist .hh { flex-wrap: wrap; justify-content: flex-start; }
+.v-form .hist .hh .sumbar { display: inline-flex; gap: 6px; margin: 0 0 0 8px; padding: 0; background: none; flex-wrap: wrap; }
+.v-form .hist .hh .sumbar > div { background: #F4F6FC; border-radius: 8px; padding: 4px 10px; display: flex; gap: 5px; align-items: baseline; }
+.v-form .hist .hh .sumbar small { display: inline; font-size: 12px; }
+.v-form .hist .hh .sumbar b { font-size: 13px; }
+.v-form .hist .hh .sumbar .nt { margin-left: 0; background: none; }
+.v-form .hist .fil .fq { flex: 1.6; }
+.v-form .hist .fil .buscar { margin: 0; padding: 7px 10px; font-size: 12.5px; border-radius: 9px; }
+html[data-tema="oscuro"] .v-form .resumen { background: #0F1830; border-color: #26365F; }
+html[data-tema="oscuro"] .v-form .resumen .rt { border-color: #2C3D6B; }
+html[data-tema="oscuro"] .v-form #negsel-b, html[data-tema="oscuro"] .v-form .negsel-l { background: #131D38; border-color: #2C3D6B; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-form .negsel-l button { color: #EEF1FA; }
+html[data-tema="oscuro"] .v-form .negsel-l button:hover { background: #1B2950; }
+html[data-tema="oscuro"] .v-form .negsel-l button[aria-selected="true"] { background: #1A2A55; }
+html[data-tema="oscuro"] .v-form .hist .hh .sumbar { background: none; }
+html[data-tema="oscuro"] .v-form .hist .hh .sumbar > div { background: #18254C; }
+@media (max-width: 1000px) {
+  .v-form section.dual .fcol { grid-template-columns: 1fr; padding: 16px 18px 0; }
+  .v-form .resumen { grid-column: 1; grid-row: auto; margin: 14px -18px 0; border-left: 0; border-top: 1px solid var(--line); border-radius: 0 0 18px 18px; }
+  .v-form section.dual .fcol > .taxline { grid-row: auto; }
+}
+@media (max-width: 760px) {
+  .v-form section.dual .fcol > .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .v-form section.dual .fcol > .grid > .c2, .v-form section.dual .fcol > .grid > .c3, .v-form section.dual .fcol > .grid > .c4 { grid-column: 1 / -1; }
+  .v-form .negsel { width: 100%; }
+  .v-form .hist .hh .sumbar { margin: 6px 0 0; width: 100%; }
+}
 .v-form .taxline { margin-top: 10px; border-radius: 12px; padding: 11px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; flex-wrap: wrap; }
 .v-form .taxline.ok { background: #ECFDF3; border: 1px solid #ABEFC6; color: #067647; }
 .v-form .taxline.warn { background: #FFF6E5; border: 1px solid #FCD9A0; color: #92400E; }
@@ -859,7 +932,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 </template>
 <template id="tpl-form">
 <div class="v-form">
-    <div class="top"><h1 id="ttl">Añadir datos</h1><p id="sub">Todo se guarda en tu hoja de cálculo.</p></div>
+    <div class="top"><div class="tt"><h1 id="ttl">Añadir datos</h1><p id="sub">Todo se guarda en tu hoja de cálculo.</p></div><div class="negsel hidden" id="negsel"><label for="negsel-b">Elige tu negocio</label><button type="button" id="negsel-b" aria-haspopup="listbox" aria-expanded="false"></button><div class="negsel-l" id="negsel-l" role="listbox" aria-label="Negocios"></div></div></div>
     <div class="scroll">
   <div id="edit-banner" class="hidden"><span id="edit-txt"></span><button class="btn" id="edit-cancel" type="button">Cancelar edición</button></div>
 
@@ -879,22 +952,21 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
     <h2>Nuevo ingreso</h2>
     <div class="fcol">
     <div class="grid">
-      <div class="full hidden" id="i-neg-w"><label>Negocio</label><div class="negch" id="i-neg" role="group" aria-label="Negocio"></div></div>
-      <div class="full">
+      <div class="c2">
         <label for="i-cliente" id="l-cliente">Cliente</label>
         <select id="i-cliente"></select>
         <button class="link" type="button" data-ir="cliente">¿Cliente nuevo? Añádelo primero</button>
       </div>
-      <div class="full"><label for="i-desc">Descripción</label><input id="i-desc" placeholder="Si lo dejas vacío: DJ SERVICES"></div>
+      <div class="c2"><label for="i-desc">Descripción</label><input id="i-desc" placeholder="Si lo dejas vacío: DJ SERVICES"></div>
       <div><label for="i-evento" id="l-evento">Fecha del evento</label><input id="i-evento" type="date"></div>
       <div><label for="i-factura">Fecha de factura</label><input id="i-factura" type="date"></div>
       <div><label for="i-unidad">Unidad</label><select id="i-unidad"><option value="Unit" id="o-unit">Unit (por evento)</option><option value="Hour">Hour (por hora)</option></select></div>
       <div><label for="i-precio">Precio (£)</label><input id="i-precio" type="number" min="0" step="0.01" inputmode="decimal"></div>
       <div><label for="i-cant">Cantidad</label><input id="i-cant" type="number" min="0" step="0.01" value="1" inputmode="decimal"></div>
       <div><label for="i-pago">Forma de pago</label><select id="i-pago"><option>CASH</option><option>TRANSFER</option><option>CASH / TRANSFER</option></select></div>
-      <div><label for="i-estado">Estado</label><select id="i-estado"><option value="PENDING">PENDING (sin cobrar)</option><option value="PAID">PAID (cobrada)</option><option value="CANCELLED">CANCELLED (cancelada, no suma)</option></select></div>
+      <div class="c2"><label for="i-estado">Estado</label><select id="i-estado"><option value="PENDING">PENDING (sin cobrar)</option><option value="PAID">PAID (cobrada)</option><option value="CANCELLED">CANCELLED (cancelada, no suma)</option></select></div>
     </div>
-    <div class="preview"><div><span id="i-prev-id"></span><br><span id="i-prev-per"></span></div><b id="i-prev-tot">£0.00</b></div>
+    <aside class="resumen" aria-label="Resumen del ingreso"><h3>Resumen</h3><div class="rr"><span>Factura</span><b id="i-r-num"></b></div><div class="rr"><span>Periodo UC</span><b id="i-r-per"></b></div><div class="rr" id="i-r-negw"><span>Negocio</span><b id="i-r-neg"></b></div><div class="rt"><span>Total</span><b id="i-prev-tot">£0.00</b></div><button class="btn primary rg" id="i-rg" type="button">Guardar ingreso</button><button class="btn rl" id="i-rl" type="button">Limpiar</button><div class="rmsg" id="i-msg" role="status" aria-live="polite"></div></aside>
     <div id="i-tax" class="taxline hidden" aria-live="polite"></div>
     </div>
     <aside class="hist" id="h-ingreso"></aside>
@@ -905,19 +977,18 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
     <h2>Nuevo gasto</h2>
     <div class="fcol">
     <div class="grid">
-      <div class="full hidden" id="g-neg-w"><label>Negocio</label><div class="negch" id="g-neg" role="group" aria-label="Negocio"></div></div>
       <div><label for="g-fecha">Fecha</label><input id="g-fecha" type="date"></div>
       <div>
         <label for="g-prov">Proveedor</label>
         <select id="g-prov"></select>
       </div>
-      <div id="g-nuevo-wrap" class="full hidden">
+      <div id="g-nuevo-wrap" class="c4 hidden">
         <label for="g-nuevo">Nombre del proveedor nuevo</label>
         <input id="g-nuevo" placeholder="Por ejemplo: Amazon">
         <div class="hint">Se añadirá a tu lista de proveedores al guardar.</div>
       </div>
-      <div class="full"><label for="g-desc">Descripción</label><input id="g-desc" placeholder="Qué compraste o pagaste"></div>
-      <div class="wide"><label for="g-cat">Categoría UC</label><select id="g-cat"></select></div>
+      <div class="c2"><label for="g-desc">Descripción</label><input id="g-desc" placeholder="Qué compraste o pagaste"></div>
+      <div class="c2"><label for="g-cat">Categoría UC</label><select id="g-cat"></select></div>
       <div><label for="g-unidad">Unidad</label><select id="g-unidad"><option value="UNIT">UNIT</option><option value="MILLAS">MILLAS</option></select></div>
       <div><label for="g-cant">Cantidad</label><input id="g-cant" type="number" min="0" step="0.01" value="1" inputmode="decimal"></div>
       <div>
@@ -925,9 +996,9 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
         <input id="g-precio" type="number" min="0" step="0.01" inputmode="decimal">
         <div class="hint" id="g-hint">Con MILLAS: £0.45 por milla.</div>
       </div>
-      <div class="wide"><label for="g-notas">Notas (opcional)</label><input id="g-notas"></div>
+      <div class="c3"><label for="g-notas">Notas (opcional)</label><input id="g-notas" placeholder="Lo que quieras recordar de este gasto"></div>
     </div>
-    <div class="preview"><div><span id="g-prev-id"></span><br><span id="g-prev-per"></span></div><b id="g-prev-tot">£0.00</b></div>
+    <aside class="resumen" aria-label="Resumen del gasto"><h3>Resumen</h3><div class="rr"><span>Gasto nº</span><b id="g-r-num"></b></div><div class="rr"><span>Periodo UC</span><b id="g-r-per"></b></div><div class="rr" id="g-r-negw"><span>Negocio</span><b id="g-r-neg"></b></div><div class="rt"><span>Total</span><b id="g-prev-tot">£0.00</b></div><button class="btn primary rg" id="g-rg" type="button">Guardar gasto</button><button class="btn rl" id="g-rl" type="button">Limpiar</button><div class="rmsg" id="g-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="h-gasto"></aside>
   </section>
@@ -1046,7 +1117,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha15',fecha:'26 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha16',fecha:'26 oct 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1267,7 +1338,11 @@ function init_form(ROOT, P, S) {
   const esc = (t) => String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const opts = (arr) => arr.map((x) => '<option>' + String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</option>').join('');
 
-  function msg(t, tipo) { const m = $('msg'); m.textContent = t; m.className = tipo || ''; }
+  function msg(t, tipo) {
+    const m = $('msg'); m.textContent = t; m.className = tipo || '';
+    const yo = TAB === 'ingreso' ? 'i-msg' : TAB === 'gasto' ? 'g-msg' : '';
+    ['i-msg', 'g-msg'].forEach((id) => { const x = $(id); if (!x) return; x.textContent = id === yo ? t : ''; x.className = 'rmsg ' + (id === yo ? tipo || '' : ''); });
+  }
 
   function cargar(despues) {
     google.script.run.withSuccessHandler((d) => { D = d; poblar(); if (despues) despues(); H.gasto.data = null; H.ingreso.data = null; if (TAB === 'gasto' || TAB === 'ingreso') histCargar(TAB); if (TAB === 'ingreso') taxPedir(); })
@@ -1301,17 +1376,38 @@ function init_form(ROOT, P, S) {
     return s && l.some((n) => n.id === s) ? s : '';
   }
   function pintarNegCh(t) {
-    const l = (D && D.negocios) || [], pre = t === 'ingreso' ? 'i' : 'g';
-    $(pre + '-neg-w').classList.toggle('hidden', l.length < 2);
-    $(pre + '-neg').innerHTML = l.map((n) => '<button type="button" data-n="' + attr(n.id) + '" aria-pressed="' + (n.id === NF[t]) + '"><i style="background:' + attr(n.color) + '"></i>' + esc(n.nombre) + '</button>').join('');
     if (t === 'ingreso') { const n = negF(NF.ingreso); if (n) aplicarNegocio(Object.assign({ clave: n.tipo }, n.tipoInfo)); }
+    if (t === TAB) pintarNegSel();
   }
-  ['ingreso', 'gasto'].forEach((t) => {
-    $((t === 'ingreso' ? 'i' : 'g') + '-neg').addEventListener('click', (e) => {
-      const b = e.target.closest('button[data-n]'); if (!b) return;
-      NF[t] = b.dataset.n; pintarNegCh(t); previews();
-    });
+  // 5.0.0-alpha16: «Elige tu negocio» arriba a la derecha, como una lista (caben todos los negocios que se creen)
+  function negTile(n) {
+    const lg = S.logos && (S.logos() || {})[n.id];
+    return '<span class="nt">' + (lg ? '<img alt="" src="' + attr(lg) + '">' : '<b style="background:' + attr(n.color || '#1B2B5B') + '">' + esc(String(n.prefijo || n.nombre || '?').slice(0, 2).toUpperCase()) + '</b>') + '</span>';
+  }
+  function pintarNegSel() {
+    const box = $('negsel'), l = (D && D.negocios) || [], t = TAB;
+    if (!box) return;
+    const ver = (t === 'ingreso' || t === 'gasto') && l.length > 1;
+    box.classList.toggle('hidden', !ver); box.classList.remove('open'); $('negsel-b').setAttribute('aria-expanded', 'false');
+    if (!ver) return;
+    const n = negF(NF[t]);
+    $('negsel-b').innerHTML = (n ? negTile(n) + '<span class="nn">' + esc(n.nombre) + '</span>' : '<span class="nn ph">Elige tu negocio…</span>') + '<span class="ch" aria-hidden="true">▾</span>';
+    $('negsel-b').classList.toggle('falta', !n);
+    $('negsel-l').innerHTML = l.map((x) => '<button type="button" role="option" data-n="' + attr(x.id) + '" aria-selected="' + (x.id === NF[t]) + '">' + negTile(x) + '<span class="nn">' + esc(x.nombre) + '</span>' + (x.id === NF[t] ? '<span class="ok" aria-hidden="true">✓</span>' : '') + '</button>').join('') +
+      '<button type="button" class="add" data-add="1">＋ Añadir negocio</button>';
+  }
+  $('negsel-b').onclick = (e) => { e.stopPropagation(); const o = $('negsel').classList.toggle('open'); $('negsel-b').setAttribute('aria-expanded', String(o)); };
+  $('negsel-l').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    $('negsel').classList.remove('open');
+    if (b.dataset.add) { try { sessionStorage.setItem('pb_ir_negocios', '1'); } catch (_) { } mostrar('ajustes'); return; }
+    NF[TAB] = b.dataset.n; pintarNegCh(TAB); previews(); msg('');
   });
+  if (!window.__pbNegselDoc) {
+    window.__pbNegselDoc = 1;
+    document.addEventListener('click', (e) => { const b = document.getElementById('negsel'); if (b && !b.contains(e.target)) b.classList.remove('open'); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { const b = document.getElementById('negsel'); if (b) b.classList.remove('open'); } });
+  }
 
   function aplicarNegocio(n) {
     if (!n) return;
@@ -1320,17 +1416,23 @@ function init_form(ROOT, P, S) {
     if (!EDIT && (viejo === 'DJ SERVICES' || viejo === 'VENTA')) $('i-desc').value = '';
     $('i-desc').placeholder = 'Si lo dejas vacío: ' + n.desc;
   }
+  function syncRg() {
+    ['ingreso', 'gasto'].forEach((t) => { const b = $(t === 'ingreso' ? 'i-rg' : 'g-rg'); if (b && !b.disabled) b.textContent = EDIT && EDIT.tipo === t ? 'Guardar cambios' : (t === 'ingreso' ? 'Guardar ingreso' : 'Guardar gasto'); });
+  }
   function periodoDe(iso) { const p = D && D.periodos.find((x) => x.ini <= iso && iso <= x.fin); return p ? p.etiqueta : ''; }
 
   function previews() {
     if (!D) return;
-    const ni = negF(NF.ingreso);
-    $('i-prev-id').textContent = (!ni && (D.negocios || []).length > 1 && !(EDIT && EDIT.tipo === 'ingreso')) ? 'Elige el negocio arriba' : 'Factura ' + (EDIT && EDIT.tipo === 'ingreso' ? (EDIT.num || EDIT.id) : (ni ? ni.numSig : 'nº ' + D.idIngreso)) + (ni && (D.negocios || []).length > 1 ? ' · ' + ni.nombre : '');
-    $('i-prev-per').textContent = 'Periodo UC: ' + (periodoDe($('i-evento').value) || 'fuera de los periodos');
+    const varios = (D.negocios || []).length > 1, ni = negF(NF.ingreso), ng = negF(NF.gasto);
+    $('i-r-num').textContent = EDIT && EDIT.tipo === 'ingreso' ? (EDIT.num || EDIT.id) : (ni ? ni.numSig : (varios ? '—' : 'nº ' + D.idIngreso));
+    $('i-r-per').textContent = periodoDe($('i-evento').value) || 'Fuera de los periodos';
+    $('i-r-negw').classList.toggle('hidden', !varios); $('i-r-neg').textContent = ni ? ni.nombre : 'Sin elegir';
     $('i-prev-tot').textContent = gbp($('i-precio').value * $('i-cant').value);
-    $('g-prev-id').textContent = 'Gasto nº ' + (EDIT && EDIT.tipo === 'gasto' ? EDIT.id : D.idGasto);
-    $('g-prev-per').textContent = 'Periodo UC: ' + (periodoDe($('g-fecha').value) || 'fuera de los periodos');
+    $('g-r-num').textContent = EDIT && EDIT.tipo === 'gasto' ? EDIT.id : D.idGasto;
+    $('g-r-per').textContent = periodoDe($('g-fecha').value) || 'Fuera de los periodos';
+    $('g-r-negw').classList.toggle('hidden', !varios); $('g-r-neg').textContent = ng ? ng.nombre : 'Sin elegir';
     $('g-prev-tot').textContent = gbp($('g-precio').value * $('g-cant').value);
+    syncRg();
   }
 
   function mostrar(tab) {
@@ -1341,10 +1443,12 @@ function init_form(ROOT, P, S) {
     S.marcar('form:' + tab);
     document.querySelectorAll('section').forEach((s) => s.classList.toggle('on', s.id === 't-' + tab));
     $('guardar').classList.toggle('hidden', tab === 'registros');
+    const pie = ROOT.querySelector('.foot'); if (pie) pie.classList.toggle('hidden', tab === 'ingreso' || tab === 'gasto');
     $('guardar').textContent = EDIT && EDIT.tipo === tab ? 'Guardar cambios' : { registros: '', ingreso: 'Guardar ingreso', gasto: 'Guardar gasto', proveedor: 'Guardar proveedor', cliente: 'Guardar cliente',
       categoria: 'Guardar categoría', periodos: 'Añadir periodos', ajustes: 'Guardar ajustes' }[tab];
     if (tab === 'ajustes') { cargarAjustes(); cargarMN(); }
     if (tab === 'cliente' && EDITCLI) $('guardar').textContent = 'Guardar cambios';
+    syncRg(); pintarNegSel();
     if (tab === 'cliente' || tab === 'proveedor' || tab === 'categoria') listaCargar(tab);
     if (tab === 'registros') cargarRegistros();
     if (tab === 'gasto' || tab === 'ingreso') histCargar(tab);
@@ -1399,9 +1503,14 @@ function init_form(ROOT, P, S) {
     }
   }
 
+  $('i-rg').onclick = () => $('guardar').onclick();
+  $('g-rg').onclick = () => $('guardar').onclick();
+  function limpiarForm(t) { if (EDIT && EDIT.tipo === t) cancelarEdicion(true); else limpiar(t); msg(''); previews(); }
+  $('i-rl').onclick = () => limpiarForm('ingreso');
+  $('g-rl').onclick = () => limpiarForm('gasto');
   $('guardar').onclick = () => {
-    const tab = TAB, btn = $('guardar'), texto = btn.textContent;
-    if ((tab === 'ingreso' || tab === 'gasto') && D && (D.negocios || []).length > 1 && !NF[tab]) { msg('Elige de qué negocio es: pulsa uno arriba, en «Negocio».', 'err'); return; }
+    const tab = TAB, btn = (tab === 'ingreso' || tab === 'gasto') ? $(tab === 'ingreso' ? 'i-rg' : 'g-rg') : $('guardar'), texto = btn.textContent;
+    if ((tab === 'ingreso' || tab === 'gasto') && D && (D.negocios || []).length > 1 && !NF[tab]) { msg('Elige tu negocio arriba a la derecha.', 'err'); const b = $('negsel'); if (b) b.classList.add('open'); return; }
     btn.disabled = true; btn.textContent = 'Guardando…'; msg('');
     const ok = (r) => {
       btn.disabled = false; btn.textContent = texto;
@@ -1445,6 +1554,7 @@ function init_form(ROOT, P, S) {
     if (tab) limpiar(tab);
     if (!silencio) mostrar(volverA);
     else if (tab) $('guardar').textContent = tab === 'ingreso' ? 'Guardar ingreso' : 'Guardar gasto';
+    syncRg();
   }
   $('edit-cancel').onclick = () => cancelarEdicion(false);
 
@@ -1567,7 +1677,7 @@ function init_form(ROOT, P, S) {
     const fd = (iso) => { const x = fechaTxt(iso); return x.slice(0, 6) + x.slice(8); };   // dd/mm/aa
     const conNeg = !(S.negocio && S.negocio()) && S.negocios && S.negocios().length > 1;
     const cab = (t === 'gasto' ? ['Nº', 'Fecha', 'Proveedor', 'Descripción', 'Categoría'] : ['Nº', 'Fecha', 'Cliente', 'Descripción', 'Estado']).concat(conNeg ? ['Negocio'] : [], ['Total', '']);
-    const fila = (r) => '<tr>' + accs(r, t) +
+    const fila = (r) => '<tr>' +
       '<td class="n" title="' + attr(r.num || r.id) + '">' + esc(r.num || r.id) + '</td><td class="d">' + fd(r.fecha) + '</td>' +
       (t === 'gasto'
         ? '<td class="x" title="' + attr(r.prov) + '">' + esc(r.prov) + '</td><td class="x" title="' + attr(r.desc) + '">' + esc(r.desc) + '</td><td><i class="' + catClase(r.cat) + '">' + esc(r.cat) + '</i></td>'
@@ -1576,8 +1686,8 @@ function init_form(ROOT, P, S) {
       '<td class="m">' + gbp(r.total) + '</td><td class="b"><button class="cp" type="button" data-cp="' + r.id + '" title="Copiar al formulario" aria-label="Copiar ' + (t === 'gasto' ? 'gasto' : 'factura') + ' ' + r.id + ' al formulario">' + IC_COPY + '</button></td></tr>';
     const kT = cab.length - 2;
     const pie = (h.todo || lista.length <= 10 ? 'Total (' + lista.length + ')' : 'Total de los ' + lista.length + ' (se ven 10)');
-    let tabla = '<div class="tw"><table class="hoja' + (conNeg ? ' conneg' : '') + ' conac"><thead><tr><th class="ac">Acciones</th>' + cab.map((x, k) => '<th' + (k === kT ? ' class="m"' : k === 0 ? ' class="n"' : '') + '>' + x + '</th>').join('') + '</tr></thead><tbody>' +
-      vis.map(fila).join('') + '</tbody><tfoot><tr><td colspan="' + (kT + 1) + '">' + pie + '</td><td class="m">' + gbp(total) + '</td><td></td></tr></tfoot></table></div>';
+    let tabla = '<div class="tw"><table class="hoja' + (conNeg ? ' conneg' : '') + '"><thead><tr>' + cab.map((x, k) => '<th' + (k === kT ? ' class="m"' : k === 0 ? ' class="n"' : '') + '>' + x + '</th>').join('') + '</tr></thead><tbody>' +
+      vis.map(fila).join('') + '</tbody><tfoot><tr><td colspan="' + kT + '">' + pie + '</td><td class="m">' + gbp(total) + '</td><td></td></tr></tfoot></table></div>';
     // 5.0.0-alpha10: vista completa, con todas las columnas de la hoja de cálculo
     if (VISTA === 'completa') {
       const negCol = S.negocios && S.negocios().length > 1;
@@ -1594,17 +1704,16 @@ function init_form(ROOT, P, S) {
            ['Periodo UC', (r) => esc(r.periodo)], ['Procesado UC', (r) => sino(r.procesado), 'mu']];
       if (negCol) C.push(['Negocio', (r) => S.pill(r.negocio)]);
       const kTot = C.findIndex((x) => x[0] === 'Total');
-      tabla = '<div class="tw"><table class="hoja completa"><thead><tr><th class="ac">Acciones</th>' + C.map((x) => '<th class="' + (/(^| )r( |$)/.test(x[2] || '') ? 'r' : '') + '">' + x[0] + '</th>').join('') + '<th></th></tr></thead><tbody>' +
-        vis.map((r) => '<tr>' + accs(r, t) + C.map((x) => '<td class="' + (x[2] || '') + '"' + (/x/.test(x[2] || '') ? ' title="' + attr(String(x[1](r)).replace(/<[^>]+>/g, '')) + '"' : '') + '>' + x[1](r) + '</td>').join('') +
+      tabla = '<div class="tw"><table class="hoja completa"><thead><tr>' + C.map((x) => '<th class="' + (/(^| )r( |$)/.test(x[2] || '') ? 'r' : '') + '">' + x[0] + '</th>').join('') + '<th></th></tr></thead><tbody>' +
+        vis.map((r) => '<tr>' + C.map((x) => '<td class="' + (x[2] || '') + '"' + (/x/.test(x[2] || '') ? ' title="' + attr(String(x[1](r)).replace(/<[^>]+>/g, '')) + '"' : '') + '>' + x[1](r) + '</td>').join('') +
           '<td class="b"><button class="cp" type="button" data-cp="' + r.id + '" title="Copiar al formulario" aria-label="Copiar ' + r.id + ' al formulario">' + IC_COPY + '</button></td></tr>').join('') +
-        '</tbody><tfoot><tr><td colspan="' + (kTot + 1) + '">' + pie + '</td><td class="r">' + gbp(total) + '</td><td colspan="' + (C.length - kTot) + '"></td></tr></tfoot></table></div>';
+        '</tbody><tfoot><tr><td colspan="' + kTot + '">' + pie + '</td><td class="r">' + gbp(total) + '</td><td colspan="' + (C.length - kTot) + '"></td></tr></tfoot></table></div>';
     }
-    h.box.innerHTML = '<div class="hh"><b>' + h.titulo + '</b><span class="vista"><button class="chip" type="button" data-vista="completa" aria-pressed="' + (VISTA === 'completa') + '">Vista completa</button><button class="chip" type="button" data-vista="sencilla" aria-pressed="' + (VISTA !== 'completa') + '">Sencilla</button></span><button class="btn" type="button" data-cl="1">Copiar lista</button></div>' +
-      '<div class="fil">' + sel('hp-' + t, 'Periodo', h.per, pers, 'Todos los periodos') + sel('hf-' + t, h.filLabel, h.fil, fils, t === 'gasto' ? 'Todas' : 'Todos') +
+    h.box.innerHTML = '<div class="hh"><b>' + h.titulo + '</b>' + sumbar + '<span class="vista"><button class="chip" type="button" data-vista="completa" aria-pressed="' + (VISTA === 'completa') + '">Vista completa</button><button class="chip" type="button" data-vista="sencilla" aria-pressed="' + (VISTA !== 'completa') + '">Sencilla</button></span><button class="btn" type="button" data-cl="1">Copiar lista</button></div>' +
+      '<div class="fil"><div class="fq"><label for="hq-' + t + '">Buscar</label><input class="buscar" type="search" id="hq-' + t + '" placeholder="🔍 ' + (t === 'gasto' ? 'Proveedor, descripción…' : 'Cliente, descripción…') + '" value="' + attr(h.q || '') + '"></div>' + sel('hp-' + t, 'Periodo', h.per, pers, 'Todos los periodos') + sel('hf-' + t, h.filLabel, h.fil, fils, t === 'gasto' ? 'Todas' : 'Todos') +
         '<div class="fd"><label for="hd-' + t + '">Desde</label><input type="date" id="hd-' + t + '" value="' + attr(h.desde || '') + '"></div>' +
         '<div class="fd"><label for="hh-' + t + '">Hasta</label><input type="date" id="hh-' + t + '" value="' + attr(h.hasta || '') + '"></div>' +
-        (h.desde || h.hasta || h.per || h.fil || h.q ? '<button class="chip limpiar" type="button" data-limpiar="1">✕ Quitar filtros</button>' : '') + '</div>' + sumbar +
-      '<input class="buscar" type="search" id="hq-' + t + '" placeholder="🔍 Buscar" value="' + attr(h.q || '') + '">' +
+        (h.desde || h.hasta || h.per || h.fil || h.q ? '<button class="chip limpiar" type="button" data-limpiar="1">✕ Quitar filtros</button>' : '') + '</div>' +
       '<div class="chips"><button class="chip" type="button" data-todo="1" aria-pressed="' + h.todo + '">Mostrar todo</button><button class="chip" type="button" data-todo="0" aria-pressed="' + !h.todo + '">Solo los últimos 10</button>' +
       '<span class="sum">' + lista.length + ' ' + h.unit + ' · <b>' + gbp(total) + '</b></span></div>' + rep +
       (vis.length ? tabla : '<div class="vacio">No hay ' + h.unit + ' con ese filtro.</div>') +

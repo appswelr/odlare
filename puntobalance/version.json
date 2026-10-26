@@ -1,7 +1,17 @@
 {
- "ver": "5.0.0-alpha15",
+ "ver": "5.0.0-alpha16",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha16",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "Nuevo ingreso y Nuevo gasto más compactos: caben en la pantalla sin bajar tanto",
+    "Tarjeta «Resumen» a la derecha con el total, Guardar y Limpiar",
+    "«Elige tu negocio» ahora es una lista, con el logo de cada negocio",
+    "Movimientos sin la columna Acciones (para corregir o borrar: Editar o eliminar)"
+   ]
+  },
   {
    "ver": "5.0.0-alpha15",
    "fecha": "26 oct 2026",
