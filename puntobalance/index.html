@@ -124,6 +124,30 @@
   #vista > * { height: 100%; }
   @media (max-height: 760px) { .rail img { height: 56px; width: 115px; } .rb { padding: 5px 10px; } .rail h3 { margin-top: 10px; } }
 
+/* ===== 5.0.0-alpha17 · Menú escondido también en laptop y tablet ===== */
+  .rail .rx { margin-left: auto; width: 34px; height: 34px; flex: none; border: 0; border-radius: 9px; background: rgba(255,255,255,.1); color: #fff; font-size: 15px; display: grid; place-items: center; }
+  .rail .rx:hover { background: rgba(255,255,255,.2); }
+  .mtop .tmi { width: 30px; height: 30px; flex: none; border-radius: 50%; }
+  @media (min-width: 761px) {
+    .app { flex-direction: column; }
+    .rail { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; z-index: 60; transform: translateX(-100%); visibility: hidden; transition: transform .22s ease, visibility 0s linear .22s; }
+    .rail.open { transform: none; visibility: visible; transition: transform .22s ease; box-shadow: 12px 0 40px rgba(0,0,0,.35); }
+    .bd.open { display: block; position: fixed; inset: 0; background: rgba(10,12,28,.45); z-index: 55; }
+    body .mtop { display: flex; height: 58px; flex: none; background: #1B2B5B; align-items: center; gap: 12px; padding: 0 18px; color: #fff; }
+    .mtop .mb { width: 42px; height: 42px; border-radius: 11px; border: 0; background: rgba(255,255,255,.12); display: grid; place-items: center; color: #fff; }
+    .mtop .mb:hover { background: rgba(255,255,255,.22); }
+    .mtop .tmi { width: 36px; height: 36px; }
+    .mtop b { font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -.01em; }
+    .mtop .tpn, .mtop i { border: 0; border-radius: 10px; padding: 6px 12px; background: rgba(255,255,255,.12); color: #fff; font-style: normal; font-weight: 700; font-size: 13px; text-align: left; line-height: 1.25; }
+    .mtop .tpn { margin-left: auto; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mtop .tpn:hover { background: rgba(255,255,255,.22); }
+    .mtop .tpn::before, .mtop i::before { display: block; font-size: 10.5px; font-weight: 500; color: #AFC3F5; }
+    .mtop .tpn::before { content: 'Negocio'; }
+    .mtop i::before { content: 'Periodo UC'; }
+    #vista { flex: 1; height: auto; min-height: 0; }
+  }
+  @media (max-width: 760px) { .mtop .tpn { display: none; } }
+
 /* ===== Celular ===== */
   .mtop, .tb, .bd { display: none; }
   @media (max-width: 760px) {
@@ -369,6 +393,66 @@ html[data-tema="oscuro"] .v-form .hist .sumbar { background: #18254C; } html[dat
 @media (max-width: 1100px) { .v-form section.lista.on { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .v-form section.dual .fcol { grid-template-columns: 1fr; } .v-form section.dual .fcol > .preview, .v-form section.dual .fcol > .taxline { grid-column: 1; grid-row: auto; } .v-form section.dual .fcol > .grid > .full, .v-form section.dual .fcol > .grid > .wide { grid-column: 1 / -1; } }
 .v-form .fcol { min-width: 0; }
+/* 5.0.0-alpha17 · Ajustes en pestañas + ficha por negocio */
+.v-form section#t-ajustes { background: none; border: 0; padding: 0; }
+.v-form .ajtabs { display: inline-flex; gap: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+.v-form .ajtabs button { border: 0; background: none; border-radius: 10px; padding: 9px 16px; font-weight: 700; font-size: 13.5px; color: var(--muted); }
+.v-form .ajtabs button[aria-selected="true"] { background: #1B2B5B; color: #fff; }
+.v-form .ajp .apar { background: var(--card); margin: 0; }
+.v-form .mnw { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 14px; align-items: start; }
+.v-form .mnl { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 4px; position: sticky; top: 0; }
+.v-form .mnl > label { padding: 4px 8px 2px; font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.v-form .mni { width: 100%; display: flex; align-items: center; gap: 10px; border: 1.5px solid transparent; background: none; border-radius: 12px; padding: 9px; text-align: left; }
+.v-form .mni:hover { background: #F4F6FC; }
+.v-form .mni[aria-pressed="true"] { border-color: #1E60E0; background: #F2F6FF; }
+.v-form .mni .tx, .v-form .mnh .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.v-form .mni .tx b { font-size: 14px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v-form .mni .tx small, .v-form .mnh .tx small { font-size: 11.5px; color: var(--muted); }
+.v-form .mnw .lg { width: 56px; height: 36px; border-radius: 9px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; flex: none; }
+.v-form .mnw .lg img { max-width: 50px; max-height: 30px; object-fit: contain; }
+.v-form .mnw .lg b { width: 100%; height: 100%; display: grid; place-items: center; color: #fff; font-size: 11px; font-weight: 800; }
+.v-form .mnl .add { width: 100%; margin-top: 6px; border: 1.5px dashed #9AA3C2; background: none; border-radius: 12px; padding: 11px; color: #1E60E0; font-weight: 700; }
+.v-form .mnl .add[aria-pressed="true"] { border-style: solid; border-color: #1E60E0; background: #F2F6FF; }
+.v-form .mned { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; min-width: 0; }
+.v-form .mned #mn-msg:empty { display: none; }
+.v-form .mned #mn-msg { margin: 0 0 10px; font-weight: 600; }
+.v-form .mnw .ed { display: flex; flex-direction: column; gap: 12px; }
+.v-form .mnh { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.v-form .mnh .lg { width: 76px; height: 48px; border-radius: 11px; }
+.v-form .mnh .lg img { max-width: 68px; max-height: 40px; }
+.v-form .mnh .tx b { font-size: 17px; color: var(--ink); }
+.v-form .mnh .acts { display: flex; gap: 6px; }
+.v-form .mnw .sc { border: 1px solid #EEF1F7; border-radius: 14px; padding: 14px 16px; }
+.v-form .mnw .sc h3 { margin: 0 0 10px; font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.v-form .mnw .sc h3 small { font-weight: 500; color: var(--muted); font-size: 12px; }
+.v-form .mnw .sc h3 i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; background: #E8EFFD; color: #1E60E0; display: grid; place-items: center; font-size: 12px; flex: none; }
+.v-form .mnw .g4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 12px; }
+.v-form .mnw .g4 > div { min-width: 0; }
+.v-form .mnw .g4 .c2 { grid-column: span 2; } .v-form .mnw .g4 .c4 { grid-column: 1 / -1; }
+.v-form .mnw label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.v-form .mnw input { padding: 8px 11px; font-size: 13.5px; border-radius: 9px; min-height: 38px; }
+.v-form .mnw textarea { width: 100%; min-height: 58px; border: 1px solid #DCDFEC; border-radius: 9px; padding: 8px 11px; font: inherit; font-size: 13.5px; resize: vertical; background: #FAFAFD; }
+.v-form .mnw .tipos, .v-form .mnw .fechas { display: flex; gap: 6px; flex-wrap: wrap; }
+.v-form .mnw .tipos button { flex: 1; min-width: 150px; text-align: left; border: 1.5px solid var(--line); background: #fff; border-radius: 10px; padding: 8px 10px; }
+.v-form .mnw .tipos button b { display: block; font-size: 13px; } .v-form .mnw .tipos button small { color: var(--muted); font-size: 11.5px; }
+.v-form .mnw .fechas button { flex: 1; min-width: 86px; border: 1.5px solid var(--line); background: #fff; border-radius: 10px; padding: 8px; font-weight: 700; font-size: 12.5px; }
+.v-form .mnw .tipos button[aria-pressed="true"], .v-form .mnw .fechas button[aria-pressed="true"] { border-color: #1E60E0; background: #F2F6FF; }
+.v-form .mnw .mnf { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.v-form .mnw .mnf .sp { flex: 1; }
+.v-form .mnw .mnf .btn.primary { background: #1E60E0; border-color: #1E60E0; padding-left: 24px; padding-right: 24px; }
+html[data-tema="oscuro"] .v-form .ajtabs, html[data-tema="oscuro"] .v-form .mnl, html[data-tema="oscuro"] .v-form .mned, html[data-tema="oscuro"] .v-form .ajp .apar { background: #131D38; border-color: #26365F; }
+html[data-tema="oscuro"] .v-form .mnw .sc { border-color: #26365F; }
+html[data-tema="oscuro"] .v-form .mni:hover { background: #1B2950; }
+html[data-tema="oscuro"] .v-form .mni[aria-pressed="true"], html[data-tema="oscuro"] .v-form .mnl .add[aria-pressed="true"] { background: #1A2A55; }
+html[data-tema="oscuro"] .v-form .mnw .tipos button, html[data-tema="oscuro"] .v-form .mnw .fechas button { background: #0F1830; border-color: #2C3D6B; color: #EEF1FA; }
+html[data-tema="oscuro"] .v-form .mnw .tipos button[aria-pressed="true"], html[data-tema="oscuro"] .v-form .mnw .fechas button[aria-pressed="true"] { background: #1A2A55; border-color: #4C7DF0; }
+html[data-tema="oscuro"] .v-form .mnw textarea { background: #0F1830; border-color: #2C3D6B; color: #EEF1FA; }
+@media (max-width: 1000px) { .v-form .mnw { grid-template-columns: 1fr; } .v-form .mnl { position: static; } }
+@media (max-width: 760px) {
+  .v-form .ajtabs { display: flex; } .v-form .ajtabs button { flex: 1; padding: 9px 8px; font-size: 12.5px; }
+  .v-form .mnw .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .v-form .mnw .g4 .c2 { grid-column: 1 / -1; }
+}
 /* 5.0.0-alpha16 · Nuevo ingreso / gasto: formulario compacto + tarjeta Resumen + «Elige tu negocio» */
 .v-form .top { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
 .v-form .top .tt { flex: 1; min-width: 200px; }
@@ -842,9 +926,9 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 </head>
 <body>
 <div class="app">
-<div class="mtop"><button class="mb" type="button" id="mb-open" aria-label="Abrir menú"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg></button><b>PuntoBalance</b><i id="top-per">…</i></div>
+<div class="mtop"><button class="mb" type="button" id="mb-open" aria-label="Abrir menú"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg></button><b>PuntoBalance</b><button type="button" class="tpn" id="top-neg" aria-label="Abrir menú: negocio">…</button><i id="top-per">…</i></div>
   <aside class="rail" aria-label="Menú">
-<div class="marca"><svg class="mi" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50.00" cy="51.17" r="35.94" fill="none" stroke="#fff" stroke-width="2.93"/><circle cx="75.41" cy="25.76" r="5.27" fill="#F4A62A" stroke="#1B2B5B" stroke-width="3.52" paint-order="stroke"/><rect x="28.9" y="26.11" width="36.36" height="50.73" rx="3.83" fill="#F3F5F9"/><path d="M53.97 26.11 L65.46 25.92 L65.46 37.41 Z" fill="#1B2B5B"/><path d="M53.97 26.11 L53.97 34.54 L56.84 37.41 L65.26 37.41 Z" fill="#CDD4E0"/><rect x="33.68" y="33.96" width="14.07" height="1.15" rx="0.57" fill="#101C3E"/><rect x="33.68" y="38.27" width="13.11" height="1.15" rx="0.57" fill="#101C3E"/><rect x="33.68" y="42.48" width="10.24" height="1.15" rx="0.57" fill="#101C3E"/><text x="33.87" y="57.7" font-family="Arial, sans-serif" font-weight="700" font-size="11.29" fill="#101C3E">£</text><rect x="27.37" y="67.07" width="4.59" height="9.77" rx="0.57" fill="#1E60E0"/><rect x="33.59" y="62.29" width="4.59" height="14.55" rx="0.57" fill="#1E60E0"/><rect x="39.71" y="59.13" width="4.6" height="17.71" rx="0.57" fill="#1E60E0"/><rect x="45.55" y="41.62" width="28.04" height="35.98" rx="3.83" fill="#1B2B5B"/><rect x="46.51" y="42.57" width="26.12" height="34.07" rx="3.06" fill="#FFFFFF"/><rect x="47.37" y="43.44" width="24.4" height="32.34" rx="2.49" fill="#101C3E"/><rect x="49.95" y="46.02" width="19.33" height="6.6" rx="1.15" fill="#1E60E0"/><rect x="49.95" y="55.78" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="49.95" y="62.19" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="49.95" y="68.51" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="55.78" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="62.19" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="68.51" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="64.31" y="55.78" width="4.97" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="64.31" y="62.19" width="4.97" height="10.63" rx="0.96" fill="#1E60E0"/></svg><span>PuntoBalance</span></div>
+<div class="marca"><svg class="mi" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50.00" cy="51.17" r="35.94" fill="none" stroke="#fff" stroke-width="2.93"/><circle cx="75.41" cy="25.76" r="5.27" fill="#F4A62A" stroke="#1B2B5B" stroke-width="3.52" paint-order="stroke"/><rect x="28.9" y="26.11" width="36.36" height="50.73" rx="3.83" fill="#F3F5F9"/><path d="M53.97 26.11 L65.46 25.92 L65.46 37.41 Z" fill="#1B2B5B"/><path d="M53.97 26.11 L53.97 34.54 L56.84 37.41 L65.26 37.41 Z" fill="#CDD4E0"/><rect x="33.68" y="33.96" width="14.07" height="1.15" rx="0.57" fill="#101C3E"/><rect x="33.68" y="38.27" width="13.11" height="1.15" rx="0.57" fill="#101C3E"/><rect x="33.68" y="42.48" width="10.24" height="1.15" rx="0.57" fill="#101C3E"/><text x="33.87" y="57.7" font-family="Arial, sans-serif" font-weight="700" font-size="11.29" fill="#101C3E">£</text><rect x="27.37" y="67.07" width="4.59" height="9.77" rx="0.57" fill="#1E60E0"/><rect x="33.59" y="62.29" width="4.59" height="14.55" rx="0.57" fill="#1E60E0"/><rect x="39.71" y="59.13" width="4.6" height="17.71" rx="0.57" fill="#1E60E0"/><rect x="45.55" y="41.62" width="28.04" height="35.98" rx="3.83" fill="#1B2B5B"/><rect x="46.51" y="42.57" width="26.12" height="34.07" rx="3.06" fill="#FFFFFF"/><rect x="47.37" y="43.44" width="24.4" height="32.34" rx="2.49" fill="#101C3E"/><rect x="49.95" y="46.02" width="19.33" height="6.6" rx="1.15" fill="#1E60E0"/><rect x="49.95" y="55.78" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="49.95" y="62.19" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="49.95" y="68.51" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="55.78" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="62.19" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="57.13" y="68.51" width="4.98" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="64.31" y="55.78" width="4.97" height="4.31" rx="0.96" fill="#ECEFF4"/><rect x="64.31" y="62.19" width="4.97" height="10.63" rx="0.96" fill="#1E60E0"/></svg><span>PuntoBalance</span><button type="button" class="rx" id="rail-x" aria-label="Cerrar menú">✕</button></div>
 <img id="sh-logo" hidden src="data:image/png;base64,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" alt="Logo">
 <div class="negsel" id="sh-neg"></div>
 <div class="period"><small>Periodo UC actual</small><b id="sh-per">Cargando…</b></div>
@@ -1061,7 +1145,24 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 
   <!-- AJUSTES -->
   <section id="t-ajustes">
-    <h2>Ajustes de la factura y del resumen</h2>
+    <h2>Ajustes</h2>
+    <div class="ajtabs" role="tablist" aria-label="Partes de los ajustes">
+      <button type="button" role="tab" data-ajt="negocios" aria-selected="true">🏢 Mis negocios</button>
+      <button type="button" role="tab" data-ajt="apar" aria-selected="false">🎨 Apariencia y seguridad</button>
+      <button type="button" role="tab" data-ajt="general" aria-selected="false">⚙️ General</button>
+    </div>
+    <div class="ajp" data-p="negocios">
+      <div class="mnw" id="mn">
+        <aside class="mnl">
+          <label>Tus negocios</label>
+          <div id="mn-lista"><div class="hint">Cargando…</div></div>
+          <button type="button" class="add" id="mn-add" aria-pressed="false">＋ Añadir negocio</button>
+        </aside>
+        <div class="mned"><div id="mn-msg" class="hint" role="status"></div><div id="mn-ed"></div></div>
+        <input type="file" id="lg-file" accept="image/png,image/jpeg" class="hidden">
+      </div>
+    </div>
+    <div class="ajp hidden" data-p="apar">
     <div class="apar" id="apar">
       <b>Apariencia y seguridad</b><p>Se guarda en este aparato.</p>
       <div class="grid">
@@ -1070,15 +1171,11 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
           <div class="hint">Tapa tus números si te alejas de la computadora. Para volver, «Continuar con Google».</div></div>
       </div>
     </div>
-    <div class="mn" id="mn">
-      <b>Mis negocios</b>
-      <p>Cada negocio con su nombre, su tipo, su logo y su numeración de facturas. Todos se guardan en la misma hoja.</p>
-      <div id="mn-lista"><div class="hint">Cargando…</div></div>
-      <button type="button" class="add" id="mn-add">＋ Añadir negocio</button>
-      <input type="file" id="lg-file" accept="image/png,image/jpeg" class="hidden">
-      <div id="mn-msg" class="hint" role="status"></div>
     </div>
-    <div class="grid" id="aj-lista"><div class="full hint">Cargando…</div></div>
+    <div class="ajp hidden" data-p="general">
+      <div class="apar"><b>General</b><p>Lo que es igual para todos tus negocios. Los datos de cada factura (dirección, banco, correo…) están en «Mis negocios».</p>
+      <div class="grid" id="aj-lista"><div class="full hint">Cargando…</div></div></div>
+    </div>
   </section>
 
     </div>
@@ -1117,7 +1214,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha16',fecha:'26 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha17',fecha:'26 oct 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1438,12 +1535,12 @@ function init_form(ROOT, P, S) {
   function mostrar(tab) {
     if (EDIT && EDIT.tipo !== tab) cancelarEdicion(true);
     TAB = tab; msg('');
-    const T = { ingreso: ['Nuevo ingreso', 'Registra una factura, evento o venta.'], gasto: ['Nuevo gasto', 'Compras, transporte, equipo y más.'], registros: ['Editar o eliminar', 'Corrige o borra un ingreso o gasto.'], cliente: ['Clientes', 'Añade un cliente nuevo o pulsa uno de tu lista para corregir sus datos.'], proveedor: ['Proveedores', 'Añade un proveedor nuevo.'], categoria: ['Categorías', 'Categorías de gastos para Universal Credit.'], periodos: ['Periodos UC', 'Del 7 de un mes al 6 del siguiente.'], ajustes: ['Ajustes', 'Tus datos, tu banco y las notas de la factura.'] }[tab] || ['Añadir datos', ''];
+    const T = { ingreso: ['Nuevo ingreso', 'Registra una factura, evento o venta.'], gasto: ['Nuevo gasto', 'Compras, transporte, equipo y más.'], registros: ['Editar o eliminar', 'Corrige o borra un ingreso o gasto.'], cliente: ['Clientes', 'Añade un cliente nuevo o pulsa uno de tu lista para corregir sus datos.'], proveedor: ['Proveedores', 'Añade un proveedor nuevo.'], categoria: ['Categorías', 'Categorías de gastos para Universal Credit.'], periodos: ['Periodos UC', 'Del 7 de un mes al 6 del siguiente.'], ajustes: ['Ajustes', 'Cada cosa en su sitio: tus negocios, la apariencia y lo general.'] }[tab] || ['Añadir datos', ''];
     $('ttl').textContent = T[0]; $('sub').textContent = T[1];
     S.marcar('form:' + tab);
     document.querySelectorAll('section').forEach((s) => s.classList.toggle('on', s.id === 't-' + tab));
     $('guardar').classList.toggle('hidden', tab === 'registros');
-    const pie = ROOT.querySelector('.foot'); if (pie) pie.classList.toggle('hidden', tab === 'ingreso' || tab === 'gasto');
+    const pie = ROOT.querySelector('.foot'); if (pie) pie.classList.toggle('hidden', tab === 'ingreso' || tab === 'gasto' || (tab === 'ajustes' && AJTAB !== 'general'));
     $('guardar').textContent = EDIT && EDIT.tipo === tab ? 'Guardar cambios' : { registros: '', ingreso: 'Guardar ingreso', gasto: 'Guardar gasto', proveedor: 'Guardar proveedor', cliente: 'Guardar cliente',
       categoria: 'Guardar categoría', periodos: 'Añadir periodos', ajustes: 'Guardar ajustes' }[tab];
     if (tab === 'ajustes') { cargarAjustes(); cargarMN(); }
@@ -1460,7 +1557,7 @@ function init_form(ROOT, P, S) {
   $('g-prov').addEventListener('change', () => $('g-nuevo-wrap').classList.toggle('hidden', $('g-prov').value !== '__nuevo__'));
   $('g-unidad').addEventListener('change', () => { if ($('g-unidad').value === 'MILLAS' && !$('g-precio').value) { $('g-precio').value = '0.45'; previews(); } });
 
-  const ETIQ = { nombre: 'Tu nombre', direccion: 'Dirección', ciudad_postcode: 'Ciudad y postcode', telefono: 'Teléfono', email: 'Email',
+  const ETIQ = { nombre: 'Tu nombre (para el saludo)', direccion: 'Dirección', ciudad_postcode: 'Ciudad y postcode', telefono: 'Teléfono', email: 'Email',
     banco: 'Banco', titular: 'Titular de la cuenta', sort_code: 'Sort code', cuenta: 'Número de cuenta', nota_factura: 'Nota al pie de la factura',
     plazo_pago_dias: 'Días para pagar', email_resumen: 'Email para el resumen UC', carpeta_facturas: 'Carpeta de Drive para los PDF', color_factura: 'Color de la factura' };
   let AJ = null;
@@ -1469,12 +1566,13 @@ function init_form(ROOT, P, S) {
     if (AJ) return;
     google.script.run.withSuccessHandler((lista) => {
       AJ = lista;
-      $('aj-lista').innerHTML = lista.map((a, i) => '<div class="' + (['nota_factura', 'direccion'].indexOf(a.clave) >= 0 ? 'full' : '') + '">' +
+      $('aj-lista').innerHTML = lista.map((a, i) => AJ_MOVIDOS.indexOf(a.clave) >= 0 ? '' : '<div class="' + (['nota_factura', 'direccion'].indexOf(a.clave) >= 0 ? 'full' : '') + '">' +
         '<label for="aj-' + i + '">' + (ETIQ[a.clave] || a.clave) + '</label><input id="aj-' + i + '" value="' + attr(a.valor) + '">' +
-        (a.desc ? '<div class="hint">' + attr(a.desc) + '</div>' : '') + '</div>').join('');
+        (a.clave === 'nombre' ? '<div class="hint">Para el saludo de Inicio. El nombre de cada factura está en «Mis negocios».</div>' : a.desc ? '<div class="hint">' + attr(a.desc) + '</div>' : '') + '</div>').join('');
     }).withFailureHandler((e) => msg('No he podido cargar los ajustes: ' + e.message, 'err')).getAjustes();
   }
-  function leerAjustes() { const o = {}; (AJ || []).forEach((a, i) => (o[a.clave] = $('aj-' + i).value)); return o; }
+  function leerAjustes() { const o = {}; (AJ || []).forEach((a, i) => { const el = $('aj-' + i); if (el) o[a.clave] = el.value; }); return o; }
+  const AJ_MOVIDOS = ['direccion', 'ciudad_postcode', 'telefono', 'email', 'banco', 'titular', 'sort_code', 'cuenta', 'nota_factura', 'plazo_pago_dias', 'color_factura'];
 
   const val = (id) => $(id).value;
   const lecturas = {
@@ -1898,42 +1996,68 @@ function init_form(ROOT, P, S) {
     google.script.run.withSuccessHandler((r) => {
       MN = r; S.negociosCargados && S.negociosCargados(r.lista, r.logos); pintarMN(); if (despues) despues();
       let ir = ''; try { ir = sessionStorage.getItem('pb_ir_negocios'); sessionStorage.removeItem('pb_ir_negocios'); } catch (e) { }
-      if (ir) { MNED = { nuevo: true }; pintarMN(); $('mn').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (ir) { ajTab('negocios'); MNED = { nuevo: true }; pintarMN(); }
     }).withFailureHandler((e) => { $('mn-lista').innerHTML = '<div class="hint">No he podido cargar tus negocios: ' + esc(e.message) + '</div>'; }).getNegocios();
+  }
+  let AJTAB = 'negocios';
+  function ajTab(t) {
+    AJTAB = t;
+    ROOT.querySelectorAll('[data-ajt]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.ajt === t)));
+    ROOT.querySelectorAll('.ajp').forEach((p) => p.classList.toggle('hidden', p.dataset.p !== t));
+    const pie = ROOT.querySelector('.foot'); if (pie && TAB === 'ajustes') pie.classList.toggle('hidden', t !== 'general');
+    msg('');
+  }
+  ROOT.querySelector('.ajtabs').addEventListener('click', (e) => { const b = e.target.closest('[data-ajt]'); if (b) ajTab(b.dataset.ajt); });
+  function lgMN(n) {
+    const l = n.id && MN && MN.logos[n.id];
+    return '<span class="lg">' + (l ? '<img alt="" src="' + attr(l) + '">' : '<b style="background:' + attr(n.color || '#1B2B5B') + '">' + esc(String(n.prefijo || n.nombre || '+').slice(0, 2).toUpperCase()) + '</b>') + '</span>';
   }
   function formMN(n) {
     const tipos = (MN.tipos || []).map((t) => '<button type="button" data-tipo="' + attr(t.clave) + '" aria-pressed="' + (t.clave === (n.tipo || 'dj')) + '"><b>' + esc(t.nombre) + '</b><small>' + esc(t.fecha) + ' · ' + esc(t.cliente) + '</small></button>').join('');
     const logo = n.id ? (MN.logos[n.id] || '') : '';
-    return '<div class="ed" data-ed="' + attr(n.id || '') + '"><div class="grid">' +
-      '<div><label for="mn-nom">Nombre del negocio</label><input id="mn-nom" value="' + attr(n.nombre || '') + '" placeholder="Ej. Odlare Apps"></div>' +
-      '<div><label for="mn-pre">Prefijo de las facturas</label><input id="mn-pre" maxlength="6" value="' + attr(n.prefijo || '') + '" placeholder="Ej. OD"><div class="hint">Las facturas saldrán así: ' + esc((n.prefijo || 'OD') + '-001') + '</div></div>' +
-      '<div class="full"><label>Tipo de negocio</label><div class="tipos">' + tipos + '</div></div>' +
-      '<div class="full"><label for="mn-nf">Nombre en la factura (opcional)</label><input id="mn-nf" value="' + attr(n.nombreFactura || '') + '" placeholder="Si lo dejas vacío, sale «Tu nombre» de los ajustes"></div></div>' +
-      '<h4>Factura de este negocio</h4><div class="grid">' +
-      '<div class="full"><label>Fecha en cada línea de la factura</label><div class="fechas">' +
-        [['event', 'Event date'], ['sale', 'Sale date'], ['service', 'Service date'], ['none', 'Sin fecha']].map((x) => '<button type="button" data-fl="' + x[0] + '" aria-pressed="' + (x[0] === (n.fechaLinea || ({ dj: 'event', productos: 'sale', servicios: 'service' })[n.tipo || 'servicios'])) + '">' + x[1] + '</button>').join('') + '</div></div>' +
-      '<div class="full"><label for="mn-nota">Nota al pie (solo de este negocio)</label><textarea id="mn-nota" placeholder="Ej. Thank you for your business!">' + esc(n.nota || '') + '</textarea></div>' +
-      '<div><label for="mn-mail">Email en la factura (opcional)</label><input id="mn-mail" type="email" value="' + attr(n.email || '') + '" placeholder="Si lo dejas vacío, el de tus ajustes"></div>' +
-      '<div><label for="mn-tel">Teléfono en la factura (opcional)</label><input id="mn-tel" value="' + attr(n.telefono || '') + '" placeholder="Si lo dejas vacío, el de tus ajustes"></div></div>' +
-      (n.id ? '<div class="fila"><div class="lgp">' + (logo ? '<img alt="" src="' + attr(logo) + '">' : '<span style="color:#9AA0B8;font-size:11px">Sin logo</span>') + '</div>' +
-        '<button type="button" class="btn" data-mlogo="' + attr(n.id) + '">Subir logo</button>' + (logo ? '<button type="button" class="btn" data-mquitar="' + attr(n.id) + '">Quitar logo</button>' : '') +
-        '<button type="button" class="btn" data-mcats="' + attr(n.tipo) + '">Añadir las categorías sugeridas</button></div>' : '') +
-      '<div class="fila"><button type="button" class="btn primary" data-mguardar="1">' + (n.id ? 'Guardar negocio' : 'Crear negocio') + '</button><button type="button" class="btn" data-mcancel="1">Cancelar</button></div></div>';
+    const fl0 = n.fechaLinea || ({ dj: 'event', productos: 'sale', servicios: 'service' })[n.tipo || 'servicios'];
+    const f = (cls, id, lab, val, ph, extra) => '<div class="' + cls + '"><label for="' + id + '">' + lab + '</label><input id="' + id + '" value="' + attr(val || '') + '" placeholder="' + attr(ph || '') + '"' + (extra || '') + '></div>';
+    const sec = (k, t, inner) => '<div class="sc"><h3><i>' + k + '</i>' + t + '</h3><div class="g4">' + inner + '</div></div>';
+    return '<div class="ed" data-ed="' + attr(n.id || '') + '">' +
+      '<div class="mnh">' + lgMN(n) + '<div class="tx"><b>' + esc(n.id ? n.nombre : 'Negocio nuevo') + '</b><small>' + (n.id ? 'Editando este negocio' : 'Rellena su ficha y pulsa «Crear negocio»') + '</small></div>' +
+        (n.id ? '<span class="acts"><button type="button" class="btn" data-mlogo="' + attr(n.id) + '">' + (logo ? 'Cambiar logo' : 'Subir logo') + '</button>' + (logo ? '<button type="button" class="btn" data-mquitar="' + attr(n.id) + '">Quitar</button>' : '') + '</span>' : '') + '</div>' +
+      sec(1, 'Datos del negocio',
+        f('c2', 'mn-nom', 'Nombre del negocio', n.nombre, 'Ej. Odlare Apps') +
+        f('', 'mn-pre', 'Prefijo de factura', n.prefijo, 'Ej. OD', ' maxlength="6"') +
+        f('', 'mn-nf', 'Nombre en la factura', n.nombreFactura, 'Si lo dejas vacío, el del negocio') +
+        '<div class="c4"><label>Tipo de negocio</label><div class="tipos">' + tipos + '</div><div class="hint">Las facturas saldrán así: ' + esc((n.prefijo || 'OD') + '-001') + '</div></div>') +
+      sec(2, 'Contacto <small>(sale en la factura)</small>',
+        f('c2', 'mn-dir', 'Dirección', n.direccion, 'Ej. 12 High Street') +
+        f('', 'mn-ciu', 'Ciudad y postcode', n.ciudad, 'Ej. Swansea SA1 1AA') +
+        f('', 'mn-tel', 'Teléfono', n.telefono, 'Ej. 07700 900000') +
+        f('c2', 'mn-mail', 'Correo', n.email, 'Ej. hola@tunegocio.com', ' type="email"')) +
+      sec(3, 'Banco <small>(para que te paguen)</small>',
+        f('', 'mn-banco', 'Banco', n.banco, 'Ej. Lloyds') +
+        f('', 'mn-tit', 'Titular', n.titular, 'Nombre como en el banco') +
+        f('', 'mn-sort', 'Sort code', n.sortCode, '00-00-00') +
+        f('', 'mn-cta', 'Nº de cuenta', n.cuenta, '8 números', ' inputmode="numeric"')) +
+      sec(4, 'Factura',
+        '<div class="c2"><label>Fecha que sale en la factura</label><div class="fechas">' +
+          [['event', 'Event date'], ['sale', 'Sale date'], ['service', 'Service date'], ['none', 'Ninguna']].map((x) => '<button type="button" data-fl="' + x[0] + '" aria-pressed="' + (x[0] === fl0) + '">' + x[1] + '</button>').join('') + '</div></div>' +
+        f('', 'mn-plazo', 'Días para pagar', n.plazo, 'Ej. 7', ' type="number" min="0" step="1" inputmode="numeric"') + '<div></div>' +
+        '<div class="c4"><label for="mn-nota">Nota al pie de la factura</label><textarea id="mn-nota" placeholder="Ej. Thank you for your business!">' + esc(n.nota || '') + '</textarea></div>') +
+      '<div class="mnf">' + (n.id ? '<button type="button" class="btn" data-mcats="' + attr(n.tipo) + '">Añadir las categorías sugeridas</button>' : '') +
+        '<span class="sp"></span><button type="button" class="btn" data-mcancel="1">Cancelar</button><button type="button" class="btn primary" data-mguardar="1">' + (n.id ? 'Guardar negocio' : 'Crear negocio') + '</button></div></div>';
   }
   function pintarMN() {
     if (!MN) return;
     const tipoN = (k) => ((MN.tipos || []).find((t) => t.clave === k) || {}).nombre || k;
-    $('mn-lista').innerHTML = MN.lista.map((n) => (MNED && MNED.id === n.id) ? formMN(n) :
-      '<div class="nr"><div class="lg">' + (MN.logos[n.id] ? '<img alt="" src="' + attr(MN.logos[n.id]) + '">' : '<span style="color:' + attr(n.color) + ';font-size:11px;font-weight:800">' + esc(n.prefijo) + '</span>') + '</div>' +
-      '<div class="tx"><b><i style="background:' + attr(n.color) + '"></i>' + esc(n.nombre) + '</b><small>' + esc(tipoN(n.tipo)) + ' · facturas ' + esc(n.prefijo ? n.prefijo + '-001…' : '1, 2, 3…') + '</small></div>' +
-      '<button type="button" class="btn" data-meditar="' + attr(n.id) + '">Editar</button></div>').join('') +
-      (MNED && MNED.nuevo ? formMN({ tipo: 'servicios' }) : '');
-    $('mn-add').classList.toggle('hidden', !!(MNED && MNED.nuevo));
+    if (!MNED || (MNED.id && !MN.lista.some((n) => n.id === MNED.id))) MNED = MN.lista.length ? { id: MN.lista[0].id } : { nuevo: true };
+    $('mn-lista').innerHTML = MN.lista.map((n) => '<button type="button" class="mni" data-meditar="' + attr(n.id) + '" aria-pressed="' + (MNED.id === n.id) + '">' + lgMN(n) +
+      '<span class="tx"><b>' + esc(n.nombre) + '</b><small>' + esc(tipoN(n.tipo)) + ' · ' + esc(n.prefijo ? n.prefijo + '-001…' : '1, 2, 3…') + '</small></span></button>').join('');
+    $('mn-add').setAttribute('aria-pressed', String(!!MNED.nuevo));
+    $('mn-ed').innerHTML = formMN(MNED.nuevo ? { tipo: 'servicios' } : MN.lista.find((n) => n.id === MNED.id));
   }
   $('mn-add').onclick = () => { MNED = { nuevo: true }; pintarMN(); mnm(''); const i = $('mn-nom'); if (i) i.focus(); };
+  function ponerEnVista() { const e = $('mn-ed'); if (e && window.matchMedia('(max-width: 1000px)').matches) e.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   $('mn').addEventListener('click', (ev) => {
     const b = ev.target.closest('button'); if (!b || !MN) return;
-    if (b.dataset.meditar) { MNED = { id: b.dataset.meditar }; pintarMN(); mnm(''); return; }
+    if (b.dataset.meditar) { MNED = { id: b.dataset.meditar }; pintarMN(); mnm(''); ponerEnVista(); return; }
     if (b.dataset.mcancel) { MNED = null; pintarMN(); mnm(''); return; }
     if (b.dataset.tipo) {
       b.parentNode.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
@@ -1961,10 +2085,11 @@ function init_form(ROOT, P, S) {
       const ed = b.closest('.ed'), tipo = (ed.querySelector('.tipos [aria-pressed="true"]') || {}).dataset;
       const fl = (ed.querySelector('.fechas [aria-pressed="true"]') || {}).dataset;
       const o = { id: ed.dataset.ed || '', nombre: $('mn-nom').value, prefijo: $('mn-pre').value, nombreFactura: $('mn-nf').value, tipo: tipo ? tipo.tipo : 'dj',
-        fechaLinea: fl ? fl.fl : '', nota: $('mn-nota').value, email: $('mn-mail').value, telefono: $('mn-tel').value };
+        fechaLinea: fl ? fl.fl : '', nota: $('mn-nota').value, email: $('mn-mail').value, telefono: $('mn-tel').value,
+        direccion: $('mn-dir').value, ciudad: $('mn-ciu').value, banco: $('mn-banco').value, titular: $('mn-tit').value, sortCode: $('mn-sort').value, cuenta: $('mn-cta').value, plazo: $('mn-plazo').value };
       b.disabled = true; mnm('Guardando…');
       google.script.run.withSuccessHandler((r) => {
-        MNED = o.id ? null : { id: r.id };
+        MNED = { id: o.id || r.id };
         cargarMN(() => mnm(o.id ? 'Negocio guardado.' : 'Negocio creado. Si quieres, súbele su logo.', 'ok'));
         cargar();
       }).withFailureHandler((e) => { b.disabled = false; mnm(e.message.replace(/^Exception: /, ''), 'err'); }).guardarNegocioDatos(o);
@@ -2486,6 +2611,9 @@ function init_acerca(ROOT, P, S) {
   function cerrarMenu() { document.querySelector('.rail').classList.remove('open'); $('bd').classList.remove('open'); }
   function abrirMenu() { document.querySelector('.rail').classList.add('open'); $('bd').classList.add('open'); }
   $('mb-open').onclick = abrirMenu; $('mb-more').onclick = abrirMenu; $('bd').onclick = cerrarMenu;
+  $('rail-x').onclick = cerrarMenu; $('top-neg').onclick = abrirMenu;
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
+  (function () { const mi = document.querySelector('.rail .marca .mi'), b = document.querySelector('.mtop b'); if (mi && b) { const k = mi.cloneNode(true); k.setAttribute('class', 'tmi'); b.parentNode.insertBefore(k, b); } })();
 
   let DEST = '';
   function ir(destino, forzar) {
@@ -2520,6 +2648,7 @@ function init_acerca(ROOT, P, S) {
       '<button type="button" class="add" data-neg-add="1">＋ Añadir negocio</button>';
     box.innerHTML = '<button type="button" id="sh-neg-b" aria-haspopup="true">' + (n ? tile(n) : '<span class="lt"><b style="color:#6B7194">Todos</b></span>') + '<span class="nt"><small>Negocio</small><b>' + (n ? escS(n.nombre) : 'Todos') + ' ▾</b></span></button><div class="nl">' + lista + '</div>';
     $('sh-neg-b').onclick = (e) => { e.stopPropagation(); box.classList.toggle('open'); };
+    const tn = $('top-neg'); if (tn) tn.textContent = n ? n.nombre : 'Todos';
     box.querySelectorAll('[data-neg]').forEach((b) => (b.onclick = () => { box.classList.remove('open'); setNegocio(b.dataset.neg); }));
     box.querySelector('[data-neg-add]').onclick = () => { box.classList.remove('open'); try { sessionStorage.setItem('pb_ir_negocios', '1'); } catch (e) { } ir('form:ajustes', true); };
   }

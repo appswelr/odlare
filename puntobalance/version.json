@@ -1,7 +1,17 @@
 {
- "ver": "5.0.0-alpha16",
+ "ver": "5.0.0-alpha17",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha17",
+   "fecha": "26 oct 2026",
+   "cambios": [
+    "El menú lateral se esconde: toda la pantalla para trabajar. Púlsalo con ☰ arriba a la izquierda",
+    "Ajustes ordenados en pestañas: Mis negocios, Apariencia y seguridad, y General",
+    "Cada negocio con su ficha: dirección, teléfono, correo, banco, días para pagar y nota de la factura",
+    "Cada factura sale con los datos de su negocio"
+   ]
+  },
   {
    "ver": "5.0.0-alpha16",
    "fecha": "26 oct 2026",

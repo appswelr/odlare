@@ -39,7 +39,7 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha16';
+const VERSION = '5.0.0-alpha17';
 const VERSION_FECHA = '26 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────
@@ -232,11 +232,11 @@ function construirFactura_(id) {
   if (filas[0]['ESTADO'] === 'CANCELLED') throw new Error('La factura ' + num + ' está cancelada: no se crea PDF ni se envía.');
   const cfg = config_();
   if (neg) {
-    if (neg.nombreFactura.trim()) cfg.nombre = neg.nombreFactura.trim();
-    if (neg.email) cfg.email = neg.email;
-    if (neg.telefono) cfg.telefono = neg.telefono;
-    // la nota: la de su negocio; el primer negocio, si no tiene, usa la de Ajustes (la de siempre)
-    cfg.nota_factura = neg.nota || (neg.id === negPrimero_() ? (cfg.nota_factura || '') : '');
+    // 5.0.0-alpha17: cada factura sale con la ficha de su negocio (el primero, si algo está vacío, usa lo de siempre)
+    cfg.nombre = neg.nombreFactura.trim() || neg.nombre;
+    cfg.email = neg.email; cfg.telefono = neg.telefono; cfg.direccion = neg.direccion; cfg.ciudad_postcode = neg.ciudad;
+    cfg.banco = neg.banco; cfg.titular = neg.titular; cfg.sort_code = neg.sortCode; cfg.cuenta = neg.cuenta;
+    cfg.plazo_pago_dias = neg.plazo; cfg.nota_factura = neg.nota;
   }
   const fechaCol = neg ? FECHA_LINEA[neg.fechaLinea] : 'Date';
   const cli = leerTabla_('Clientes').find(c => c['NOMBRE'] === filas[0]['CLIENTE']) || {};
@@ -1171,7 +1171,8 @@ function anadirCategoriasSugeridas(tipo) {
  * Pestaña «Negocios» (ID, NOMBRE, TIPO, PREFIJO, COLOR, NOMBRE EN FACTURA). El primero es el de siempre:
  * las filas viejas sin NEGOCIO son suyas. Cada negocio numera sus facturas (DJ-013, OD-001…) en la columna Nº FACTURA;
  * las facturas viejas se quedan con su número. ID FACTURA sigue siendo el número interno (único) de la fila. */
-const NEG_CABS = ['ID', 'NOMBRE', 'TIPO', 'PREFIJO', 'COLOR', 'NOMBRE EN FACTURA', 'FECHA EN FACTURA', 'NOTA FACTURA', 'EMAIL', 'TELÉFONO'];
+const NEG_CABS = ['ID', 'NOMBRE', 'TIPO', 'PREFIJO', 'COLOR', 'NOMBRE EN FACTURA', 'FECHA EN FACTURA', 'NOTA FACTURA', 'EMAIL', 'TELÉFONO',
+  'DIRECCIÓN', 'CIUDAD Y POSTCODE', 'BANCO', 'TITULAR', 'SORT CODE', 'Nº CUENTA', 'DÍAS PARA PAGAR'];   // 5.0.0-alpha17: ficha completa por negocio
 const FECHA_LINEA = { event: 'Event date', sale: 'Sale date', service: 'Service date', none: '' };
 const FECHA_TIPO = { dj: 'event', productos: 'sale', servicios: 'service' };
 const NEG_COLORES = ['#4F46E5', '#F4A62A', '#16A34A', '#DC5A56', '#0EA5E9', '#9333EA', '#0F766E', '#BE185D'];
@@ -1192,7 +1193,7 @@ function asegurarNegocios_() {
     s.getRange(1, 1, 1, NEG_CABS.length).setValues([NEG_CABS]).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1B2B5B');
     s.setFrozenRows(1);
     const nombre = String(config_().nombre || '').trim() || 'Mi negocio';
-    s.getRange(2, 1, 1, NEG_CABS.length).setValues([['n1', nombre, negocio_(), prefijoDe_(nombre), NEG_COLORES[0], '', '', '', '', '']]);
+    s.getRange(2, 1, 1, NEG_CABS.length).setValues([['n1', nombre, negocio_(), prefijoDe_(nombre), NEG_COLORES[0]].concat(NEG_CABS.slice(5).map(() => ''))]);
   } else {
     const s = ss.getSheetByName('Negocios');
     const cab = s.getRange(1, 1, 1, Math.max(s.getLastColumn(), 1)).getValues()[0];
@@ -1224,11 +1225,21 @@ function negocios_() {
     id: String(r['ID']), nombre: String(r['NOMBRE'] || 'Negocio'), tipo: NEGOCIOS[r['TIPO']] ? String(r['TIPO']) : 'dj',
     prefijo: String(r['PREFIJO'] || ''), color: String(r['COLOR'] || NEG_COLORES[i % NEG_COLORES.length]), nombreFactura: String(r['NOMBRE EN FACTURA'] || ''),
     fechaLinea: FECHA_LINEA.hasOwnProperty(r['FECHA EN FACTURA']) ? String(r['FECHA EN FACTURA']) : (FECHA_TIPO[r['TIPO']] || 'event'),
-    nota: String(r['NOTA FACTURA'] == null ? '' : r['NOTA FACTURA']), email: String(r['EMAIL'] || ''), telefono: String(r['TELÉFONO'] || '')
+    nota: String(r['NOTA FACTURA'] == null ? '' : r['NOTA FACTURA']), email: String(r['EMAIL'] || ''), telefono: String(r['TELÉFONO'] || ''),
+    direccion: txt_(r['DIRECCIÓN']), ciudad: txt_(r['CIUDAD Y POSTCODE']), banco: txt_(r['BANCO']), titular: txt_(r['TITULAR']),
+    sortCode: txt_(r['SORT CODE']), cuenta: txt_(r['Nº CUENTA']), plazo: txt_(r['DÍAS PARA PAGAR'])
   }));
+  // 5.0.0-alpha17: el primer negocio, mientras no tenga su ficha rellena, usa los datos de siempre (Config)
+  if (l.length) {
+    const cfg = config_(), p = l[0];
+    const de = { nombreFactura: 'nombre', email: 'email', telefono: 'telefono', direccion: 'direccion', ciudad: 'ciudad_postcode', banco: 'banco',
+      titular: 'titular', sortCode: 'sort_code', cuenta: 'cuenta', plazo: 'plazo_pago_dias', nota: 'nota_factura' };
+    Object.keys(de).forEach(k => { if (!String(p[k] || '').trim()) p[k] = txt_(cfg[de[k]]); });
+  }
   NEG_CACHE = { t: Date.now(), l: l };
   return l;
 }
+function txt_(v) { return v === null || v === undefined ? '' : String(v); }
 function negPrimero_() { const l = negocios_(); return l.length ? l[0].id : 'n1'; }
 function negocioPorId_(id) { return negocios_().find(n => n.id === String(id)) || null; }
 function negDe_(r) { return String(r['NEGOCIO'] || '') || negPrimero_(); }
@@ -1266,12 +1277,19 @@ function guardarNegocioDatos(o) {
     const s = hoja_('Negocios');
     const nf = String(o.nombreFactura || '').trim();
     const fl = FECHA_LINEA.hasOwnProperty(o.fechaLinea) ? o.fechaLinea : (FECHA_TIPO[tipo] || 'event');
-    const extra = [fl, String(o.nota || '').trim(), String(o.email || '').trim(), String(o.telefono || '').trim()];
+    const t = (v) => String(v == null ? '' : v).trim();
+    const plazo = t(o.plazo) === '' ? '' : numero_(o.plazo, 'Días para pagar', 0);
+    const vals = { 'NOMBRE': nombre, 'TIPO': tipo, 'NOMBRE EN FACTURA': nf, 'FECHA EN FACTURA': fl, 'NOTA FACTURA': t(o.nota), 'EMAIL': t(o.email), 'TELÉFONO': t(o.telefono),
+      'DIRECCIÓN': t(o.direccion), 'CIUDAD Y POSTCODE': t(o.ciudad), 'BANCO': t(o.banco), 'TITULAR': t(o.titular), 'SORT CODE': t(o.sortCode), 'Nº CUENTA': t(o.cuenta), 'DÍAS PARA PAGAR': plazo };
+    const cab = s.getRange(1, 1, 1, s.getLastColumn()).getValues()[0];
+    const poner = (arr) => { Object.keys(vals).forEach(k => { const i = cab.indexOf(k); if (i >= 0) arr[i] = vals[k]; }); return arr; };
     if (o.id) {
       const r = lista.findIndex(n => n.id === o.id);
       if (r < 0) throw new Error('No encuentro ese negocio.');
       const fila = leerTabla_('Negocios')[r]._fila;
-      s.getRange(fila, 2, 1, 9).setValues([[nombre, tipo, prefijo, lista[r].color, nf].concat(extra)]);
+      vals['PREFIJO'] = prefijo;
+      const arr = s.getRange(fila, 1, 1, cab.length).getValues()[0];
+      s.getRange(fila, 1, 1, cab.length).setValues([poner(arr)]);
       if (r === 0) PropertiesService.getScriptProperties().setProperty('NEGOCIO', tipo);   // compatibilidad con «Mi negocio»
       NEG_CACHE = null;
       return { id: o.id };
@@ -1279,7 +1297,8 @@ function guardarNegocioDatos(o) {
     if (lista.length >= 8) throw new Error('Puedes tener hasta 8 negocios.');
     const id = 'n' + (lista.reduce((m, n) => Math.max(m, Number(String(n.id).replace(/\D/g, '')) || 0), 0) + 1);
     const r = filaLibre_(s, false);
-    s.getRange(r, 1, 1, NEG_CABS.length).setValues([[id, nombre, tipo, prefijo || prefijoDe_(nombre), NEG_COLORES[lista.length % NEG_COLORES.length], nf].concat(extra)]);
+    vals['ID'] = id; vals['PREFIJO'] = prefijo || prefijoDe_(nombre); vals['COLOR'] = NEG_COLORES[lista.length % NEG_COLORES.length];
+    s.getRange(r, 1, 1, cab.length).setValues([poner(cab.map(() => ''))]);
     NEG_CACHE = null;
     return { id: id };
   });
