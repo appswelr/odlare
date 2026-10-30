@@ -129,10 +129,8 @@ section{padding:72px 0}
 .contact p{font-size:17px}
 .contact .mail{display:flex;flex-direction:column;align-items:center;gap:8px}.contact .dir{font-weight:700;font-size:14px;user-select:all;color:#1B2B5B}
 .contact .btn.pri{background:var(--navy);color:#fff;box-shadow:none}
-.oli{width:150px;height:auto}
-.oli .brazo{transform-origin:46px 92px;animation:hola 2.4s ease-in-out infinite}
+.oli{width:180px;height:auto;animation:flota 4s ease-in-out infinite;filter:drop-shadow(0 10px 14px rgba(20,27,58,.22))}
 @keyframes hola{0%,55%,100%{transform:rotate(0)}65%{transform:rotate(-14deg)}75%{transform:rotate(6deg)}85%{transform:rotate(-12deg)}}
-.oli .cuerpo{animation:flota 4s ease-in-out infinite}
 @keyframes flota{50%{transform:translateY(-5px)}}
 
 /* Privacidad */
@@ -147,7 +145,7 @@ footer .odl{font-size:26px}
 footer a{text-decoration:none}
 
 .rv{transition:transform .6s ease}
-@media (prefers-reduced-motion:reduce){.oli *{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.oli{animation:none!important}}
 
 
 /* Formulario */
@@ -208,6 +206,38 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
 .pbmeta{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
 .pbmeta .price{font-weight:700;color:#12804A}
 .pbmeta .cod{font-size:13px;color:var(--muted)}
+
+/* --- Portada oscura (nueva) --- */
+header:not(.scrolled){background:transparent;--dotbg:#14204B;--logo:#fff}
+header:not(.scrolled) nav a{color:#C9D1EE;opacity:1}
+header:not(.scrolled) nav a:hover{color:#fff}
+header:not(.scrolled) .ctl button{background:#ffffff14;border-color:#ffffff30;color:#fff}
+body::before{background:#0E1738}
+.hero{margin-top:-72px;padding:168px 0 96px;background:radial-gradient(900px 560px at 78% 42%,#2B3F86 0,transparent 62%),linear-gradient(180deg,#0E1738,#162350);color:#C9D1EE;overflow:hidden}
+.hero::before{display:none}
+.hero h1{color:#fff}
+.hero h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--amber)}
+.hero p.lead{color:#C9D1EE}
+.hero .eyebrow{background:#ffffff14;border:1px solid #ffffff2a;color:#E3E8FA}
+.hero .btn.pri{background:#fff;color:var(--navy);box-shadow:none}
+.hero .btn.sec{background:transparent;color:#fff;border:1.5px solid #5C6DAA}
+.hero .trust{color:#AEB9E0}.hero .trust svg{color:var(--amber)}
+.hero .noti{left:auto;right:-34px;bottom:-18px;background:#fff;color:#3B4466;border-color:transparent}
+.hero .noti b{color:#121726}
+.heroOli{position:absolute;left:-60px;bottom:-34px;width:250px;height:auto;z-index:3;filter:drop-shadow(0 18px 24px rgba(0,0,0,.5))}
+.heroGlow{position:absolute;left:-130px;bottom:-90px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,#5B75D6 0,#3A52A8 38%,transparent 68%);opacity:.7;z-index:2;pointer-events:none}
+.oliApp{position:absolute;width:150px;height:auto;z-index:2;filter:drop-shadow(0 10px 14px rgba(20,27,58,.25));animation:flota 4s ease-in-out infinite}
+.app.fin .oliApp{right:10px;bottom:16px;width:140px;z-index:5}
+.app.pronto .oliApp{right:44px;bottom:26px;width:170px}
+.app.pronto .feats{margin-right:210px}
+@media (max-width:900px){
+ .hero{padding:112px 0 56px}
+ .heroOli,.heroGlow{display:none}
+ .app.fin .oliApp{display:none}
+ .app.pronto .oliApp{position:relative;right:auto;bottom:auto;display:block;margin:18px auto 0;width:140px}
+ .app.pronto .feats{margin-right:0}
+}
+@media (prefers-reduced-motion:reduce){.oliApp{animation:none}}
 </style>
 </head>
 <body>
@@ -252,6 +282,7 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
       </div>
     </div>
     <div class="phones" aria-hidden="true">
+      <div class="heroGlow"></div><img class="heroOli" src="img/oli-hero.webp" alt="">
       <div class="phone p2"><div class="scr"><div class="sb"><span>12:30</span><span class="ico"><svg viewBox="0 0 16 11"><path d="M1 10h2V7H1zM5 10h2V5H5zM9 10h2V3H9zM13 10h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 14 11"><path d="M7 10.5 0.5 3.6a9.4 9.4 0 0 1 13 0z" fill="currentColor"/></svg><svg viewBox="0 0 22 11"><rect x="0.6" y="0.6" width="18" height="9.8" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="2.4" y="2.4" width="11.5" height="6.2" rx="1.3" fill="currentColor"/><rect x="19.8" y="3.6" width="1.6" height="3.8" rx=".8" fill="currentColor"/></svg></span></div><img data-img="fin2" src="img/fin2-es.jpg" alt=""></div></div>
       <div class="noti">
         <img src="img/icono-finanzas.png" alt="">
@@ -271,7 +302,8 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
       <p data-es="Pensadas para la vida real: rápidas, claras y en tu idioma." data-en="Built for real life: quick, clear and in your language.">Pensadas para la vida real: rápidas, claras y en tu idioma.</p>
     </div>
 
-    <article class="app rv" style="--c:var(--fin)">
+    <article class="app fin rv" style="--c:var(--fin)">
+      <img class="oliApp" src="img/oli-moneda.webp" alt="" loading="lazy">
       <div>
         <div class="top">
           <img src="img/icono-finanzas.png" alt="Mis Finanzas">
@@ -320,6 +352,7 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
     </article>
 
     <article class="app pronto rv" style="--c:var(--com)">
+      <img class="oliApp" src="img/oli-compras.webp" alt="" loading="lazy">
       <div class="top">
         <img src="img/icono-compras.png" alt="Mis Compras">
         <div><h3 data-es="Mis Compras" data-en="My Shopping">Mis Compras</h3><div class="tag" data-es="Tu lista de la compra" data-en="Your shopping list">Tu lista de la compra</div></div>
@@ -378,27 +411,7 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
 <section id="contacto">
   <div class="wrap">
     <div class="contact rv">
-      <svg class="oli" viewBox="0 0 160 190" role="img" aria-label="Oli">
-        <g class="cuerpo">
-          <path d="M68 128 L64 162" stroke="#1B2B5B" stroke-width="9" stroke-linecap="round"/>
-          <path d="M92 128 L96 162" stroke="#1B2B5B" stroke-width="9" stroke-linecap="round"/>
-          <ellipse cx="60" cy="166" rx="11" ry="6.5" fill="#1B2B5B"/>
-          <ellipse cx="100" cy="166" rx="11" ry="6.5" fill="#1B2B5B"/>
-          <path d="M120 96 Q134 108 136 124" stroke="#1B2B5B" stroke-width="9" fill="none" stroke-linecap="round"/>
-          <circle cx="136" cy="128" r="8.5" fill="#fff" stroke="#1B2B5B" stroke-width="3.5"/>
-          <g class="brazo">
-            <path d="M46 92 Q28 78 24 52" stroke="#1B2B5B" stroke-width="9" fill="none" stroke-linecap="round"/>
-            <circle cx="23" cy="46" r="8.5" fill="#fff" stroke="#1B2B5B" stroke-width="3.5"/>
-          </g>
-          <circle cx="80" cy="86" r="33" fill="#fff"/>
-                    <circle cx="80" cy="86" r="43" fill="none" stroke="#1B2B5B" stroke-width="22"/>
-          <circle cx="71" cy="82" r="4.2" fill="#1B2B5B"/><circle cx="89" cy="82" r="4.2" fill="#1B2B5B"/>
-          <circle cx="72.4" cy="80.6" r="1.3" fill="#fff"/><circle cx="90.4" cy="80.6" r="1.3" fill="#fff"/>
-          <path d="M70 93 Q80 102 90 93" stroke="#1B2B5B" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-          <circle cx="64" cy="91" r="3.5" fill="#F9A8B8" opacity=".7"/><circle cx="96" cy="91" r="3.5" fill="#F9A8B8" opacity=".7"/>
-          <circle cx="110.4" cy="55.6" r="12" fill="#F4A62A" stroke="#EAE7FF" stroke-width="5"/>
-        </g>
-      </svg>
+      <img class="oli" src="img/oli-hola.webp" width="180" height="163" alt="Oli, la mascota de Odlare, saludando" loading="lazy">
       <div>
         <h2 data-es="¿Hablamos?" data-en="Let's talk">¿Hablamos?</h2>
         <p data-es="¿Una duda, una idea o quieres probar las apps antes que nadie? Escríbenos y te contestamos." data-en="A question, an idea, or want to try the apps before anyone else? Write to us and we'll get back to you.">¿Una duda, una idea o quieres probar las apps antes que nadie? Escríbenos y te contestamos.</p>
@@ -450,7 +463,7 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
 <footer>
   <div class="wrap">
     <a href="#" class="odl" aria-label="Odlare"><svg aria-hidden="true"><use href="#o"/></svg>dlare</a>
-    <span><span data-es="Hechas por" data-en="Made by">Hechas por</span> Wilber Eraldo · © 2026 Odlare · <span data-es="Todos los derechos reservados" data-en="All rights reserved">Todos los derechos reservados</span></span>
+    <span><span data-es="Hechas en el Reino Unido" data-en="Made in the UK">Hechas en el Reino Unido</span> · © 2026 Odlare · <span data-es="Todos los derechos reservados" data-en="All rights reserved">Todos los derechos reservados</span></span>
   </div>
 </footer>
 
