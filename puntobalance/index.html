@@ -206,6 +206,7 @@
   .v-inicio .estado .hmc em.warn { color: #C2410C; } .v-inicio .estado .hmc em.err { color: #B91C1C; }
   .v-inicio .estado .hmok { margin-top: 7px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); border-radius: 9px; padding: 4px 10px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
   .v-inicio .estado .hmok.hidden { display: none; }
+  .v-inicio .estado .hmp { color: var(--ink); font-weight: 700; font-size: 12.5px; }
   @media (max-width: 760px) { .v-inicio .estado .card.hm { grid-column: 1 / -1; } }
   .v-inicio h2.qq { margin-top: 4px; }
   @media (max-width: 1100px) { .v-inicio .estado { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -377,6 +378,12 @@ html[data-tema="oscuro"] .v-form .hist .sumbar { background: #18254C; } html[dat
 .v-form .hist .hoja tr[data-cli] { cursor: pointer; }
 .v-form .editando { background: #FEF3C7; color: #78350F; border-radius: 10px; padding: 8px 12px; font-size: 13px; margin-bottom: 10px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 .v-form .editando button { border: 0; background: none; font: inherit; font-weight: 700; color: inherit; text-decoration: underline; cursor: pointer; }
+/* 5.0.0-alpha21: eliminar de la lista */
+.v-form .rdel { border: 1.5px solid #FCA5A5 !important; background: #FEF2F2 !important; color: #B91C1C !important; font-weight: 700; }
+.v-form .rdel.hidden, .v-form .rnota.hidden { display: none; }
+.v-form .rnota { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.35; }
+.v-form .hist tr[data-lnom] { cursor: pointer; }
+html[data-tema="oscuro"] .v-form .rdel { background: #3A1518 !important; border-color: #7F1D1D !important; color: #FCA5A5 !important; }
 /* Mis negocios */
 .v-form .apar { background: #F7F8FC; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-bottom: 16px; }
 .v-form .apar > b { font-size: 15px; color: var(--ink); } .v-form .apar > p { margin: 4px 0 10px; color: var(--muted); font-size: 13px; }
@@ -1011,7 +1018,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
     <div class="card"><span class="ic" style="background:#E0E7FF">📅</span><div><small>Faltan para cerrar el periodo</small><b id="e-dias">…</b></div></div>
     <div class="card"><span class="ic" style="background:#FFEDD5">⏳</span><div><small>Pendiente de cobro</small><b id="e-pend">…</b></div></div>
     <div class="card" id="e-copia-c"><span class="ic" style="background:#DCFCE7">☁️</span><div><small>Última copia de seguridad</small><b id="e-copia">…</b></div></div>
-    <div class="card hm" id="e-hmrc-c"><span class="ic" id="e-hmrc-ic" style="background:#FEF3C7">🏛️</span><div class="hmb"><small id="e-hmrc-l">Declaración HMRC</small><div class="hmc"><div><i id="e-hmrc-l1">Declarar desde</i><b id="e-hmrc-1">…</b><em id="e-hmrc-d1"></em></div><div><i>Fecha límite</i><b id="e-hmrc-2">…</b><em id="e-hmrc-d2"></em></div></div><button type="button" class="hmok hidden" id="e-hmrc-ok">✓ Ya la presenté</button></div></div>
+    <div class="card hm" id="e-hmrc-c"><span class="ic" id="e-hmrc-ic" style="background:#FEF3C7">🏛️</span><div class="hmb"><small id="e-hmrc-l">Declaración HMRC</small><div class="hmc"><div><i id="e-hmrc-l1">Declarar desde</i><b id="e-hmrc-1">…</b><em id="e-hmrc-d1"></em></div><div><i>Último día</i><b id="e-hmrc-2">…</b><em id="e-hmrc-d2"></em></div></div><button type="button" class="hmok hidden" id="e-hmrc-ok">✓ Ya la presenté</button></div></div>
   </div>
   <h2 class="qq">¿Qué quieres hacer?</h2>
   <div class="hero">
@@ -1123,10 +1130,11 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
     <h2>Nuevo proveedor</h2>
     <div class="fcol">
     <div class="grid">
+      <div id="p-editando" class="c4 editando hidden"><span id="p-edtxt"></span><button type="button" id="p-cancel">Cancelar</button></div>
       <div class="c2"><label for="p-nombre">Nombre</label><input id="p-nombre" placeholder="Ej. Shell"></div>
       <div class="c2"><label for="p-notas">Notas (opcional)</label><input id="p-notas" placeholder="Ej. Gasolina para ir a los eventos"></div>
     </div>
-    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Proveedores en tu lista</span><b id="p-r-n">…</b></div><div class="rr"><span>Con gastos apuntados</span><b id="p-r-f">…</b></div><button class="btn primary rg" id="p-rg" type="button">Guardar proveedor</button><button class="btn rl" id="p-rl" type="button">Limpiar</button><div class="rmsg" id="p-msg" role="status" aria-live="polite"></div></aside>
+    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Proveedores en tu lista</span><b id="p-r-n">…</b></div><div class="rr"><span>Con gastos apuntados</span><b id="p-r-f">…</b></div><button class="btn primary rg" id="p-rg" type="button">Guardar proveedor</button><button class="btn rl" id="p-rl" type="button">Limpiar</button><button class="btn rdel hidden" id="p-del" type="button">🗑️ Eliminar</button><div class="rnota hidden" id="p-nota"></div><div class="rmsg" id="p-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="ls-proveedor"></aside>
   </section>
@@ -1144,7 +1152,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
       <div><label for="c-tel">Teléfono</label><input id="c-tel" type="tel" placeholder="Ej. 07700 900000"></div>
       <div><label for="c-email">Email</label><input id="c-email" type="email" placeholder="cliente@correo.com"></div>
     </div>
-    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Clientes en tu lista</span><b id="c-r-n">…</b></div><div class="rr"><span>Con facturas</span><b id="c-r-f">…</b></div><button class="btn primary rg" id="c-rg" type="button">Guardar cliente</button><button class="btn rl" id="c-rl" type="button">Limpiar</button><div class="rmsg" id="c-msg" role="status" aria-live="polite"></div></aside>
+    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Clientes en tu lista</span><b id="c-r-n">…</b></div><div class="rr"><span>Con facturas</span><b id="c-r-f">…</b></div><button class="btn primary rg" id="c-rg" type="button">Guardar cliente</button><button class="btn rl" id="c-rl" type="button">Limpiar</button><button class="btn rdel hidden" id="c-del" type="button">🗑️ Eliminar</button><div class="rnota hidden" id="c-nota"></div><div class="rmsg" id="c-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="ls-cliente"></aside>
   </section>
@@ -1154,11 +1162,12 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
     <h2>Nueva categoría</h2>
     <div class="fcol">
     <div class="grid">
+      <div id="k-editando" class="c4 editando hidden"><span id="k-edtxt"></span><button type="button" id="k-cancel">Cancelar</button></div>
       <div class="c2"><label for="k-nombre">Nombre</label><input id="k-nombre" placeholder="Por ejemplo: Insurance"></div>
       <div class="c2"><label for="k-desc">Descripción (opcional)</label><input id="k-desc" placeholder="Qué tipo de gastos van aquí"></div>
       <div class="c4 hint">Al guardarla aparece al instante en el formulario de gastos y en los resúmenes. <span id="k-cupo"></span></div>
     </div>
-    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Categorías usadas</span><b id="k-r-n">…</b></div><div class="rr"><span>Gastado este año</span><b id="k-r-t">…</b></div><button class="btn primary rg" id="k-rg" type="button">Guardar categoría</button><button class="btn rl" id="k-rl" type="button">Limpiar</button><div class="rmsg" id="k-msg" role="status" aria-live="polite"></div></aside>
+    <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Categorías usadas</span><b id="k-r-n">…</b></div><div class="rr"><span>Gastado este año</span><b id="k-r-t">…</b></div><button class="btn primary rg" id="k-rg" type="button">Guardar categoría</button><button class="btn rl" id="k-rl" type="button">Limpiar</button><button class="btn rdel hidden" id="k-del" type="button">🗑️ Eliminar</button><div class="rnota hidden" id="k-nota"></div><div class="rmsg" id="k-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="ls-categoria"></aside>
   </section>
@@ -1247,7 +1256,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha20',fecha:'31 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha21',fecha:'31 oct 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1260,15 +1269,16 @@ function init_inicio(ROOT, P, S) {
 
   /* 5.0.0-alpha20: tarjeta HMRC */
   const MESC = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  const escH = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   function pintarHmrc(h) {
     if (!$('e-hmrc-c')) return;
     const f = (s) => { const d = new Date(s + 'T00:00:00'); return d.getDate() + ' ' + MESC[d.getMonth()] + ' ' + d.getFullYear(); };
     const hoy = new Date(new Date().toDateString()), dias = (s) => Math.round((new Date(s + 'T00:00:00') - hoy) / 864e5);
     const txt = (n) => n === 0 ? 'Es hoy' : n === 1 ? 'Falta 1 día' : 'Faltan ' + n + ' días';
     const dd = dias(h.desde), dl = dias(h.limite), ya = dd <= 0;
-    $('e-hmrc-l').textContent = 'Declaración ' + h.anio + ' (HMRC)';
+    $('e-hmrc-l').innerHTML = 'Impuestos HMRC · año fiscal ' + escH(h.anio) + (h.ini ? '<br><span class="hmp">' + f(h.ini) + ' – ' + f(h.fin) + '</span>' : '');
     $('e-hmrc-ic').textContent = ya ? '✅' : '🏛️'; $('e-hmrc-ic').style.background = ya ? '#DCFCE7' : '#FEF3C7';
-    $('e-hmrc-l1').textContent = ya ? 'Ya puedes declarar' : 'Declarar desde'; $('e-hmrc-l1').className = ya ? 'ok' : '';
+    $('e-hmrc-l1').textContent = ya ? 'Ya puedes presentarla' : 'Presentar desde'; $('e-hmrc-l1').className = ya ? 'ok' : '';
     $('e-hmrc-1').textContent = ya ? 'Desde hoy' : f(h.desde);
     $('e-hmrc-d1').textContent = ya ? 'Desde el ' + f(h.desde) : txt(dd); $('e-hmrc-d1').className = ya ? '' : 'warn';
     $('e-hmrc-2').textContent = f(h.limite);
@@ -1486,6 +1496,7 @@ function init_form(ROOT, P, S) {
   const NF = { ingreso: '', gasto: '' };
   let VISTA = 'completa'; try { VISTA = localStorage.getItem('pb_vista') || 'completa'; } catch (e) { }
   let LISTAS = null, EDITCLI = null, MN = null, MNED = null, LOGOPARA = '';
+  const EDITL = { proveedor: null, categoria: null };   // 5.0.0-alpha21
   const LQ = { cliente: '', proveedor: '', categoria: '' };
   const $ = (id) => document.getElementById(id);
   const gbp = (n) => '£' + (Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1572,7 +1583,7 @@ function init_form(ROOT, P, S) {
   }
   function syncRg() {
     ['ingreso', 'gasto'].forEach((t) => { const b = $(t === 'ingreso' ? 'i-rg' : 'g-rg'); if (b && !b.disabled) b.textContent = EDIT && EDIT.tipo === t ? 'Guardar cambios' : (t === 'ingreso' ? 'Guardar ingreso' : 'Guardar gasto'); });
-    [['c-rg', EDITCLI ? 'Guardar cambios' : 'Guardar cliente'], ['p-rg', 'Guardar proveedor'], ['k-rg', 'Guardar categoría']].forEach((x) => { const b = $(x[0]); if (b && !b.disabled) b.textContent = x[1]; });
+    [['c-rg', EDITCLI ? 'Guardar cambios' : 'Guardar cliente'], ['p-rg', EDITL.proveedor ? 'Guardar cambios' : 'Guardar proveedor'], ['k-rg', EDITL.categoria ? 'Guardar cambios' : 'Guardar categoría']].forEach((x) => { const b = $(x[0]); if (b && !b.disabled) b.textContent = x[1]; });
   }
   function periodoDe(iso) { const p = D && D.periodos.find((x) => x.ini <= iso && iso <= x.fin); return p ? p.etiqueta : ''; }
 
@@ -1663,6 +1674,7 @@ function init_form(ROOT, P, S) {
     vacios[tab].forEach((id) => ($(id).value = ''));
     if (tab === 'ingreso' || tab === 'gasto') { NF[tab] = negDefecto(); if (D) pintarNegCh(tab); }
     if (tab === 'cliente') finEditarCliente();
+    if ((tab === 'proveedor' || tab === 'categoria') && EDITL[tab]) finEditarLista(tab);
     // 5.0.0: al guardar, el formulario queda en blanco (como nuevo), sin los datos copiados
     if (tab === 'ingreso') {
       ['i-cliente', 'i-desc'].forEach((id) => ($(id).value = ''));
@@ -1693,9 +1705,9 @@ function init_form(ROOT, P, S) {
       const textos = {
         ingreso: 'Ingreso guardado: factura ' + (r.num || r.id) + ' · ' + gbp(r.subtotal) + ' · ' + r.periodo,
         gasto: 'Gasto guardado: nº ' + r.id + ' · ' + gbp(r.subtotal) + ' · ' + r.periodo + (r.proveedorNuevo ? ' · proveedor añadido a la lista' : ''),
-        proveedor: 'Proveedor "' + (r && r.nombre) + '" añadido',
+        proveedor: EDITL.proveedor ? 'Proveedor "' + (r && r.nombre) + '" actualizado' + (r && r.cambiados ? ' (también en ' + r.cambiados + (r.cambiados === 1 ? ' gasto)' : ' gastos)') : '') : 'Proveedor "' + (r && r.nombre) + '" añadido',
         cliente: EDITCLI ? 'Cliente "' + (r && r.nombre) + '" actualizado' + (r && r.cambiados ? ' (también en ' + r.cambiados + ' ingresos)' : '') : 'Cliente "' + (r && r.nombre) + '" añadido',
-        categoria: 'Categoría "' + (r && r.nombre) + '" añadida. Ya aparece en gastos, en la hoja y en el panel.',
+        categoria: EDITL.categoria ? 'Categoría "' + (r && r.nombre) + '" actualizada' + (r && r.cambiados ? ' (también en ' + r.cambiados + (r.cambiados === 1 ? ' gasto)' : ' gastos)') : '') : 'Categoría "' + (r && r.nombre) + '" añadida. Ya aparece en gastos, en la hoja y en el panel.',
         periodos: r && r.anadidos + ' periodos añadidos, hasta ' + r.ultimo,
         ajustes: 'Ajustes guardados (' + r + (r === 1 ? ' cambio)' : ' cambios)')
       };
@@ -1716,8 +1728,8 @@ function init_form(ROOT, P, S) {
     const run = google.script.run.withSuccessHandler(ok).withFailureHandler(fail);
     if (tab === 'ingreso') { if (EDIT) run.actualizarIngreso(EDIT.id, lecturas.ingreso()); else run.guardarIngreso(lecturas.ingreso()); }
     else if (tab === 'gasto') { if (EDIT) run.actualizarGasto(EDIT.id, lecturas.gasto()); else run.guardarGasto(lecturas.gasto()); }
-    else if (tab === 'proveedor') run.guardarProveedor(val('p-nombre'), val('p-notas'));
-    else if (tab === 'categoria') run.guardarCategoria(val('k-nombre'), val('k-desc'));
+    else if (tab === 'proveedor') { if (EDITL.proveedor) run.actualizarProveedor(EDITL.proveedor, val('p-nombre'), val('p-notas')); else run.guardarProveedor(val('p-nombre'), val('p-notas')); }
+    else if (tab === 'categoria') { if (EDITL.categoria) run.actualizarCategoria(EDITL.categoria, val('k-nombre'), val('k-desc')); else run.guardarCategoria(val('k-nombre'), val('k-desc')); }
     else if (tab === 'periodos') run.anadirPeriodos(val('pe-n'));
     else if (tab === 'ajustes') run.guardarAjustes(leerAjustes());
     else {
@@ -2025,14 +2037,14 @@ function init_form(ROOT, P, S) {
     const fila = (x) => t === 'cliente'
       ? '<tr data-cli="' + attr(x.nombre) + '"' + (x.nombre === EDITCLI ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b>' + (x.nombre === EDITCLI ? ' <span class="corr">✏️ corrigiendo</span>' : '') + '</td><td class="x" title="' + attr(x.direccion) + '">' + esc(x.direccion) + '</td><td class="x">' + esc(x.ciudad) + '</td><td class="x">' + esc(x.postcode) + '</td><td class="x">' + esc(x.telefono) + '</td><td class="x" title="' + attr(x.email) + '">' + esc(x.email) + '</td><td class="m">' + x.facturas + '</td></tr>'
       : t === 'proveedor'
-        ? '<tr><td class="x"><b>' + esc(x.nombre) + '</b></td><td class="x" title="' + attr(x.notas) + '">' + esc(x.notas) + '</td><td class="m">' + x.gastos + '</td></tr>'
-        : '<tr><td class="x"><b>' + esc(x.nombre) + '</b></td><td class="x" title="' + attr(x.descripcion) + '">' + esc(x.descripcion) + '</td><td class="m">' + gbp(x.total) + '</td></tr>';
+        ? '<tr data-lnom="' + attr(x.nombre) + '"' + (x.nombre === EDITL.proveedor ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b>' + (x.nombre === EDITL.proveedor ? ' <span class="corr">✏️ corrigiendo</span>' : '') + '</td><td class="x" title="' + attr(x.notas) + '">' + esc(x.notas) + '</td><td class="m">' + x.gastos + '</td></tr>'
+        : '<tr data-lnom="' + attr(x.nombre) + '"' + (x.nombre === EDITL.categoria ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b>' + (x.nombre === EDITL.categoria ? ' <span class="corr">✏️ corrigiendo</span>' : '') + '</td><td class="x" title="' + attr(x.descripcion) + '">' + esc(x.descripcion) + '</td><td class="m">' + gbp(x.total) + '</td></tr>';
     box.innerHTML = '<div class="hh lh"><b>' + tit + '</b><span class="cnt">' + total + ' ' + ({ cliente: 'clientes', proveedor: 'proveedores', categoria: 'categorías' }[t]) + '</span>' +
       '<input class="buscar" type="search" id="lq-' + t + '" placeholder="🔍 ' + ({ cliente: 'Buscar cliente, ciudad, email…', proveedor: 'Buscar proveedor o nota…', categoria: 'Buscar categoría…' }[t]) + '" value="' + attr(LQ[t]) + '">' +
       '<button class="btn" type="button" data-lcopiar="1">Copiar lista</button></div>' +
       (l.length ? '<div class="tw"><table class="hoja lst-' + t + '"><thead><tr>' + cab.map((x, k) => '<th' + (k === cab.length - 1 ? ' class="m"' : '') + '>' + x + '</th>').join('') + '</tr></thead><tbody>' + l.map(fila).join('') + '</tbody></table></div>'
         : '<div class="vacio">' + (total ? 'No hay nada con esa búsqueda.' : 'Todavía no hay ninguno. Añade el primero con el formulario.') + '</div>') +
-      (t === 'cliente' && l.length ? '<div class="nota">Pulsa un cliente y sus datos pasan al formulario para corregirlos.</div>' : '');
+      (l.length ? '<div class="nota">' + { cliente: 'Pulsa un cliente para corregirlo o eliminarlo.', proveedor: 'Pulsa un proveedor para corregirlo o eliminarlo.', categoria: 'Pulsa una categoría para corregirla o eliminarla.' }[t] + '</div>' : '');
   }
   ['cliente', 'proveedor', 'categoria'].forEach((t) => {
     const box = $('ls-' + t);
@@ -2051,6 +2063,8 @@ function init_form(ROOT, P, S) {
       }
       const tr = ev.target.closest('tr[data-cli]');
       if (tr && t === 'cliente') editarCliente(tr.dataset.cli);
+      const tl = ev.target.closest('tr[data-lnom]');
+      if (tl && t !== 'cliente') editarLista(t, tl.dataset.lnom);
     });
   });
   function editarCliente(nombre) {
@@ -2059,17 +2073,65 @@ function init_form(ROOT, P, S) {
     $('c-nombre').value = x.nombre; $('c-dir').value = x.direccion; $('c-ciudad').value = x.ciudad; $('c-post').value = x.postcode; $('c-tel').value = x.telefono; $('c-email').value = x.email;
     $('c-edtxt').textContent = 'Corrigiendo a ' + x.nombre;
     $('c-editando').classList.remove('hidden');
+    $('c-edtxt').textContent = '✏️ Corrigiendo a ' + x.nombre + ' · ' + (x.facturas ? x.facturas + (x.facturas === 1 ? ' factura' : ' facturas') : 'sin facturas');
+    pintarDel('cliente', x.facturas ? 'Tiene facturas: no se puede eliminar. Si cambias el nombre, también cambia en sus facturas.' : 'No tiene facturas: lo puedes eliminar.');
+    if (x.facturas) $('c-del').classList.add('hidden');
     $('guardar').textContent = 'Guardar cambios'; msg(''); syncRg();
     listaPintar('cliente');
     const sc = ROOT.querySelector('.scroll'); if (sc) sc.scrollTo({ top: 0, behavior: 'smooth' });
   }
   function finEditarCliente() {
-    EDITCLI = null; $('c-editando').classList.add('hidden');
+    EDITCLI = null; $('c-editando').classList.add('hidden'); pintarDel('cliente', null);
     if (TAB === 'cliente') $('guardar').textContent = 'Guardar cliente';
     syncRg();
     if (LISTAS) listaPintar('cliente');
   }
   $('c-cancel').onclick = () => { ['c-nombre', 'c-dir', 'c-ciudad', 'c-post', 'c-tel', 'c-email'].forEach((id) => ($(id).value = '')); finEditarCliente(); };
+
+  /* ---------- 5.0.0-alpha21: corregir / eliminar proveedores y categorías; eliminar clientes ---------- */
+  const PX = { cliente: 'c', proveedor: 'p', categoria: 'k' };
+  function pintarDel(t, nota) {
+    const p = PX[t];
+    $(p + '-del').classList.toggle('hidden', nota === null);
+    $(p + '-nota').classList.toggle('hidden', !nota); $(p + '-nota').textContent = nota || '';
+    $(p + '-del').textContent = '🗑️ Eliminar ' + { cliente: 'cliente', proveedor: 'proveedor', categoria: 'categoría' }[t];
+  }
+  function editarLista(t, nombre) {
+    const l = (LISTAS && LISTAS[t === 'proveedor' ? 'proveedores' : 'categorias']) || [], x = l.find((y) => y.nombre === nombre); if (!x) return;
+    EDITL[t] = x.nombre;
+    const p = PX[t], n = x.gastos || 0;
+    $(p + '-nombre').value = x.nombre; $(t === 'proveedor' ? 'p-notas' : 'k-desc').value = t === 'proveedor' ? x.notas : x.descripcion;
+    $(p + '-edtxt').textContent = '✏️ Corrigiendo ' + x.nombre + ' · ' + (n ? n + (n === 1 ? ' gasto usa' : ' gastos usan') + (t === 'proveedor' ? ' este proveedor' : ' esta categoría') : 'ningún gasto la usa'.replace('la usa', t === 'proveedor' ? 'lo usa' : 'la usa'));
+    $(p + '-editando').classList.remove('hidden');
+    pintarDel(t, t === 'categoria' && n ? (n === 1 ? 'La usa 1 gasto' : 'La usan ' + n + ' gastos') + ': no se puede eliminar. Si cambias el nombre, también cambia en ' + (n === 1 ? 'ese gasto.' : 'esos gastos.')
+      : n ? 'Si cambias el nombre, también cambia en ' + (n === 1 ? 'su gasto.' : 'sus ' + n + ' gastos.') + ' Si lo eliminas, sus gastos se quedan como están.' : '');
+    if (t === 'categoria' && n) $('k-del').classList.add('hidden');
+    msg(''); syncRg(); listaPintar(t);
+    const sc = ROOT.querySelector('.scroll'); if (sc) sc.scrollTo({ top: 0, behavior: 'smooth' }); window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function finEditarLista(t) {
+    EDITL[t] = null; $(PX[t] + '-editando').classList.add('hidden'); pintarDel(t, null); syncRg();
+    if (LISTAS) listaPintar(t);
+  }
+  $('p-cancel').onclick = () => { ['p-nombre', 'p-notas'].forEach((id) => ($(id).value = '')); finEditarLista('proveedor'); };
+  $('k-cancel').onclick = () => { ['k-nombre', 'k-desc'].forEach((id) => ($(id).value = '')); finEditarLista('categoria'); };
+  ['cliente', 'proveedor', 'categoria'].forEach((t) => {
+    $(PX[t] + '-del').onclick = () => {
+      const nombre = t === 'cliente' ? EDITCLI : EDITL[t]; if (!nombre) return;
+      const que = { cliente: 'el cliente', proveedor: 'el proveedor', categoria: 'la categoría' }[t];
+      const pregunta = window.pbDialogo ? window.pbDialogo({ icono: '🗑️', titulo: '¿Eliminar ' + que + ' «' + nombre + '»?', texto: 'Se quita de tu lista. Esto no se puede deshacer.', si: 'Eliminar', no: 'Cancelar', peligro: true })
+        : Promise.resolve(confirm('¿Eliminar ' + que + ' ' + nombre + '?'));
+      pregunta.then((si) => {
+        if (!si) return;
+        const b = $(PX[t] + '-del'); b.disabled = true;
+        google.script.run.withSuccessHandler(() => {
+          b.disabled = false; limpiar(t); if (t !== 'cliente') finEditarLista(t);
+          LISTAS = null; listaCargar(t); cargar();
+          msg({ cliente: 'Cliente', proveedor: 'Proveedor', categoria: 'Categoría' }[t] + ' «' + nombre + '» eliminad' + (t === 'categoria' ? 'a' : 'o') + '.', 'ok');
+        }).withFailureHandler((e) => { b.disabled = false; msg(e.message.replace(/^Exception: /, ''), 'err'); }).eliminarDeLista(t, nombre);
+      });
+    };
+  });
 
   /* ---------- 5.0.0-alpha11: Apariencia y seguridad ---------- */
   function pintarApar() {

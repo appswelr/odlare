@@ -39,7 +39,7 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha20';
+const VERSION = '5.0.0-alpha21';
 const VERSION_FECHA = '31 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────
@@ -121,7 +121,7 @@ function hmrcEstado_() {
   const y = anioFiscalDe_(new Date()), r = y - 1;
   const abierta = hmrcPresentadas_().indexOf(r) < 0 && hmrcTieneMovimientos_(r);
   const a = abierta ? r : y;
-  return { anio: etiquetaAnio_(a), anioN: a, abierta: abierta, desde: iso_(new Date(a + 1, 3, 6)), limite: iso_(new Date(a + 2, 0, 31)) };
+  return { anio: etiquetaAnio_(a), anioN: a, abierta: abierta, ini: iso_(new Date(a, 3, 6)), fin: iso_(new Date(a + 1, 3, 5)), desde: iso_(new Date(a + 1, 3, 6)), limite: iso_(new Date(a + 2, 0, 31)) };
 }
 function marcarHmrcPresentada(anio) {
   const a = Number(anio); if (!a) throw new Error('Año no válido.');
@@ -1335,10 +1335,11 @@ function getListas() {
   const gas = leerTabla_('Gastos').filter(r => r['ID GASTO'] !== '');
   const facPorCli = {};
   ing.forEach(r => { const k = String(r['CLIENTE']); (facPorCli[k] = facPorCli[k] || {})[r['ID FACTURA']] = 1; });
-  const gasPorProv = {}, porCat = {};
+  const gasPorProv = {}, porCat = {}, nPorCat = {};
   const y = anioFiscalDe_(new Date()), ini = new Date(y, 3, 6), fin = new Date(y + 1, 3, 5, 23, 59, 59);
   gas.forEach(r => {
     gasPorProv[String(r['PROVEEDOR'])] = (gasPorProv[String(r['PROVEEDOR'])] || 0) + 1;
+    nPorCat[String(r['CATEGORÍA UC'])] = (nPorCat[String(r['CATEGORÍA UC'])] || 0) + 1;
     if (r['FECHA'] instanceof Date && r['FECHA'] >= ini && r['FECHA'] <= fin) porCat[String(r['CATEGORÍA UC'])] = (porCat[String(r['CATEGORÍA UC'])] || 0) + (Number(r['SUBTOTAL']) || 0);
   });
   const t = v => String(v == null ? '' : v);
@@ -1347,7 +1348,7 @@ function getListas() {
     clientes: leerTabla_('Clientes').map(c => ({ nombre: t(c['NOMBRE']), direccion: t(c['DIRECCIÓN']), ciudad: t(c['CIUDAD']), postcode: t(c['POSTCODE']),
       telefono: t(c['TELÉFONO']), email: t(c['EMAIL']), facturas: Object.keys(facPorCli[t(c['NOMBRE'])] || {}).length })),
     proveedores: leerTabla_('Proveedores').map(p => ({ nombre: t(p['NOMBRE']), notas: t(p['NOTAS']), gastos: gasPorProv[t(p['NOMBRE'])] || 0 })),
-    categorias: leerTabla_('Categorias').map(c => ({ nombre: t(c['NOMBRE']), descripcion: t(c['DESCRIPCIÓN']), total: Math.round((porCat[t(c['NOMBRE'])] || 0) * 100) / 100 }))
+    categorias: leerTabla_('Categorias').map(c => ({ nombre: t(c['NOMBRE']), descripcion: t(c['DESCRIPCIÓN']), total: Math.round((porCat[t(c['NOMBRE'])] || 0) * 100) / 100, gastos: nPorCat[t(c['NOMBRE'])] || 0 }))
   };
 }
 
@@ -1371,6 +1372,56 @@ function actualizarCliente(nombreViejo, o) {
 }
 
 
+/* 5.0.0-alpha21: corregir y eliminar proveedores y categorías; eliminar clientes. */
+function cambiarEnColumna_(hoja, titulo, viejo, nuevo) {
+  const col = colDe_(hoja, titulo), s = hoja_(hoja); let n = 0;
+  leerTabla_(hoja).forEach(r => { if (String(r[titulo]) === String(viejo)) { s.getRange(r._fila, col).setValue(nuevo); n++; } });
+  return n;
+}
+function actualizarProveedor(nombreViejo, nombre, notas) {
+  return conBloqueo_(() => {
+    nombre = String(nombre || '').trim();
+    if (!nombre) throw new Error('Escribe el nombre del proveedor.');
+    const filas = leerTabla_('Proveedores'), p = filas.find(x => String(x['NOMBRE']) === String(nombreViejo));
+    if (!p) throw new Error('No encuentro ese proveedor.');
+    if (nombre.toLowerCase() !== String(nombreViejo).toLowerCase() && filas.some(x => String(x['NOMBRE']).toLowerCase() === nombre.toLowerCase())) throw new Error('Ya hay otro proveedor con ese nombre.');
+    hoja_('Proveedores').getRange(p._fila, 1, 1, 2).setValues([[nombre, notas || '']]);
+    const cambiados = nombre !== String(nombreViejo) ? cambiarEnColumna_('Gastos', 'PROVEEDOR', nombreViejo, nombre) : 0;
+    return { nombre: nombre, cambiados: cambiados };
+  });
+}
+function actualizarCategoria(nombreViejo, nombre, descripcion) {
+  return conBloqueo_(() => {
+    nombre = String(nombre || '').trim();
+    if (!nombre) throw new Error('Escribe el nombre de la categoría.');
+    const filas = leerTabla_('Categorias'), c = filas.find(x => String(x['NOMBRE']) === String(nombreViejo));
+    if (!c) throw new Error('No encuentro esa categoría.');
+    if (nombre.toLowerCase() !== String(nombreViejo).toLowerCase() && filas.some(x => String(x['NOMBRE']).toLowerCase() === nombre.toLowerCase())) throw new Error('Ya hay otra categoría con ese nombre.');
+    hoja_('Categorias').getRange(c._fila, 1, 1, 2).setValues([[nombre, String(descripcion || '').trim()]]);
+    const cambiados = nombre !== String(nombreViejo) ? cambiarEnColumna_('Gastos', 'CATEGORÍA UC', nombreViejo, nombre) : 0;
+    return { nombre: nombre, cambiados: cambiados };
+  });
+}
+/** tipo: cliente | proveedor | categoria. Cliente con facturas o categoría con gastos: no se borra. */
+function eliminarDeLista(tipo, nombre) {
+  return conBloqueo_(() => {
+    const hoja = { cliente: 'Clientes', proveedor: 'Proveedores', categoria: 'Categorias' }[tipo];
+    if (!hoja) throw new Error('Lista no válida.');
+    const x = leerTabla_(hoja).find(r => String(r['NOMBRE']) === String(nombre));
+    if (!x) throw new Error('No lo encuentro en la lista.');
+    if (tipo === 'cliente') {
+      const n = leerTabla_('Ingresos').filter(r => r['ID FACTURA'] !== '' && String(r['CLIENTE']) === String(nombre)).length;
+      if (n) throw new Error('No se puede eliminar: ' + nombre + ' tiene facturas. Puedes cambiarle el nombre o los datos.');
+    }
+    if (tipo === 'categoria') {
+      const n = leerTabla_('Gastos').filter(r => r['ID GASTO'] !== '' && String(r['CATEGORÍA UC']) === String(nombre)).length;
+      if (n) throw new Error('No se puede eliminar: ' + n + (n === 1 ? ' gasto usa' : ' gastos usan') + ' esta categoría. Puedes cambiarle el nombre.');
+    }
+    hoja_(hoja).deleteRow(x._fila);
+    return { nombre: String(nombre) };
+  });
+}
+
 /* ====== Licencias (5.0.0-alpha12) ======
  * La app web guarda aquí (pestaña AppProps de la hoja de cada persona) el código de su licencia y el día que empezó la prueba.
  * Comprobar el código lo hace la app (licencia.js) con la llave pública de Odlare: aquí no hay ningún secreto. */
@@ -1392,5 +1443,5 @@ function marcarInicioPrueba(iso) {
   return String(p.getProperty('PRUEBA_INICIO'));
 }
 
-return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
+return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCategoria: actualizarCategoria, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, actualizarProveedor: actualizarProveedor, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarDeLista: eliminarDeLista, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
 })(window.PB_GAS.SpreadsheetApp, window.PB_GAS.Utilities, window.PB_GAS.Session, window.PB_GAS.LockService, window.PB_GAS.MailApp, window.PB_GAS.ScriptApp, window.PB_GAS.HtmlService, window.PB_GAS.PropertiesService, window.PB_GAS.DriveApp, window.PB_GAS.Logger);

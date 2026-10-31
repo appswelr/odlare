@@ -1,7 +1,16 @@
 {
- "ver": "5.0.0-alpha20",
+ "ver": "5.0.0-alpha21",
  "fecha": "31 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha21",
+   "fecha": "31 oct 2026",
+   "cambios": [
+    "Tarjeta de impuestos más clara: el año fiscal con sus fechas (6 abr – 5 abr), «Presentar desde» y «Último día»",
+    "Clientes, Proveedores y Categorías: pulsa uno de la lista para corregirlo o eliminarlo",
+    "Si cambias un nombre, también se cambia en sus ingresos o gastos. Un cliente con facturas o una categoría con gastos no se puede borrar"
+   ]
+  },
   {
    "ver": "5.0.0-alpha20",
    "fecha": "31 oct 2026",
