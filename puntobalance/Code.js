@@ -39,7 +39,7 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha18';
+const VERSION = '5.0.0-alpha19';
 const VERSION_FECHA = '26 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────

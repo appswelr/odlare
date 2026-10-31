@@ -279,7 +279,7 @@
       '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #E3E6EF">' +
       '<tr><td style="background:#1B2B5B;padding:22px 28px"><table role="presentation" width="100%"><tr><td width="56"><img src="' + icono + '" width="46" height="46" alt="" style="display:block;border-radius:12px"></td>' +
       '<td style="color:#ffffff"><div style="font-size:20px;font-weight:800">PuntoBalance</div><div style="font-size:12px;color:#B9C6EA">Tu negocio, en orden</div></td>' +
-      '<td align="right"><img src="https://appswelr.github.io/odlare/img/odlare-blanco.png" width="88" height="36" alt="Odlare" style="display:block;border:0;color:#ffffff;font-weight:900;font-size:18px"></td></tr></table></td></tr>' +
+      '<td align="right"><img src="https://odlare.uk/img/odlare-blanco.png" width="88" height="36" alt="Odlare" style="display:block;border:0;color:#ffffff;font-weight:900;font-size:18px"></td></tr></table></td></tr>' +
       '<tr><td style="padding:28px 32px 8px;color:#1F2540;font-size:15px;line-height:1.6">' +
       '<div style="font-size:22px;font-weight:800;color:#151A2D;margin-bottom:6px">¡Gracias' + (o.nombre ? ", " + esc(o.nombre.split(" ")[0]) : "") + "! 🎉</div>" +
       "Tu <b>PuntoBalance Premium</b> ya está listo. Gracias por confiar en nosotros" + (o.plan === "fundador" ? " y por ser de los primeros: tienes el <b>precio de fundador</b>" : o.plan === "regalo" ? ". Es un <b>regalo</b> de Odlare" : "") + "." +
@@ -292,7 +292,7 @@
       '<p style="font-size:13.5px;margin:16px 0 0">1. Abre PuntoBalance en tu computadora o celular.<br>2. Ve a <b>Premium › Tengo un código</b>.<br>3. Pega el código y pulsa <b>Activar</b>. ¡Listo!</p>' +
       '<p style="font-size:13px;margin:16px 0 8px;color:#3A4058">El código solo funciona con tu cuenta <b>' + esc(o.gmail) + "</b>. Guarda este correo por si cambias de computadora.</p></td></tr>" +
       '<tr><td style="background:#F7F8FC;padding:16px 32px;font-size:12px;color:#6B7194;line-height:1.6;border-top:1px solid #EEF0F6">¿Dudas? Escríbenos a <b style="color:#1B2B5B">' + esc(CFG.envio || "apps.welr@gmail.com") + "</b> · Responderemos lo antes posible.<br>PuntoBalance es una app de <b style=\"color:#1B2B5B\">Odlare</b> · Reino Unido · " +
-      '<a href="https://appswelr.github.io/odlare/privacidad-puntobalance.html" style="color:#1E60E0">Política de privacidad</a></td></tr></table></td></tr></table></body></html>';
+      '<a href="https://odlare.uk/privacidad-puntobalance.html" style="color:#1E60E0">Política de privacidad</a></td></tr></table></td></tr></table></body></html>';
   }
   function textoCorreo(o) {
     var base = location.origin + location.pathname.replace(/[^/]*$/, "");

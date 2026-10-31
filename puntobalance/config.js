@@ -3,7 +3,7 @@
    Mientras esté vacío, la app funciona en «Probar sin cuenta». */
 window.PB_CONFIG = {
   clientId: "949374739841-85a6qtj1erdde9igqs5l8esdu9vf7vko.apps.googleusercontent.com",
-  // «Importar mi hoja anterior»: selector de archivos de Google (Picker). Clave limitada a appswelr.github.io y a Picker API.
+  // «Importar mi hoja anterior»: selector de archivos de Google (Picker). Clave limitada a appswelr.github.io y odlare.uk y a Picker API.
   pickerKey: "AIzaSyDrtgM0fIfrw-B2qV0ydzPQHNg8SSzZiA8",
   appId: "949374739841",
   // 5.0.0-alpha12 · Licencias. «pub» es la llave PÚBLICA (solo sirve para comprobar códigos). La privada vive en el Drive de Wilber.

@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha18",
+ "ver": "5.0.0-alpha19",
  "fecha": "26 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha19",
+   "fecha": "31 oct 2026",
+   "cambios": [
+    "PuntoBalance ya tiene su casa propia: odlare.uk/puntobalance",
+    "Los enlaces de la política de privacidad y de los correos de licencia usan la dirección nueva"
+   ]
+  },
   {
    "ver": "5.0.0-alpha18",
    "fecha": "26 oct 2026",
