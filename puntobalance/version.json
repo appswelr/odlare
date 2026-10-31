@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha21",
+ "ver": "5.0.0-alpha22",
  "fecha": "31 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha22",
+   "fecha": "31 oct 2026",
+   "cambios": [
+    "Avisos de versión en la barra de arriba: «Actualizada a…» la primera vez que abres una versión nueva, con «Ver novedades»",
+    "Si tienes la app abierta, busca versiones nuevas cada 10 minutos"
+   ]
+  },
   {
    "ver": "5.0.0-alpha21",
    "fecha": "31 oct 2026",

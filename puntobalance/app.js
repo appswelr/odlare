@@ -21,7 +21,7 @@
 
   /* ===== Actualizaciones (5.0.0-alpha3): como en los celulares =====
      Cada versión publicada lleva version.json con su número y la lista de novedades.
-     La app lo revisa al abrirse y cada hora; si hay una más nueva, avisa (aviso arriba, puntito ámbar, «Acerca de»). */
+     La app lo revisa al abrirse y cada 10 minutos; si hay una más nueva, avisa (aviso arriba, puntito ámbar, «Acerca de»). */
   var EST = { nueva: null, revisado: null, error: false, novedades: [] };
   function actual() { return (window.CFG && window.CFG.ver) || "0"; }
   function compara(a, b) {
@@ -49,7 +49,7 @@
       .then(avisarCambio);
   }
   function actualizar() {
-    var t = document.getElementById("pb-aviso"); if (t) t.querySelector("b").textContent = "Actualizando PuntoBalance…";
+    var t = document.getElementById("pb-aviso"); if (t) t.querySelector(".pb-tx").textContent = "Actualizando…";
     var tareas = [];
     if (window.caches) tareas.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }));
     if (navigator.serviceWorker) tareas.push(navigator.serviceWorker.getRegistration().then(function (r) { return r && r.update(); }));
@@ -58,26 +58,37 @@
   window.PB_ACT = { estado: function () { return EST; }, buscar: buscar, actualizar: actualizar };
 
   function luego(v) { try { if (v) sessionStorage.setItem("pb-luego", v); return sessionStorage.getItem("pb-luego"); } catch (e) { return null; } }
+  /* 5.0.0-alpha22: pastilla en la barra de arriba (computadora/tablet) o justo debajo (celular y modo de ejemplo) */
+  function vista(v) { try { if (v) localStorage.setItem("pb_ver_vista", v); return localStorage.getItem("pb_ver_vista"); } catch (e) { return null; } }
+  function corta(v) { return window.innerWidth <= 760 ? String(v).replace(/^\d+\.\d+\.\d+-/, "") : v; }
   function pintarAviso() {
     var t = document.getElementById("pb-aviso");
-    if (!EST.nueva || luego() === EST.nueva.ver || document.querySelector(".v-acerca")) { if (t) t.remove(); return; }
-    if (!t) {
-      t = document.createElement("div"); t.id = "pb-aviso"; t.setAttribute("role", "status");
-      t.innerHTML = '<b></b><span></span><div class="pb-bt"><button type="button" class="pb-si">Actualizar ahora</button><button type="button" class="pb-nov">Ver novedades</button><button type="button" class="pb-no">Más tarde</button></div>';
-      document.body.appendChild(t);
+    var nueva = EST.nueva && luego() !== EST.nueva.ver;
+    var ant = vista();
+    if (!ant) { vista(actual()); ant = actual(); }               // primera vez en este aparato: no hay nada que contar
+    var hecha = !nueva && ant !== actual() && compara(actual(), ant) > 0;
+    if ((!nueva && !hecha) || document.querySelector(".v-acerca")) { if (t) t.remove(); return; }
+    if (!t) { t = document.createElement("div"); t.id = "pb-aviso"; t.setAttribute("role", "status"); document.body.appendChild(t); }
+    t.classList.toggle("bajo", !!document.getElementById("pbDemo"));
+    if (nueva) {
+      t.innerHTML = '<span class="pb-tx">🎉 Versión nueva · <b>' + corta(EST.nueva.ver) + '</b></span><button type="button" class="pb-si">Actualizar</button><button type="button" class="pb-x" aria-label="Más tarde">✕</button>';
       t.querySelector(".pb-si").onclick = actualizar;
-      t.querySelector(".pb-nov").onclick = function () { t.remove(); if (window.SHELL) window.SHELL.ir("acerca"); };
-      t.querySelector(".pb-no").onclick = function () { luego(EST.nueva.ver); t.remove(); };
+      t.querySelector(".pb-x").onclick = function () { luego(EST.nueva.ver); t.remove(); };
+    } else {
+      t.innerHTML = '<span class="pb-tx">✅ Actualizada a <b>' + corta(actual()) + '</b></span><button type="button" class="pb-si">Ver novedades</button><button type="button" class="pb-x" aria-label="Cerrar">✕</button>';
+      t.querySelector(".pb-si").onclick = function () { vista(actual()); t.remove(); if (window.SHELL) window.SHELL.ir("acerca"); };
+      t.querySelector(".pb-x").onclick = function () { vista(actual()); t.remove(); };
     }
-    t.querySelector("b").textContent = "🎉 Hay una versión nueva de PuntoBalance";
-    t.querySelector("span").textContent = "Versión " + EST.nueva.ver + " · Tus datos no se tocan.";
   }
-  css.textContent += "#pb-aviso{position:fixed;z-index:90;top:58px;left:50%;transform:translateX(-50%);width:min(520px,calc(100% - 24px));background:#1B2B5B;color:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 14px 36px rgba(15,18,32,.35)}" +
-    "#pb-aviso b{display:block;font-size:15px}#pb-aviso span{display:block;font-size:13px;color:#C9D2F0;margin-top:2px}" +
-    "#pb-aviso .pb-bt{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}#pb-aviso button{border:1px solid #6A78A8;background:none;color:#fff;border-radius:10px;padding:8px 13px;font:inherit;font-weight:600;font-size:13px;cursor:pointer}" +
-    "#pb-aviso .pb-si{background:#F4A62A;border-color:#F4A62A;color:#151A2D;font-weight:800}@media(max-width:760px){#pb-aviso{top:62px}}";
+  css.textContent += "#pb-aviso{position:fixed;z-index:95;top:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:#24376F;border:1px solid #3B4F8C;color:#fff;border-radius:999px;padding:5px 6px 5px 14px;font-size:13.5px;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.25);max-width:calc(100% - 24px)}" +
+    "#pb-aviso.bajo{top:66px}#pb-aviso .pb-tx{overflow:hidden;text-overflow:ellipsis}" +
+    "#pb-aviso .pb-si{background:#F4A62A;border:0;color:#151A2D;font:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 12px;cursor:pointer}" +
+    "#pb-aviso .pb-x{background:none;border:0;color:#C9D2F0;font-size:15px;padding:0 8px;cursor:pointer}" +
+    "@media(max-width:760px){#pb-aviso{top:62px}#pb-aviso.bajo{top:62px}}";
+  window.addEventListener("resize", function () { if (document.getElementById("pb-aviso")) pintarAviso(); });
+  document.addEventListener("DOMContentLoaded", function () { setTimeout(pintarAviso, 1200); });
   var ultima = 0;
-  function quizas() { if (Date.now() - ultima > 3600e3) { ultima = Date.now(); buscar(); } }
+  function quizas() { if (Date.now() - ultima > 540e3) { ultima = Date.now(); buscar(); } }   // 5.0.0-alpha22: cada 10 minutos
   window.addEventListener("load", function () { setTimeout(quizas, 1500); });
   setInterval(quizas, 600e3);
   document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") quizas(); });
