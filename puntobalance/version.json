@@ -1,7 +1,16 @@
 {
- "ver": "5.0.0-alpha19",
- "fecha": "26 oct 2026",
+ "ver": "5.0.0-alpha20",
+ "fecha": "31 oct 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha20",
+   "fecha": "31 oct 2026",
+   "cambios": [
+    "Tarjeta de impuestos (HMRC) en Inicio: desde cuándo puedes declarar, la fecha límite y cuántos días faltan",
+    "Desde el 6 de abril la tarjeta se pone verde y tiene el botón «Ya la presenté»",
+    "Botón «Volver» al crear un cliente desde Nuevo ingreso (o una categoría desde Nuevo gasto): al guardar vuelves solo, con todo lo que ya habías escrito"
+   ]
+  },
   {
    "ver": "5.0.0-alpha19",
    "fecha": "31 oct 2026",

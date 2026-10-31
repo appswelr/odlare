@@ -193,6 +193,20 @@
   .v-inicio .estado small { display: block; font-size: 11.5px; color: var(--muted); }
   .v-inicio .estado b { font-size: 15.5px; color: var(--ink); }
   .v-inicio .estado .ok { color: #12804A; } .v-inicio .estado .warn { color: #C2410C; }
+  /* 5.0.0-alpha20: tarjeta HMRC con «desde» y «fecha límite» */
+  .v-inicio .estado .card.hm { align-items: flex-start; }
+  .v-inicio .estado .hmb { flex: 1; min-width: 0; }
+  .v-inicio .estado .hmc { display: flex; margin-top: 3px; }
+  .v-inicio .estado .hmc > div { flex: 1; min-width: 0; }
+  .v-inicio .estado .hmc > div + div { border-left: 1px solid var(--line); padding-left: 10px; margin-left: 10px; }
+  .v-inicio .estado .hmc i { display: block; font-style: normal; font-size: 9.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .v-inicio .estado .hmc i.ok { color: #12804A; }
+  .v-inicio .estado .hmc b { display: block; font-size: 14.5px; white-space: nowrap; }
+  .v-inicio .estado .hmc em { display: block; font-style: normal; font-size: 11px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .v-inicio .estado .hmc em.warn { color: #C2410C; } .v-inicio .estado .hmc em.err { color: #B91C1C; }
+  .v-inicio .estado .hmok { margin-top: 7px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); border-radius: 9px; padding: 4px 10px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .v-inicio .estado .hmok.hidden { display: none; }
+  @media (max-width: 760px) { .v-inicio .estado .card.hm { grid-column: 1 / -1; } }
   .v-inicio h2.qq { margin-top: 4px; }
   @media (max-width: 1100px) { .v-inicio .estado { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   html[data-tema="oscuro"] .v-inicio .estado .ic { background: #1C2A52 !important; }
@@ -615,6 +629,12 @@ html[data-tema="oscuro"] .v-form .hist .hh .sumbar > div { background: #18254C; 
 .v-form input:focus, .v-form select:focus, .v-form textarea:focus { outline: 0; background: #fff; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,70,229,.15); }
 .v-form .hint { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
 .v-form .link { background: none; border: 0; color: var(--accent); font: inherit; font-size: 12px; cursor: pointer; padding: 0; margin-top: 6px; }
+/* 5.0.0-alpha20: volver al formulario de antes */
+.v-form .volver { display: inline-flex; align-items: center; border: 1.5px solid #C7D2FE; background: #EEF2FF; color: #1B2B5B; font: inherit; font-size: 13.5px; font-weight: 700; border-radius: 10px; padding: 7px 13px; margin-bottom: 10px; cursor: pointer; }
+.v-form .volver-tip { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E3A8A; border-radius: 12px; padding: 9px 13px; font-size: 13px; margin-top: 10px; }
+.v-form .volver.hidden, .v-form .volver-tip.hidden { display: none; }
+html[data-tema="oscuro"] .v-form .volver { background: #1C2A52; border-color: #2B3D6B; color: #DDE3F7; }
+html[data-tema="oscuro"] .v-form .volver-tip { background: #142245; border-color: #26365F; color: #C9D5F5; }
 .v-form .link:hover { text-decoration: underline; }
 .v-form .preview { margin-top: 18px; background: linear-gradient(135deg, #4F46E5, #6D5DF0); border-radius: 14px; padding: 14px 18px; display: flex; justify-content: space-between; gap: 10px; align-items: center; color: #fff; }
 .v-form .preview b { font-size: 22px; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
@@ -991,7 +1011,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
     <div class="card"><span class="ic" style="background:#E0E7FF">📅</span><div><small>Faltan para cerrar el periodo</small><b id="e-dias">…</b></div></div>
     <div class="card"><span class="ic" style="background:#FFEDD5">⏳</span><div><small>Pendiente de cobro</small><b id="e-pend">…</b></div></div>
     <div class="card" id="e-copia-c"><span class="ic" style="background:#DCFCE7">☁️</span><div><small>Última copia de seguridad</small><b id="e-copia">…</b></div></div>
-    <div class="card"><span class="ic" style="background:#FEF3C7">🏛️</span><div><small id="e-hmrc-l">Próxima fecha HMRC</small><b id="e-hmrc">…</b></div></div>
+    <div class="card hm" id="e-hmrc-c"><span class="ic" id="e-hmrc-ic" style="background:#FEF3C7">🏛️</span><div class="hmb"><small id="e-hmrc-l">Declaración HMRC</small><div class="hmc"><div><i id="e-hmrc-l1">Declarar desde</i><b id="e-hmrc-1">…</b><em id="e-hmrc-d1"></em></div><div><i>Fecha límite</i><b id="e-hmrc-2">…</b><em id="e-hmrc-d2"></em></div></div><button type="button" class="hmok hidden" id="e-hmrc-ok">✓ Ya la presenté</button></div></div>
   </div>
   <h2 class="qq">¿Qué quieres hacer?</h2>
   <div class="hero">
@@ -1027,7 +1047,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 </template>
 <template id="tpl-form">
 <div class="v-form">
-    <div class="top"><div class="tt"><h1 id="ttl">Añadir datos</h1><p id="sub">Todo se guarda en tu hoja de cálculo.</p></div><div class="negsel hidden" id="negsel"><label for="negsel-b">Elige tu negocio</label><button type="button" id="negsel-b" aria-haspopup="listbox" aria-expanded="false"></button><div class="negsel-l" id="negsel-l" role="listbox" aria-label="Negocios"></div></div></div>
+    <div class="top"><div class="tt"><button type="button" class="volver hidden" id="volver">‹&nbsp; Volver</button><h1 id="ttl">Añadir datos</h1><p id="sub">Todo se guarda en tu hoja de cálculo.</p><div class="volver-tip hidden" id="volver-tip"></div></div><div class="negsel hidden" id="negsel"><label for="negsel-b">Elige tu negocio</label><button type="button" id="negsel-b" aria-haspopup="listbox" aria-expanded="false"></button><div class="negsel-l" id="negsel-l" role="listbox" aria-label="Negocios"></div></div></div>
     <div class="scroll">
   <div id="edit-banner" class="hidden"><span id="edit-txt"></span><button class="btn" id="edit-cancel" type="button">Cancelar edición</button></div>
 
@@ -1083,7 +1103,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
         <div class="hint">Se añadirá a tu lista de proveedores al guardar.</div>
       </div>
       <div class="c2"><label for="g-desc">Descripción</label><input id="g-desc" placeholder="Qué compraste o pagaste"></div>
-      <div class="c2"><label for="g-cat">Categoría UC</label><select id="g-cat"></select></div>
+      <div class="c2"><label for="g-cat">Categoría UC</label><select id="g-cat"></select><button class="link" type="button" data-ir="categoria">¿Categoría nueva? Añádela primero</button></div>
       <div><label for="g-unidad">Unidad</label><select id="g-unidad"><option value="UNIT">UNIT</option><option value="MILLAS">MILLAS</option></select></div>
       <div><label for="g-cant">Cantidad</label><input id="g-cant" type="number" min="0" step="0.01" value="1" inputmode="decimal"></div>
       <div>
@@ -1227,7 +1247,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha19',fecha:'26 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha20',fecha:'31 oct 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1237,6 +1257,30 @@ function init_inicio(ROOT, P, S) {
   function msg(t, tipo) { const m = $('h-msg'); if (!m) return; m.textContent = t; m.className = tipo || ''; }
   let REC = false;
   function pintarRec() { const b = $('b-rec'); if (!b) return; b.classList.toggle('on', REC); $('d-rec').textContent = REC ? 'Activado: el día 7 recibes el resumen por email.' : 'Desactivado.'; }
+
+  /* 5.0.0-alpha20: tarjeta HMRC */
+  const MESC = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  function pintarHmrc(h) {
+    if (!$('e-hmrc-c')) return;
+    const f = (s) => { const d = new Date(s + 'T00:00:00'); return d.getDate() + ' ' + MESC[d.getMonth()] + ' ' + d.getFullYear(); };
+    const hoy = new Date(new Date().toDateString()), dias = (s) => Math.round((new Date(s + 'T00:00:00') - hoy) / 864e5);
+    const txt = (n) => n === 0 ? 'Es hoy' : n === 1 ? 'Falta 1 día' : 'Faltan ' + n + ' días';
+    const dd = dias(h.desde), dl = dias(h.limite), ya = dd <= 0;
+    $('e-hmrc-l').textContent = 'Declaración ' + h.anio + ' (HMRC)';
+    $('e-hmrc-ic').textContent = ya ? '✅' : '🏛️'; $('e-hmrc-ic').style.background = ya ? '#DCFCE7' : '#FEF3C7';
+    $('e-hmrc-l1').textContent = ya ? 'Ya puedes declarar' : 'Declarar desde'; $('e-hmrc-l1').className = ya ? 'ok' : '';
+    $('e-hmrc-1').textContent = ya ? 'Desde hoy' : f(h.desde);
+    $('e-hmrc-d1').textContent = ya ? 'Desde el ' + f(h.desde) : txt(dd); $('e-hmrc-d1').className = ya ? '' : 'warn';
+    $('e-hmrc-2').textContent = f(h.limite);
+    $('e-hmrc-d2').textContent = dl < 0 ? 'Venció hace ' + (-dl) + (dl === -1 ? ' día' : ' días') : txt(dl); $('e-hmrc-d2').className = dl < 0 ? 'err' : ya ? 'warn' : '';
+    const b = $('e-hmrc-ok'); b.classList.toggle('hidden', !ya);
+    b.onclick = () => {
+      b.disabled = true; b.textContent = 'Guardando…';
+      google.script.run.withSuccessHandler((n) => { b.disabled = false; b.textContent = '✓ Ya la presenté'; pintarHmrc(n); })
+        .withFailureHandler((e) => { b.disabled = false; b.textContent = '✓ Ya la presenté'; alert(String(e.message || e).replace(/^Exception: /, '')); })
+        .marcarHmrcPresentada(h.anioN);
+    };
+  }
 
   /* 5.0.0-alpha11: saludo y tarjetas de estado */
   const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'], MESL = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -1253,7 +1297,7 @@ function init_inicio(ROOT, P, S) {
     } else $('e-dias').textContent = '—';
     const pe = d.pendiente || { total: 0, n: 0 };
     $('e-pend').textContent = pe.total ? gbpI(pe.total) + ' · ' + pe.n + (pe.n === 1 ? ' factura' : ' facturas') : 'nada pendiente'; $('e-pend').className = pe.total ? 'warn' : 'ok';
-    if (d.hmrc) { $('e-hmrc').textContent = d.hmrc.fecha; $('e-hmrc-l').textContent = 'Declaración ' + d.hmrc.anio + ' (HMRC)'; }
+    if (d.hmrc) pintarHmrc(d.hmrc);
   });
   if (window.pbDatos && window.pbDatos.ultimaCopia) {
     window.pbDatos.ultimaCopia().then((ms) => {
@@ -1546,8 +1590,21 @@ function init_form(ROOT, P, S) {
     syncRg();
   }
 
+  /* 5.0.0-alpha20: «Volver» cuando se salta de un formulario a otro (ingreso → cliente, gasto → categoría) */
+  let VOLVER = null;
+  const NOMBRE_TAB = { ingreso: 'Nuevo ingreso', gasto: 'Nuevo gasto', cliente: 'el cliente', categoria: 'la categoría' };
+  function pintarVolver() {
+    const b = $('volver'), tip = $('volver-tip'); if (!b) return;
+    b.classList.toggle('hidden', !VOLVER); tip.classList.toggle('hidden', !VOLVER);
+    if (!VOLVER) return;
+    b.innerHTML = '‹&nbsp; Volver a ' + NOMBRE_TAB[VOLVER.de];
+    const g = VOLVER.a === 'cliente' ? 'Guardar cliente' : 'Guardar categoría';
+    tip.innerHTML = '💡 Al pulsar <b>' + g + '</b> vuelves solo a <b>' + NOMBRE_TAB[VOLVER.de] + '</b>, con ' + NOMBRE_TAB[VOLVER.a] + ' ya elegid' + (VOLVER.a === 'cliente' ? 'o' : 'a') + '. Lo que ya habías escrito sigue ahí.';
+  }
   function mostrar(tab) {
     if (EDIT && EDIT.tipo !== tab) cancelarEdicion(true);
+    if (VOLVER && tab !== VOLVER.a) VOLVER = null;
+    pintarVolver();
     TAB = tab; msg('');
     const T = { ingreso: ['Nuevo ingreso', 'Registra una factura, evento o venta.'], gasto: ['Nuevo gasto', 'Compras, transporte, equipo y más.'], registros: ['Editar o eliminar', 'Corrige o borra un ingreso o gasto.'], cliente: ['Clientes', 'Añade un cliente nuevo o pulsa uno de tu lista para corregir sus datos.'], proveedor: ['Proveedores', 'Añade un proveedor nuevo.'], categoria: ['Categorías', 'Categorías de gastos para Universal Credit.'], periodos: ['Periodos UC', 'Del 7 de un mes al 6 del siguiente.'], ajustes: ['Ajustes', 'Cada cosa en su sitio: tus negocios, la apariencia y lo general.'] }[tab] || ['Añadir datos', ''];
     $('ttl').textContent = T[0]; $('sub').textContent = T[1];
@@ -1566,7 +1623,12 @@ function init_form(ROOT, P, S) {
     if (tab === 'ingreso') taxPedir();
   }
 
-  document.querySelectorAll('[data-ir]').forEach((b) => (b.onclick = () => mostrar(b.dataset.ir)));
+  document.querySelectorAll('[data-ir]').forEach((b) => (b.onclick = () => {
+    const de = TAB, a = b.dataset.ir;
+    VOLVER = (de === 'ingreso' && a === 'cliente') || (de === 'gasto' && a === 'categoria') ? { de: de, a: a } : null;
+    mostrar(a); window.scrollTo(0, 0);
+  }));
+  $('volver').onclick = () => { const de = VOLVER && VOLVER.de; VOLVER = null; if (de) { mostrar(de); window.scrollTo(0, 0); } };
   document.querySelectorAll('input, select').forEach((el) => el.addEventListener('input', previews));
   $('g-prov').addEventListener('change', () => $('g-nuevo-wrap').classList.toggle('hidden', $('g-prov').value !== '__nuevo__'));
   $('g-unidad').addEventListener('change', () => { if ($('g-unidad').value === 'MILLAS' && !$('g-precio').value) { $('g-precio').value = '0.45'; previews(); } });
@@ -1645,6 +1707,10 @@ function init_form(ROOT, P, S) {
       cargar(() => { if (tab === 'cliente') $('i-cliente').value = r.nombre; if (tab === 'categoria') $('g-cat').value = r.nombre; });
       msg(textos[tab], 'ok');
       if (editado) { mostrar(volverA); msg(textos[tab], 'ok'); }
+      else if (VOLVER && VOLVER.a === tab) {
+        const de = VOLVER.de; VOLVER = null; mostrar(de); window.scrollTo(0, 0);
+        msg((tab === 'cliente' ? 'Cliente "' : 'Categoría "') + (r && r.nombre) + '" añadid' + (tab === 'cliente' ? 'o' : 'a') + ' y elegid' + (tab === 'cliente' ? 'o' : 'a') + '. Sigue con tu ' + (de === 'ingreso' ? 'ingreso' : 'gasto') + '.', 'ok');
+      }
     };
     const fail = (e) => { btn.disabled = false; btn.textContent = texto; msg(e.message.replace(/^Exception: /, ''), 'err'); };
     const run = google.script.run.withSuccessHandler(ok).withFailureHandler(fail);

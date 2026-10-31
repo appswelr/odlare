@@ -39,8 +39,8 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha19';
-const VERSION_FECHA = '26 oct 2026';
+const VERSION = '5.0.0-alpha20';
+const VERSION_FECHA = '31 oct 2026';
 
 // ───────────────────────── Menú ─────────────────────────
 function onOpen() {
@@ -101,11 +101,34 @@ function getHubData() {
       const pe = leerTabla_('Ingresos').filter(r => r['ESTADO'] === 'PENDING' && r['ID FACTURA'] !== '');
       return { total: Math.round(pe.reduce((t, r) => t + (Number(r['SUBTOTAL']) || 0), 0) * 100) / 100, n: Object.keys(pe.reduce((o, r) => (o[r['ID FACTURA']] = 1, o), {})).length };
     })(),
-    hmrc: (function () { const y = anioFiscalDe_(new Date()); return { fecha: '31 ene ' + (y + 2), anio: etiquetaAnio_(y) }; })(),
+    hmrc: hmrcEstado_(),
     nombre: String(config_().nombre || '')
   };
 }
 function getRevision() { return revisarDatos_(); }
+
+/* 5.0.0-alpha20: declaración HMRC. Año fiscal r = 6 abr r – 5 abr r+1; se puede declarar desde el 6 abr r+1; fecha límite (internet) 31 ene r+2.
+   Si el año anterior tiene movimientos y no está marcado como presentado → ese («abierta»). Si no → la próxima declaración. */
+function hmrcPresentadas_() {
+  return String(PropertiesService.getScriptProperties().getProperty('HMRC_PRESENTADAS') || '').split(',').filter(String).map(Number);
+}
+function hmrcTieneMovimientos_(r) {
+  const ini = new Date(r, 3, 6), fin = new Date(r + 1, 3, 6), dentro = (d) => d instanceof Date && d >= ini && d < fin;
+  return leerTabla_('Ingresos').some(x => dentro(x['FECHA EVENTO'] instanceof Date ? x['FECHA EVENTO'] : x['FECHA FACTURA'])) ||
+    leerTabla_('Gastos').some(x => dentro(x['FECHA']));
+}
+function hmrcEstado_() {
+  const y = anioFiscalDe_(new Date()), r = y - 1;
+  const abierta = hmrcPresentadas_().indexOf(r) < 0 && hmrcTieneMovimientos_(r);
+  const a = abierta ? r : y;
+  return { anio: etiquetaAnio_(a), anioN: a, abierta: abierta, desde: iso_(new Date(a + 1, 3, 6)), limite: iso_(new Date(a + 2, 0, 31)) };
+}
+function marcarHmrcPresentada(anio) {
+  const a = Number(anio); if (!a) throw new Error('Año no válido.');
+  const l = hmrcPresentadas_(); if (l.indexOf(a) < 0) l.push(a);
+  PropertiesService.getScriptProperties().setProperty('HMRC_PRESENTADAS', l.sort().join(','));
+  return hmrcEstado_();
+}
 function hubEnviarResumen() {
   const p = periodoActual_();
   if (!p) throw new Error('No encuentro el periodo actual en la hoja Periodos.');
@@ -1369,5 +1392,5 @@ function marcarInicioPrueba(iso) {
   return String(p.getProperty('PRUEBA_INICIO'));
 }
 
-return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
+return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
 })(window.PB_GAS.SpreadsheetApp, window.PB_GAS.Utilities, window.PB_GAS.Session, window.PB_GAS.LockService, window.PB_GAS.MailApp, window.PB_GAS.ScriptApp, window.PB_GAS.HtmlService, window.PB_GAS.PropertiesService, window.PB_GAS.DriveApp, window.PB_GAS.Logger);
