@@ -329,10 +329,13 @@
     '<div class="card"><h2>⬇️ Exportar</h2><div class="d">Para tu contable, para imprimir o para guardar en tu laptop.</div>' +
     '<div class="it"><div class="e">📗</div><div class="tx"><b>Excel (.xlsx)</b><small>Todas tus pestañas: ingresos, gastos, clientes…</small></div><button type="button" class="go" id="dt-xlsx">Bajar</button></div>' +
     '<div class="it"><div class="e">📄</div><div class="tx"><b>CSV de ingresos y gastos</b><small>Para otras apps o tu contable</small></div><button type="button" class="go" id="dt-csv">Bajar</button></div>' +
+    '<div class="msg" id="dt-m2"></div></div>' +
+    '</div>' +
+    '<div class="card" style="margin-top:16px"><h2>📥 Importar</h2><div class="d">Trae datos de fuera a PuntoBalance: tus ventas de eBay o Etsy, tu banco, o tu hoja anterior.</div>' +
     '<div class="it"><div class="e">🧾</div><div class="tx"><b>Importar movimientos</b><small>Archivo de eBay, Etsy, tu banco u otro CSV / Excel</small></div><button type="button" class="go p" id="dt-mov">Importar</button></div>' +
     '<div class="it"><div class="e">📥</div><div class="tx"><b>Importar mi hoja anterior</b><small>Trae tus datos de otra hoja (ej. DJ_Invoice_v3.3)</small></div><button type="button" class="go" id="dt-imp">Importar</button></div>' +
-    '<div class="msg" id="dt-m2"></div></div>' +
-    '</div></div>' +
+    '<div class="msg" id="dt-m3"></div></div>' +
+    '</div>' +
     '<div class="nota">💡 <b>¿Compraste una laptop o un celular nuevo?</b> Abre PuntoBalance, pulsa <b>«Entrar con Google»</b> con el mismo Gmail y la app encuentra sola tu hoja. No se pierde nada, porque nada se guarda solo en el aparato.</div>' +
     '</div>';
 
@@ -376,7 +379,7 @@
     boton("dt-xlsx", 2, function () { return excel().then(function (n) { return "✓ Descargado: " + n; }); }, "Preparando el Excel…");
     boton("dt-csv", 2, function () { return csv().then(function (n) { return "✓ Descargado: " + n; }); }, "Preparando el CSV…");
     $("dt-mov").onclick = function () { window.SHELL.ir("importar"); };
-    $("dt-imp").onclick = function () { msg(2, ""); importar(function (t, cl) { msg(2, t, cl); }); };
+    $("dt-imp").onclick = function () { msg(3, ""); importar(function (t, cl) { msg(3, t, cl); }); };
     pintar();
     var f = function () { if (vivo) pintar(); };
     document.addEventListener("pb-datos", f);
@@ -424,6 +427,11 @@
     b.innerHTML = '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg><span class="t">Tus datos</span>';
     b.onclick = function () { window.SHELL.ir("datos"); };
     aj.parentNode.insertBefore(b, aj);
+    // 5.0.0-alpha25: «Importar» en el menú, debajo de «Tus datos»
+    var im = document.createElement("button"); im.type = "button"; im.className = "rb"; im.setAttribute("data-go", "importar");
+    im.innerHTML = '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg><span class="t">Importar</span>';
+    im.onclick = function () { window.SHELL.ir("importar"); };
+    aj.parentNode.insertBefore(im, aj);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boton); else boton();
   window.addEventListener("load", function () { setTimeout(automatico, 6000); });

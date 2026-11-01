@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha24",
+ "ver": "5.0.0-alpha25",
  "fecha": "1 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha25",
+   "fecha": "1 nov 2026",
+   "cambios": [
+    "«Importar» ahora está en el menú, debajo de «Tus datos»",
+    "En Tus datos, Importar tiene su propia tarjeta, separada de Exportar, para no confundirse"
+   ]
+  },
   {
    "ver": "5.0.0-alpha24",
    "fecha": "1 nov 2026",
