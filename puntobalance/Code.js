@@ -39,7 +39,7 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha23';
+const VERSION = '5.0.0-alpha24';
 const VERSION_FECHA = '1 nov 2026';
 
 // ───────────────────────── Menú ─────────────────────────
@@ -1222,7 +1222,7 @@ function asegurarNegocios_() {
     const cab = s.getRange(1, 1, 1, Math.max(s.getLastColumn(), 1)).getValues()[0];
     NEG_CABS.forEach(t => { if (cab.indexOf(t) < 0) { let col = cab.length; while (col > 0 && (cab[col - 1] === '' || cab[col - 1] === null)) col--; s.getRange(1, col + 1).setValue(t).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1B2B5B'); cab.splice(col, 0, t); } });
   }
-  [['Ingresos', 'NEGOCIO'], ['Ingresos', 'Nº FACTURA'], ['Gastos', 'NEGOCIO']].forEach(x => {
+  [['Ingresos', 'NEGOCIO'], ['Ingresos', 'Nº FACTURA'], ['Gastos', 'NEGOCIO'], ['Ingresos', 'IMPORTADO'], ['Gastos', 'IMPORTADO']].forEach(x => {
     const h = hoja_(x[0]);
     const cab = h.getRange(1, 1, 1, Math.max(h.getLastColumn(), 1)).getValues()[0];
     if (cab.indexOf(x[1]) >= 0) return;
@@ -1443,5 +1443,85 @@ function marcarInicioPrueba(iso) {
   return String(p.getProperty('PRUEBA_INICIO'));
 }
 
-return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCategoria: actualizarCategoria, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, actualizarProveedor: actualizarProveedor, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarDeLista: eliminarDeLista, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
+
+/* ====== Importar movimientos (5.0.0-alpha24) ======
+ * La app (importar.js) lee el archivo de eBay, Etsy u otro CSV/Excel y manda aquí las filas ya preparadas.
+ * Cada fila lleva una CLAVE (columna IMPORTADO) para no repetir nada: «ebay|2026-05|r:ventas» (resumen del mes)
+ * o «ebay|2026-05|d:<nº>» (cada movimiento). Las columnas de siempre no cambian. */
+function getImportarInfo() {
+  asegurarNegocios_();
+  const claves = {};
+  ['Ingresos', 'Gastos'].forEach(t => leerTabla_(t).forEach(r => { const k = txt_(r['IMPORTADO']).trim(); if (k) claves[k] = 1; }));
+  let plantillas = {};
+  try { plantillas = JSON.parse(PropertiesService.getScriptProperties().getProperty('IMP_PLANTILLAS') || '{}') || {}; } catch (e) { plantillas = {}; }
+  return {
+    negocios: negocios_().map(n => ({ id: n.id, nombre: n.nombre, tipo: n.tipo })),
+    categorias: leerTabla_('Categorias').map(c => String(c['NOMBRE'])),
+    catMax: CAT_MAX, claves: Object.keys(claves), plantillas: plantillas
+  };
+}
+
+/** o = { negocio, filas: [{ t: 'i'|'g', f: 'aaaa-mm-dd', n: cliente/proveedor, d: descripción, c: categoría, p: importe, k: clave, num: nº }], plantilla: { id, datos } } */
+function guardarMovimientosImportados(o) {
+  return conBloqueo_(() => {
+    const neg = negocioPorId_(o && o.negocio || negPrimero_());
+    if (!neg) throw new Error('Elige de qué negocio son estos movimientos.');
+    if (o.plantilla && o.plantilla.id) {
+      const pp = PropertiesService.getScriptProperties();
+      let l = {}; try { l = JSON.parse(pp.getProperty('IMP_PLANTILLAS') || '{}') || {}; } catch (e) { l = {}; }
+      l[String(o.plantilla.id)] = o.plantilla.datos;
+      pp.setProperty('IMP_PLANTILLAS', JSON.stringify(l));
+    }
+    const ya = {};
+    ['Ingresos', 'Gastos'].forEach(t => leerTabla_(t).forEach(r => { const k = txt_(r['IMPORTADO']).trim(); if (k) ya[k] = 1; }));
+    const filas = (o.filas || []).filter(x => x && !(x.k && ya[x.k]) && Number(x.p) !== 0 && !isNaN(Number(x.p)));
+    const repetidas = (o.filas || []).length - filas.length;
+    // categorías que faltan: se crean (si caben)
+    const cats = leerTabla_('Categorias').map(c => String(c['NOMBRE']));
+    const nuevas = [];
+    filas.forEach(x => { if (x.t === 'g' && x.c && cats.indexOf(x.c) < 0 && nuevas.indexOf(x.c) < 0) nuevas.push(x.c); });
+    if (cats.length + nuevas.length > CAT_MAX) throw new Error('No caben las categorías nuevas (' + nuevas.join(', ') + '): el máximo es ' + CAT_MAX + '. Elige categorías que ya tengas.');
+    nuevas.forEach(c => { const s = hoja_('Categorias'); s.getRange(filaLibre_(s, false), 1, 1, 2).setValues([[c, 'Creada al importar']]); });
+    // clientes y proveedores que faltan
+    const cli = leerTabla_('Clientes').map(c => String(c['NOMBRE']).toLowerCase());
+    const pro = leerTabla_('Proveedores').map(c => String(c['NOMBRE']).toLowerCase());
+    filas.forEach(x => {
+      const n = String(x.n || '').trim() || 'Varios'; x.n = n;
+      if (x.t === 'i' && cli.indexOf(n.toLowerCase()) < 0) { const s = hoja_('Clientes'); s.getRange(filaLibre_(s, false), 1, 1, 6).setValues([[n, '', '', '', '', '']]); cli.push(n.toLowerCase()); }
+      if (x.t === 'g' && pro.indexOf(n.toLowerCase()) < 0) { anadirProveedor_(n, 'Creado al importar'); pro.push(n.toLowerCase()); }
+    });
+    const periodos = leerTabla_('Periodos');
+    const per = (d) => { for (const p of periodos) if (d >= p['INICIO'] && d <= new Date(p['FIN'].getTime() + 86399000)) return p['ETIQUETA']; return ''; };
+    let sinPeriodo = 0, nI = 0, nG = 0, tI = 0, tG = 0;
+    const escribir = (hojaN, lista, fila) => {
+      if (!lista.length) return;
+      const s = hoja_(hojaN);
+      const a = s.getRange(1, 1, Math.max(s.getLastRow(), 1), 1).getValues();
+      let ult = 1; for (let i = a.length - 1; i >= 1; i--) if (a[i][0] !== '' && a[i][0] !== null) { ult = i + 1; break; }
+      const r0 = ult + 1, n = lista.length;
+      if (typeof s.insertRowsAfter === 'function' && r0 + n - 1 > s.getMaxRows()) s.insertRowsAfter(s.getMaxRows(), r0 + n - 1 - s.getMaxRows());
+      let id = siguienteId_(hojaN);
+      const datos = [], negs = [], imps = [], nums = [];
+      lista.forEach(x => {
+        const d = fechaIso_(x.f, 'fecha');
+        const precio = Math.round(Number(x.p) * 100) / 100;
+        const pe = per(d); if (!pe) sinPeriodo++;
+        datos.push(fila(x, id++, d, precio, pe));
+        negs.push([neg.id]); imps.push([String(x.k || '')]); nums.push([String(x.num || '')]);
+      });
+      s.getRange(r0, 1, n, datos[0].length).setValues(datos);
+      s.getRange(r0, colDe_(hojaN, 'NEGOCIO'), n, 1).setValues(negs);
+      s.getRange(r0, colDe_(hojaN, 'IMPORTADO'), n, 1).setValues(imps);
+      if (hojaN === 'Ingresos') s.getRange(r0, colDe_(hojaN, 'Nº FACTURA'), n, 1).setValues(nums);
+    };
+    const ing = filas.filter(x => x.t === 'i'), gas = filas.filter(x => x.t === 'g');
+    escribir('Ingresos', ing, (x, id, d, precio, pe) => { nI++; tI += precio; return [id, d, x.n, String(x.d || '').trim(), d, 'Unit', precio, 1, precio, pe, 'TRANSFER', 'PAID', 'NO']; });
+    escribir('Gastos', gas, (x, id, d, precio, pe) => { nG++; tG += precio; return [id, d, x.n, String(x.d || '').trim(), x.c, 1, 'UNIT', precio, precio, pe, String(x.notas || '').trim(), 'NO']; });
+    SpreadsheetApp.flush();
+    return { ingresos: nI, gastos: nG, totalIngresos: Math.round(tI * 100) / 100, totalGastos: Math.round(tG * 100) / 100,
+      repetidas: repetidas, sinPeriodo: sinPeriodo, categoriasNuevas: nuevas };
+  });
+}
+
+return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCategoria: actualizarCategoria, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, actualizarProveedor: actualizarProveedor, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarDeLista: eliminarDeLista, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImportarInfo: getImportarInfo, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarMovimientosImportados: guardarMovimientosImportados, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
 })(window.PB_GAS.SpreadsheetApp, window.PB_GAS.Utilities, window.PB_GAS.Session, window.PB_GAS.LockService, window.PB_GAS.MailApp, window.PB_GAS.ScriptApp, window.PB_GAS.HtmlService, window.PB_GAS.PropertiesService, window.PB_GAS.DriveApp, window.PB_GAS.Logger);

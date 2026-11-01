@@ -1,7 +1,18 @@
 {
- "ver": "5.0.0-alpha23",
+ "ver": "5.0.0-alpha24",
  "fecha": "1 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha24",
+   "fecha": "1 nov 2026",
+   "cambios": [
+    "Nuevo: «Importar movimientos» en Tus datos. Elige el archivo de eBay o de Etsy y la app mete sola tus ventas, comisiones, envíos y anuncios",
+    "Puedes añadirlo como resumen del mes (una línea por tipo) o cada movimiento por separado",
+    "Lo dudoso (por ejemplo, una compra con saldo de eBay) te lo pregunta: tú decides si es del negocio",
+    "Cualquier otro CSV o Excel: dices una vez qué es cada columna y la app lo recuerda",
+    "No se repite nada: si un mes ya se importó, la app avisa"
+   ]
+  },
   {
    "ver": "5.0.0-alpha23",
    "fecha": "1 nov 2026",

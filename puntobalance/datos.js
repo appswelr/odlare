@@ -329,6 +329,7 @@
     '<div class="card"><h2>⬇️ Exportar</h2><div class="d">Para tu contable, para imprimir o para guardar en tu laptop.</div>' +
     '<div class="it"><div class="e">📗</div><div class="tx"><b>Excel (.xlsx)</b><small>Todas tus pestañas: ingresos, gastos, clientes…</small></div><button type="button" class="go" id="dt-xlsx">Bajar</button></div>' +
     '<div class="it"><div class="e">📄</div><div class="tx"><b>CSV de ingresos y gastos</b><small>Para otras apps o tu contable</small></div><button type="button" class="go" id="dt-csv">Bajar</button></div>' +
+    '<div class="it"><div class="e">🧾</div><div class="tx"><b>Importar movimientos</b><small>Archivo de eBay, Etsy, tu banco u otro CSV / Excel</small></div><button type="button" class="go p" id="dt-mov">Importar</button></div>' +
     '<div class="it"><div class="e">📥</div><div class="tx"><b>Importar mi hoja anterior</b><small>Trae tus datos de otra hoja (ej. DJ_Invoice_v3.3)</small></div><button type="button" class="go" id="dt-imp">Importar</button></div>' +
     '<div class="msg" id="dt-m2"></div></div>' +
     '</div></div>' +
@@ -374,6 +375,7 @@
     $("dt-volver").onclick = function () { elegir(true); };
     boton("dt-xlsx", 2, function () { return excel().then(function (n) { return "✓ Descargado: " + n; }); }, "Preparando el Excel…");
     boton("dt-csv", 2, function () { return csv().then(function (n) { return "✓ Descargado: " + n; }); }, "Preparando el CSV…");
+    $("dt-mov").onclick = function () { window.SHELL.ir("importar"); };
     $("dt-imp").onclick = function () { msg(2, ""); importar(function (t, cl) { msg(2, t, cl); }); };
     pintar();
     var f = function () { if (vivo) pintar(); };
