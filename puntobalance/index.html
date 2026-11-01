@@ -203,7 +203,7 @@
   .v-inicio .estado .hmc i.ok { color: #12804A; }
   .v-inicio .estado .hmc b { display: block; font-size: 14.5px; white-space: nowrap; }
   .v-inicio .estado .hmc em { display: block; font-style: normal; font-size: 11px; font-weight: 700; color: var(--muted); white-space: nowrap; }
-  .v-inicio .estado .hmc em.warn { color: #C2410C; } .v-inicio .estado .hmc em.err { color: #B91C1C; }
+  .v-inicio .estado .hmc em.warn { color: #C2410C; } .v-inicio .estado .hmc em.ok { color: #12804A; } .v-inicio .estado .hmc em.err { color: #B91C1C; }
   .v-inicio .estado .hmok { margin-top: 7px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); border-radius: 9px; padding: 4px 10px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
   .v-inicio .estado .hmok.hidden { display: none; }
   .v-inicio .estado .hmp { color: var(--ink); font-weight: 700; font-size: 12.5px; }
@@ -1256,7 +1256,7 @@ html[data-tema="oscuro"] .v-inicio #rev { background: rgba(11,18,36,.95); }
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha22',fecha:'31 oct 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha23',fecha:'1 nov 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1278,9 +1278,9 @@ function init_inicio(ROOT, P, S) {
     const dd = dias(h.desde), dl = dias(h.limite), ya = dd <= 0;
     $('e-hmrc-l').innerHTML = 'Impuestos HMRC · año fiscal ' + escH(h.anio) + (h.ini ? '<br><span class="hmp">' + f(h.ini) + ' – ' + f(h.fin) + '</span>' : '');
     $('e-hmrc-ic').textContent = ya ? '✅' : '🏛️'; $('e-hmrc-ic').style.background = ya ? '#DCFCE7' : '#FEF3C7';
-    $('e-hmrc-l1').textContent = ya ? 'Ya puedes presentarla' : 'Presentar desde'; $('e-hmrc-l1').className = ya ? 'ok' : '';
-    $('e-hmrc-1').textContent = ya ? 'Desde hoy' : f(h.desde);
-    $('e-hmrc-d1').textContent = ya ? 'Desde el ' + f(h.desde) : txt(dd); $('e-hmrc-d1').className = ya ? '' : 'warn';
+    $('e-hmrc-l1').textContent = ya ? 'Abierta desde' : 'Presentar desde'; $('e-hmrc-l1').className = ya ? 'ok' : '';
+    $('e-hmrc-1').textContent = f(h.desde);
+    $('e-hmrc-d1').textContent = ya ? '✓ Ya se puede' : txt(dd); $('e-hmrc-d1').className = ya ? 'ok' : 'warn';
     $('e-hmrc-2').textContent = f(h.limite);
     $('e-hmrc-d2').textContent = dl < 0 ? 'Venció hace ' + (-dl) + (dl === -1 ? ' día' : ' días') : txt(dl); $('e-hmrc-d2').className = dl < 0 ? 'err' : ya ? 'warn' : '';
     const b = $('e-hmrc-ok'); b.classList.toggle('hidden', !ya);
@@ -2318,17 +2318,17 @@ function init_impuestos(ROOT, P, S) {
         '<tr class="tot"><td>Total (ingresos − gastos)</td><td class="r">' + gbp(r.ingresos) + '</td><td class="r">' + gbp(r.gastos) + '</td><td class="r"><b>' + gbp(r.ingresos - r.gastos) + '</b></td></tr></tbody></table></div>' : '') +
       '<div class="cols"><div class="col"><div class="card"><b>Cómo sale el cálculo</b>' +
         ln('Beneficio del negocio', gbp(r.beneficio)) +
-        ln(r.sueldoDado ? 'Sueldo de la warehouse (lo que pusiste)' : 'Sueldo de la warehouse (no puesto)', gbp(r.sueldo)) +
+        ln(r.sueldoDado ? 'Sueldo de tu empleo · nómina' : 'Sueldo de tu empleo · nómina (no puesto)', gbp(r.sueldo)) +
         ln('Total de ingresos del año', gbp(r.total), 'tot') +
         ln('Libre de impuestos (Personal Allowance)', '− ' + gbp(r.pa)) +
         ln('Sobre lo que se paga impuesto', gbp(r.imponible)) +
         ln('Impuesto sobre la renta (por el negocio)', gbp(r.impuesto), r.impuesto > 0 ? '' : 'g') +
         ln('Seguridad Social autónomo (Class 4)', gbp(r.ni4), r.ni4 > 0 ? '' : 'g') +
         '<div class="nota">' + metodo + '</div>' +
-        (r.sueldoDado ? '' : '<div class="aviso">Estimación solo con el beneficio de tu negocio. Si tienes nómina, el resultado puede subir: pon tu sueldo aproximado a la derecha.</div>') +
+        (r.sueldoDado ? '' : '<div class="aviso">Estimación solo con el beneficio de tu negocio. Si además trabajas para una empresa (nómina), pon tu sueldo a la derecha: el impuesto puede subir.</div>') +
       '</div></div><div class="col">' +
-        '<div class="card"><b>Tu sueldo de la warehouse (opcional)</b><div class="hint">Aproximado, al año y antes de impuestos. Tu empleador ya lo informa solo al HMRC; aquí solo sirve para afinar el cálculo. Mira "Gross pay" o "Pay to date" en tu nómina.</div>' +
-        '<div class="sueldo"><input id="im-sueldo" type="number" min="0" step="1" inputmode="decimal" placeholder="Por ejemplo 10800" value="' + (r.sueldoDado ? r.sueldo : '') + '"><button class="btn primary" id="im-g" type="button">Guardar</button></div><div class="msg" id="im-msg" role="status"></div></div>' +
+        '<div class="card"><b>¿Trabajas también para una empresa? (opcional)</b><div class="hint">Si además tienes un trabajo con nómina (PAYE), pon lo que ganas al año antes de impuestos. Lo ves en la app de HMRC › PAYE › «Estimated taxable income». Tu empresa ya lo informa al HMRC: aquí solo sirve para afinar el cálculo.</div>' +
+        '<div class="sueldo"><input id="im-sueldo" type="number" min="0" step="1" inputmode="decimal" placeholder="Por ejemplo 10500" value="' + (r.sueldoDado ? r.sueldo : '') + '"><button class="btn primary" id="im-g" type="button">Guardar</button></div><div class="msg" id="im-msg" role="status"></div></div>' +
         '<div class="card"><b>Fechas importantes</b>' +
           (r.registrarte ? '<div class="fecha"><div class="bar" style="background:#F59E0B"></div><div><b>' + r.fechaRegistro + '</b><span>Registrarte en Self Assessment (HMRC): ya pasas de £1,000</span></div></div>'
             : '<div class="fecha"><div class="bar" style="background:#9CA3AF"></div><div><b>Aún no</b><span>No tienes que registrarte mientras no pases de £1,000 de ingresos en el año</span></div></div>') +

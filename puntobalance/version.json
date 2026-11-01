@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha22",
- "fecha": "31 oct 2026",
+ "ver": "5.0.0-alpha23",
+ "fecha": "1 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha23",
+   "fecha": "1 nov 2026",
+   "cambios": [
+    "Impuestos: «¿Trabajas también para una empresa?» para poner tu sueldo con nómina (PAYE), con dónde encontrarlo en la app de HMRC",
+    "Tarjeta de impuestos en Inicio: «Abierta desde 6 abr · ✓ Ya se puede» en vez de «Desde hoy»"
+   ]
+  },
   {
    "ver": "5.0.0-alpha22",
    "fecha": "31 oct 2026",
