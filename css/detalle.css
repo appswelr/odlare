@@ -118,3 +118,7 @@ html.dv-lock,html.dv-lock body{overflow:hidden}
 .dv h2,.dv-sub{text-wrap:balance}
 .dv .phone.dv-small .sb{display:none}
 .dv .phone.dv-small .scr img.dv-fix{inset:0;height:100%}
+.dv-note{display:none;position:absolute;left:50%;top:-34px;transform:translateX(-50%);margin:0;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-size:12px;white-space:nowrap;z-index:5}
+html[lang="en"] .dv-p[data-p="pb"] .dv-note{display:block}
+html[lang="en"] .dv-p[data-p="fin"] .dv-note{display:block}
+@media(max-width:900px){.dv-note{position:static;transform:none;display:none;text-align:center;margin:8px auto}}
