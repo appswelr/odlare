@@ -1,7 +1,14 @@
 {
- "ver": "5.0.0-alpha27",
+ "ver": "5.0.0-alpha28",
  "fecha": "6 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha28",
+   "fecha": "6 nov 2026",
+   "cambios": [
+    "En el Dashboard, la tarjeta «Movimientos» tiene el botón «Ver todo en detalle», que te lleva a la pantalla Movimientos con todos los filtros"
+   ]
+  },
   {
    "ver": "5.0.0-alpha27",
    "fecha": "6 nov 2026",

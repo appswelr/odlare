@@ -877,6 +877,7 @@ html[data-tema="oscuro"] .v-dashboard .kpi4 .g, html[data-tema="oscuro"] .v-dash
 .v-dashboard .seg button { height: 34px; padding: 0 12px; background: transparent; border: 0; border-right: 1px solid var(--border); cursor: pointer; color: var(--text2); font-size: 13px; }
 .v-dashboard .seg button:last-child { border-right: 0; }
 .v-dashboard .seg button[aria-pressed="true"] { background: var(--wash); color: var(--text); font-weight: 650; }
+.v-dashboard .more.detalle { background: #1B2B5B; border-color: #1B2B5B; color: #fff; font-weight: 600; }
 .v-dashboard .more { margin-top: 10px; width: 100%; height: 40px; background: transparent; border: 1px solid var(--border); border-radius: 9px; cursor: pointer; color: var(--text2); }
 .v-dashboard .vacio { padding: 26px 8px; text-align: center; color: var(--text2); }
 .v-dashboard .foot { margin-top: 20px; color: var(--muted); font-size: 12px; display: flex; flex-wrap: wrap; gap: 4px 14px; justify-content: space-between; }
@@ -1359,7 +1360,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha27',fecha:'6 nov 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha28',fecha:'6 nov 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -2878,7 +2879,8 @@ function pintar() {
     (vis.length ? vis.slice(0, MAS).map((x) => '<div class="row"><div class="d">' + esc(fechaCorta(x.f)) + '</div><div class="t"><i class="dot ' + (x.t === 'i' ? 's1' : 's2') + '"></i>' + esc(x.c) +
       '<small>' + esc(x.s) + (x.t === 'i' ? '<span class="chip ' + (x.e === 'PAID' ? 'ok' : 'pend') + '">' + (x.e === 'PAID' ? '✓ Cobrada' : '◔ Pendiente') + '</span>' : '') + '</small></div>' +
       '<div class="m">' + (x.t === 'i' ? '+' : '−') + esc(fmt(x.v)) + '</div></div>').join('') : '<div class="vacio">No hay movimientos.</div>') +
-    (vis.length > MAS ? '<button class="more" id="mas">Mostrar más (' + (vis.length - MAS) + ')</button>' : '') + '</section>';
+    (vis.length > MAS ? '<button class="more" id="mas">Mostrar más (' + (vis.length - MAS) + ')</button>' : '') +
+    '<button class="more detalle" data-ir="movimientos">Ver todo en detalle ›</button></section>';
 
   $('d-main').innerHTML = h;
   const sinP = D.ingresos.concat(D.gastos).filter((x) => !x.periodo).length;
