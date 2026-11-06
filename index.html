@@ -443,6 +443,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   footer .cols>div:first-child{grid-column:1/-1}
 }
 </style>
+<link rel="stylesheet" href="css/detalle.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://odlare.uk/#org","name":"Odlare","url":"https://odlare.uk/","logo":"https://odlare.uk/img/apple-touch-icon.png","email":"info@odlare.uk"},
@@ -492,9 +493,9 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
       <div class="elige">
         <div class="tt" data-es="Elige tu app" data-en="Choose your app">Elige tu app</div>
         <div class="ops">
-          <a href="#mis-finanzas"><img src="img/icono-finanzas.png" alt=""><span><span data-es="Mis Finanzas" data-en="My Finances">Mis Finanzas</span><small data-es="Tu dinero" data-en="Your money">Tu dinero</small></span></a>
-          <a href="#puntobalance"><img src="img/icono-puntobalance.png" alt=""><span>PuntoBalance<small data-es="Tu negocio" data-en="Your business">Tu negocio</small></span></a>
-          <a href="#mis-compras"><img src="img/icono-compras.png" alt=""><span><span data-es="Mis Compras" data-en="My Shopping">Mis Compras</span><small data-es="Tu compra" data-en="Your shopping">Tu compra</small></span></a>
+          <a href="#mis-finanzas" data-app="fin"><img src="img/icono-finanzas.png" alt=""><span><span data-es="Mis Finanzas" data-en="My Finances">Mis Finanzas</span><small data-es="Tu dinero" data-en="Your money">Tu dinero</small></span></a>
+          <a href="#puntobalance" data-app="pb"><img src="img/icono-puntobalance.png" alt=""><span>PuntoBalance<small data-es="Tu negocio" data-en="Your business">Tu negocio</small></span></a>
+          <a href="#mis-compras" data-app="com"><img src="img/icono-compras.png" alt=""><span><span data-es="Mis Compras" data-en="My Shopping">Mis Compras</span><small data-es="Tu compra" data-en="Your shopping">Tu compra</small></span></a>
         </div>
       </div>
     </div>
@@ -546,9 +547,10 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
         <div class="meta">
           <span class="play"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-es="MUY PRONTO EN" data-en="COMING SOON ON">MUY PRONTO EN</small>Google Play</span></span>
           <span class="price" data-es="14 días gratis, sin tarjeta" data-en="14 days free, no card needed">14 días gratis, sin tarjeta</span>
+          <button type="button" class="btn sec" data-app="fin" data-es="Verla a fondo <span class=fl>→</span>" data-en="See it up close <span class=fl>→</span>">Verla a fondo <span class=fl>→</span></button>
         </div>
       </div>
-      <div class="media"><div class="phone"><div class="scr"><div class="sb"><span>12:30</span><span class="ico"><svg viewBox="0 0 16 11"><path d="M1 10h2V7H1zM5 10h2V5H5zM9 10h2V3H9zM13 10h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 14 11"><path d="M7 10.5 0.5 3.6a9.4 9.4 0 0 1 13 0z" fill="currentColor"/></svg><svg viewBox="0 0 22 11"><rect x="0.6" y="0.6" width="18" height="9.8" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="2.4" y="2.4" width="11.5" height="6.2" rx="1.3" fill="currentColor"/><rect x="19.8" y="3.6" width="1.6" height="3.8" rx=".8" fill="currentColor"/></svg></span></div><img data-img="fin" src="img/fin-es.jpg" alt="Mis Finanzas"></div></div></div>
+      <div class="media" data-app="fin"><div class="phone"><div class="scr"><div class="sb"><span>12:30</span><span class="ico"><svg viewBox="0 0 16 11"><path d="M1 10h2V7H1zM5 10h2V5H5zM9 10h2V3H9zM13 10h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 14 11"><path d="M7 10.5 0.5 3.6a9.4 9.4 0 0 1 13 0z" fill="currentColor"/></svg><svg viewBox="0 0 22 11"><rect x="0.6" y="0.6" width="18" height="9.8" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="2.4" y="2.4" width="11.5" height="6.2" rx="1.3" fill="currentColor"/><rect x="19.8" y="3.6" width="1.6" height="3.8" rx=".8" fill="currentColor"/></svg></span></div><img data-img="fin" src="img/fin-es.jpg" alt="Mis Finanzas"></div></div></div>
     </article>
 
     <article class="app pb rv" id="puntobalance">
@@ -571,10 +573,11 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
         <div class="pbpasos"><span data-es="<b>1</b> Pulsa «Instalar»" data-en="<b>1</b> Tap “Install”"><b>1</b> Pulsa «Instalar»</span><span data-es="<b>2</b> Confirma en tu navegador" data-en="<b>2</b> Confirm in your browser"><b>2</b> Confirma en tu navegador</span><span data-es="<b>3</b> Listo: se abre como un programa" data-en="<b>3</b> Done: it opens like a program"><b>3</b> Listo: se abre como un programa</span></div>
         <div class="pbmeta">
           <span class="price" data-es="14 días gratis, sin tarjeta" data-en="14 days free, no card needed">14 días gratis, sin tarjeta</span>
+          <button type="button" class="btn sec" data-app="pb" data-es="Verla a fondo <span class=fl>→</span>" data-en="See it up close <span class=fl>→</span>">Verla a fondo <span class=fl>→</span></button>
         </div>
         <a class="pbpriv" href="privacidad-puntobalance.html" data-es="Política de privacidad de PuntoBalance ›" data-en="PuntoBalance privacy policy ›">Política de privacidad de PuntoBalance ›</a>
       </div>
-      <div class="media"><div class="lap"><div class="pant"><img src="img/pb-pc.png?v=2" alt="PuntoBalance"></div><div class="base"></div></div></div>
+      <div class="media" data-app="pb"><div class="lap"><div class="pant"><img src="img/pb-pc.png?v=2" alt="PuntoBalance"></div><div class="base"></div></div></div>
     </article>
 
     <article class="app pronto rv" id="mis-compras" style="--c:var(--com)">
@@ -590,6 +593,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
         <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Compartidas.</b> Todos en casa ven y añaden en la misma lista." data-en="<b>Shared.</b> Everyone at home sees and adds to the same list."><b>Compartidas.</b> Todos en casa ven y añaden en la misma lista.</span></li>
         <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Lo de siempre</b> en un toque, con historial y precios." data-en="<b>Your usuals</b> in one tap, with history and prices."><b>Lo de siempre</b> en un toque, con historial y precios.</span></li>
       </ul>
+      <p style="margin-top:22px"><button type="button" class="btn sec" data-app="com" data-es="Verla a fondo <span class=fl>→</span>" data-en="See it up close <span class=fl>→</span>">Verla a fondo <span class=fl>→</span></button></p>
     </article>
   </div>
 </section>
@@ -767,6 +771,111 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   </div>
 </footer>
 
+<div class="dv" id="dv" role="dialog" aria-modal="true" aria-label="Odlare" hidden>
+  <div class="dv-in">
+    <div class="dv-top">
+      <a href="/" class="odl" aria-label="Odlare"><svg aria-hidden="true"><use href="#o"/></svg>dlare</a>
+      <button type="button" class="dv-x" id="dvX" data-es="← Volver a las apps" data-en="← Back to apps">← Volver a las apps</button>
+    </div>
+    <div class="dv-tabs" role="tablist">
+      <button type="button" class="dv-tab" role="tab" data-tab="fin" aria-selected="true"><img src="img/icono-finanzas.png" alt=""><span data-es="Mis Finanzas" data-en="My Finances">Mis Finanzas</span></button>
+      <button type="button" class="dv-tab" role="tab" data-tab="pb" aria-selected="false"><img src="img/icono-puntobalance.png" alt=""><span>PuntoBalance</span></button>
+      <button type="button" class="dv-tab" role="tab" data-tab="com" aria-selected="false"><img src="img/icono-compras.png" alt=""><span data-es="Mis Compras" data-en="My Shopping">Mis Compras</span></button>
+    </div>
+    <div class="dv-p" data-p="fin">
+      <div class="dv-left">
+        <div class="dv-head">
+          <div class="dv-lab" data-es="Mis Finanzas · para tu día a día" data-en="My Finances · for everyday life">Mis Finanzas · para tu día a día</div>
+          <h2 data-es="Tu dinero, <em>claro</em> y al día." data-en="Your money, <em>clear</em> and up to date.">Tu dinero, <em>claro</em> y al día.</h2>
+          <p class="dv-sub" data-es="Pagas con el móvil y el gasto se apunta solo. Cada día sabes cuánto puedes gastar y llegas bien a fin de mes." data-en="Pay with your phone and the spending logs itself. Every day you know how much you can spend, and you make it to the end of the month.">Pagas con el móvil y el gasto se apunta solo. Cada día sabes cuánto puedes gastar y llegas bien a fin de mes.</p>
+        </div>
+        <div class="dv-steps">
+          <button type="button" class="dv-st" data-i="0"><b data-es="Tu dinero, en un vistazo" data-en="Your money at a glance">Tu dinero, en un vistazo</b><span data-es="Tus cuentas y cuánto puedes gastar hoy" data-en="Your accounts and what you can spend today">Tus cuentas y cuánto puedes gastar hoy</span><i class="dv-bar"></i></button>
+          <button type="button" class="dv-st" data-i="1"><b data-es="Los pagos se apuntan solos" data-en="Payments log themselves">Los pagos se apuntan solos</b><span data-es="Todo ordenado por día, con buscador" data-en="Everything sorted by day, with search">Todo ordenado por día, con buscador</span><i class="dv-bar"></i></button>
+          <button type="button" class="dv-st" data-i="2" data-dark="1"><b data-es="Calendario de pagos" data-en="Payment calendar">Calendario de pagos</b><span data-es="Lo que sale y lo que entra, antes de que pase" data-en="What goes out and what comes in, before it happens">Lo que sale y lo que entra, antes de que pase</span><i class="dv-bar"></i></button>
+        </div>
+        <div class="dv-cta">
+          <button type="button" class="dv-btn" data-abrir-form="aviso" data-es="Quiero tenerla" data-en="I want it">Quiero tenerla</button>
+          <span class="play"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-es="MUY PRONTO EN" data-en="COMING SOON ON">MUY PRONTO EN</small>Google Play</span></span>
+          <span class="dv-free" data-es="14 días gratis, sin tarjeta" data-en="14 days free, no card needed">14 días gratis, sin tarjeta</span>
+        </div>
+      </div>
+      <div class="dv-stage">
+        <div class="dv-ring"></div>
+        <div class="dv-chip l" data-i="0" aria-hidden="true"><span data-es="✅ Llegas bien al 28" data-en="✅ You'll make it to the 28th">✅ Llegas bien al 28</span><small data-es="2 consejos" data-en="2 tips">2 consejos</small></div>
+        <div class="dv-chip l" data-i="1" aria-hidden="true"><span data-es="🔔 Pagaste £17.43" data-en="🔔 You paid £17.43">🔔 Pagaste £17.43</span><small data-es="Apuntado solo" data-en="Logged automatically">Apuntado solo</small></div>
+        <div class="dv-chip l" data-i="2" aria-hidden="true"><span data-es="📅 Mié 18 nov" data-en="📅 Wed 18 Nov">📅 Mié 18 nov</span><small data-es="2 pagos previstos" data-en="2 payments due">2 pagos previstos</small></div>
+        <div class="phone" aria-hidden="true"><div class="scr"><div class="sb"><span>12:30</span><span></span></div>
+          <img class="dv-shot" data-i="0" data-src-es="img/fin-es.jpg" data-src-en="img/fin-en.jpg" alt="" decoding="async">
+          <img class="dv-shot" data-i="1" data-src-es="img/fin2-es.jpg" data-src-en="img/fin2-en.jpg" alt="" decoding="async">
+          <img class="dv-shot" data-i="2" data-src-es="img/fin3-es.jpg" data-src-en="img/fin3-es.jpg" alt="" decoding="async">
+        </div></div>
+      </div>
+    </div>
+    <div class="dv-p" data-p="pb" hidden>
+      <div class="dv-left">
+        <div class="dv-head">
+          <div class="dv-lab" data-es="PuntoBalance · para tu negocio" data-en="PuntoBalance · for your business">PuntoBalance · para tu negocio</div>
+          <h2 data-es="Tu negocio, <em>en orden</em>." data-en="Your business accounts, <em>in order</em>.">Tu negocio, <em>en orden</em>.</h2>
+          <p class="dv-sub" data-es="Ingresos, gastos y facturas en un solo sitio. Funciona en tu computadora, tu tablet y tu celular." data-en="Income, expenses and invoices in one place. Works on your computer, tablet and phone.">Ingresos, gastos y facturas en un solo sitio. Funciona en tu computadora, tu tablet y tu celular.</p>
+        </div>
+        <div class="dv-steps">
+          <button type="button" class="dv-st" data-i="0"><b data-es="Sabes cuánto ganas de verdad" data-en="Know what you really earn">Sabes cuánto ganas de verdad</b><span data-es="Ingresos, gastos y ganancia de cada periodo" data-en="Income, expenses and profit for each period">Ingresos, gastos y ganancia de cada periodo</span><i class="dv-bar"></i></button>
+          <button type="button" class="dv-st" data-i="1"><b data-es="Factura en PDF en un minuto" data-en="PDF invoice in a minute">Factura en PDF en un minuto</b><span data-es="Créala, envíala y márcala como pagada" data-en="Create it, send it and mark it paid">Créala, envíala y márcala como pagada</span><i class="dv-bar"></i></button>
+          <button type="button" class="dv-st" data-i="2"><b data-es="Todo en un solo sitio" data-en="Everything in one place">Todo en un solo sitio</b><span data-es="Ingresos y gastos juntos, con buscador" data-en="Income and expenses together, with search">Ingresos y gastos juntos, con buscador</span><i class="dv-bar"></i></button>
+          <button type="button" class="dv-st" data-i="3"><b data-es="Apuntar es rápido" data-en="Adding entries is quick">Apuntar es rápido</b><span data-es="Un formulario y listo; ves tu impuesto estimado" data-en="One form and done; see your estimated tax">Un formulario y listo; ves tu impuesto estimado</span><i class="dv-bar"></i></button>
+        </div>
+        <div class="dv-cta">
+          <a class="dv-btn" href="puntobalance/" data-es="Instalar PuntoBalance" data-en="Install PuntoBalance">Instalar PuntoBalance</a>
+          <span class="dv-free" data-es="14 días gratis, sin tarjeta" data-en="14 days free, no card needed">14 días gratis, sin tarjeta</span>
+          <a class="dv-link" href="privacidad-puntobalance.html" data-es="Política de privacidad de PuntoBalance ›" data-en="PuntoBalance privacy policy ›">Política de privacidad de PuntoBalance ›</a>
+        </div>
+      </div>
+      <div class="dv-stage">
+        <div class="dv-ring"></div>
+        <div class="dv-lap" aria-hidden="true"><div class="scrn"><div class="in">
+          <img class="dv-shot" data-i="0" data-src-es="img/pb-dashboard.webp" data-src-en="img/pb-dashboard.webp" alt="" decoding="async">
+          <img class="dv-shot" data-i="1" data-src-es="img/pb-facturas.webp" data-src-en="img/pb-facturas.webp" alt="" decoding="async">
+          <img class="dv-shot" data-i="2" data-src-es="img/pb-movimientos.webp" data-src-en="img/pb-movimientos.webp" alt="" decoding="async">
+          <img class="dv-shot" data-i="3" data-src-es="img/pb-ingreso.webp" data-src-en="img/pb-ingreso.webp" alt="" decoding="async">
+        </div></div><div class="base"></div></div>
+        <div class="dv-cap">
+          <div class="dv-chip" data-i="0" aria-hidden="true"><span data-es="💷 Ganancia £482.00" data-en="💷 Profit £482.00">💷 Ganancia £482.00</span><small data-es="Periodo nov 2026" data-en="Period Nov 2026">Periodo nov 2026</small></div>
+          <div class="dv-chip" data-i="1" aria-hidden="true"><span data-es="✅ ALEX-005 · Pagada" data-en="✅ ALEX-005 · Paid">✅ ALEX-005 · Pagada</span><small data-es="PDF listo para enviar" data-en="PDF ready to send">PDF listo para enviar</small></div>
+          <div class="dv-chip" data-i="2" aria-hidden="true"><span data-es="🔎 Busca por cliente" data-en="🔎 Search by client">🔎 Busca por cliente</span><small data-es="o por categoría" data-en="or by category">o por categoría</small></div>
+          <div class="dv-chip" data-i="3" aria-hidden="true"><span data-es="🏛️ Impuesto estimado £0.00" data-en="🏛️ Estimated tax £0.00">🏛️ Impuesto estimado £0.00</span><small data-es="No toca pagar" data-en="Nothing to pay">No toca pagar</small></div>
+        </div>
+        <div class="dv-row" aria-hidden="true">
+          <div class="dv-dev"><div class="dv-tab2"><div class="in"><img class="dv-fix" data-src-es="img/pb-tablet.webp" data-src-en="img/pb-tablet.webp" alt="" decoding="async"></div></div><span class="dv-dl">Tablet</span></div>
+          <div class="dv-dev"><div class="phone dv-small"><div class="scr"><div class="sb"><span>12:30</span><span></span></div><img class="dv-fix" data-src-es="img/pb-movil.webp" data-src-en="img/pb-movil.webp" alt="" decoding="async"></div></div><span class="dv-dl" data-es="Celular" data-en="Phone">Celular</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="dv-p" data-p="com" hidden>
+      <div class="dv-left">
+        <div class="dv-head">
+          <div class="dv-lab" data-es="Mis Compras · próximamente" data-en="My Shopping · coming soon">Mis Compras · próximamente</div>
+          <h2 data-es="Tu lista de la compra, <em>sin sorpresas</em>." data-en="Your shopping list, <em>no surprises</em>.">Tu lista de la compra, <em>sin sorpresas</em>.</h2>
+          <p class="dv-sub" data-es="Una lista por tienda, con lo que va a costar antes de llegar a la caja. Y la puedes compartir con tu familia." data-en="One list per shop, with what it will cost before you reach the till. And you can share it with your family.">Una lista por tienda, con lo que va a costar antes de llegar a la caja. Y la puedes compartir con tu familia.</p>
+        </div>
+        <ul class="dv-feats">
+          <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Listas por tienda</b> con el total aproximado." data-en="<b>Lists by shop</b> with an estimated total."><b>Listas por tienda</b> con el total aproximado.</span></li>
+          <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Compartidas.</b> Todos en casa ven y añaden en la misma lista." data-en="<b>Shared.</b> Everyone at home sees and adds to the same list."><b>Compartidas.</b> Todos en casa ven y añaden en la misma lista.</span></li>
+          <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Lo de siempre</b> en un toque, con historial y precios." data-en="<b>Your usuals</b> in one tap, with history and prices."><b>Lo de siempre</b> en un toque, con historial y precios.</span></li>
+        </ul>
+        <div class="dv-cta">
+          <button type="button" class="dv-btn" data-abrir-form="1" data-dv-form="compras" data-es="Avísame cuando salga" data-en="Tell me when it's out">Avísame cuando salga</button>
+          <span class="play"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-es="PRÓXIMAMENTE EN" data-en="COMING LATER TO">PRÓXIMAMENTE EN</small>Google Play</span></span>
+        </div>
+      </div>
+      <div class="dv-stage">
+        <div class="dv-ring"></div>
+        <img class="dv-oli" data-src-es="img/oli-compras.webp?v=2" data-src-en="img/oli-compras.webp?v=2" alt="" decoding="async">
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
   var IMG={fin:{es:"img/fin-es.jpg",en:"img/fin-en.jpg"},fin2:{es:"img/fin2-es.jpg",en:"img/fin2-en.jpg"}};
@@ -864,6 +973,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   } else document.querySelectorAll(".rv").forEach(function(e){e.classList.add("on")});
 })();
 </script>
+<script src="js/detalle.js" defer></script>
 
 </body>
 </html>
