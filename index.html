@@ -47,6 +47,7 @@
   --line:rgba(255,255,255,.08); --logo:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35); --phone:#05070F; color-scheme:dark;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
@@ -388,7 +389,7 @@ body{overflow-x:clip}
 .s-ring{position:absolute;z-index:4;left:6px;right:6px;top:62.3%;height:11.6%;border-radius:16px;border:3px solid var(--amber);opacity:0;transform:scale(1.08);transition:opacity .5s,transform .5s}
 .sh-sticky[data-p="3"] .s-ring{opacity:1;transform:none;animation:latido2 1.8s ease-in-out infinite}
 @keyframes latido2{50%{box-shadow:0 0 0 8px rgba(244,166,42,.22)}}
-.s-chip{position:absolute;z-index:6;right:-60px;top:60%;padding:10px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 16px 30px rgba(20,27,58,.18);font-size:13px;font-weight:700;color:var(--ink);opacity:0;transform:translateX(10px);transition:opacity .5s,transform .5s;white-space:nowrap}
+.s-chip{position:absolute;z-index:6;left:calc(50% + 50px);top:73%;padding:10px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 16px 30px rgba(20,27,58,.18);font-size:13px;font-weight:700;color:var(--ink);opacity:0;transform:translateX(10px);transition:opacity .5s,transform .5s;white-space:nowrap}
 .s-chip small{display:block;font-size:11px;color:var(--muted);font-weight:600}
 .sh-sticky[data-p="3"] .s-chip.c3,.sh-sticky[data-p="4"] .s-chip.c4{opacity:1;transform:none}
 .s-chip.c4{top:30%;left:-80px;right:auto}
@@ -399,7 +400,7 @@ body{overflow-x:clip}
   .sh-vis{order:-1}
   .sh-sticky{position:relative;top:0}
   .shp{width:230px}
-  .s-chip{right:-18px}.s-chip.c4{left:-18px}
+  .s-chip{left:auto;right:-18px}.s-chip.c4{left:-18px;right:auto}
   .st{min-height:0;display:none;opacity:1;text-align:center;align-items:center}
   .st.on{display:flex}
   .st h3{font-size:26px}.st p{font-size:16.5px}
