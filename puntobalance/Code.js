@@ -39,7 +39,7 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha26';
+const VERSION = '5.0.0-alpha27';
 const VERSION_FECHA = '6 nov 2026';
 
 // ───────────────────────── Menú ─────────────────────────
@@ -102,10 +102,28 @@ function getHubData() {
       return { total: Math.round(pe.reduce((t, r) => t + (Number(r['SUBTOTAL']) || 0), 0) * 100) / 100, n: Object.keys(pe.reduce((o, r) => (o[r['ID FACTURA']] = 1, o), {})).length };
     })(),
     hmrc: hmrcEstado_(),
-    nombre: String(config_().nombre || '')
+    nombre: String(config_().nombre || ''),
+    usaUC: usaUC_()   // 5.0.0-alpha27
   };
 }
 function getRevision() { return revisarDatos_(); }
+
+/* 5.0.0-alpha27: Universal Credit es opcional. Config «usa_uc» = SI / NO.
+   Si no está, se deduce: periodos del 7 al 6 (dia_inicio_periodo = 7) → sí usa UC. */
+function usaUC_() {
+  const c = config_(), v = String(c.usa_uc == null ? '' : c.usa_uc).trim().toUpperCase();
+  if (v === 'SI' || v === 'SÍ') return true;
+  if (v === 'NO') return false;
+  return Number(c.dia_inicio_periodo) === 7;
+}
+function setUsaUC(valor) {
+  return conBloqueo_(() => {
+    const s = hoja_('Config'), v = s.getDataRange().getValues(), txt = valor ? 'SI' : 'NO';
+    for (let i = 1; i < v.length; i++) if (v[i][0] === 'usa_uc') { s.getRange(i + 1, 2).setValue(txt); return usaUC_(); }
+    s.getRange(v.length + 1, 1, 1, 3).setValues([['usa_uc', txt, 'SI = usa Universal Credit (resumen UC y aviso del periodo); NO = no lo usa']]);
+    return usaUC_();
+  });
+}
 
 /* 5.0.0-alpha20: declaración HMRC. Año fiscal r = 6 abr r – 5 abr r+1; se puede declarar desde el 6 abr r+1; fecha límite (internet) 31 ene r+2.
    Si el año anterior tiene movimientos y no está marcado como presentado → ese («abierta»). Si no → la próxima declaración. */
@@ -730,7 +748,7 @@ function guardarNotaNegocio(id, nota) {
 }
 
 function getAjustes() {
-  return hoja_('Config').getDataRange().getValues().slice(1).filter(r => r[0] && r[0] !== 'color_factura')
+  return hoja_('Config').getDataRange().getValues().slice(1).filter(r => r[0] && r[0] !== 'color_factura' && r[0] !== 'usa_uc')
     .map(r => ({ clave: r[0], valor: r[1], desc: r[2] }));
 }
 
@@ -1523,5 +1541,5 @@ function guardarMovimientosImportados(o) {
   });
 }
 
-return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCategoria: actualizarCategoria, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, actualizarProveedor: actualizarProveedor, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarDeLista: eliminarDeLista, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImportarInfo: getImportarInfo, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarMovimientosImportados: guardarMovimientosImportados, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio };
+return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCategoria: actualizarCategoria, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, actualizarProveedor: actualizarProveedor, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarDeLista: eliminarDeLista, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImportarInfo: getImportarInfo, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarMovimientosImportados: guardarMovimientosImportados, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio, setUsaUC: setUsaUC };
 })(window.PB_GAS.SpreadsheetApp, window.PB_GAS.Utilities, window.PB_GAS.Session, window.PB_GAS.LockService, window.PB_GAS.MailApp, window.PB_GAS.ScriptApp, window.PB_GAS.HtmlService, window.PB_GAS.PropertiesService, window.PB_GAS.DriveApp, window.PB_GAS.Logger);

@@ -1,7 +1,19 @@
 {
- "ver": "5.0.0-alpha26",
+ "ver": "5.0.0-alpha27",
  "fecha": "6 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha27",
+   "fecha": "6 nov 2026",
+   "cambios": [
+    "Nuevo: «Movimientos» en el menú. Tus ingresos y gastos juntos, en orden de fecha, con los totales arriba",
+    "Filtra por Todo, Solo ingresos o Solo gastos, por categoría, por periodo (uno o todos) y por fechas",
+    "«Ver por categorías»: cuánto llevas en cada categoría de gasto y cuánto te pagó cada cliente",
+    "Vista completa con todas las columnas, Copiar lista y «Enviar resumen UC a mi correo»",
+    "Aviso los últimos días del periodo: «¿Ya metiste todo?», para que no se te olvide nada antes de declarar",
+    "Universal Credit ahora es opcional: Ajustes › General › «Uso Universal Credit». Si no lo usas, no salen las cosas de UC"
+   ]
+  },
   {
    "ver": "5.0.0-alpha26",
    "fecha": "6 nov 2026",
