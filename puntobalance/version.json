@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha25",
- "fecha": "1 nov 2026",
+ "ver": "5.0.0-alpha26",
+ "fecha": "6 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha26",
+   "fecha": "6 nov 2026",
+   "cambios": [
+    "La prueba gratis ahora es de 14 días, igual que en todas las apps de Odlare",
+    "Si ya habías empezado tu prueba, sigues teniendo tus 30 días"
+   ]
+  },
   {
    "ver": "5.0.0-alpha25",
    "fecha": "1 nov 2026",

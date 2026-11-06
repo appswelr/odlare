@@ -1,5 +1,5 @@
 /* PuntoBalance 5.0.0-alpha12 · Licencias (aprobado por Wilber el 26 oct 2026).
-   - 30 días de prueba con todo, sin tarjeta. Después, sin Premium, la app queda en «solo ver»: se ve y se exporta, pero no se apunta.
+   - 14 días de prueba con todo, sin tarjeta (antes 30; quien empezó antes del 6 nov 2026 mantiene sus 30). Después, sin Premium, la app queda en «solo ver»: se ve y se exporta, pero no se apunta.
    - Premium con código firmado (ECDSA P-256). La app solo lleva la llave PÚBLICA: puede comprobar códigos, no crearlos.
      La llave privada se crea y se guarda en el Drive del administrador (archivo creado por la app, permiso drive.file).
    - Código: «PB1.» + datos (JSON en base64url) + «.» + firma. Datos: m = Gmail, p = plan, h = válida hasta (AAAA-MM-DD), n = nº de licencia.
@@ -87,7 +87,8 @@
         if (d.h >= hoy) { EST = { estado: "activa", plan: d.p, hasta: d.h, num: d.n, dias: diasEntre(hoy, d.h) }; return EST; }
         EST = { estado: "vencida", caducada: true, plan: d.p, hasta: d.h, num: d.n }; return EST;
       }
-      var quedan = PRUEBA - diasEntre(inicio, hoy);
+      var PA = CFG.pruebaAntes, largo = PA && inicio && String(inicio) < PA.hasta ? PA.dias : PRUEBA;
+      var quedan = largo - diasEntre(inicio, hoy);
       if (quedan > 0 || !CFG.pub) EST = { estado: "prueba", dias: Math.max(quedan, 0), sinCorte: !CFG.pub, inicio: inicio };
       else EST = { estado: "vencida", inicio: inicio };
       return EST;

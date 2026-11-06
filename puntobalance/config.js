@@ -13,6 +13,7 @@ window.PB_CONFIG = {
     admins: ["djwinkeyodlare@gmail.com", "apps.welr@gmail.com"],
     envio: "apps.welr@gmail.com",
     whatsapp: "",
-    prueba: 30
+    prueba: 14,                                          // días de prueba gratis (6 nov 2026: 14 en todas las apps)
+    pruebaAntes: { hasta: "2026-11-06", dias: 30 }     // quien empezó antes de esta fecha mantiene sus 30 días
   }
 };
