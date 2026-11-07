@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha30",
+ "ver": "5.0.0-alpha31",
  "fecha": "6 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha31",
+   "fecha": "7 nov 2026",
+   "cambios": [
+    "En Movimientos, doble clic en una fila (en tablet, un toque) abre una ventanita con Editar y Eliminar",
+    "Al guardar los cambios vuelves a Movimientos; al eliminar, la tabla y los totales se actualizan al momento"
+   ]
+  },
   {
    "ver": "5.0.0-alpha30",
    "fecha": "7 nov 2026",

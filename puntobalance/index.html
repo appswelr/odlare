@@ -1012,6 +1012,16 @@ html[data-tema="oscuro"] .v-mov .g { color: #4ADE80 !important; } html[data-tema
 .v-mov table.mv-t td.w { max-width: 280px; }
 .v-mov table.mv-t .n { text-align: right; font-variant-numeric: tabular-nums; }
 .v-mov table.mv-t .mu { color: var(--muted); }
+.v-mov table.mv-t tbody tr[data-k] { cursor: pointer; }
+.v-mov table.mv-t tbody tr[data-k]:hover td { background: rgba(79,70,229,.07); }
+.v-mov .mv-hint { color: var(--muted); font-size: 12.5px; margin-top: 8px; }
+#pbFicha { position: fixed; inset: 0; z-index: 9000; background: rgba(15,20,40,.45); display: flex; align-items: center; justify-content: center; padding: 16px; }
+#pbFicha .c { width: 100%; max-width: 360px; background: var(--card, #fff); color: var(--ink, #151A2D); border-radius: 16px; padding: 20px 18px 12px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+#pbFicha h3 { margin: 0 0 4px; font-size: 17px; } #pbFicha p { margin: 0 0 16px; color: var(--muted, #6B7194); font-size: 14px; word-break: break-word; }
+#pbFicha .b { display: flex; gap: 24px; justify-content: center; }
+#pbFicha .b button { border-radius: 12px; padding: 10px 20px; font-weight: 700; font-size: 15px; border: 1.5px solid; cursor: pointer; font-family: inherit; }
+#pbFicha .ed { background: #1B2B5B; color: #fff; border-color: #1B2B5B; } #pbFicha .el { background: #FEF2F2; color: #D92D20; border-color: #FBD5D1; }
+#pbFicha .x { display: block; margin: 12px auto 0; border: 0; background: none; color: var(--muted, #6B7194); font-size: 14px; padding: 6px 14px; cursor: pointer; font-family: inherit; }
 .v-mov .mv-uc { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
 .v-mov .mv-uc b { color: var(--ink); } .v-mov .mv-uc small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
 .v-mov .mv-uc .es-uc { font-style: normal; font-weight: 700; padding: 1px 9px; border-radius: 10px; font-size: 12px; background: #FEF0C7; color: #93370D; }
@@ -1367,7 +1377,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha30',fecha:'6 nov 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha31',fecha:'6 nov 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1379,6 +1389,7 @@ function init_movimientos(ROOT, P, S) {
   const fd = (s) => (s ? s.slice(8, 10) + '/' + s.slice(5, 7) + '/' + s.slice(2, 4) : '');
   const F = { t: 'todo', per: '', cat: '', desde: '', hasta: '', q: '', porCat: false, mas: 60, perAuto: true };
   let confUC = false;
+  const tactil = () => !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
   let ROWS = null, HUBD = null;
   const uc = () => !!(S.usaUC && S.usaUC());
   function msg(t, tipo) { const m = $('mv-msg'); if (m) { m.textContent = t || ''; m.className = 'mv-msg ' + (tipo || ''); } }
@@ -1393,6 +1404,7 @@ function init_movimientos(ROOT, P, S) {
     ROWS = (L.i || []).map((r) => conv(r, 'i')).concat((L.g || []).map((r) => conv(r, 'g')))
       .sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : (a.t === b.t ? b.id - a.id : a.t === 'i' ? -1 : 1)));
     controles(); pintar();
+    if (window.PB_MSG_MOV) { msg(window.PB_MSG_MOV, 'ok'); window.PB_MSG_MOV = null; }
   }
   const fallo = () => { $('mv-tabla').innerHTML = '<div class="vacio">No he podido cargar tus movimientos. Prueba otra vez en un momento.</div>'; };
   google.script.run.withSuccessHandler((l) => { L.i = l; llego(); }).withFailureHandler(fallo).getMovimientos('ingreso');
@@ -1469,10 +1481,11 @@ function init_movimientos(ROOT, P, S) {
     const vis = l.slice(0, F.mas), kT = C.findIndex((x) => x[0] === 'Total');
     $('mv-tabla').innerHTML = l.length
       ? '<div class="tw"><table class="mv-t completa"><thead><tr>' + C.map((x) => '<th class="' + (x[2] || '') + '">' + x[0] + '</th>').join('') + '</tr></thead><tbody>' +
-        vis.map((r) => '<tr class="f-' + r.t + '">' + C.map((x) => '<td class="' + (x[2] || '') + '">' + x[1](r) + '</td>').join('') + '</tr>').join('') + '</tbody>' +
+        vis.map((r) => '<tr class="f-' + r.t + '" data-k="' + r.t + r.id + '" title="Doble clic para editar o eliminar">' + C.map((x) => '<td class="' + (x[2] || '') + '">' + x[1](r) + '</td>').join('') + '</tr>').join('') + '</tbody>' +
         '<tfoot><tr><td colspan="' + kT + '">' + (F.t === 'todo' && !F.cat ? 'Resultado' : 'Total') + ' (' + l.length + ')</td><td class="n"><b>' + gbp(F.t === 'i' ? s.i : F.t === 'g' || F.cat ? s.g : s.r) + '</b></td>' +
         (C.length - kT - 1 > 0 ? '<td colspan="' + (C.length - kT - 1) + '"></td>' : '') + '</tr></tfoot></table></div>' +
-        (l.length > F.mas ? '<button type="button" class="chip mas" id="mv-mas">Mostrar más (' + (l.length - F.mas) + ')</button>' : '')
+        (l.length > F.mas ? '<button type="button" class="chip mas" id="mv-mas">Mostrar más (' + (l.length - F.mas) + ')</button>' : '') +
+        '<div class="mv-hint">' + (tactil() ? 'Toca una fila para editarla o eliminarla.' : 'Doble clic en una fila para editarla o eliminarla.') + '</div>'
       : '<div class="vacio">No hay movimientos con este filtro.</div>';
     barraUC();
   }
@@ -1500,6 +1513,34 @@ function init_movimientos(ROOT, P, S) {
     try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(fb); else fb(); } catch (e) { fb(); }
     msg('Lista copiada (' + l.length + '). Ya puedes pegarla donde quieras.', 'ok');
   }
+
+  function cerrarFicha() { const v = document.getElementById('pbFicha'); if (v) v.remove(); document.removeEventListener('keydown', teclaFicha); }
+  function teclaFicha(e) { if (e.key === 'Escape') cerrarFicha(); }
+  function ficha(k) {
+    const r = ROWS && ROWS.find((x) => x.t + x.id === k); if (!r) return;
+    cerrarFicha();
+    const tipo = r.t === 'i' ? 'ingreso' : 'gasto', nombre = (r.t === 'i' ? 'Factura nº ' : 'Gasto nº ') + r.num;
+    const v = document.createElement('div'); v.id = 'pbFicha';
+    v.innerHTML = '<div class="c" role="dialog" aria-label="' + esc(nombre) + '"><h3>' + esc(nombre) + '</h3><p>' + esc(fd(r.fecha) + ' · ' + r.quien + ' · ' + gbp(r.total)) + '</p>' +
+      '<div class="b"><button type="button" class="ed">✏️ Editar</button><button type="button" class="el">🗑️ Eliminar</button></div><button type="button" class="x">Cerrar</button></div>';
+    document.body.appendChild(v); document.addEventListener('keydown', teclaFicha);
+    v.addEventListener('click', (e) => { if (e.target === v || e.target.classList.contains('x')) cerrarFicha(); });
+    v.querySelector('.ed').onclick = () => { cerrarFicha(); window.PB_EDITAR = { tipo: tipo, id: r.id, volver: 'movimientos' }; S.ir('form:' + tipo); };
+    v.querySelector('.el').onclick = () => {
+      cerrarFicha();
+      const pregunta = window.pbDialogo ? window.pbDialogo({ icono: '🗑️', titulo: '¿Eliminar ' + (r.t === 'g' ? 'el gasto nº ' : 'la factura ') + r.num + '?', texto: esc(r.quien + ' · ' + r.desc + ' · ' + gbp(r.total)) + '<br>Esto no se puede deshacer (salvo volviendo a una copia en «Tus datos»).', si: 'Eliminar', peligro: true })
+        : Promise.resolve(confirm('¿Eliminar ' + r.num + '?'));
+      pregunta.then((si) => {
+        if (!si) return;
+        google.script.run.withSuccessHandler(() => {
+          ROWS = ROWS.filter((x) => !(x.t === r.t && x.id === r.id));
+          msg((r.t === 'g' ? 'Gasto nº ' : 'Factura ') + r.num + ' eliminad' + (r.t === 'g' ? 'o' : 'a') + '.', 'ok'); controles(); pintar();
+        }).withFailureHandler((e) => msg(String(e.message || e).replace(/^Exception: /, ''), 'err')).eliminarRegistro(tipo, r.id);
+      });
+    };
+  }
+  ROOT.addEventListener('dblclick', (ev) => { const tr = ev.target.closest('tr[data-k]'); if (tr) ficha(tr.dataset.k); });
+  ROOT.addEventListener('click', (ev) => { if (!tactil()) return; const tr = ev.target.closest('tr[data-k]'); if (tr && !ev.target.closest('button, a')) ficha(tr.dataset.k); });
 
   ROOT.addEventListener('click', (ev) => {
     const b = ev.target.closest('button'); if (!b) return;
@@ -1791,7 +1832,7 @@ function init_form(ROOT, P, S) {
   }
 
   function cargar(despues) {
-    google.script.run.withSuccessHandler((d) => { D = d; poblar(); if (despues) despues(); H.gasto.data = null; H.ingreso.data = null; if (TAB === 'gasto' || TAB === 'ingreso') histCargar(TAB); if (TAB === 'ingreso') taxPedir(); })
+    google.script.run.withSuccessHandler((d) => { if (DEAD) return; D = d; poblar(); if (despues) despues(); H.gasto.data = null; H.ingreso.data = null; if (TAB === 'gasto' || TAB === 'ingreso') histCargar(TAB); if (TAB === 'ingreso') taxPedir(); })
       .withFailureHandler((e) => msg('No he podido cargar las listas: ' + e.message, 'err')).getFormData();
   }
 
@@ -2007,7 +2048,8 @@ function init_form(ROOT, P, S) {
       if (tab === 'cliente' || tab === 'proveedor' || tab === 'categoria') { LISTAS = null; listaCargar(tab); }
       cargar(() => { if (tab === 'cliente') $('i-cliente').value = r.nombre; if (tab === 'categoria') $('g-cat').value = r.nombre; });
       msg(textos[tab], 'ok');
-      if (editado) { mostrar(volverA); msg(textos[tab], 'ok'); }
+      if (editado && volverA === 'movimientos') { window.PB_MSG_MOV = textos[tab]; S.ir('movimientos'); }
+      else if (editado) { mostrar(volverA); msg(textos[tab], 'ok'); }
       else if (VOLVER && VOLVER.a === tab) {
         const de = VOLVER.de; VOLVER = null; mostrar(de); window.scrollTo(0, 0);
         msg((tab === 'cliente' ? 'Cliente "' : 'Categoría "') + (r && r.nombre) + '" añadid' + (tab === 'cliente' ? 'o' : 'a') + ' y elegid' + (tab === 'cliente' ? 'o' : 'a') + '. Sigue con tu ' + (de === 'ingreso' ? 'ingreso' : 'gasto') + '.', 'ok');
@@ -2033,7 +2075,7 @@ function init_form(ROOT, P, S) {
     const tab = EDIT && EDIT.tipo, volverA = (EDIT && EDIT.desde) || 'registros'; EDIT = null;
     $('edit-banner').classList.add('hidden');
     if (tab) limpiar(tab);
-    if (!silencio) mostrar(volverA);
+    if (!silencio) { if (volverA === 'movimientos') S.ir('movimientos'); else mostrar(volverA); }
     else if (tab) $('guardar').textContent = tab === 'ingreso' ? 'Guardar ingreso' : 'Guardar gasto';
     syncRg();
   }
@@ -2073,11 +2115,11 @@ function init_form(ROOT, P, S) {
     }
   });
 
-  function editar(id) {
-    const desde = TAB;
+  function editar(id, volver) {
+    const desde = volver || TAB;
     msg('Cargando…');
     google.script.run.withSuccessHandler((r) => {
-      const tipo = REGTIPO; EDIT = { tipo: tipo, id: id, num: r.num, desde: desde === 'registros' ? 'registros' : tipo };
+      const tipo = REGTIPO; EDIT = { tipo: tipo, id: id, num: r.num, desde: volver || (desde === 'registros' ? 'registros' : tipo) };
       const sc = ROOT.querySelector('.scroll'); if (sc) sc.scrollTop = 0;
       if (r.negocio) NF[tipo] = r.negocio;
       mostrar(tipo);
@@ -2568,7 +2610,7 @@ function init_form(ROOT, P, S) {
   };
 
   mostrar(TAB);
-  cargar();
+  cargar(() => { const e = window.PB_EDITAR; if (!e) return; window.PB_EDITAR = null; REGTIPO = e.tipo; editar(e.id, e.volver); });
 
   return { mostrar: mostrar, destroy: () => { DEAD = true; clearTimeout(taxT); } };
 }
