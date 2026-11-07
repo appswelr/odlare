@@ -1011,6 +1011,11 @@ html[data-tema="oscuro"] .v-mov .g { color: #4ADE80 !important; } html[data-tema
 .v-mov table.mv-t td.x { max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
 .v-mov table.mv-t td.w { max-width: 280px; }
 .v-mov table.mv-t .n { text-align: right; font-variant-numeric: tabular-nums; }
+.v-mov table.mv-t .mu { color: var(--muted); }
+.v-mov .mv-uc { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.v-mov .mv-uc b { color: var(--ink); } .v-mov .mv-uc small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.v-mov .mv-uc .es-uc { font-style: normal; font-weight: 700; padding: 1px 9px; border-radius: 10px; font-size: 12px; background: #FEF0C7; color: #93370D; }
+.v-mov .mv-uc .es-uc.ok { background: #D1FADF; color: #05603A; }
 .v-mov table.mv-t tbody tr:nth-child(even) td { background: rgba(27,43,91,.035); }
 .v-mov table.mv-t tfoot td { font-weight: 700; background: var(--bg); }
 .v-mov .tp, .v-mov .es { font-style: normal; font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 2px 8px; }
@@ -1322,7 +1327,6 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
   </div>
   <div class="mv-sum" id="mv-sum"></div>
   <div class="mv-acc">
-    <span class="mv-vis"><button type="button" class="chip" data-vista="sencilla">Sencilla</button><button type="button" class="chip" data-vista="completa">Vista completa</button></span>
     <button type="button" class="chip" id="mv-porcat" aria-pressed="false">📊 Ver por categorías</button>
     <span class="sp"></span>
     <button type="button" class="btn" id="mv-copiar">Copiar lista</button>
@@ -1331,6 +1335,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
   <div class="mv-msg" id="mv-msg" role="status"></div>
   <div id="mv-cats"></div>
   <div id="mv-tabla"><div class="vacio">Cargando…</div></div>
+  <div class="mv-uc uc-sec hidden" id="mv-uc"></div>
 </div>
 </template>
 <template id="tpl-impuestos">
@@ -1362,7 +1367,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha29',fecha:'6 nov 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha30',fecha:'6 nov 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -1373,7 +1378,7 @@ function init_movimientos(ROOT, P, S) {
   const gbp = (n) => (n < 0 ? '-' : '') + '£' + Math.abs(Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const fd = (s) => (s ? s.slice(8, 10) + '/' + s.slice(5, 7) + '/' + s.slice(2, 4) : '');
   const F = { t: 'todo', per: '', cat: '', desde: '', hasta: '', q: '', porCat: false, mas: 60, perAuto: true };
-  let VISTA = 'sencilla'; try { VISTA = localStorage.getItem('pb_vista') === 'completa' ? 'completa' : 'sencilla'; } catch (e) { }
+  let confUC = false;
   let ROWS = null, HUBD = null;
   const uc = () => !!(S.usaUC && S.usaUC());
   function msg(t, tipo) { const m = $('mv-msg'); if (m) { m.textContent = t || ''; m.className = 'mv-msg ' + (tipo || ''); } }
@@ -1427,7 +1432,6 @@ function init_movimientos(ROOT, P, S) {
       b.setAttribute('aria-pressed', String(b.dataset.t === F.t));
       b.textContent = { todo: 'Todo', i: 'Solo ingresos', g: 'Solo gastos' }[b.dataset.t] + ' (' + { todo: nT, i: nI, g: nG }[b.dataset.t] + ')';
     });
-    ROOT.querySelectorAll('[data-vista]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vista === VISTA)));
     $('mv-porcat').setAttribute('aria-pressed', String(F.porCat));
     $('mv-limpiar').classList.toggle('hidden', !((F.per && !F.perAuto) || F.cat || F.desde || F.hasta || F.q || F.t !== 'todo'));
     $('mv-desde').value = F.desde; $('mv-hasta').value = F.hasta;
@@ -1455,25 +1459,35 @@ function init_movimientos(ROOT, P, S) {
     const est = (r) => (r.t === 'i' ? '<i class="es ' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + (r.estado === 'PAID' ? 'Cobrado' : 'Pendiente') + '</i>' : '');
     const tot = (r) => '<b class="' + (r.t === 'i' ? 'g' : 'r') + '">' + (r.t === 'i' ? '+' : '−') + gbp(r.total) + '</b>';
     const sino = (v) => (/^s[ií]$/i.test(String(v)) ? 'SÍ' : 'NO');
-    let C = VISTA === 'completa'
-      ? [['Fecha', (r) => fd(r.fecha)], ['Tipo', tipo], ['Nº', (r) => esc(r.num)], ['Cliente / proveedor', (r) => esc(r.quien), 'x'], ['Descripción', (r) => esc(r.desc), 'x w'],
-         ['Categoría', (r) => esc(r.cat)], ['Estado', est], ['Cant.', (r) => esc(r.cant) + (r.unidad ? ' <small>' + esc(r.unidad) + '</small>' : ''), 'n'], ['Precio', (r) => gbp(r.precio), 'n'],
-         ['Total', tot, 'n'], ['Periodo', (r) => esc(r.periodo)]]
-      : [['Fecha', (r) => fd(r.fecha)], ['Tipo', tipo], ['Cliente / proveedor', (r) => esc(r.quien), 'x'], ['Descripción', (r) => esc(r.desc), 'x w'],
-         ['Categoría / estado', (r) => (r.t === 'g' ? esc(r.cat) : est(r))], ['Total', tot, 'n']];
-    if (VISTA === 'completa') {
-      if (uc()) C.push(['Procesado UC', (r) => sino(r.proc)]);
-      C.push(['Notas', (r) => esc(r.notas), 'x']);
-    }
+    const raya = (x) => (x === '' || x == null ? '<span class="mu">—</span>' : esc(x));
+    const C = [['Nº', (r) => esc(r.num)], ['Tipo', tipo], ['Fecha', (r) => fd(r.fecha)], ['Cliente / proveedor', (r) => esc(r.quien), 'x'], ['Descripción', (r) => esc(r.desc), 'x w'],
+      ['Categoría / estado', (r) => (r.t === 'g' ? raya(r.cat) : est(r))], ['Unidad', (r) => raya(r.unidad)], ['Cant.', (r) => esc(r.cant), 'n'], ['Precio', (r) => gbp(r.precio), 'n'],
+      ['Total', tot, 'n'], ['Pago', (r) => raya(r.pago)], [uc() ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)]];
+    if (uc()) C.push(['Procesado UC', (r) => sino(r.proc)]);
     if (negCol) C.push(['Negocio', (r) => S.pill(r.neg)]);
+    C.push(['Notas', (r) => (r.notas ? esc(r.notas) : '<span class="mu">—</span>'), 'x']);
     const vis = l.slice(0, F.mas), kT = C.findIndex((x) => x[0] === 'Total');
     $('mv-tabla').innerHTML = l.length
-      ? '<div class="tw"><table class="mv-t' + (VISTA === 'completa' ? ' completa' : '') + '"><thead><tr>' + C.map((x) => '<th class="' + (x[2] || '') + '">' + x[0] + '</th>').join('') + '</tr></thead><tbody>' +
+      ? '<div class="tw"><table class="mv-t completa"><thead><tr>' + C.map((x) => '<th class="' + (x[2] || '') + '">' + x[0] + '</th>').join('') + '</tr></thead><tbody>' +
         vis.map((r) => '<tr class="f-' + r.t + '">' + C.map((x) => '<td class="' + (x[2] || '') + '">' + x[1](r) + '</td>').join('') + '</tr>').join('') + '</tbody>' +
         '<tfoot><tr><td colspan="' + kT + '">' + (F.t === 'todo' && !F.cat ? 'Resultado' : 'Total') + ' (' + l.length + ')</td><td class="n"><b>' + gbp(F.t === 'i' ? s.i : F.t === 'g' || F.cat ? s.g : s.r) + '</b></td>' +
         (C.length - kT - 1 > 0 ? '<td colspan="' + (C.length - kT - 1) + '"></td>' : '') + '</tr></tfoot></table></div>' +
         (l.length > F.mas ? '<button type="button" class="chip mas" id="mv-mas">Mostrar más (' + (l.length - F.mas) + ')</button>' : '')
       : '<div class="vacio">No hay movimientos con este filtro.</div>';
+    barraUC();
+  }
+
+  function barraUC() {
+    const bu = $('mv-uc'); if (!bu) return;
+    confUC = false;
+    bu.classList.toggle('hidden', !uc());
+    if (!uc()) return;
+    if (!F.per) { bu.innerHTML = '<div><b>Universal Credit</b><small>Elige un periodo para ver si ya lo procesaste y marcarlo.</small></div>'; return; }
+    const rp = ROWS.filter((r) => r.periodo === F.per), n = rp.length, ok = rp.filter((r) => /^s[ií]$/i.test(String(r.proc))).length;
+    const todo = n > 0 && ok === n;
+    const est = n === 0 ? 'Sin movimientos' : todo ? 'Procesado' : ok === 0 ? 'Sin procesar' : 'Parcial (' + ok + ' de ' + n + ')';
+    bu.innerHTML = '<div><b>Periodo ' + esc(F.per) + '</b><small>Estado en UC: <i class="es-uc' + (todo ? ' ok' : '') + '">' + est + '</i></small></div>' +
+      (n && !todo ? '<button type="button" class="btn p" id="mv-ucmarcar">Marcar como procesado en UC</button>' : '');
   }
 
   function copiar() {
@@ -1490,11 +1504,22 @@ function init_movimientos(ROOT, P, S) {
   ROOT.addEventListener('click', (ev) => {
     const b = ev.target.closest('button'); if (!b) return;
     if (b.dataset.t) { F.t = b.dataset.t; if (F.t === 'i') F.cat = ''; F.mas = 60; controles(); pintar(); }
-    else if (b.dataset.vista) { VISTA = b.dataset.vista; try { localStorage.setItem('pb_vista', VISTA); } catch (e) { } pintar(); }
     else if (b.id === 'mv-porcat') { F.porCat = !F.porCat; pintar(); }
     else if (b.id === 'mv-mas') { F.mas += 100; pintar(); }
     else if (b.id === 'mv-limpiar') { F.t = 'todo'; F.per = ''; F.cat = ''; F.desde = ''; F.hasta = ''; F.q = ''; F.perAuto = false; $('mv-q').value = ''; controles(); pintar(); }
     else if (b.id === 'mv-copiar') copiar();
+    else if (b.id === 'mv-ucmarcar') {
+      if (!confUC) {
+        confUC = true; b.dataset.txt = b.textContent; b.textContent = 'Pulsa otra vez para confirmar';
+        setTimeout(() => { confUC = false; if (b.isConnected && b.dataset.txt) b.textContent = b.dataset.txt; }, 5000);
+        return;
+      }
+      confUC = false; b.disabled = true; const per = F.per;
+      google.script.run.withSuccessHandler((n) => {
+        ROWS.forEach((r) => { if (r.periodo === per) r.proc = 'SI'; });
+        msg(n + (n === 1 ? ' fila marcada' : ' filas marcadas') + ' como procesadas en UC.', 'ok'); pintar();
+      }).withFailureHandler((e) => { b.disabled = false; msg('No se pudo marcar: ' + String(e.message || e).replace(/^Exception: /, ''), 'err'); }).marcarPeriodoProcesado(per);
+    }
     else if (b.id === 'mv-correo') {
       b.disabled = true; msg('Preparando el resumen del periodo actual…');
       google.script.run.withSuccessHandler((para) => { b.disabled = false; msg('Resumen del periodo actual listo' + (para ? ' para ' + para : '') + '.', 'ok'); })

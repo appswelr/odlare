@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha29",
+ "ver": "5.0.0-alpha30",
  "fecha": "6 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha30",
+   "fecha": "7 nov 2026",
+   "cambios": [
+    "Movimientos ahora es una sola tabla con todas las columnas (Nº, tipo, fecha, cliente o proveedor, descripción, categoría, unidad, cantidad, precio, total, pago, periodo, procesado en UC, negocio y notas)",
+    "En Movimientos, abajo, ves si el periodo ya está procesado en UC y puedes marcarlo ahí mismo, sin ir a Facturas y PDF"
+   ]
+  },
   {
    "ver": "5.0.0-alpha29",
    "fecha": "7 nov 2026",
