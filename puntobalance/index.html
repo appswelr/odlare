@@ -118,6 +118,8 @@
   .v-acerca .ac-wil { font-weight: 700; font-size: 17px; color: var(--ink); }
   .v-acerca .ac-esc { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 11px 30px; border-radius: 14px; border: 1.5px solid #1B2B5B; color: #1B2B5B; font-weight: 800; font-size: 15px; text-decoration: none; background: #fff; }
   .v-acerca .ac-mail { color: var(--muted); font-size: 13.5px; margin-top: 8px; }
+  .v-acerca .ac-mail a { color: inherit; }
+    html.sin-uc .uc-t { display: none; }
   .v-acerca .ac-pol { display: inline-block; margin-top: 12px; color: #1E60E0; font-weight: 700; font-size: 14px; }
   .v-acerca .ac-cp { color: #8A8FB0; font-size: 12.5px; margin-top: 10px; }
 
@@ -1074,8 +1076,8 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
     <div class="ac-hp">Hecha por</div>
     <div class="ac-odl" id="ac-odl"></div>
     <div class="ac-wil">Wilber Eraldo</div>
-    <a class="ac-esc" href="mailto:apps.welr@gmail.com" target="_blank" rel="noopener">✉️ Escríbenos</a>
-    <div class="ac-mail">apps.welr@gmail.com</div>
+    <a class="ac-esc" href="https://odlare.uk/ayuda.html#escribenos" target="_blank" rel="noopener">✉️ Escríbenos</a>
+    <div class="ac-mail"><a href="mailto:info@odlare.uk">info@odlare.uk</a></div>
     <a class="ac-pol" href="https://odlare.uk/privacidad-puntobalance.html" target="_blank" rel="noopener">Política de privacidad</a>
     <div class="ac-cp">© 2026 · Todos los derechos reservados</div>
   </div>
@@ -1115,7 +1117,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 <div class="v-panel">
   <div class="phead">
     <div><h1>Facturas y PDF</h1><p class="lead">Crea el PDF, envíalo al cliente y revisa las cifras de Universal Credit.</p></div>
-    <div class="pfil"><label for="periodo">Periodo UC</label><select id="periodo" aria-label="Periodo UC"></select></div>
+    <div class="pfil"><label for="periodo">Periodo<span class="uc-t"> UC</span></label><select id="periodo" aria-label="Periodo UC"></select></div>
   </div>
   <div id="app"><div class="loading">Cargando datos…</div></div>
   <div id="nota-bg" role="dialog" aria-modal="true" aria-labelledby="nota-t"><div id="nota-box">
@@ -1164,7 +1166,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
       <div><label for="i-pago">Forma de pago</label><select id="i-pago"><option>CASH</option><option>TRANSFER</option><option>CASH / TRANSFER</option></select></div>
       <div class="c2"><label for="i-estado">Estado</label><select id="i-estado"><option value="PENDING">PENDING (sin cobrar)</option><option value="PAID">PAID (cobrada)</option><option value="CANCELLED">CANCELLED (cancelada, no suma)</option></select></div>
     </div>
-    <aside class="resumen" aria-label="Resumen del ingreso"><h3>Resumen</h3><div class="rr"><span>Factura</span><b id="i-r-num"></b></div><div class="rr"><span>Periodo UC</span><b id="i-r-per"></b></div><div class="rr" id="i-r-negw"><span>Negocio</span><b id="i-r-neg"></b></div><div class="rt"><span>Total</span><b id="i-prev-tot">£0.00</b></div><button class="btn primary rg" id="i-rg" type="button">Guardar ingreso</button><button class="btn rl" id="i-rl" type="button">Limpiar</button><div class="rmsg" id="i-msg" role="status" aria-live="polite"></div></aside>
+    <aside class="resumen" aria-label="Resumen del ingreso"><h3>Resumen</h3><div class="rr"><span>Factura</span><b id="i-r-num"></b></div><div class="rr"><span>Periodo<span class="uc-t"> UC</span></span><b id="i-r-per"></b></div><div class="rr" id="i-r-negw"><span>Negocio</span><b id="i-r-neg"></b></div><div class="rt"><span>Total</span><b id="i-prev-tot">£0.00</b></div><button class="btn primary rg" id="i-rg" type="button">Guardar ingreso</button><button class="btn rl" id="i-rl" type="button">Limpiar</button><div class="rmsg" id="i-msg" role="status" aria-live="polite"></div></aside>
     <div id="i-tax" class="taxline hidden" aria-live="polite"></div>
     </div>
     <aside class="hist" id="h-ingreso"></aside>
@@ -1196,7 +1198,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
       </div>
       <div class="c3"><label for="g-notas">Notas (opcional)</label><input id="g-notas" placeholder="Lo que quieras recordar de este gasto"></div>
     </div>
-    <aside class="resumen" aria-label="Resumen del gasto"><h3>Resumen</h3><div class="rr"><span>Gasto nº</span><b id="g-r-num"></b></div><div class="rr"><span>Periodo UC</span><b id="g-r-per"></b></div><div class="rr" id="g-r-negw"><span>Negocio</span><b id="g-r-neg"></b></div><div class="rt"><span>Total</span><b id="g-prev-tot">£0.00</b></div><button class="btn primary rg" id="g-rg" type="button">Guardar gasto</button><button class="btn rl" id="g-rl" type="button">Limpiar</button><div class="rmsg" id="g-msg" role="status" aria-live="polite"></div></aside>
+    <aside class="resumen" aria-label="Resumen del gasto"><h3>Resumen</h3><div class="rr"><span>Gasto nº</span><b id="g-r-num"></b></div><div class="rr"><span>Periodo<span class="uc-t"> UC</span></span><b id="g-r-per"></b></div><div class="rr" id="g-r-negw"><span>Negocio</span><b id="g-r-neg"></b></div><div class="rt"><span>Total</span><b id="g-prev-tot">£0.00</b></div><button class="btn primary rg" id="g-rg" type="button">Guardar gasto</button><button class="btn rl" id="g-rl" type="button">Limpiar</button><div class="rmsg" id="g-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="h-gasto"></aside>
   </section>
@@ -1344,7 +1346,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
     <div>
       <h1>Dashboard</h1>
       <p class="sub" id="d-sub">Ingresos y gastos por periodo de Universal Credit</p>
-      <div class="modo" role="group" aria-label="Vista"><button type="button" data-modo="uc">📅 Periodo UC</button><button type="button" data-modo="hmrc">🏛️ Año HMRC</button></div>
+      <div class="modo" role="group" aria-label="Vista"><button type="button" data-modo="uc">📅 Periodo<span class="uc-t"> UC</span></button><button type="button" data-modo="hmrc">🏛️ Año HMRC</button></div>
     </div>
     <div class="filtro" role="group" aria-label="Periodo">
       <button class="ico" id="prev" aria-label="Periodo anterior">&#9664;</button>
@@ -1360,7 +1362,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha28',fecha:'6 nov 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha29',fecha:'6 nov 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 
@@ -2149,13 +2151,13 @@ function init_form(ROOT, P, S) {
       const C = t === 'gasto'
         ? [['Nº', (r) => esc(r.num || r.id), 'n'], ['Fecha', (r) => fd(r.fecha)], ['Proveedor', (r) => esc(r.prov), 'x'], ['Descripción', (r) => esc(r.desc), 'x w'],
            ['Categoría', (r) => '<i class="' + catClase(r.cat) + '">' + esc(r.cat) + '</i>'], ['Unidad', (r) => esc(r.unidad)], ['Cant.', (r) => esc(r.cantidad), 'r'],
-           ['Precio', (r) => gbp(r.precio), 'r'], ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], ['Periodo UC', (r) => esc(r.periodo)], ['Notas', (r) => esc(r.notas), 'x mu'],
+           ['Precio', (r) => gbp(r.precio), 'r'], ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], [(S.usaUC && S.usaUC()) ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)], ['Notas', (r) => esc(r.notas), 'x mu'],
            ['Procesado UC', (r) => sino(r.procesado), 'mu']]
         : [['Nº', (r) => esc(r.num || r.id), 'n'], ['F. evento', (r) => fd(r.fecha)], ['F. factura', (r) => fd(r.factura)], ['Cliente', (r) => esc(r.cliente), 'x'],
            ['Descripción', (r) => esc(r.desc), 'x w'], ['Unidad', (r) => esc(r.unidad)], ['Precio', (r) => gbp(r.precio), 'r'], ['Cant.', (r) => esc(r.cantidad), 'r'],
            ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], ['Pago', (r) => esc(r.pago)],
            ['Estado', (r) => '<i class="' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + (r.estado === 'PAID' ? 'Cobrado' : 'Pendiente') + '</i>'],
-           ['Periodo UC', (r) => esc(r.periodo)], ['Procesado UC', (r) => sino(r.procesado), 'mu']];
+           [(S.usaUC && S.usaUC()) ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)], ['Procesado UC', (r) => sino(r.procesado), 'mu']];
       if (negCol) C.push(['Negocio', (r) => S.pill(r.negocio)]);
       const kTot = C.findIndex((x) => x[0] === 'Total');
       tabla = '<div class="tw"><table class="hoja completa"><thead><tr>' + C.map((x) => '<th class="' + (/(^| )r( |$)/.test(x[2] || '') ? 'r' : '') + '">' + x[0] + '</th>').join('') + '<th></th></tr></thead><tbody>' +

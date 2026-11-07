@@ -214,7 +214,7 @@
       }
       if (e !== "admin" && e !== "demo") {
         var asunto = encodeURIComponent("Quiero PuntoBalance Premium"), cuerpo = encodeURIComponent("Hola, quiero PuntoBalance Premium.\nMi cuenta de Google: " + correo() + "\nPlan: (Mensual / Anual / Fundador)\n");
-        h += '<a class="bt b1" href="mailto:' + esc(CFG.envio || "apps.welr@gmail.com") + "?subject=" + asunto + "&body=" + cuerpo + '" target="_blank" rel="noopener">✉️ ' + (e === "activa" ? "Renovar · escribir a Odlare" : "Quiero Premium · escribir a Odlare") + "</a>";
+        h += '<a class="bt b1" href="mailto:' + esc(CFG.contacto || "info@odlare.uk") + "?subject=" + asunto + "&body=" + cuerpo + '" target="_blank" rel="noopener">✉️ ' + (e === "activa" ? "Renovar · escribir a Odlare" : "Quiero Premium · escribir a Odlare") + "</a>";
         if (CFG.whatsapp) h += '<a class="bt b3" href="https://wa.me/' + esc(String(CFG.whatsapp).replace(/\D/g, "")) + "?text=" + cuerpo + '" target="_blank" rel="noopener">💬 Escribir por WhatsApp</a>';
         h += '<div class="cod"><h3>🎁 Tengo un código</h3><div class="hint" style="font-size:13px;color:var(--muted)">Pega el código que te llegó por correo (empieza por «PB1.»).</div>' +
           '<textarea id="pr-cod" placeholder="PB1.…" spellcheck="false"></textarea><button type="button" class="bt b2" id="pr-act">Activar</button><div class="msg" id="pr-msg"></div></div>';
@@ -292,14 +292,14 @@
       '<div style="background:#F4F6FC;border:1.5px dashed #9AA8D6;border-radius:12px;padding:12px 14px;font-family:Consolas,monospace;font-size:12px;color:#1B2B5B;word-break:break-all">' + esc(o.codigo) + "</div>" +
       '<p style="font-size:13.5px;margin:16px 0 0">1. Abre PuntoBalance en tu computadora o celular.<br>2. Ve a <b>Premium › Tengo un código</b>.<br>3. Pega el código y pulsa <b>Activar</b>. ¡Listo!</p>' +
       '<p style="font-size:13px;margin:16px 0 8px;color:#3A4058">El código solo funciona con tu cuenta <b>' + esc(o.gmail) + "</b>. Guarda este correo por si cambias de computadora.</p></td></tr>" +
-      '<tr><td style="background:#F7F8FC;padding:16px 32px;font-size:12px;color:#6B7194;line-height:1.6;border-top:1px solid #EEF0F6">¿Dudas? Escríbenos a <b style="color:#1B2B5B">' + esc(CFG.envio || "apps.welr@gmail.com") + "</b> · Responderemos lo antes posible.<br>PuntoBalance es una app de <b style=\"color:#1B2B5B\">Odlare</b> · Reino Unido · " +
+      '<tr><td style="background:#F7F8FC;padding:16px 32px;font-size:12px;color:#6B7194;line-height:1.6;border-top:1px solid #EEF0F6">¿Dudas? Escríbenos a <b style="color:#1B2B5B">' + esc(CFG.contacto || "info@odlare.uk") + "</b> · Responderemos lo antes posible.<br>PuntoBalance es una app de <b style=\"color:#1B2B5B\">Odlare</b> · Reino Unido · " +
       '<a href="https://odlare.uk/privacidad-puntobalance.html" style="color:#1E60E0">Política de privacidad</a></td></tr></table></td></tr></table></body></html>';
   }
   function textoCorreo(o) {
     var base = location.origin + location.pathname.replace(/[^/]*$/, "");
     return "¡Gracias" + (o.nombre ? ", " + o.nombre.split(" ")[0] : "") + "!\n\nTu PuntoBalance Premium ya está listo.\n\nNº de licencia: " + o.num + "\nPlan: " + ((PLANES[o.plan] || {}).nombre || o.plan) +
       "\nCuenta de Google: " + o.gmail + "\nVálida hasta: " + fechaLarga(o.hasta) + (o.importe ? "\nImporte pagado: " + o.importe : "") +
-      "\n\nActívalo aquí: " + base + "?licencia=" + encodeURIComponent(o.codigo) + "\n\nO copia este código en PuntoBalance › Premium › Tengo un código:\n" + o.codigo + "\n\nOdlare · " + (CFG.envio || "apps.welr@gmail.com");
+      "\n\nActívalo aquí: " + base + "?licencia=" + encodeURIComponent(o.codigo) + "\n\nO copia este código en PuntoBalance › Premium › Tengo un código:\n" + o.codigo + "\n\nOdlare · " + (CFG.contacto || "info@odlare.uk");
   }
   function b64Utf8(t) { return btoa(unescape(encodeURIComponent(t))); }
   function mime(o) {

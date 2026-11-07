@@ -308,6 +308,7 @@ button.btn{cursor:pointer;font-family:inherit;border:0}button.btn.sec{border:1px
   var bF=document.getElementById("abrirForm"); if(bF) bF.onclick=abrir;
   document.querySelectorAll("[data-abrir-form]").forEach(function(b){b.onclick=abrir});
   document.getElementById("cerrarForm").onclick=cerrar;
+  if(location.hash==="#escribenos")abrir();
   velo.addEventListener("click",function(e){if(e.target===velo)cerrar()});
   addEventListener("keydown",function(e){if(e.key==="Escape"&&!velo.hidden)cerrar()});
   document.getElementById("volverForm").onclick=function(){document.getElementById("pasoForm").hidden=false;document.getElementById("pasoListo").hidden=true};

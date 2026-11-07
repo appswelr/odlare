@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-3Kr8CfbBshEuc2s5X0bRBBboB/kNlkpGYGxKd2JX8FM='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://docs.google.com; form-action 'self' https://docs.google.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-MpoxefQI1ohqpJ9mmhd+GS0ywF3tbYEiVkUrK47LaSQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://docs.google.com; form-action 'self' https://docs.google.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -555,6 +555,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   var bF=document.getElementById("abrirForm"); if(bF) bF.onclick=abrir;
   document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-abrir-form]");if(!b)return;e.preventDefault();abrir();if(b.getAttribute("data-abrir-form")==="aviso"){var t=document.getElementById("fTema");t.selectedIndex=3;var m=document.getElementById("fMsg");if(!m.value)m.value=T("Quiero probar Mis Finanzas o que me aviséis cuando salga.","I'd like to try My Finances or be told when it's out.")}});
   document.getElementById("cerrarForm").onclick=cerrar;
+  if(location.hash==="#escribenos")abrir();
   velo.addEventListener("click",function(e){if(e.target===velo)cerrar()});
   addEventListener("keydown",function(e){if(e.key==="Escape"&&!velo.hidden)cerrar()});
   document.getElementById("volverForm").onclick=function(){document.getElementById("pasoForm").hidden=false;document.getElementById("pasoListo").hidden=true};

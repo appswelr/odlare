@@ -11,7 +11,8 @@ window.PB_CONFIG = {
   licencias: {
     pub: {"kty":"EC","crv":"P-256","x":"KAM0wr6LTk3hXVwhPoGRyzbEgUPQ7WwWMA2krpi6H_g","y":"ec996UXrVltLLZkHcCUiZnduej80itjOVZbazzn0OJg"},
     admins: ["djwinkeyodlare@gmail.com", "apps.welr@gmail.com"],
-    envio: "apps.welr@gmail.com",
+    envio: "apps.welr@gmail.com",                       // desde esta cuenta se envían los códigos (Gmail API)
+    contacto: "info@odlare.uk",                         // correo que ven los clientes
     whatsapp: "",
     prueba: 14,                                          // días de prueba gratis (6 nov 2026: 14 en todas las apps)
     pruebaAntes: { hasta: "2026-11-06", dias: 30 }     // quien empezó antes de esta fecha mantiene sus 30 días

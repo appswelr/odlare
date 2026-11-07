@@ -1,7 +1,15 @@
 {
- "ver": "5.0.0-alpha28",
+ "ver": "5.0.0-alpha29",
  "fecha": "6 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha29",
+   "fecha": "7 nov 2026",
+   "cambios": [
+    "«Escríbenos» (en Acerca de) ahora abre el formulario de odlare.uk y funciona también en PC y tablet. El correo de contacto es info@odlare.uk",
+    "Si tienes UC apagado, ya no aparece «UC» en Dashboard, Impuestos ni en las tablas: solo «Periodo»"
+   ]
+  },
   {
    "ver": "5.0.0-alpha28",
    "fecha": "6 nov 2026",
