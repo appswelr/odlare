@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Ctt1YcYb9CyApmIn0eTp3FHbwPQl29dI/V9RcEXIgs8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://docs.google.com; form-action 'self' https://docs.google.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-abBrzmMfXHJGRRH0mb8xvAXGKQQS5XOQRFXEaNK49gw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://docs.google.com; form-action 'self' https://docs.google.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -70,6 +70,7 @@ nav a{text-decoration:none;font-weight:600;font-size:15px;color:var(--text);opac
 nav a:hover{opacity:1;color:var(--fin)}
 .ctl{display:flex;gap:8px}
 .ctl button{height:40px;min-width:40px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+#bLang{padding:3px!important;gap:2px}#bLang span{padding:0 11px;height:32px;display:inline-flex;align-items:center;border-radius:999px;opacity:.65;transition:background .2s,opacity .2s}#bLang span.on{background:#f5a623;color:#111a3a;opacity:1}
 .ctl button svg{width:18px;height:18px}
 
 /* Portada */
@@ -473,7 +474,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
     </nav>
     <div class="ctl">
       <button id="bMenu" type="button" aria-label="Menú" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-      <button id="bLang" type="button" aria-label="English / Español">EN</button>
+      <button id="bLang" type="button" aria-label="Cambiar idioma / Change language"><span class="on">ES</span><span>EN</span></button>
       <button id="bTema" type="button" aria-label="Tema claro u oscuro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
     </div>
   </div>
@@ -885,7 +886,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   function leer(k){try{return localStorage.getItem(k)}catch(e){return null}}
   function poner(k,v){try{localStorage.setItem(k,v)}catch(e){}}
   function idioma(l){
-    lang=l; raiz.lang=l; document.getElementById("bLang").textContent=l==="es"?"EN":"ES";
+    lang=l; raiz.lang=l; document.querySelectorAll("#bLang span").forEach(function(x,n){x.className=(n===0)===(l==="es")?"on":""});
     document.querySelectorAll("[data-es]").forEach(function(e){e.innerHTML=e.getAttribute("data-"+l)});
     document.querySelectorAll("[data-solo]").forEach(function(e){e.hidden=e.getAttribute("data-solo")!==l});
     document.querySelectorAll("img[data-img]").forEach(function(i){i.src=IMG[i.getAttribute("data-img")][l]});
