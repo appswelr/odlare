@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-PKRbaItygMz1jG6Hbm/GybFY2T4hLe5v3ifD0xQzjv8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://docs.google.com; form-action 'self' https://docs.google.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-3H8ns8wiiK9A3f/dCUdtPKDYPZGLy/FL6FqJK190CRc='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://docs.google.com; form-action 'self' https://docs.google.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -319,6 +319,17 @@ section{padding:104px 0}
 .final h2{color:#fff;font-size:clamp(32px,4.6vw,52px);margin-bottom:12px}
 .final p{color:#E4E2FF;font-size:18px;margin-bottom:30px}
 .final .btn{background:#fff;color:var(--navy);border:0;cursor:pointer}
+.avForm{display:flex;gap:8px;align-items:center;max-width:440px;margin:0 auto;background:#fff;border-radius:999px;padding:5px 5px 5px 20px;box-shadow:0 10px 30px rgba(13,17,36,.25)}
+.avForm input[type=email]{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;color:#1B2B5B;padding:10px 0}
+.avForm input[type=email]::placeholder{color:#6B7280}
+.avForm:focus-within{box-shadow:0 0 0 3px #F4A62A,0 10px 30px rgba(13,17,36,.25)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.avHp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.avBtn{border:0;cursor:pointer;background:#F4A62A;color:#1B2B5B;font:inherit;font-weight:800;font-size:15px;padding:12px 22px;border-radius:999px;white-space:nowrap}
+.avBtn:disabled{opacity:.6;cursor:default}
+.final p.avNota{font-size:14px;color:#E4E2FF;margin:14px 0 0;min-height:22px}
+.final p.avNota.err{color:#FFD4D4;font-weight:700}
+.final p.avNota.ok{color:#fff;font-weight:800;font-size:17px}
 .final .oliF{position:absolute;right:48px;bottom:-6px;width:150px;filter:drop-shadow(0 14px 18px rgba(0,0,0,.3))}
 .aviso{max-width:760px;margin:22px auto 0;display:flex;gap:12px;align-items:center;justify-content:center;font-size:15px;color:var(--muted);text-align:left}
 .aviso b{color:var(--ink)}
@@ -683,8 +694,14 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   <div class="wrap">
     <div class="final rv">
       <h2 data-es="Empieza con Mis Finanzas" data-en="Start with My Finances">Empieza con Mis Finanzas</h2>
-      <p data-es="14 días gratis, sin tarjeta. Sé de los primeros en tenerla." data-en="14 days free, no card needed. Be among the first to get it.">14 días gratis, sin tarjeta. Sé de los primeros en tenerla.</p>
-      <button type="button" class="btn" data-abrir-form="aviso" data-es="Quiero tenerla" data-en="I want it">Quiero tenerla</button>
+      <p data-es="14 días gratis, sin tarjeta. Te avisamos en cuanto esté en Google Play." data-en="14 days free, no card needed. We'll tell you as soon as it's on Google Play.">14 días gratis, sin tarjeta. Te avisamos en cuanto esté en Google Play.</p>
+      <form id="formAviso" class="avForm" novalidate>
+        <label for="avCorreo" class="sr" data-es="Tu correo" data-en="Your email">Tu correo</label>
+        <input id="avCorreo" type="email" autocomplete="email" maxlength="120" inputmode="email" placeholder="tu@correo.com">
+        <input id="avWeb" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="avHp">
+        <button type="submit" class="avBtn" data-es="Avísame" data-en="Notify me">Avísame</button>
+      </form>
+      <p class="avNota" id="avNota" data-es="Solo escribimos cuando salga. Nada más." data-en="We only write when it's out. Nothing else.">Solo escribimos cuando salga. Nada más.</p>
     </div>
     <p class="aviso rv">💬 <span><b data-es="¿Quieres probarla antes que nadie?" data-en="Want to try it before anyone else?">¿Quieres probarla antes que nadie?</b> <span data-es="Estamos en prueba cerrada." data-en="We're in closed testing.">Estamos en prueba cerrada.</span> <button type="button" data-abrir-form="aviso" data-es="Pide tu invitación" data-en="Ask for an invite">Pide tu invitación</button></span></p>
   </div>
@@ -889,6 +906,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   function idioma(l){
     lang=l; raiz.lang=l; document.querySelectorAll("#bLang span").forEach(function(x,n){x.className=(n===0)===(l==="es")?"on":""});
     document.querySelectorAll("[data-es]").forEach(function(e){e.innerHTML=e.getAttribute("data-"+l)});
+    var pc=document.getElementById("avCorreo");if(pc)pc.placeholder=l==="en"?"you@email.com":"tu@correo.com";
     document.querySelectorAll("[data-solo]").forEach(function(e){e.hidden=e.getAttribute("data-solo")!==l});
     document.querySelectorAll("img[data-img]").forEach(function(i){i.src=IMG[i.getAttribute("data-img")][l]});
     var TT={"Odlare · Apps sencillas para tu día a día":"Odlare · Simple apps for everyday life","Política de privacidad · Mis Finanzas":"Privacy policy · My Finances"};
@@ -957,6 +975,24 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
       fetch(BUZON,{method:"POST",mode:"no-cors",body:datos}).then(function(){fin();paso("pasoOk")},planB);
     }catch(x){planB()}
   });
+  (function(){
+    var f=document.getElementById("formAviso"); if(!f) return;
+    var nota=document.getElementById("avNota"), caja=document.getElementById("avCorreo");
+    function dilo(t,c){nota.textContent=t;nota.className="avNota "+(c||"")}
+    f.addEventListener("submit",function(e){
+      e.preventDefault();
+      var c=caja.value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c)) return dilo(T("Revisa tu correo.","Check your email."),"err");
+      if(document.getElementById("avWeb").value){dilo(T("¡Listo! Te escribimos cuando salga.","Done! We'll write when it's out."),"ok");return}
+      var b=f.querySelector("button"); b.disabled=true;
+      var d=new URLSearchParams();
+      d.append("entry.233069685","Aviso Mis Finanzas"); d.append("entry.413360834",c);
+      d.append("entry.911962182","Quiero probar las apps / I want to try the apps");
+      d.append("entry.96151042","Quiero que me avisen cuando salga Mis Finanzas."+(lang==="en"?"\n\n[EN]":""));
+      function mal(){b.disabled=false;dilo(T("No se pudo enviar. Escríbenos a "+CORREO,"Couldn't send. Write to us at "+CORREO),"err")}
+      try{fetch(BUZON,{method:"POST",mode:"no-cors",body:d}).then(function(){b.disabled=false;caja.value="";dilo(T("¡Listo! Te escribimos cuando salga.","Done! We'll write when it's out."),"ok")},mal)}catch(x){mal()}
+    });
+  })();
   var shS=document.getElementById("shSticky");
   if(shS){
     var sts=[].slice.call(document.querySelectorAll(".st"));
