@@ -39,8 +39,8 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha31';
-const VERSION_FECHA = '6 nov 2026';
+const VERSION = '5.0.0-alpha32';
+const VERSION_FECHA = '12 nov 2026';
 
 // ───────────────────────── Menú ─────────────────────────
 function onOpen() {
@@ -103,7 +103,9 @@ function getHubData() {
     })(),
     hmrc: hmrcEstado_(),
     nombre: String(config_().nombre || ''),
-    usaUC: usaUC_()   // 5.0.0-alpha27
+    usaUC: usaUC_(),   // 5.0.0-alpha27
+    diaPeriodo: diaPeriodo_(),   // 5.0.0-alpha32
+    pasos: pasos_()              // 5.0.0-alpha32: «Primeros pasos» de Inicio
   };
 }
 function getRevision() { return revisarDatos_(); }
@@ -116,6 +118,67 @@ function usaUC_() {
   if (v === 'NO') return false;
   return Number(c.dia_inicio_periodo) === 7;
 }
+/* 5.0.0-alpha32: día en que empieza cada periodo (1–28). Se mira en la hoja Periodos (lo que de verdad hay). */
+function diaPeriodo_() {
+  const p = leerTabla_('Periodos').find(x => x['INICIO'] instanceof Date);
+  return p ? p['INICIO'].getDate() : (Number(config_().dia_inicio_periodo) || 1);
+}
+function ponerConfig_(clave, valor, desc) {
+  const s = hoja_('Config'), v = s.getDataRange().getValues();
+  for (let i = 1; i < v.length; i++) if (v[i][0] === clave) { s.getRange(i + 1, 2).setValue(valor); return; }
+  s.getRange(v.length + 1, 1, 1, 3).setValues([[clave, valor, desc || '']]);
+}
+/** Cambia el día en que empieza el periodo: rehace la hoja Periodos y vuelve a poner el periodo de cada ingreso y gasto. */
+function cambiarDiaPeriodo(dia) {
+  return conBloqueo_(() => {
+    dia = Math.floor(Number(dia));
+    if (!(dia >= 1 && dia <= 28)) throw new Error('Elige un día entre el 1 y el 28.');
+    const viejos = leerTabla_('Periodos').filter(p => p['INICIO'] instanceof Date && p['FIN'] instanceof Date);
+    if (viejos.length && dia === viejos[0]['INICIO'].getDate()) return { dia: dia, periodos: viejos.length, filas: 0 };
+    // Que cambiar el día no encienda ni apague Universal Credit (antes se deducía del día 7).
+    const c0 = config_();
+    if (String(c0.usa_uc == null ? '' : c0.usa_uc).trim() === '') ponerConfig_('usa_uc', usaUC_() ? 'SI' : 'NO', 'SI = usa Universal Credit (resumen UC y aviso del periodo); NO = no lo usa');
+    const hoy = new Date();
+    const ing = leerTabla_('Ingresos'), gas = leerTabla_('Gastos');
+    let desde = viejos.length ? viejos.reduce((m, p) => (p['INICIO'] < m ? p['INICIO'] : m), viejos[0]['INICIO']) : new Date(hoy.getFullYear(), hoy.getMonth() - 6, 1);
+    let hasta = viejos.length ? viejos.reduce((m, p) => (p['FIN'] > m ? p['FIN'] : m), viejos[0]['FIN']) : new Date(hoy.getFullYear(), hoy.getMonth() + 18, 0);
+    ing.map(r => r['FECHA EVENTO']).concat(gas.map(r => r['FECHA'])).forEach(d => { if (d instanceof Date && d < desde) desde = d; });
+    const minimo = new Date(hoy.getFullYear(), hoy.getMonth() + 12, 1);
+    if (hasta < minimo) hasta = minimo;
+    let y = desde.getFullYear(), m = desde.getMonth();
+    if (desde.getDate() < dia) { m--; if (m < 0) { m = 11; y--; } }
+    let filas = [];
+    for (let i = 0; i < 240; i++) { const f = periodoNuevo_(y, m, dia); filas.push(f); if (f[1] >= hasta) break; m++; if (m > 11) { m = 0; y++; } }
+    const tope = new Date(hoy.getFullYear(), hoy.getMonth() + 3, 1);
+    while (filas.length > PERIODOS_MAX && filas[filas.length - 1][0] > tope) filas.pop();
+    while (filas.length > PERIODOS_MAX) filas.shift();
+    const s = hoja_('Periodos'), ult = Math.max(s.getLastRow(), 2);
+    s.getRange(2, 1, ult - 1, 3).clearContent();
+    s.getRange(2, 5, Math.max(ult, PERIODOS_MAX + 2) - 1, 1).clearContent();
+    s.getRange(2, 1, filas.length, 3).setValues(filas);
+    s.getRange(2, 5, filas.length + 1, 1).setValues([['TODOS']].concat(filas.map(f => [f[2]])));
+    ponerConfig_('dia_inicio_periodo', dia, '1 = meses normales; otro día = el periodo va de ese día al anterior del mes siguiente');
+    // periodo de cada fila
+    const etq = (d) => { if (!(d instanceof Date)) return ''; for (const f of filas) if (d >= f[0] && d <= new Date(f[1].getTime() + 86399000)) return f[2]; return ''; };
+    let n = 0;
+    [['Ingresos', 'FECHA EVENTO', 'ID FACTURA'], ['Gastos', 'FECHA', 'ID GASTO']].forEach(([hn, cf, cid]) => {
+      const h = hoja_(hn), v = h.getDataRange().getValues(), iF = v[0].indexOf(cf), iP = v[0].indexOf('PERIODO UC'), iI = v[0].indexOf(cid);
+      if (iF < 0 || iP < 0 || v.length < 2) return;
+      const col = v.slice(1).map(r => { if (r[iI] === '' || r[iI] === null) return [r[iP]]; n++; return [etq(r[iF])]; });
+      h.getRange(2, iP + 1, col.length, 1).setValues(col);
+    });
+    SpreadsheetApp.flush();
+    return { dia: dia, periodos: filas.length, filas: n };
+  });
+}
+
+/* 5.0.0-alpha32: «Primeros pasos» (tarjeta de Inicio para quien empieza). */
+function pasos_() {
+  const n1 = negocios_()[0] || {}, c = config_();
+  const neg = !!(txt_(n1.direccion) || txt_(n1.banco) || txt_(n1.cuenta) || txt_(c.direccion) || txt_(c.banco));
+  return { negocio: neg, cliente: leerTabla_('Clientes').length > 0, ingreso: leerTabla_('Ingresos').length > 0, gasto: leerTabla_('Gastos').length > 0 };
+}
+
 function setUsaUC(valor) {
   return conBloqueo_(() => {
     const s = hoja_('Config'), v = s.getDataRange().getValues(), txt = valor ? 'SI' : 'NO';
@@ -390,7 +453,7 @@ function revisarDatos_() {
   ing.forEach(r => {
     const id = r['ID FACTURA'];
     if (!(r['FECHA FACTURA'] instanceof Date)) av.push({ nivel: 'error', texto: 'Factura ' + id + ': la fecha de factura no es una fecha válida.' });
-    if (!(r['FECHA EVENTO'] instanceof Date)) av.push({ nivel: 'error', texto: 'Factura ' + id + ': falta la fecha del evento (sin ella no tiene periodo UC).' });
+    if (!(r['FECHA EVENTO'] instanceof Date)) av.push({ nivel: 'error', texto: 'Factura ' + id + ': falta la fecha del evento (sin ella no tiene periodo).' });
     if (r['ESTADO'] === 'CANCELLED') return;
     if (!(Number(r['PRECIO']) > 0)) av.push({ nivel: 'error', texto: 'Factura ' + id + ': falta el precio, el subtotal sale en £0.' });
     if (cli.indexOf(r['CLIENTE']) < 0) av.push({ nivel: 'error', texto: 'Factura ' + id + ': el cliente no está en la hoja Clientes.' });
@@ -403,10 +466,11 @@ function revisarDatos_() {
     const id = r['ID GASTO'];
     if (!(r['FECHA'] instanceof Date)) av.push({ nivel: 'error', texto: 'Gasto ' + id + ': la fecha no es una fecha válida.' });
     if (!(Number(r['PRECIO']) > 0)) av.push({ nivel: 'error', texto: 'Gasto ' + id + ': falta el precio.' });
-    if (!r['CATEGORÍA UC']) av.push({ nivel: 'error', texto: 'Gasto ' + id + ': falta la categoría UC.' });
+    if (!r['CATEGORÍA UC']) av.push({ nivel: 'error', texto: 'Gasto ' + id + ': falta la categoría.' });
   });
 
-  // Periodos ya cerrados con filas sin procesar en UC
+  // Periodos ya cerrados con filas sin procesar en UC (solo si usa UC)
+  if (!usaUC_()) return av;
   const actual = periodoActual_();
   const sinProcesar = {};
   ing.concat(gas).forEach(r => {
@@ -479,7 +543,7 @@ function enviarResumenPeriodoActual() {
 /** Lo ejecuta el disparador diario: el día 7 envía el periodo que acaba de cerrar. */
 function enviarResumenSiToca() {
   const hoy = new Date();
-  if (Number(Utilities.formatDate(hoy, TZ, 'd')) !== 7) return;
+  if (Number(Utilities.formatDate(hoy, TZ, 'd')) !== diaPeriodo_()) return;
   const ayer = new Date(hoy.getTime() - 86400000);
   const p = periodoDe_(ayer);
   if (p) enviarResumen_(p['ETIQUETA']);
@@ -598,6 +662,15 @@ function conBloqueo_(fn) {
   try { return fn(); } finally { lock.releaseLock(); }
 }
 
+/* 5.0.0-alpha32: solo el NOMBRE de la cuenta (p. ej. «Monzo»), nunca el número. */
+function cuentaTxt_(v) {
+  const t = String(v || '').trim().slice(0, 40);
+  if (/\d{6,}/.test(t.replace(/[\s-]/g, ''))) throw new Error('En «Cuenta» pon solo el nombre (por ejemplo «Monzo»), sin el número de la cuenta ni de la tarjeta.');
+  return t;
+}
+const PAGOS_ = ['CASH', 'TRANSFER', 'CASH / TRANSFER', 'CARD'];
+function pagoTxt_(v, defecto) { const t = String(v || '').trim(); return PAGOS_.indexOf(t) >= 0 ? t : (t || defecto || ''); }
+
 function guardarIngreso(o) {
   return conBloqueo_(() => {
     const clientes = leerTabla_('Clientes').map(c => c['NOMBRE']);
@@ -616,6 +689,7 @@ function guardarIngreso(o) {
       String(o.descripcion || '').trim() || (NEGOCIOS[neg.tipo] || NEGOCIOS.dj).desc, fe, o.unidad, precio, cantidad, calc[0], calc[1], o.formaPago, o.estado, 'NO']]);
     s.getRange(r, colDe_('Ingresos', 'NEGOCIO')).setValue(neg.id);
     s.getRange(r, colDe_('Ingresos', 'Nº FACTURA')).setValue(num);
+    s.getRange(r, colDe_('Ingresos', 'CUENTA')).setValue(cuentaTxt_(o.cuenta));
     SpreadsheetApp.flush();
     return { id: id, num: num, subtotal: calc[0], periodo: calc[1] };
   });
@@ -637,12 +711,15 @@ function guardarGasto(o) {
 
     const neg = negocioPorId_(o.negocio || negPrimero_());
     if (!neg) throw new Error('Elige de qué negocio es este gasto.');
+    const cuenta = cuentaTxt_(o.cuenta);
     const s = hoja_('Gastos');
     const id = siguienteId_('Gastos');
     const r = filaLibre_(s, true);
     const calc = calcFila_(precio, cantidad, fecha, '');
     s.getRange(r, 1, 1, 12).setValues([[id, fecha, proveedor, String(o.descripcion || '').trim(), o.categoria, cantidad, o.unidad, precio, calc[0], calc[1], String(o.notas || '').trim(), 'NO']]);
     s.getRange(r, colDe_('Gastos', 'NEGOCIO')).setValue(neg.id);
+    s.getRange(r, colDe_('Gastos', 'FORMA DE PAGO')).setValue(pagoTxt_(o.formaPago));
+    s.getRange(r, colDe_('Gastos', 'CUENTA')).setValue(cuenta);
     SpreadsheetApp.flush();
     return { id: id, subtotal: calc[0], periodo: calc[1], proveedorNuevo: !existente };
   });
@@ -873,9 +950,9 @@ function getRegistro(tipo, id) {
   const f = v => (v instanceof Date ? iso_(v) : '');
   return tipo === 'ingreso'
     ? { id: Number(id), num: numDe_(r), negocio: negDe_(r), cliente: r['CLIENTE'], descripcion: r['DESCRIPCIÓN'], fechaEvento: f(r['FECHA EVENTO']), fechaFactura: f(r['FECHA FACTURA']),
-        unidad: r['UNIDAD'], precio: r['PRECIO'], cantidad: r['CANTIDAD'], formaPago: r['FORMA DE PAGO'], estado: r['ESTADO'] }
+        unidad: r['UNIDAD'], precio: r['PRECIO'], cantidad: r['CANTIDAD'], formaPago: r['FORMA DE PAGO'], estado: r['ESTADO'], cuenta: txt_(r['CUENTA']) }
     : { id: Number(id), negocio: negDe_(r), fecha: f(r['FECHA']), proveedor: r['PROVEEDOR'], descripcion: r['DESCRIPCIÓN'], categoria: r['CATEGORÍA UC'],
-        unidad: r['UNIDAD'], cantidad: r['CANTIDAD'], precio: r['PRECIO'], notas: r['NOTAS'] };
+        unidad: r['UNIDAD'], cantidad: r['CANTIDAD'], precio: r['PRECIO'], notas: r['NOTAS'], formaPago: txt_(r['FORMA DE PAGO']), cuenta: txt_(r['CUENTA']) };
 }
 
 function actualizarIngreso(id, o) {
@@ -892,6 +969,7 @@ function actualizarIngreso(id, o) {
     let num = numDe_(antes);
     if (neg.id !== negDe_(antes)) { num = siguienteNum_(neg.id); s.getRange(r, colDe_('Ingresos', 'Nº FACTURA')).setValue(num); }
     s.getRange(r, colDe_('Ingresos', 'NEGOCIO')).setValue(neg.id);
+    s.getRange(r, colDe_('Ingresos', 'CUENTA')).setValue(cuentaTxt_(o.cuenta));
     SpreadsheetApp.flush();
     return { id: Number(id), num: num, subtotal: calc[0], periodo: calc[1] };
   });
@@ -906,10 +984,13 @@ function actualizarGasto(id, o) {
     const fecha = fechaIso_(o.fecha, 'fecha del gasto');
     const existente = leerTabla_('Proveedores').map(p => p['NOMBRE']).find(n => String(n).toLowerCase() === proveedor.toLowerCase());
     if (existente) proveedor = existente; else anadirProveedor_(proveedor, '');
+    const cuenta = cuentaTxt_(o.cuenta);
     const s = hoja_('Gastos'), r = filaDe_(s, id);
     const calc = calcFila_(precio, cantidad, fecha, '');
     s.getRange(r, 2, 1, 10).setValues([[fecha, proveedor, String(o.descripcion || '').trim(), o.categoria, cantidad, o.unidad, precio, calc[0], calc[1], String(o.notas || '').trim()]]);
     if (o.negocio && negocioPorId_(o.negocio)) s.getRange(r, colDe_('Gastos', 'NEGOCIO')).setValue(o.negocio);
+    s.getRange(r, colDe_('Gastos', 'FORMA DE PAGO')).setValue(pagoTxt_(o.formaPago));
+    s.getRange(r, colDe_('Gastos', 'CUENTA')).setValue(cuenta);
     SpreadsheetApp.flush();
     return { id: Number(id), subtotal: calc[0], periodo: calc[1] };
   });
@@ -1064,14 +1145,14 @@ function getMovimientos(tipo) {
       id: Number(r['ID FACTURA']), fecha: f(r['FECHA EVENTO']), cliente: String(r['CLIENTE'] || ''), desc: String(r['DESCRIPCIÓN'] || ''),
       unidad: String(r['UNIDAD'] || ''), precio: Number(r['PRECIO']) || 0, cantidad: Number(r['CANTIDAD']) || 0,
       pago: String(r['FORMA DE PAGO'] || ''), estado: String(r['ESTADO'] || ''), periodo: String(r['PERIODO UC'] || ''), total: Number(r['SUBTOTAL']) || 0,
-      negocio: negDe_(r), num: numDe_(r), factura: f(r['FECHA FACTURA']), procesado: String(r['PROCESADO UC'] || '')
+      negocio: negDe_(r), num: numDe_(r), factura: f(r['FECHA FACTURA']), procesado: String(r['PROCESADO UC'] || ''), cuenta: txt_(r['CUENTA'])
     })).sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id));
   }
   return leerTabla_('Gastos').filter(r => r['ID GASTO'] !== '').map(r => ({
     id: Number(r['ID GASTO']), fecha: f(r['FECHA']), prov: String(r['PROVEEDOR'] || ''), desc: String(r['DESCRIPCIÓN'] || ''),
     cat: String(r['CATEGORÍA UC'] || ''), unidad: String(r['UNIDAD'] || ''), cantidad: Number(r['CANTIDAD']) || 0, precio: Number(r['PRECIO']) || 0,
     notas: String(r['NOTAS'] || ''), periodo: String(r['PERIODO UC'] || ''), total: Number(r['SUBTOTAL']) || 0,
-    negocio: negDe_(r), num: String(r['ID GASTO']), procesado: String(r['PROCESADO UC'] || '')
+    negocio: negDe_(r), num: String(r['ID GASTO']), procesado: String(r['PROCESADO UC'] || ''), pago: txt_(r['FORMA DE PAGO']), cuenta: txt_(r['CUENTA'])
   })).sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id));
 }
 
@@ -1144,6 +1225,7 @@ function getImpuestos(opts) {
   r.fechaDeclaracion = '31 ene ' + (y + 2);
   r.anios = Object.keys(anios).map(Number).sort((a, b) => b - a).map(etiquetaAnio_);
   r.pa = FISCAL.PA; r.trading = FISCAL.TRADING;
+  r.beneficioNegocio = Math.round((ingresos - gastos) * 100) / 100;   // 5.0.0-alpha32: ingresos − gastos (lo que de verdad ganó)
   const negs = negocios_();
   r.porNegocio = negs.length > 1 ? negs.map(n => {
     const i = suma(ingY.filter(x => negDe_(x) === n.id), 'SUBTOTAL'), g = suma(gasY.filter(x => negDe_(x) === n.id), 'SUBTOTAL');
@@ -1164,11 +1246,11 @@ function guardarSueldo(valor) {
 
 /* ====== Mi negocio (4.0.0): la misma app sirve para un DJ o para quien vende productos ====== */
 const NEGOCIOS = {
-  dj: { nombre: 'DJ / eventos', fecha: 'Fecha del evento', cliente: 'Cliente', desc: 'DJ SERVICES', unidad: 'Unit (por evento)',
+  dj: { nombre: 'DJ / eventos', fecha: 'Fecha del evento', cliente: 'Cliente', desc: 'DJ SERVICES', unidad: 'Por evento',
         cats: ['Equipo', 'Música', 'Transporte', 'Gasolina', 'Publicidad', 'Teléfono'] },
-  productos: { nombre: 'Venta de productos', fecha: 'Fecha de venta', cliente: 'Comprador', desc: 'VENTA', unidad: 'Unit (por pieza)',
+  productos: { nombre: 'Venta de productos', fecha: 'Fecha de venta', cliente: 'Comprador', desc: 'VENTA', unidad: 'Por pieza',
         cats: ['Filamento', 'Resina', 'Luz', 'Envíos', 'Comisión Wix / Etsy', 'Repuestos', 'Empaques', 'Publicidad'] },
-  servicios: { nombre: 'Servicios / apps', fecha: 'Fecha del servicio', cliente: 'Cliente', desc: 'SERVICES', unidad: 'Unit (por servicio)',
+  servicios: { nombre: 'Servicios / apps', fecha: 'Fecha del servicio', cliente: 'Cliente', desc: 'SERVICES', unidad: 'Por servicio',
         cats: ['Software', 'Suscripciones', 'Equipo', 'Internet', 'Dominio y web', 'Publicidad'] }
 };
 
@@ -1240,7 +1322,7 @@ function asegurarNegocios_() {
     const cab = s.getRange(1, 1, 1, Math.max(s.getLastColumn(), 1)).getValues()[0];
     NEG_CABS.forEach(t => { if (cab.indexOf(t) < 0) { let col = cab.length; while (col > 0 && (cab[col - 1] === '' || cab[col - 1] === null)) col--; s.getRange(1, col + 1).setValue(t).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1B2B5B'); cab.splice(col, 0, t); } });
   }
-  [['Ingresos', 'NEGOCIO'], ['Ingresos', 'Nº FACTURA'], ['Gastos', 'NEGOCIO'], ['Ingresos', 'IMPORTADO'], ['Gastos', 'IMPORTADO']].forEach(x => {
+  [['Ingresos', 'NEGOCIO'], ['Ingresos', 'Nº FACTURA'], ['Gastos', 'NEGOCIO'], ['Ingresos', 'IMPORTADO'], ['Gastos', 'IMPORTADO'], ['Ingresos', 'CUENTA'], ['Gastos', 'FORMA DE PAGO'], ['Gastos', 'CUENTA']].forEach(x => {
     const h = hoja_(x[0]);
     const cab = h.getRange(1, 1, 1, Math.max(h.getLastColumn(), 1)).getValues()[0];
     if (cab.indexOf(x[1]) >= 0) return;
@@ -1541,5 +1623,5 @@ function guardarMovimientosImportados(o) {
   });
 }
 
-return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCategoria: actualizarCategoria, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, actualizarProveedor: actualizarProveedor, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarDeLista: eliminarDeLista, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImportarInfo: getImportarInfo, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarMovimientosImportados: guardarMovimientosImportados, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio, setUsaUC: setUsaUC };
+return { abrirDashboard: abrirDashboard, abrirFormulario: abrirFormulario, abrirFormularioAjustes: abrirFormularioAjustes, abrirFormularioCategoria: abrirFormularioCategoria, abrirFormularioCliente: abrirFormularioCliente, abrirFormularioGasto: abrirFormularioGasto, abrirFormularioIngreso: abrirFormularioIngreso, abrirFormularioPeriodos: abrirFormularioPeriodos, abrirFormularioProveedor: abrirFormularioProveedor, abrirFormularioRegistros: abrirFormularioRegistros, abrirMenu: abrirMenu, abrirPanel: abrirPanel, actualizarCategoria: actualizarCategoria, actualizarCliente: actualizarCliente, actualizarGasto: actualizarGasto, actualizarIngreso: actualizarIngreso, actualizarLibro: actualizarLibro, actualizarProveedor: actualizarProveedor, anadirCategoriasSugeridas: anadirCategoriasSugeridas, anadirPeriodos: anadirPeriodos, cambiarDiaPeriodo: cambiarDiaPeriodo, cambiarEnlaceWeb: cambiarEnlaceWeb, doGet: doGet, eliminarDeLista: eliminarDeLista, eliminarRegistro: eliminarRegistro, enviarFactura: enviarFactura, enviarResumenPeriodoActual: enviarResumenPeriodoActual, enviarResumenSiToca: enviarResumenSiToca, generarFactura: generarFactura, getAjustes: getAjustes, getDashboardData: getDashboardData, getFacturaDatos: getFacturaDatos, getFormData: getFormData, getHubData: getHubData, getImportarInfo: getImportarInfo, getImpuestos: getImpuestos, getLicenciaGuardada: getLicenciaGuardada, getListas: getListas, getMovimientos: getMovimientos, getNegocio: getNegocio, getNegocios: getNegocios, getNotaFactura: getNotaFactura, getPanelData: getPanelData, getRegistro: getRegistro, getResumenActual: getResumenActual, getRevision: getRevision, guardarAjustes: guardarAjustes, guardarCategoria: guardarCategoria, guardarCliente: guardarCliente, guardarEnlaceWeb: guardarEnlaceWeb, guardarGasto: guardarGasto, guardarIngreso: guardarIngreso, guardarLicencia: guardarLicencia, guardarLogo: guardarLogo, guardarLogoNegocio: guardarLogoNegocio, guardarMovimientosImportados: guardarMovimientosImportados, guardarNegocio: guardarNegocio, guardarNegocioDatos: guardarNegocioDatos, guardarNotaNegocio: guardarNotaNegocio, guardarProveedor: guardarProveedor, guardarSueldo: guardarSueldo, hubEnviarResumen: hubEnviarResumen, hubRecordatorio: hubRecordatorio, instalarRecordatorio: instalarRecordatorio, listarRegistros: listarRegistros, marcarFacturaPagada: marcarFacturaPagada, marcarHmrcPresentada: marcarHmrcPresentada, marcarInicioPrueba: marcarInicioPrueba, marcarPeriodoProcesado: marcarPeriodoProcesado, marcarProcesadoDialogo: marcarProcesadoDialogo, mostrarEnlaceWeb: mostrarEnlaceWeb, mostrarRevision: mostrarRevision, onOpen: onOpen, quitarLogo: quitarLogo, quitarLogoNegocio: quitarLogoNegocio, quitarRecordatorio: quitarRecordatorio, setUsaUC: setUsaUC };
 })(window.PB_GAS.SpreadsheetApp, window.PB_GAS.Utilities, window.PB_GAS.Session, window.PB_GAS.LockService, window.PB_GAS.MailApp, window.PB_GAS.ScriptApp, window.PB_GAS.HtmlService, window.PB_GAS.PropertiesService, window.PB_GAS.DriveApp, window.PB_GAS.Logger);

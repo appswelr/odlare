@@ -12,12 +12,12 @@
       [28, "Salón Las Palmas", 300, "PAID"], [14, "Bar El Puerto", 200, "PAID"], [3, "Boda Martínez", 500, "PENDING"]];
     ing.forEach(function (x) {
       run("guardarIngreso", [{ cliente: x[1], descripcion: "", fechaEvento: haceDias(x[0]), fechaFactura: haceDias(x[0]), unidad: "Unit",
-        precio: x[2], cantidad: 1, formaPago: "TRANSFER", estado: x[3] }]);
+        precio: x[2], cantidad: 1, formaPago: "TRANSFER", cuenta: "Monzo", estado: x[3] }]);
     });
     var gas = [[65, "Shell", "Gasolina", "Gasolina", 45.2], [50, "Amazon", "Cables XLR", "Equipo", 32.99], [35, "Spotify", "Suscripción", "Música", 10.99],
       [21, "Shell", "Gasolina", "Gasolina", 48.6], [12, "Vistaprint", "Tarjetas de visita", "Publicidad", 24], [5, "EE", "Móvil", "Teléfono", 18]];
     gas.forEach(function (x) {
-      run("guardarGasto", [{ fecha: haceDias(x[0]), proveedor: x[1], descripcion: x[2], categoria: x[3], unidad: "UNIT", cantidad: 1, precio: x[4], notas: "" }]);
+      run("guardarGasto", [{ fecha: haceDias(x[0]), proveedor: x[1], descripcion: x[2], categoria: x[3], unidad: "UNIT", cantidad: 1, precio: x[4], notas: "", formaPago: "CARD", cuenta: x[1] === "Amazon" ? "Lloyds" : "Monzo" }]);
     });
   };
 })();

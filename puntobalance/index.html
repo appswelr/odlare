@@ -1047,6 +1047,53 @@ html[data-tema="oscuro"] .avc button.bt { background: #131D38; color: #F5E6C4; b
 html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; color: #BBF7D0; }
 .ucsw { display: flex; gap: 16px; align-items: center; justify-content: space-between; border: 1px solid var(--line); background: var(--card); border-radius: 14px; padding: 12px 16px; margin: 10px 0 14px; }
 .ucsw b { color: var(--ink); } .ucsw p { margin: 3px 0 0; font-size: 12.5px; color: var(--muted); }
+/* ===== 5.0.0-alpha32 ===== */
+.ucsw .diasel { flex: none; display: flex; gap: 8px; align-items: center; }
+.ucsw .diasel select { width: auto; min-width: 86px; height: 38px; }
+.ucsw .diasel .btn { height: 38px; padding: 0 16px; }
+.v-inicio .pasos { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px 16px; margin-bottom: 18px; }
+.v-inicio .pasos.hidden { display: none; }
+.v-inicio .pasos .ps-h { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.v-inicio .pasos .ps-h b { font-size: 16px; color: var(--ink); }
+.v-inicio .pasos .ps-h small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+.v-inicio .pasos .ps-bar { height: 6px; border-radius: 99px; background: #E6E8F1; margin-top: 8px; overflow: hidden; max-width: 260px; }
+.v-inicio .pasos .ps-bar i { display: block; height: 100%; background: #F4A62A; border-radius: 99px; }
+.v-inicio .pasos .ps-x { border: 0; background: none; color: var(--muted); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; padding: 4px 6px; }
+.v-inicio .pasos .ps-l { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.v-inicio .pasos .ps-i { display: flex; gap: 10px; align-items: flex-start; text-align: left; border: 1.5px solid var(--line); background: var(--card); border-radius: 14px; padding: 11px 12px; font: inherit; color: var(--ink); cursor: pointer; }
+.v-inicio .pasos .ps-i:hover { border-color: #1B2B5B; }
+.v-inicio .pasos .ps-i .n { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 13px; background: #1B2B5B; color: #fff; }
+.v-inicio .pasos .ps-i b { display: block; font-size: 13.5px; } .v-inicio .pasos .ps-i small { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.v-inicio .pasos .ps-i.ok { border-color: #BBE5CB; background: #F1FBF4; cursor: default; }
+.v-inicio .pasos .ps-i.ok .n { background: #16A34A; }
+.v-inicio .pasos .ps-i.ok b { color: #12804A; }
+@media (max-width: 1100px) { .v-inicio .pasos .ps-l { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .v-inicio .pasos .ps-l { grid-template-columns: 1fr; } }
+html[data-tema="oscuro"] .v-inicio .pasos .ps-i.ok { background: #0F2A1C; border-color: #1E5235; }
+html[data-tema="oscuro"] .v-inicio .pasos .ps-bar { background: #26365F; }
+.v-panel tr.grp td { background: #F3F5FB; color: #1B2B5B; font-weight: 800; font-size: 12.5px; letter-spacing: .02em; padding-top: 9px; padding-bottom: 9px; }
+.v-panel tr.grp td small { font-weight: 600; color: var(--muted); margin-left: 6px; letter-spacing: 0; }
+html[data-tema="oscuro"] .v-panel tr.grp td { background: #16224A; color: #DDE3F7; }
+.v-ayuda { height: 100%; overflow: auto; padding: 22px 30px 40px; background: var(--bg); }
+@media (min-width: 761px) { .v-ayuda { padding-top: 54px; } }
+@media (max-width: 760px) { .v-ayuda { padding: 16px 16px 90px; } }
+.v-ayuda .ay { max-width: 760px; margin: 0 auto; }
+.v-ayuda h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -.02em; color: var(--ink); }
+.v-ayuda .lead { color: var(--muted); margin: 4px 0 18px; }
+.v-ayuda details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px; }
+.v-ayuda summary { list-style: none; cursor: pointer; padding: 14px 16px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+.v-ayuda summary::-webkit-details-marker { display: none; }
+.v-ayuda summary .q { flex: none; width: 26px; height: 26px; border-radius: 50%; background: #EEF1FA; color: #1B2B5B; display: grid; place-items: center; font-size: 13px; font-weight: 800; }
+.v-ayuda summary::after { content: '›'; margin-left: auto; font-size: 20px; color: var(--muted); transition: transform .15s; }
+.v-ayuda details[open] summary::after { transform: rotate(90deg); }
+.v-ayuda details p { margin: 0; padding: 0 16px 14px 52px; color: #3A4058; line-height: 1.55; font-size: 14px; }
+.v-ayuda .esc { margin-top: 22px; text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.v-ayuda .esc b { display: block; font-size: 16px; color: var(--ink); }
+.v-ayuda .esc small { display: block; color: var(--muted); margin: 4px 0 12px; }
+.v-ayuda .esc a.bt { display: inline-flex; align-items: center; gap: 8px; padding: 11px 26px; border-radius: 14px; background: #1B2B5B; color: #fff; font-weight: 800; text-decoration: none; }
+.v-ayuda .esc .ml { display: block; margin-top: 8px; color: var(--muted); font-size: 13px; }
+html[data-tema="oscuro"] .v-ayuda details p { color: #C9D1EA; }
+html[data-tema="oscuro"] .v-ayuda summary .q { background: #1C2A52; color: #DDE3F7; }
 .ucsw .swb { flex: none; display: inline-flex; align-items: center; gap: 8px; border: 0; background: none; font-weight: 600; color: var(--muted); padding: 0; }
 .ucsw .swb i { width: 42px; height: 24px; border-radius: 999px; background: #C9CEDF; position: relative; transition: background .15s; }
 .ucsw .swb i::after { content: ''; position: absolute; left: 3px; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: left .15s; }
@@ -1069,10 +1116,26 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 <h3>Gestionar</h3>
 <button class="rb" type="button" data-go="form:registros"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="t">Editar o eliminar</span></button><button class="rb" type="button" data-go="impuestos"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"/><path d="M17 6.5c0-2-2.2-3.5-5-3.5s-5 1.5-5 3.5 2 3 5 3.5 5 1.5 5 3.5-2.2 3.5-5 3.5-5-1.5-5-3.5"/></svg><span class="t">Impuestos (HMRC)</span></button>
 <button class="rb" type="button" data-go="form:ajustes"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg><span class="t">Ajustes</span></button>
+<button class="rb" type="button" data-go="ayuda"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="t">Ayuda</span></button>
 <div class="grow"></div>
 <div class="ver" id="sh-ver"></div>
   </aside>
   <main id="vista"></main>
+<template id="tpl-ayuda">
+<div class="v-ayuda"><div class="ay">
+  <h1>Ayuda</h1>
+  <p class="lead">Las preguntas más comunes. Pulsa una para ver la respuesta.</p>
+  <details><summary><span class="q">1</span>¿Dónde se guardan mis datos?</summary><p>En tu propio Google Drive, en una hoja llamada «PuntoBalance». Odlare no ve tus datos ni los guarda en ningún servidor. Las facturas en PDF van a una carpeta de tu Drive.</p></details>
+  <details><summary><span class="q">2</span>¿Cómo hago mi primera factura?</summary><p>Primero rellena tu negocio en Ajustes › Mis negocios (dirección y banco) y añade el cliente. Luego ve a «Nuevo ingreso», rellena y pulsa Guardar. En «Facturas y PDF» pulsa «PDF» para crearla o «Enviar» para mandarla al cliente.</p></details>
+  <details><summary><span class="q">3</span>¿Qué es el periodo y cómo lo cambio?</summary><p>Es el mes en el que se juntan tus ingresos y gastos. Puede ir del 1 al último día del mes o, por ejemplo, del 7 al 6 (como Universal Credit). Lo cambias en Ajustes › General › «Día en que empieza tu periodo».</p></details>
+  <details><summary><span class="q">4</span>¿Tengo que usar Universal Credit?</summary><p>No. Si no declaras a Universal Credit, déjalo apagado en Ajustes › General y la app no te habla de UC. Si lo usas, actívalo: verás el resumen para UC y podrás marcar cada periodo como procesado.</p></details>
+  <details><summary><span class="q">5</span>¿Cómo corrijo o borro un ingreso o un gasto?</summary><p>En «Movimientos», haz doble clic en la fila (en tablet, tócala) y elige Editar o Eliminar. También puedes usar «Editar o eliminar» en el menú.</p></details>
+  <details><summary><span class="q">6</span>¿Puedo usarla en la computadora, la tablet y el celular?</summary><p>Sí. Instálala en cada aparato desde odlare.uk/puntobalance y entra con la misma cuenta de Google. Verás los mismos datos en todos.</p></details>
+  <details><summary><span class="q">7</span>¿Qué pasa cuando termina la prueba gratis?</summary><p>Puedes seguir viendo y exportando tus datos, pero para apuntar, editar y hacer facturas necesitas Premium. Se paga por transferencia bancaria y en menos de 24 horas te llega tu código por correo. Lo ves en «Premium».</p></details>
+  <details><summary><span class="q">8</span>¿El impuesto que sale es exacto?</summary><p>Es una estimación para que te orientes, no asesoría de impuestos. Antes de presentar tu declaración, confírmalo con el HMRC o con un contable.</p></details>
+  <div class="esc"><b>¿No encuentras tu respuesta?</b><small>Escríbenos y te contestamos lo antes posible.</small><a class="bt" href="https://odlare.uk/ayuda.html#escribenos" target="_blank" rel="noopener">✉️ Escríbenos</a><span class="ml">info@odlare.uk</span></div>
+</div></div>
+</template>
 <template id="tpl-acerca">
 <div class="v-acerca">
   <div class="ac-top">
@@ -1107,6 +1170,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
   <h1 id="ini-hola">Hola 👋</h1>
   <p class="lead" id="ini-fecha"></p>
   <div id="aviso-cierre"></div>
+  <div id="pasos" class="pasos hidden"></div>
   <div class="estado" id="ini-est">
     <div class="card"><span class="ic" style="background:#E0E7FF">📅</span><div><small>Faltan para cerrar el periodo</small><b id="e-dias">…</b></div></div>
     <div class="card"><span class="ic" style="background:#FFEDD5">⏳</span><div><small>Pendiente de cobro</small><b id="e-pend">…</b></div></div>
@@ -1122,7 +1186,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
   <div class="list uc-sec"><button class="row" type="button" id="b-resumen"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><span class="tx"><b>Enviarme el resumen</b><small>Resumen del periodo UC a tu correo</small></span></button><button class="row" type="button" data-go="panel"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><span class="tx"><b>Marcar periodo procesado</b><small>Cuando ya lo subiste a UC (en Facturas y PDF)</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" id="b-rev"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span class="tx"><b>Revisar datos</b><small>Busca posibles errores</small></span><span class="pill" id="n-rev">…</span></button><button class="row" type="button" id="b-rec"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span><span class="tx"><b>Recordatorio</b><small><span id="d-rec">…</span></small></span><span class="sw"></span></button></div>
   <div id="h-msg" role="status" aria-live="polite"></div>
   <h2>Añadir</h2>
-  <div class="list"><button class="row" type="button" data-go="form:ingreso"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><span class="tx"><b>Nuevo ingreso</b><small>Una factura, evento o venta</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:gasto"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span><span class="tx"><b>Nuevo gasto</b><small>Compras, transporte, equipo</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:cliente"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="tx"><b>Nuevo cliente</b><small>Con dirección y email</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:proveedor"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span><span class="tx"><b>Nuevo proveedor</b><small>Para tus gastos</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:categoria"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span><span class="tx"><b>Nueva categoría</b><small>Gastos de UC</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:periodos"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="tx"><b>Añadir periodos</b><small>Del 7 al 6</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button></div>
+  <div class="list"><button class="row" type="button" data-go="form:ingreso"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><span class="tx"><b>Nuevo ingreso</b><small>Una factura, evento o venta</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:gasto"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span><span class="tx"><b>Nuevo gasto</b><small>Compras, transporte, equipo</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:cliente"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="tx"><b>Nuevo cliente</b><small>Con dirección y email</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:proveedor"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span><span class="tx"><b>Nuevo proveedor</b><small>Para tus gastos</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:categoria"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span><span class="tx"><b>Nueva categoría</b><small>Para ordenar tus gastos</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:periodos"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="tx"><b>Añadir periodos</b><small id="ini-rango">…</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button></div>
   <h2>Gestionar</h2>
   <div class="list"><button class="row" type="button" data-go="form:registros"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span><span class="tx"><b>Editar o eliminar</b><small>Corrige un ingreso o gasto</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:ajustes"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span><span class="tx"><b>Ajustes</b><small>Tus datos, banco y notas</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button></div>
   <div id="rev"><div class="card"><h3><span>Revisión de datos</span><button class="x" id="rev-x" type="button" aria-label="Cerrar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></h3><div id="rev-b"></div></div></div>
@@ -1131,7 +1195,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 <template id="tpl-panel">
 <div class="v-panel">
   <div class="phead">
-    <div><h1>Facturas y PDF</h1><p class="lead">Crea el PDF, envíalo al cliente y revisa las cifras de Universal Credit.</p></div>
+    <div><h1>Facturas y PDF</h1><p class="lead" id="pn-lead">Crea el PDF, envíalo al cliente y marca las que ya te pagaron.</p></div>
     <div class="pfil"><label for="periodo">Periodo<span class="uc-t"> UC</span></label><select id="periodo" aria-label="Periodo UC"></select></div>
   </div>
   <div id="app"><div class="loading">Cargando datos…</div></div>
@@ -1175,11 +1239,12 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
       <div class="c2"><label for="i-desc">Descripción</label><input id="i-desc" placeholder="Si lo dejas vacío: DJ SERVICES"></div>
       <div><label for="i-evento" id="l-evento">Fecha del evento</label><input id="i-evento" type="date"></div>
       <div><label for="i-factura">Fecha de factura</label><input id="i-factura" type="date"></div>
-      <div><label for="i-unidad">Unidad</label><select id="i-unidad"><option value="Unit" id="o-unit">Unit (por evento)</option><option value="Hour">Hour (por hora)</option></select></div>
+      <div><label for="i-unidad">Unidad</label><select id="i-unidad"><option value="Unit" id="o-unit">Por evento</option><option value="Hour">Por hora</option></select></div>
       <div><label for="i-precio">Precio (£)</label><input id="i-precio" type="number" min="0" step="0.01" inputmode="decimal"></div>
       <div><label for="i-cant">Cantidad</label><input id="i-cant" type="number" min="0" step="0.01" value="1" inputmode="decimal"></div>
-      <div><label for="i-pago">Forma de pago</label><select id="i-pago"><option>CASH</option><option>TRANSFER</option><option>CASH / TRANSFER</option></select></div>
-      <div class="c2"><label for="i-estado">Estado</label><select id="i-estado"><option value="PENDING">PENDING (sin cobrar)</option><option value="PAID">PAID (cobrada)</option><option value="CANCELLED">CANCELLED (cancelada, no suma)</option></select></div>
+      <div><label for="i-pago">Forma de pago</label><select id="i-pago"><option value="CASH">Efectivo</option><option value="TRANSFER">Transferencia</option><option value="CASH / TRANSFER">Efectivo y transferencia</option><option value="CARD">Tarjeta</option></select></div>
+      <div><label for="i-cuenta">Cuenta (opcional)</label><input id="i-cuenta" maxlength="40" placeholder="Ej. Monzo" autocomplete="off"></div>
+      <div><label for="i-estado">Estado</label><select id="i-estado"><option value="PENDING">Sin cobrar</option><option value="PAID">Cobrada</option><option value="CANCELLED">Cancelada (no suma)</option></select></div>
     </div>
     <aside class="resumen" aria-label="Resumen del ingreso"><h3>Resumen</h3><div class="rr"><span>Factura</span><b id="i-r-num"></b></div><div class="rr"><span>Periodo<span class="uc-t"> UC</span></span><b id="i-r-per"></b></div><div class="rr" id="i-r-negw"><span>Negocio</span><b id="i-r-neg"></b></div><div class="rt"><span>Total</span><b id="i-prev-tot">£0.00</b></div><button class="btn primary rg" id="i-rg" type="button">Guardar ingreso</button><button class="btn rl" id="i-rl" type="button">Limpiar</button><div class="rmsg" id="i-msg" role="status" aria-live="polite"></div></aside>
     <div id="i-tax" class="taxline hidden" aria-live="polite"></div>
@@ -1203,15 +1268,17 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
         <div class="hint">Se añadirá a tu lista de proveedores al guardar.</div>
       </div>
       <div class="c2"><label for="g-desc">Descripción</label><input id="g-desc" placeholder="Qué compraste o pagaste"></div>
-      <div class="c2"><label for="g-cat">Categoría UC</label><select id="g-cat"></select><button class="link" type="button" data-ir="categoria">¿Categoría nueva? Añádela primero</button></div>
-      <div><label for="g-unidad">Unidad</label><select id="g-unidad"><option value="UNIT">UNIT</option><option value="MILLAS">MILLAS</option></select></div>
+      <div class="c2"><label for="g-cat">Categoría<span class="uc-t"> UC</span></label><select id="g-cat"></select><button class="link" type="button" data-ir="categoria">¿Categoría nueva? Añádela primero</button></div>
+      <div><label for="g-unidad">Unidad</label><select id="g-unidad"><option value="UNIT">Unidad</option><option value="MILLAS">Millas</option></select></div>
       <div><label for="g-cant">Cantidad</label><input id="g-cant" type="number" min="0" step="0.01" value="1" inputmode="decimal"></div>
       <div>
         <label for="g-precio">Precio (£)</label>
         <input id="g-precio" type="number" min="0" step="0.01" inputmode="decimal">
-        <div class="hint" id="g-hint">Con MILLAS: £0.45 por milla.</div>
+        <div class="hint" id="g-hint">Con Millas: £0.45 por milla.</div>
       </div>
-      <div class="c3"><label for="g-notas">Notas (opcional)</label><input id="g-notas" placeholder="Lo que quieras recordar de este gasto"></div>
+      <div><label for="g-pago">Forma de pago</label><select id="g-pago"><option value="CARD">Tarjeta</option><option value="TRANSFER">Transferencia</option><option value="CASH">Efectivo</option></select></div>
+      <div><label for="g-cuenta">Cuenta (opcional)</label><input id="g-cuenta" maxlength="40" placeholder="Ej. Monzo" autocomplete="off"></div>
+      <div><label for="g-notas">Notas (opcional)</label><input id="g-notas" placeholder="Para recordar"></div>
     </div>
     <aside class="resumen" aria-label="Resumen del gasto"><h3>Resumen</h3><div class="rr"><span>Gasto nº</span><b id="g-r-num"></b></div><div class="rr"><span>Periodo<span class="uc-t"> UC</span></span><b id="g-r-per"></b></div><div class="rr" id="g-r-negw"><span>Negocio</span><b id="g-r-neg"></b></div><div class="rt"><span>Total</span><b id="g-prev-tot">£0.00</b></div><button class="btn primary rg" id="g-rg" type="button">Guardar gasto</button><button class="btn rl" id="g-rl" type="button">Limpiar</button><div class="rmsg" id="g-msg" role="status" aria-live="polite"></div></aside>
     </div>
@@ -1267,13 +1334,13 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 
   <!-- PERIODOS -->
   <section id="t-periodos">
-    <h2>Añadir periodos UC</h2>
+    <h2>Añadir periodos<span class="uc-t"> UC</span></h2>
     <div class="grid">
       <div class="full"><div class="preview" style="margin-top:0"><div><span>Último periodo cargado</span><br><b id="pe-ultimo" style="font-size:15px">–</b></div><span id="pe-cupo"></span></div></div>
       <div class="full">
         <label for="pe-n">¿Cuántos periodos más?</label>
         <input id="pe-n" type="number" min="1" max="36" step="1" value="12" inputmode="numeric">
-        <div class="hint">Cada periodo va del 7 de un mes al 6 del siguiente. Se añaden a continuación del último.</div>
+        <div class="hint"><span id="pe-hint">Cada periodo va del 7 de un mes al 6 del siguiente.</span> Se añaden a continuación del último. El día se cambia en Ajustes › General.</div>
       </div>
     </div>
   </section>
@@ -1310,6 +1377,7 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
     <div class="ajp hidden" data-p="general">
       <div class="apar"><b>General</b><p>Lo que es igual para todos tus negocios. Los datos de cada factura (dirección, banco, correo…) están en «Mis negocios».</p>
       <div class="ucsw"><div><b>Uso Universal Credit</b><p>Actívalo solo si declaras a Universal Credit. Así salen el resumen para UC, la columna «Procesado UC» y el aviso antes de cerrar el periodo.</p></div><button type="button" class="swb" id="aj-uc-b" role="switch" aria-checked="false"><i></i><span id="aj-uc-t">…</span></button></div>
+      <div class="ucsw"><div><b>Día en que empieza tu periodo</b><p id="aj-dia-p">Cargando…</p></div><div class="diasel"><select id="aj-dia" aria-label="Día en que empieza el periodo"></select><button type="button" class="btn" id="aj-dia-b">Cambiar</button></div></div>
       <div class="grid" id="aj-lista"><div class="full hint">Cargando…</div></div></div>
     </div>
   </section>
@@ -1377,16 +1445,31 @@ html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; c
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha31',fecha:'6 nov 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha32',fecha:'12 nov 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
+/* 5.0.0-alpha32: lo que se ve en pantalla va en español (la hoja y el PDF siguen en inglés) */
+const PB_ES = { PAID: 'Cobrada', PENDING: 'Sin cobrar', CANCELLED: 'Cancelada', CASH: 'Efectivo', TRANSFER: 'Transferencia', 'CASH / TRANSFER': 'Efectivo y transferencia', CARD: 'Tarjeta', Hour: 'Por hora', UNIT: 'Unidad', MILLAS: 'Millas' };
+const PB_UNIT = { dj: 'Por evento', productos: 'Por pieza', servicios: 'Por servicio' };
+function pbEs(v) { const k = String(v == null ? '' : v).trim(); return Object.prototype.hasOwnProperty.call(PB_ES, k) ? PB_ES[k] : k; }
+function pbUnidad(u, negId) {
+  if (String(u).trim() !== 'Unit') return pbEs(u);
+  const n = window.SHELL && window.SHELL.negInfo && (window.SHELL.negInfo(negId) || (window.SHELL.negocios() || [])[0]);
+  return PB_UNIT[(n && n.tipo) || 'dj'] || 'Por unidad';
+}
+function pbPago(p, cuenta) { const a = pbEs(p), b = String(cuenta || '').trim(); return a && b ? a + ' · ' + b : a || b || '—'; }
+function pbRango(dia, corto) {
+  dia = Number(dia) || 1;
+  if (dia === 1) return corto ? 'Meses completos' : 'Cada periodo es un mes completo (del 1 al último día).';
+  return corto ? 'Del ' + dia + ' al ' + (dia - 1) : 'Cada periodo va del ' + dia + ' de un mes al ' + (dia - 1) + ' del siguiente.';
+}
 
 /* ===================== 5.0.0-alpha27: MOVIMIENTOS ===================== */
 function init_movimientos(ROOT, P, S) {
   const $ = (id) => ROOT.querySelector('#' + id);
   const esc = (t) => String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const gbp = (n) => (n < 0 ? '-' : '') + '£' + Math.abs(Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const fd = (s) => (s ? s.slice(8, 10) + '/' + s.slice(5, 7) + '/' + s.slice(2, 4) : '');
+  const fd = (s) => (s ? s.slice(8, 10) + '/' + s.slice(5, 7) + '/' + s.slice(0, 4) : '');
   const F = { t: 'todo', per: '', cat: '', desde: '', hasta: '', q: '', porCat: false, mas: 60, perAuto: true };
   let confUC = false;
   const tactil = () => !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
@@ -1395,8 +1478,8 @@ function init_movimientos(ROOT, P, S) {
   function msg(t, tipo) { const m = $('mv-msg'); if (m) { m.textContent = t || ''; m.className = 'mv-msg ' + (tipo || ''); } }
 
   const conv = (r, t) => t === 'i'
-    ? { t: 'i', id: r.id, num: r.num || r.id, fecha: r.fecha, quien: r.cliente, desc: r.desc, cat: '', estado: r.estado, cant: r.cantidad, precio: r.precio, total: r.total, periodo: r.periodo, proc: r.procesado, notas: '', neg: r.negocio, pago: r.pago, unidad: r.unidad }
-    : { t: 'g', id: r.id, num: r.num || r.id, fecha: r.fecha, quien: r.prov, desc: r.desc, cat: r.cat, estado: '', cant: r.cantidad, precio: r.precio, total: r.total, periodo: r.periodo, proc: r.procesado, notas: r.notas, neg: r.negocio, pago: '', unidad: r.unidad };
+    ? { t: 'i', id: r.id, num: r.num || r.id, fecha: r.fecha, quien: r.cliente, desc: r.desc, cat: '', estado: r.estado, cant: r.cantidad, precio: r.precio, total: r.total, periodo: r.periodo, proc: r.procesado, notas: '', neg: r.negocio, pago: r.pago, cuenta: r.cuenta, unidad: r.unidad }
+    : { t: 'g', id: r.id, num: r.num || r.id, fecha: r.fecha, quien: r.prov, desc: r.desc, cat: r.cat, estado: '', cant: r.cantidad, precio: r.precio, total: r.total, periodo: r.periodo, proc: r.procesado, notas: r.notas, neg: r.negocio, pago: r.pago, cuenta: r.cuenta, unidad: r.unidad };
 
   const L = {}; let pend = 2;
   function llego() {
@@ -1468,13 +1551,13 @@ function init_movimientos(ROOT, P, S) {
     // tabla
     const negCol = S.negocios && S.negocios().length > 1 && !(S.negocio && S.negocio());
     const tipo = (r) => '<i class="tp ' + (r.t === 'i' ? 'ti' : 'tg') + '">' + (r.t === 'i' ? 'Ingreso' : 'Gasto') + '</i>';
-    const est = (r) => (r.t === 'i' ? '<i class="es ' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + (r.estado === 'PAID' ? 'Cobrado' : 'Pendiente') + '</i>' : '');
+    const est = (r) => (r.t === 'i' ? '<i class="es ' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + pbEs(r.estado === 'PAID' ? 'PAID' : 'PENDING') + '</i>' : '');
     const tot = (r) => '<b class="' + (r.t === 'i' ? 'g' : 'r') + '">' + (r.t === 'i' ? '+' : '−') + gbp(r.total) + '</b>';
     const sino = (v) => (/^s[ií]$/i.test(String(v)) ? 'SÍ' : 'NO');
     const raya = (x) => (x === '' || x == null ? '<span class="mu">—</span>' : esc(x));
     const C = [['Nº', (r) => esc(r.num)], ['Tipo', tipo], ['Fecha', (r) => fd(r.fecha)], ['Cliente / proveedor', (r) => esc(r.quien), 'x'], ['Descripción', (r) => esc(r.desc), 'x w'],
-      ['Categoría / estado', (r) => (r.t === 'g' ? raya(r.cat) : est(r))], ['Unidad', (r) => raya(r.unidad)], ['Cant.', (r) => esc(r.cant), 'n'], ['Precio', (r) => gbp(r.precio), 'n'],
-      ['Total', tot, 'n'], ['Pago', (r) => raya(r.pago)], [uc() ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)]];
+      ['Categoría / estado', (r) => (r.t === 'g' ? raya(r.cat) : est(r))], ['Unidad', (r) => raya(pbUnidad(r.unidad, r.neg))], ['Cant.', (r) => esc(r.cant), 'n'], ['Precio', (r) => gbp(r.precio), 'n'],
+      ['Total', tot, 'n'], ['Pago', (r) => raya(pbPago(r.pago, r.cuenta))], [uc() ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)]];
     if (uc()) C.push(['Procesado UC', (r) => sino(r.proc)]);
     if (negCol) C.push(['Negocio', (r) => S.pill(r.neg)]);
     C.push(['Notas', (r) => (r.notas ? esc(r.notas) : '<span class="mu">—</span>'), 'x']);
@@ -1506,7 +1589,7 @@ function init_movimientos(ROOT, P, S) {
   function copiar() {
     const l = filtrar();
     const cab = ['Fecha', 'Tipo', 'Nº', 'Cliente / proveedor', 'Descripción', 'Categoría', 'Estado', 'Cantidad', 'Precio', 'Total', 'Periodo'].concat(uc() ? ['Procesado UC'] : [], ['Notas']);
-    const filas = l.map((r) => [fd(r.fecha), r.t === 'i' ? 'Ingreso' : 'Gasto', r.num, r.quien, r.desc, r.cat, r.t === 'i' ? (r.estado === 'PAID' ? 'Cobrado' : 'Pendiente') : '', r.cant, Number(r.precio).toFixed(2),
+    const filas = l.map((r) => [fd(r.fecha), r.t === 'i' ? 'Ingreso' : 'Gasto', r.num, r.quien, r.desc, r.cat, r.t === 'i' ? pbEs(r.estado === 'PAID' ? 'PAID' : 'PENDING') : '', r.cant, Number(r.precio).toFixed(2),
       (r.t === 'i' ? '' : '-') + Number(r.total).toFixed(2), r.periodo].concat(uc() ? [r.proc || 'NO'] : [], [r.notas]).map((x) => String(x == null ? '' : x).replace(/[\t\n]/g, ' ')).join('\t'));
     const txt = [cab.join('\t')].concat(filas).join('\n');
     const fb = () => { const a = document.createElement('textarea'); a.value = txt; a.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch (e) { } a.remove(); };
@@ -1585,7 +1668,7 @@ function init_inicio(ROOT, P, S) {
   const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   function msg(t, tipo) { const m = $('h-msg'); if (!m) return; m.textContent = t; m.className = tipo || ''; }
   let REC = false;
-  function pintarRec() { const b = $('b-rec'); if (!b) return; b.classList.toggle('on', REC); $('d-rec').textContent = REC ? 'Activado: el día 7 recibes el resumen por email.' : 'Desactivado.'; }
+  function pintarRec() { const b = $('b-rec'); if (!b) return; b.classList.toggle('on', REC); $('d-rec').textContent = REC ? 'Activado: al cerrar cada periodo recibes el resumen por email.' : 'Desactivado.'; }
 
   /* 5.0.0-alpha20: tarjeta HMRC */
   const MESC = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
@@ -1630,7 +1713,26 @@ function init_inicio(ROOT, P, S) {
     if (d.hmrc) pintarHmrc(d.hmrc);
     S.avisoCierre($('aviso-cierre'), d);
     ROOT.querySelectorAll('.uc-sec').forEach((x) => x.classList.toggle('hidden', !S.usaUC()));
+    if ($('ini-rango')) $('ini-rango').textContent = pbRango(d.diaPeriodo, true);
+    pintarPasos(d.pasos);
   });
+  /* 5.0.0-alpha32: «Primeros pasos» para quien empieza (se oculta solo al terminar o con «Ocultar») */
+  function pintarPasos(p) {
+    const box = $('pasos'); if (!box || !p) return;
+    let off = ''; try { off = localStorage.getItem('pb_pasos_off') || ''; } catch (e) { }
+    const L = [['negocio', 'Rellena tu negocio', 'Nombre, dirección y banco para la factura', 'form:ajustes'],
+      ['cliente', 'Añade tu primer cliente', 'A quién le haces la factura', 'form:cliente'],
+      ['ingreso', 'Apunta tu primer ingreso', 'Con eso ya sale tu factura en PDF', 'form:ingreso'],
+      ['gasto', 'Apunta tu primer gasto', 'Lo que pagas para tu negocio', 'form:gasto']];
+    const hechos = L.filter((x) => p[x[0]]).length;
+    if (off === '1' || hechos === L.length) { box.classList.add('hidden'); return; }
+    box.innerHTML = '<div class="ps-h"><div><b>🚀 Primeros pasos</b><small>' + hechos + ' de ' + L.length + ' hechos · así tienes todo listo para tu primera factura</small>' +
+      '<div class="ps-bar"><i style="width:' + Math.round(hechos / L.length * 100) + '%"></i></div></div><button type="button" class="ps-x" id="ps-x">Ocultar</button></div>' +
+      '<div class="ps-l">' + L.map((x, i) => '<button type="button" class="ps-i' + (p[x[0]] ? ' ok' : '') + '" data-ps="' + x[3] + '"><span class="n">' + (p[x[0]] ? '✓' : i + 1) + '</span><span><b>' + x[1] + '</b><small>' + (p[x[0]] ? 'Hecho' : x[2]) + '</small></span></button>').join('') + '</div>';
+    box.classList.remove('hidden');
+    box.querySelectorAll('[data-ps]').forEach((b) => (b.onclick = () => { if (!b.classList.contains('ok')) S.ir(b.dataset.ps); }));
+    $('ps-x').onclick = () => { try { localStorage.setItem('pb_pasos_off', '1'); } catch (e) { } box.classList.add('hidden'); };
+  }
   if (window.pbDatos && window.pbDatos.ultimaCopia) {
     window.pbDatos.ultimaCopia().then((ms) => {
       if (ms === null) { $('e-copia').textContent = 'modo de ejemplo'; return; }
@@ -1703,22 +1805,24 @@ function init_panel(ROOT, P, S) {
     const nAv = d.avisos.length;
     $('#app').innerHTML =
       '<div class="tiles">' +
-        tile(d.actual === 'TODOS' ? 'Ingresos totales' : 'Ingresos', gbp(r.ingresos), r.nIngresos + ' facturas', 't-ing', r.ingresos) +
-        tile(d.actual === 'TODOS' ? 'Gastos totales' : 'Gastos', gbp(r.gastos), r.nGastos + ' gastos', 't-gas', r.gastos) +
-        tile('Ganancia', gbp(r.ganancia), r.ingresos ? Math.round(r.ganancia / r.ingresos * 100) + '% de los ingresos' : '', r.ganancia < 0 ? 't-gas' : 't-gan', r.ganancia) +
-        tile('Pendiente de cobro', gbp(r.pendiente), '', 't-pen', r.pendiente) +
+        tile(d.actual === 'TODOS' ? 'Ingresos totales' : 'Ingresos · ' + esc(d.actual), gbp(r.ingresos), r.nIngresos + (r.nIngresos === 1 ? ' factura' : ' facturas'), 't-ing', r.ingresos) +
+        tile(d.actual === 'TODOS' ? 'Gastos totales' : 'Gastos · ' + esc(d.actual), gbp(r.gastos), r.nGastos + (r.nGastos === 1 ? ' gasto' : ' gastos'), 't-gas', r.gastos) +
+        tile(d.actual === 'TODOS' ? 'Ganancia total' : 'Ganancia · ' + esc(d.actual), gbp(r.ganancia), r.ingresos ? Math.round(r.ganancia / r.ingresos * 100) + '% de los ingresos' : '', r.ganancia < 0 ? 't-gas' : 't-gan', r.ganancia) +
+        tile('Pendiente de cobro', gbp(r.pendiente), 'de todos los periodos', 't-pen', r.pendiente) +
       '</div>' +
       '<nav role="tablist">' +
         tab('facturas', 'Facturas') + tab('gastos', 'Gastos por categoría') +
         tab('avisos', 'Revisión' + (nAv ? '<span class="count">' + nAv + '</span>' : '')) +
       '</nav>' +
       '<div class="card" id="contenido"></div>' +
-      '<div class="foot"><span>El envío a Universal Credit lo haces tú; aquí tienes las cifras listas.</span>' +
-      '<button class="btn" id="procesar">Marcar este periodo como procesado en UC</button></div>';
+      (S.usaUC && S.usaUC() ? '<div class="foot"><span>El envío a Universal Credit lo haces tú; aquí tienes las cifras listas.</span>' +
+      '<button class="btn" id="procesar">Marcar este periodo como procesado en UC</button></div>' : '');
 
     document.querySelectorAll('nav button').forEach((b) => (b.onclick = () => { TAB = b.dataset.tab; pintar(); }));
-    $('#procesar').onclick = marcarProcesado;
-    if (d.actual === 'TODOS') { $('#procesar').disabled = true; $('#procesar').title = 'Elige un periodo concreto'; }
+    if ($('#procesar')) {
+      $('#procesar').onclick = marcarProcesado;
+      if (d.actual === 'TODOS') { $('#procesar').disabled = true; $('#procesar').title = 'Elige un periodo concreto'; }
+    }
     $('#contenido').innerHTML = TAB === 'facturas' ? vistaFacturas() : TAB === 'gastos' ? vistaGastos() : vistaAvisos();
     document.querySelectorAll('[data-paid]').forEach((b) => (b.onclick = () => {
       b.disabled = true;
@@ -1733,22 +1837,33 @@ function init_panel(ROOT, P, S) {
   const tab = (id, t) => '<button role="tab" data-tab="' + id + '" aria-selected="' + (TAB === id) + '">' + t + '</button>';
 
   function vistaFacturas() {
-    if (!DATA.facturas.length) return '<div class="empty">Todavía no hay facturas. Añade la primera en la hoja Ingresos.</div>';
-    return '<div class="scroll"><table><thead><tr><th>Nº</th><th>Cliente</th><th>Fecha</th><th class="r">Total</th><th>Estado</th><th></th></tr></thead><tbody>' +
-      DATA.facturas.map((f) =>
-        '<tr><td><b>' + esc(f.num || f.id) + '</b>' + ((S.negocios && S.negocios().length > 1 && !(S.negocio && S.negocio())) ? '<br>' + S.pill(f.negocio) : '') + '</td><td>' + esc(f.cliente) + '</td><td>' + esc(f.evento) + '</td><td class="r">' + gbp(f.total) + '</td>' +
-        '<td><span class="pill ' + esc(f.estado) + '">' + esc(f.estado) + '</span></td>' +
+    if (!DATA.facturas.length) return '<div class="empty">Todavía no hay facturas. Añade la primera en «Nuevo ingreso».</div>';
+    // 5.0.0-alpha32: todas las facturas (Wilber las quiere ver todas), separadas en las de este periodo y las demás
+    const per = DATA.actual, todos = per === 'TODOS', orden = DATA.periodos.indexOf(per);
+    const deEste = todos ? DATA.facturas : DATA.facturas.filter((f) => f.periodo === per);
+    const otras = todos ? [] : DATA.facturas.filter((f) => f.periodo !== per);
+    const despues = otras.some((f) => DATA.periodos.indexOf(f.periodo) > orden);
+    const grp = (t, n) => '<tr class="grp"><td colspan="7">' + t + '<small>' + n + (n === 1 ? ' factura' : ' facturas') + '</small></td></tr>';
+    return '<div class="scroll"><table><thead><tr><th>Nº</th><th>Cliente</th><th>Fecha</th><th>Periodo</th><th class="r">Total</th><th>Estado</th><th></th></tr></thead><tbody>' +
+      (todos ? '' : grp('Este periodo · ' + esc(per), deEste.length)) +
+      (deEste.length ? deEste.map(filaFactura).join('') : '<tr><td colspan="7" class="empty" style="padding:14px">Este periodo todavía no tiene facturas.</td></tr>') +
+      (otras.length ? grp(despues ? 'Otros periodos' : 'Periodos anteriores', otras.length) + otras.map(filaFactura).join('') : '') +
+      '</tbody></table></div>';
+  }
+  function filaFactura(f) {
+    return (
+        '<tr><td><b>' + esc(f.num || f.id) + '</b>' + ((S.negocios && S.negocios().length > 1 && !(S.negocio && S.negocio())) ? '<br>' + S.pill(f.negocio) : '') + '</td><td>' + esc(f.cliente) + '</td><td style="white-space:nowrap">' + esc(f.evento) + '</td><td style="white-space:nowrap">' + esc(f.periodo || '—') + '</td><td class="r">' + gbp(f.total) + '</td>' +
+        '<td><span class="pill ' + esc(f.estado) + '">' + esc(pbEs(f.estado)) + '</span></td>' +
         '<td>' + (f.estado === 'CANCELLED'
           ? '<div class="actions" style="color:var(--muted);font-size:12px">Cancelada · no suma</div>'
           : '<div class="actions">' + (f.estado === 'PENDING' ? '<button class="btn" data-paid="' + f.id + '" data-num="' + esc(f.num || f.id) + '">Marcar pagada</button>' : '') +
-            '<button class="btn" data-pdf="' + f.id + '" data-num="' + esc(f.num || f.id) + '" title="Crear el PDF de la factura">PDF</button><button class="btn primary" data-mail="' + f.id + '" data-num="' + esc(f.num || f.id) + '" title="Enviar la factura al cliente por email">Enviar</button></div>') + '</td></tr>'
-      ).join('') + '</tbody></table></div>';
+            '<button class="btn" data-pdf="' + f.id + '" data-num="' + esc(f.num || f.id) + '" title="Crear el PDF de la factura">PDF</button><button class="btn primary" data-mail="' + f.id + '" data-num="' + esc(f.num || f.id) + '" title="Enviar la factura al cliente por email">Enviar</button></div>') + '</td></tr>');
   }
 
   function vistaGastos() {
     const cats = DATA.categorias, tot = cats.reduce((t, c) => t + c.importe, 0);
     if (!cats.length) return '<div class="empty">Este periodo no tiene gastos.</div>';
-    return '<table><thead><tr><th>Categoría UC</th><th>Peso</th><th class="r">Importe</th></tr></thead><tbody>' +
+    return '<table><thead><tr><th>Categoría<span class="uc-t"> UC</span></th><th>Peso</th><th class="r">Importe</th></tr></thead><tbody>' +
       cats.map((c) => '<tr><td>' + esc(c.nombre) + '</td><td><div class="bar"><i style="width:' + (tot ? Math.round(c.importe / tot * 100) : 0) + '%"></i></div></td><td class="r">' + gbp(c.importe) + '</td></tr>').join('') +
       '<tr><td><b>Total</b></td><td></td><td class="r"><b>' + gbp(tot) + '</b></td></tr></tbody></table>';
   }
@@ -1849,6 +1964,7 @@ function init_form(ROOT, P, S) {
     $('k-cupo').textContent = 'Categorías usadas: ' + D.nCategorias + ' de ' + D.catMax + '.';
     $('pe-ultimo').textContent = D.ultimoPeriodo || '–';
     $('pe-cupo').textContent = 'Hay ' + D.nPeriodos + ' de ' + D.perMax + ' periodos';
+    $('pe-hint').textContent = pbRango(D.periodos.length ? Number(D.periodos[0].ini.slice(8, 10)) : 1);
     aplicarNegocio(D.negocio);
     ['ingreso', 'gasto'].forEach((t) => { if (!NF[t] || !negF(NF[t])) NF[t] = negDefecto(); pintarNegCh(t); });
     previews();
@@ -1939,7 +2055,7 @@ function init_form(ROOT, P, S) {
     if (VOLVER && tab !== VOLVER.a) VOLVER = null;
     pintarVolver();
     TAB = tab; msg('');
-    const T = { ingreso: ['Nuevo ingreso', 'Registra una factura, evento o venta.'], gasto: ['Nuevo gasto', 'Compras, transporte, equipo y más.'], registros: ['Editar o eliminar', 'Corrige o borra un ingreso o gasto.'], cliente: ['Clientes', 'Añade un cliente nuevo o pulsa uno de tu lista para corregir sus datos.'], proveedor: ['Proveedores', 'Añade un proveedor nuevo.'], categoria: ['Categorías', 'Categorías de gastos para Universal Credit.'], periodos: ['Periodos UC', 'Del 7 de un mes al 6 del siguiente.'], ajustes: ['Ajustes', 'Cada cosa en su sitio: tus negocios, la apariencia y lo general.'] }[tab] || ['Añadir datos', ''];
+    const T = { ingreso: ['Nuevo ingreso', 'Registra una factura, evento o venta.'], gasto: ['Nuevo gasto', 'Compras, transporte, equipo y más.'], registros: ['Editar o eliminar', 'Corrige o borra un ingreso o gasto.'], cliente: ['Clientes', 'Añade un cliente nuevo o pulsa uno de tu lista para corregir sus datos.'], proveedor: ['Proveedores', 'Añade un proveedor nuevo.'], categoria: ['Categorías', S.usaUC && S.usaUC() ? 'Categorías de gastos para Universal Credit.' : 'Categorías para ordenar tus gastos.'], periodos: [S.usaUC && S.usaUC() ? 'Periodos UC' : 'Periodos', D && D.periodos.length ? pbRango(Number(D.periodos[0].ini.slice(8, 10))) : ''], ajustes: ['Ajustes', 'Cada cosa en su sitio: tus negocios, la apariencia y lo general.'] }[tab] || ['Añadir datos', ''];
     $('ttl').textContent = T[0]; $('sub').textContent = T[1];
     S.marcar('form:' + tab);
     document.querySelectorAll('section').forEach((s) => s.classList.toggle('on', s.id === 't-' + tab));
@@ -1968,11 +2084,33 @@ function init_form(ROOT, P, S) {
 
   const ETIQ = { nombre: 'Tu nombre (para el saludo)', direccion: 'Dirección', ciudad_postcode: 'Ciudad y postcode', telefono: 'Teléfono', email: 'Email',
     banco: 'Banco', titular: 'Titular de la cuenta', sort_code: 'Sort code', cuenta: 'Número de cuenta', nota_factura: 'Nota al pie de la factura',
-    plazo_pago_dias: 'Días para pagar', email_resumen: 'Email para el resumen UC', carpeta_facturas: 'Carpeta de Drive para los PDF', color_factura: 'Color de la factura' };
+    plazo_pago_dias: 'Días para pagar', email_resumen: 'Email para el resumen<span class="uc-t"> UC</span>', carpeta_facturas: 'Carpeta de Drive para los PDF', color_factura: 'Color de la factura' };
   let AJ = null;
   /* 5.0.0-alpha27: interruptor «Uso Universal Credit» */
   function pintarUC() { const b = $('aj-uc-b'); if (!b) return; const on = !!(S.usaUC && S.usaUC()); b.setAttribute('aria-checked', String(on)); b.classList.toggle('on', on); $('aj-uc-t').textContent = on ? 'Activado' : 'Desactivado'; }
   S.hub(() => pintarUC());
+  /* 5.0.0-alpha32: día en que empieza el periodo (1 = meses completos; 7 = del 7 al 6, como Universal Credit) */
+  let DIA = 1;
+  (function () {
+    const s = $('aj-dia'); if (!s) return;
+    s.innerHTML = Array.from({ length: 28 }, (_, i) => '<option value="' + (i + 1) + '">Día ' + (i + 1) + '</option>').join('');
+    const pinta = () => { s.value = String(DIA); $('aj-dia-p').textContent = pbRango(DIA) + (S.usaUC && S.usaUC() ? ' Pon el mismo día que tu periodo de Universal Credit.' : ''); $('aj-dia-b').disabled = true; };
+    S.hub((d) => { DIA = (d && d.diaPeriodo) || 1; pinta(); });
+    s.onchange = () => { $('aj-dia-b').disabled = Number(s.value) === DIA; $('aj-dia-p').textContent = pbRango(Number(s.value)); };
+    $('aj-dia-b').onclick = () => {
+      const nuevo = Number(s.value), b = $('aj-dia-b');
+      const pregunta = window.pbDialogo ? window.pbDialogo({ icono: '📅', titulo: '¿Cambiar tus periodos?', texto: pbRango(nuevo) + '<br>Rehago tus periodos y cada ingreso y gasto pasa a su periodo nuevo. Tus datos no se borran.', si: 'Sí, cambiar' })
+        : Promise.resolve(confirm('¿Cambiar tus periodos? ' + pbRango(nuevo)));
+      pregunta.then((si) => {
+        if (!si) { s.value = String(DIA); pinta(); return; }
+        b.disabled = true; b.textContent = 'Cambiando…';
+        google.script.run.withSuccessHandler((r) => {
+          b.textContent = 'Cambiar'; DIA = r.dia; pinta(); D = null; cargar(); S.recargarHub();
+          msg('Listo: ' + r.periodos + ' periodos nuevos. ' + r.filas + (r.filas === 1 ? ' movimiento pasó' : ' movimientos pasaron') + ' a su periodo.', 'ok');
+        }).withFailureHandler((e) => { b.textContent = 'Cambiar'; b.disabled = false; msg(String(e.message || e).replace(/^Exception: /, ''), 'err'); }).cambiarDiaPeriodo(nuevo);
+      });
+    };
+  })();
   if ($('aj-uc-b')) $('aj-uc-b').onclick = () => {
     const b = $('aj-uc-b'), nuevo = !S.usaUC(); b.disabled = true;
     google.script.run.withSuccessHandler((v) => { b.disabled = false; S.setUC(v); pintarUC(); msg(v ? 'Universal Credit activado.' : 'Universal Credit desactivado.', 'ok'); })
@@ -1989,18 +2127,18 @@ function init_form(ROOT, P, S) {
     }).withFailureHandler((e) => msg('No he podido cargar los ajustes: ' + e.message, 'err')).getAjustes();
   }
   function leerAjustes() { const o = {}; (AJ || []).forEach((a, i) => { const el = $('aj-' + i); if (el) o[a.clave] = el.value; }); return o; }
-  const AJ_MOVIDOS = ['usa_uc', 'direccion', 'ciudad_postcode', 'telefono', 'email', 'banco', 'titular', 'sort_code', 'cuenta', 'nota_factura', 'plazo_pago_dias', 'color_factura'];
+  const AJ_MOVIDOS = ['usa_uc', 'dia_inicio_periodo', 'direccion', 'ciudad_postcode', 'telefono', 'email', 'banco', 'titular', 'sort_code', 'cuenta', 'nota_factura', 'plazo_pago_dias', 'color_factura'];
 
   const val = (id) => $(id).value;
   const lecturas = {
     ingreso: () => ({ cliente: val('i-cliente'), descripcion: val('i-desc'), fechaEvento: val('i-evento'), fechaFactura: val('i-factura'),
-      unidad: val('i-unidad'), precio: val('i-precio'), cantidad: val('i-cant'), formaPago: val('i-pago'), estado: val('i-estado'), negocio: NF.ingreso }),
+      unidad: val('i-unidad'), precio: val('i-precio'), cantidad: val('i-cant'), formaPago: val('i-pago'), cuenta: val('i-cuenta'), estado: val('i-estado'), negocio: NF.ingreso }),
     gasto: () => ({ fecha: val('g-fecha'), proveedor: val('g-prov') === '__nuevo__' ? val('g-nuevo') : val('g-prov'), descripcion: val('g-desc'),
-      categoria: val('g-cat'), unidad: val('g-unidad'), cantidad: val('g-cant'), precio: val('g-precio'), notas: val('g-notas'), negocio: NF.gasto })
+      categoria: val('g-cat'), unidad: val('g-unidad'), cantidad: val('g-cant'), precio: val('g-precio'), notas: val('g-notas'), formaPago: val('g-pago'), cuenta: val('g-cuenta'), negocio: NF.gasto })
   };
 
   function limpiar(tab) {
-    const vacios = { registros: [], ingreso: ['i-precio'], gasto: ['g-desc', 'g-precio', 'g-notas', 'g-nuevo'], proveedor: ['p-nombre', 'p-notas'], cliente: ['c-nombre', 'c-dir', 'c-ciudad', 'c-post', 'c-tel', 'c-email'], categoria: ['k-nombre', 'k-desc'], periodos: [], ajustes: [] };
+    const vacios = { registros: [], ingreso: ['i-precio', 'i-cuenta'], gasto: ['g-desc', 'g-precio', 'g-notas', 'g-nuevo', 'g-cuenta'], proveedor: ['p-nombre', 'p-notas'], cliente: ['c-nombre', 'c-dir', 'c-ciudad', 'c-post', 'c-tel', 'c-email'], categoria: ['k-nombre', 'k-desc'], periodos: [], ajustes: [] };
     vacios[tab].forEach((id) => ($(id).value = ''));
     if (tab === 'ingreso' || tab === 'gasto') { NF[tab] = negDefecto(); if (D) pintarNegCh(tab); }
     if (tab === 'cliente') finEditarCliente();
@@ -2014,7 +2152,7 @@ function init_form(ROOT, P, S) {
     }
     if (tab === 'gasto') {
       ['g-prov', 'g-cat'].forEach((id) => ($(id).value = ''));
-      $('g-unidad').selectedIndex = 0; $('g-cant').value = '1'; $('g-nuevo-wrap').classList.add('hidden'); if (D) $('g-fecha').value = D.hoy;
+      $('g-unidad').selectedIndex = 0; $('g-pago').selectedIndex = 0; $('g-cant').value = '1'; $('g-nuevo-wrap').classList.add('hidden'); if (D) $('g-fecha').value = D.hoy;
       H.gasto.fil = ''; if (H.gasto.data) histPintar('gasto');
     }
   }
@@ -2090,7 +2228,7 @@ function init_form(ROOT, P, S) {
     const q = $('r-buscar').value.trim().toLowerCase();
     const l = REG.filter((r) => !q || [r.id, r.fecha, r.titulo, r.detalle, r.estado].join(' ').toLowerCase().indexOf(q) >= 0);
     $('lista-reg').innerHTML = l.length ? l.map((r) => '<div class="reg" data-id="' + r.id + '"><div class="info"><div class="t">#' + esc(r.num || r.id) + ' · ' + esc(r.titulo) + ((D && (D.negocios || []).length > 1) ? ' ' + S.pill(r.negocio) : '') + '</div>' +
-      '<div class="d">' + esc(r.fecha) + ' · ' + esc(r.detalle) + (r.estado ? ' · ' + esc(r.estado) : '') + '</div></div><div class="m">' + gbp(r.total) + '</div>' +
+      '<div class="d">' + esc(r.fecha) + ' · ' + esc(r.detalle) + (r.estado ? ' · ' + esc(pbEs(r.estado)) : '') + '</div></div><div class="m">' + gbp(r.total) + '</div>' +
       '<div class="acc"><button class="btn" data-ed="' + r.id + '"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Editar</button> <button class="btn" data-del="' + r.id + '"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> Eliminar</button></div></div>').join('')
       : '<div class="hint">No hay registros.</div>';
   }
@@ -2125,10 +2263,10 @@ function init_form(ROOT, P, S) {
       mostrar(tipo);
       if (tipo === 'ingreso') {
         $('i-cliente').value = r.cliente; $('i-desc').value = r.descripcion; $('i-evento').value = r.fechaEvento; $('i-factura').value = r.fechaFactura;
-        $('i-unidad').value = r.unidad; $('i-precio').value = r.precio; $('i-cant').value = r.cantidad; $('i-pago').value = r.formaPago; $('i-estado').value = r.estado;
+        $('i-unidad').value = r.unidad; $('i-precio').value = r.precio; $('i-cant').value = r.cantidad; $('i-pago').value = r.formaPago; $('i-cuenta').value = r.cuenta || ''; $('i-estado').value = r.estado;
       } else {
         $('g-fecha').value = r.fecha; $('g-prov').value = r.proveedor; $('g-nuevo-wrap').classList.add('hidden'); $('g-desc').value = r.descripcion; $('g-cat').value = r.categoria;
-        $('g-unidad').value = r.unidad; $('g-cant').value = r.cantidad; $('g-precio').value = r.precio; $('g-notas').value = r.notas;
+        $('g-unidad').value = r.unidad; $('g-cant').value = r.cantidad; $('g-precio').value = r.precio; $('g-notas').value = r.notas; ponerSelect('g-pago', r.formaPago || 'CARD'); $('g-cuenta').value = r.cuenta || '';
       }
       pintarNegCh(tipo);
       $('edit-txt').textContent = 'Editando ' + (tipo === 'ingreso' ? 'la factura ' + (r.num || id) : 'el gasto nº ' + id);
@@ -2197,14 +2335,14 @@ function init_form(ROOT, P, S) {
       rep = '<div class="rep">Aparece en ' + n + ' de ' + m + ' periodos · media ' + gbp(total / n) + ' por periodo</div>';
     }
     // 5.0.0: tabla como la de la hoja de cálculo (columnas, cabecera, filas alternas y total abajo)
-    const fd = (iso) => { const x = fechaTxt(iso); return x.slice(0, 6) + x.slice(8); };   // dd/mm/aa
+    const fd = fechaTxt;   // 5.0.0-alpha32: dd/mm/aaaa
     const conNeg = !(S.negocio && S.negocio()) && S.negocios && S.negocios().length > 1;
     const cab = (t === 'gasto' ? ['Nº', 'Fecha', 'Proveedor', 'Descripción', 'Categoría'] : ['Nº', 'Fecha', 'Cliente', 'Descripción', 'Estado']).concat(conNeg ? ['Negocio'] : [], ['Total', '']);
     const fila = (r) => '<tr>' +
       '<td class="n" title="' + attr(r.num || r.id) + '">' + esc(r.num || r.id) + '</td><td class="d">' + fd(r.fecha) + '</td>' +
       (t === 'gasto'
         ? '<td class="x" title="' + attr(r.prov) + '">' + esc(r.prov) + '</td><td class="x" title="' + attr(r.desc) + '">' + esc(r.desc) + '</td><td><i class="' + catClase(r.cat) + '">' + esc(r.cat) + '</i></td>'
-        : '<td class="x" title="' + attr(r.cliente) + '">' + esc(r.cliente) + '</td><td class="x" title="' + attr(r.desc) + '">' + esc(r.desc) + '</td><td><i class="' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + (r.estado === 'PAID' ? 'Cobrado' : 'Pendiente') + '</i></td>') +
+        : '<td class="x" title="' + attr(r.cliente) + '">' + esc(r.cliente) + '</td><td class="x" title="' + attr(r.desc) + '">' + esc(r.desc) + '</td><td><i class="' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + pbEs(r.estado === 'PAID' ? 'PAID' : 'PENDING') + '</i></td>') +
       (conNeg ? '<td>' + S.pill(r.negocio) + '</td>' : '') +
       '<td class="m">' + gbp(r.total) + '</td><td class="b"><button class="cp" type="button" data-cp="' + r.id + '" title="Copiar al formulario" aria-label="Copiar ' + (t === 'gasto' ? 'gasto' : 'factura') + ' ' + r.id + ' al formulario">' + IC_COPY + '</button></td></tr>';
     const kT = cab.length - 2;
@@ -2217,14 +2355,14 @@ function init_form(ROOT, P, S) {
       const sino = (v) => (String(v).toUpperCase() === 'SI' || String(v).toUpperCase() === 'SÍ' || v === true ? 'SÍ' : (v ? esc(v) : 'NO'));
       const C = t === 'gasto'
         ? [['Nº', (r) => esc(r.num || r.id), 'n'], ['Fecha', (r) => fd(r.fecha)], ['Proveedor', (r) => esc(r.prov), 'x'], ['Descripción', (r) => esc(r.desc), 'x w'],
-           ['Categoría', (r) => '<i class="' + catClase(r.cat) + '">' + esc(r.cat) + '</i>'], ['Unidad', (r) => esc(r.unidad)], ['Cant.', (r) => esc(r.cantidad), 'r'],
-           ['Precio', (r) => gbp(r.precio), 'r'], ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], [(S.usaUC && S.usaUC()) ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)], ['Notas', (r) => esc(r.notas), 'x mu'],
-           ['Procesado UC', (r) => sino(r.procesado), 'mu']]
+           ['Categoría', (r) => '<i class="' + catClase(r.cat) + '">' + esc(r.cat) + '</i>'], ['Unidad', (r) => esc(pbUnidad(r.unidad, r.negocio))], ['Cant.', (r) => esc(r.cantidad), 'r'],
+           ['Precio', (r) => gbp(r.precio), 'r'], ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], ['Pago', (r) => esc(pbPago(r.pago, r.cuenta))], [(S.usaUC && S.usaUC()) ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)], ['Notas', (r) => esc(r.notas), 'x mu']].concat(S.usaUC && S.usaUC() ? [
+           ['Procesado UC', (r) => sino(r.procesado), 'mu']] : [])
         : [['Nº', (r) => esc(r.num || r.id), 'n'], ['F. evento', (r) => fd(r.fecha)], ['F. factura', (r) => fd(r.factura)], ['Cliente', (r) => esc(r.cliente), 'x'],
-           ['Descripción', (r) => esc(r.desc), 'x w'], ['Unidad', (r) => esc(r.unidad)], ['Precio', (r) => gbp(r.precio), 'r'], ['Cant.', (r) => esc(r.cantidad), 'r'],
-           ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], ['Pago', (r) => esc(r.pago)],
-           ['Estado', (r) => '<i class="' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + (r.estado === 'PAID' ? 'Cobrado' : 'Pendiente') + '</i>'],
-           [(S.usaUC && S.usaUC()) ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)], ['Procesado UC', (r) => sino(r.procesado), 'mu']];
+           ['Descripción', (r) => esc(r.desc), 'x w'], ['Unidad', (r) => esc(pbUnidad(r.unidad, r.negocio))], ['Precio', (r) => gbp(r.precio), 'r'], ['Cant.', (r) => esc(r.cantidad), 'r'],
+           ['Total', (r) => '<b>' + gbp(r.total) + '</b>', 'r t'], ['Pago', (r) => esc(pbPago(r.pago, r.cuenta))],
+           ['Estado', (r) => '<i class="' + (r.estado === 'PAID' ? 'pd' : 'pe') + '">' + pbEs(r.estado === 'PAID' ? 'PAID' : 'PENDING') + '</i>'],
+           [(S.usaUC && S.usaUC()) ? 'Periodo UC' : 'Periodo', (r) => esc(r.periodo)]].concat(S.usaUC && S.usaUC() ? [['Procesado UC', (r) => sino(r.procesado), 'mu']] : []);
       if (negCol) C.push(['Negocio', (r) => S.pill(r.negocio)]);
       const kTot = C.findIndex((x) => x[0] === 'Total');
       tabla = '<div class="tw"><table class="hoja completa"><thead><tr>' + C.map((x) => '<th class="' + (/(^| )r( |$)/.test(x[2] || '') ? 'r' : '') + '">' + x[0] + '</th>').join('') + '<th></th></tr></thead><tbody>' +
@@ -2304,13 +2442,13 @@ function init_form(ROOT, P, S) {
   function copiarGasto(r) {
     if (ponerSelect('g-prov', r.prov)) $('g-nuevo-wrap').classList.add('hidden');
     else { $('g-prov').value = '__nuevo__'; $('g-nuevo-wrap').classList.remove('hidden'); $('g-nuevo').value = r.prov; }
-    $('g-desc').value = r.desc; ponerSelect('g-cat', r.cat); ponerSelect('g-unidad', r.unidad);
+    $('g-desc').value = r.desc; ponerSelect('g-cat', r.cat); ponerSelect('g-unidad', r.unidad); if (r.pago) ponerSelect('g-pago', r.pago); $('g-cuenta').value = r.cuenta || '';
     $('g-cant').value = r.cantidad; $('g-precio').value = r.precio; $('g-notas').value = r.notas || '';
     previews(); msg('Copiado. Cambia la fecha si hace falta y pulsa Guardar gasto.', 'ok');
   }
   function copiarIngreso(r) {
     ponerSelect('i-cliente', r.cliente); $('i-desc').value = r.desc; ponerSelect('i-unidad', r.unidad);
-    $('i-precio').value = r.precio; $('i-cant').value = r.cantidad; ponerSelect('i-pago', r.pago);
+    $('i-precio').value = r.precio; $('i-cant').value = r.cantidad; ponerSelect('i-pago', r.pago); $('i-cuenta').value = r.cuenta || '';
     previews(); taxPedir(); msg('Copiado. Cambia las fechas y pulsa Guardar ingreso.', 'ok');
   }
   // al cambiar la categoría / cliente del formulario, el historial se filtra por ella
@@ -2331,7 +2469,7 @@ function init_form(ROOT, P, S) {
       if (mi !== taxN) return;
       box.className = 'taxline ' + (r.tocaPagar ? 'warn' : 'ok');
       box.innerHTML = '<span><b>' + (extra > 0 ? 'Con este ingreso' : 'Este año fiscal') + ':</b> impuesto estimado £' + r.aPagar.toFixed(2) + ' · <b>' + (r.tocaPagar ? 'tocaría pagar' : 'no toca pagar') + '</b></span>' +
-        '<button type="button" data-go-tax="1">Beneficio del año: ' + gbp(r.beneficio) + ' ›</button>';
+        '<button type="button" data-go-tax="1">Beneficio del negocio en el año: ' + gbp(r.beneficioNegocio) + ' ›</button>';
     }).withFailureHandler(() => { box.className = 'taxline hidden'; }).getImpuestos({ extra: extra, fechaExtra: $('i-evento').value });
   }
   $('i-tax').addEventListener('click', (e) => { if (e.target.closest('[data-go-tax]')) S.ir('impuestos'); });
@@ -2638,9 +2776,9 @@ function init_impuestos(ROOT, P, S) {
     const toca = r.tocaPagar;
     $('im-body').innerHTML =
       '<div class="tiles">' +
-        '<div class="tile t1"><div class="l">Ingresos del año</div><div class="v">' + gbp(r.ingresos) + '</div><div class="s">' + r.nFacturas + ' facturas</div></div>' +
-        '<div class="tile t2"><div class="l">Gastos del año</div><div class="v">' + gbp(r.gastos) + '</div><div class="s">' + r.nGastos + ' gastos</div></div>' +
-        '<div class="tile t3"><div class="l">Beneficio del negocio</div><div class="v">' + gbp(r.beneficio) + '</div><div class="s">ingresos − gastos</div></div>' +
+        '<div class="tile t1"><div class="l">Ingresos del año</div><div class="v">' + gbp(r.ingresos) + '</div><div class="s">' + r.nFacturas + (r.nFacturas === 1 ? ' factura' : ' facturas') + '</div></div>' +
+        '<div class="tile t2"><div class="l">Gastos del año</div><div class="v">' + gbp(r.gastos) + '</div><div class="s">' + r.nGastos + (r.nGastos === 1 ? ' gasto' : ' gastos') + '</div></div>' +
+        '<div class="tile t3"><div class="l">Beneficio del negocio</div><div class="v">' + gbp(r.beneficioNegocio) + '</div><div class="s">ingresos − gastos</div></div>' +
         '<div class="tile t4"><div class="l">Impuesto estimado</div><div class="v">' + gbp(r.aPagar) + '</div><div class="s ' + (toca ? 'no' : 'ok') + '">' + (toca ? '! Tocaría pagar' : '✓ Por ahora no toca pagar') + '</div></div>' +
       '</div>' +
       ((r.porNegocio && r.porNegocio.length) ? '<div class="card pneg"><b>Por negocio</b><div class="hint">En la declaración (Self Assessment) cada negocio va en su propia sección de autónomo. El impuesto se calcula con el total.</div>' +
@@ -2648,7 +2786,9 @@ function init_impuestos(ROOT, P, S) {
         r.porNegocio.map((n) => '<tr><td><i style="background:' + n.color + '"></i>' + String(n.nombre).replace(/</g, '&lt;') + '</td><td class="r">' + gbp(n.ingresos) + '</td><td class="r">' + gbp(n.gastos) + '</td><td class="r"><b>' + gbp(n.beneficio) + '</b></td></tr>').join('') +
         '<tr class="tot"><td>Total (ingresos − gastos)</td><td class="r">' + gbp(r.ingresos) + '</td><td class="r">' + gbp(r.gastos) + '</td><td class="r"><b>' + gbp(r.ingresos - r.gastos) + '</b></td></tr></tbody></table></div>' : '') +
       '<div class="cols"><div class="col"><div class="card"><b>Cómo sale el cálculo</b>' +
-        ln('Beneficio del negocio', gbp(r.beneficio)) +
+        ln('Beneficio del negocio (ingresos − gastos)', gbp(r.beneficioNegocio)) +
+        (r.metodo === 'allowance' ? ln('Con el descuento fijo de £1,000 en vez de tus gastos', gbp(r.ingresos) + ' − ' + gbp(r.trading)) : '') +
+        ln('Beneficio para el impuesto' + (r.metodo === 'bajo' ? ' (menos de £1,000: no se declara)' : r.metodo === 'allowance' ? ' (con Trading Allowance)' : ''), gbp(r.beneficio), 'tot') +
         ln(r.sueldoDado ? 'Sueldo de tu empleo · nómina' : 'Sueldo de tu empleo · nómina (no puesto)', gbp(r.sueldo)) +
         ln('Total de ingresos del año', gbp(r.total), 'tot') +
         ln('Libre de impuestos (Personal Allowance)', '− ' + gbp(r.pa)) +
@@ -2838,7 +2978,7 @@ const PAL = ['#1E60E0', '#F4A62A', '#16A34A', '#DC5A56', '#9333EA', '#0EA5E9', '
 function pintarModo() {
   ROOT.querySelectorAll('.modo button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.modo === MODO)));
   ROOT.querySelector('.filtro').style.visibility = MODO === 'hmrc' ? 'hidden' : '';
-  $('d-sub').textContent = MODO === 'hmrc' ? 'Tu año fiscal del HMRC (6 de abril – 5 de abril), mes a mes' : 'Ingresos y gastos por periodo de Universal Credit';
+  $('d-sub').textContent = MODO === 'hmrc' ? 'Tu año fiscal del HMRC (6 de abril – 5 de abril), mes a mes' : (window.SHELL && SHELL.usaUC && SHELL.usaUC() ? 'Ingresos y gastos por periodo de Universal Credit' : 'Ingresos y gastos por periodo');
 }
 function pintarHMRC() {
   const anios = {}; anios[anioDe(D.hoy)] = 1;
@@ -2858,7 +2998,7 @@ function pintarHMRC() {
   if (!ing.length && !gas.length) {
     h += '<div class="card"><div class="vacio">Este año fiscal todavía no tiene ingresos ni gastos.</div></div>';
   } else {
-    h += '<section class="card"><div class="cardhead"><div><h2>Flujo de ingresos y gastos del año</h2><p class="sub">Por periodo UC dentro del año ' + etqAnio(ANIO) + '</p></div></div>' +
+    h += '<section class="card"><div class="cardhead"><div><h2>Flujo de ingresos y gastos del año</h2><p class="sub">Por periodo' + (window.SHELL && SHELL.usaUC && SHELL.usaUC() ? ' UC' : '') + ' dentro del año ' + etqAnio(ANIO) + '</p></div></div>' +
       '<div class="legend"><span class="k"><i class="sw s1"></i>Ingresos<b>' + esc(fmt(it.reduce((t, x) => t + x.ing, 0))) + '</b></span><span class="k"><i class="sw s2"></i>Gastos<b>' + esc(fmt(it.reduce((t, x) => t + x.gas, 0))) + '</b></span></div>' +
       '<div id="chart1"></div>';
     const n0 = (v, cls) => Math.abs(v) < 0.005 ? '<td class="z">–</td>' : '<td class="' + (cls || '') + '">' + Math.round(v).toLocaleString('en-GB') + '</td>';
@@ -2946,7 +3086,7 @@ function pintar() {
     '<div class="seg" role="group" aria-label="Filtrar movimientos">' +
     [['todo', 'Todo (' + mv.length + ')'], ['i', 'Ingresos (' + nI + ')'], ['g', 'Gastos (' + nG + ')']].map((b) => '<button data-mov="' + b[0] + '" aria-pressed="' + (MOV === b[0]) + '">' + b[1] + '</button>').join('') + '</div></div>' +
     (vis.length ? vis.slice(0, MAS).map((x) => '<div class="row"><div class="d">' + esc(fechaCorta(x.f)) + '</div><div class="t"><i class="dot ' + (x.t === 'i' ? 's1' : 's2') + '"></i>' + esc(x.c) +
-      '<small>' + esc(x.s) + (x.t === 'i' ? '<span class="chip ' + (x.e === 'PAID' ? 'ok' : 'pend') + '">' + (x.e === 'PAID' ? '✓ Cobrada' : '◔ Pendiente') + '</span>' : '') + '</small></div>' +
+      '<small>' + esc(x.s) + (x.t === 'i' ? '<span class="chip ' + (x.e === 'PAID' ? 'ok' : 'pend') + '">' + (x.e === 'PAID' ? '✓ Cobrada' : '◔ Sin cobrar') + '</span>' : '') + '</small></div>' +
       '<div class="m">' + (x.t === 'i' ? '+' : '−') + esc(fmt(x.v)) + '</div></div>').join('') : '<div class="vacio">No hay movimientos.</div>') +
     (vis.length > MAS ? '<button class="more" id="mas">Mostrar más (' + (vis.length - MAS) + ')</button>' : '') +
     '<button class="more detalle" data-ir="movimientos">Ver todo en detalle ›</button></section>';
@@ -3012,6 +3152,8 @@ cargar(true);
 
 /* ===== Acerca de (5.0.0-alpha3, como Mis Finanzas) ===== */
 
+function init_ayuda(ROOT, P, S) { S.marcar('ayuda'); return {}; }
+
 function init_acerca(ROOT, P, S) {
   const $ = (id) => ROOT.querySelector('#' + id);
   const CFG = window.CFG || {};
@@ -3072,7 +3214,7 @@ function init_acerca(ROOT, P, S) {
 (function () {
   const CFG = window.CFG || {};
   const $ = (id) => document.getElementById(id);
-  const VIEWS = { inicio: init_inicio, movimientos: init_movimientos, dashboard: init_dashboard, panel: init_panel, form: init_form, impuestos: init_impuestos, acerca: init_acerca };
+  const VIEWS = { inicio: init_inicio, movimientos: init_movimientos, dashboard: init_dashboard, panel: init_panel, form: init_form, impuestos: init_impuestos, acerca: init_acerca, ayuda: init_ayuda };
   let CUR = null, HUB = null, HQ = [], ULT = 'inicio';
 
   function odlare(fs, col, bg) {
@@ -3186,6 +3328,7 @@ function init_acerca(ROOT, P, S) {
       document.documentElement.setAttribute('data-tema', r);
       if (CUR && CUR.vista === 'dashboard') ir('dashboard', true);
     },
+    recargarHub: () => { HUB = null; cargarHub(); },
     usaUC: () => UC, setUC: (v) => { UC = !!v; if (HUB) HUB.usaUC = UC; document.documentElement.classList.toggle('sin-uc', !UC); $('sh-per-l').textContent = UC ? 'Periodo UC actual' : 'Periodo actual'; }, avisoCierre: avisoCierre,
     negocio: negActual, negocios: () => NEGS, negInfo: negInfo, setNegocio: setNegocio, negociosCargados: negociosCargados, logos: () => LOGOS,
     pill: (id) => { const n = negInfo(id); return n ? '<span class="npill" style="background:' + escS(n.color) + '1F;color:' + escS(n.color) + '"><i style="background:' + escS(n.color) + '"></i>' + escS(n.nombre) + '</span>' : ''; } };

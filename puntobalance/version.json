@@ -1,7 +1,22 @@
 {
- "ver": "5.0.0-alpha31",
- "fecha": "6 nov 2026",
+ "ver": "5.0.0-alpha32",
+ "fecha": "12 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha32",
+   "fecha": "12 nov 2026",
+   "cambios": [
+    "Eliges el día en que empieza tu periodo (Ajustes › General). Del 1 = meses completos; del 7 = como Universal Credit",
+    "Si no usas Universal Credit, la app ya no dice «UC» en ningún sitio",
+    "Premium explica cómo se compra: por transferencia bancaria y tu código llega en menos de 24 horas",
+    "Tarjeta «Primeros pasos» en Inicio para quien empieza",
+    "Impuestos más claros: «Beneficio del negocio» (ingresos − gastos) y aparte el «Beneficio para el impuesto»",
+    "Facturas y PDF: las de este periodo arriba y las de periodos anteriores abajo; las tarjetas dicen el periodo",
+    "Todo en español en la pantalla: Sin cobrar, Cobrada, Efectivo, Transferencia, Por evento… y fechas dd/mm/aaaa",
+    "Forma de pago con Tarjeta y «Cuenta (opcional)» en ingresos y gastos (solo el nombre, nunca el número)",
+    "Pantalla nueva de Ayuda en el menú, con las preguntas más comunes y «Escríbenos»"
+   ]
+  },
   {
    "ver": "5.0.0-alpha31",
    "fecha": "7 nov 2026",

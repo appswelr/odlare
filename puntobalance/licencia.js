@@ -139,6 +139,10 @@
     ".v-prem h1{margin:12px 0 6px;font-size:26px;color:var(--ink);letter-spacing:-.01em}.v-prem .hero p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.5}" +
     ".v-prem .chip{display:inline-block;margin-top:10px;border-radius:99px;padding:5px 12px;font-weight:800;font-size:12.5px;background:#FEF3C7;color:#8A5300}.v-prem .chip.ok{background:#DCFCE7;color:#166534}.v-prem .chip.mal{background:#FDE2E1;color:#9B1C1C}" +
     ".v-prem .lista{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin:20px 0 0;font-size:14px;line-height:1.9;color:var(--ink)}.v-prem .lista i{font-style:normal;color:#12804A;font-weight:800;margin-right:8px}" +
+    ".v-prem .como{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:16px;text-align:left}.v-prem .como h3{margin:0 0 8px;font-size:15px;color:var(--ink)}" +
+    ".v-prem .como ol{margin:0;padding-left:22px;font-size:13.5px;color:#3A4058;line-height:1.6}.v-prem .como b{color:var(--ink)}" +
+    ".v-prem .como .seg{margin-top:10px;font-size:12.5px;color:var(--muted);background:#F3F5FB;border-radius:10px;padding:8px 10px}" +
+    "html[data-tema=oscuro] .v-prem .como{background:#131D38;border-color:#26365F}html[data-tema=oscuro] .v-prem .como ol{color:#C9D1EA}html[data-tema=oscuro] .v-prem .como .seg{background:#0F1830}" +
     ".v-prem .planes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.v-prem .pl{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center}" +
     ".v-prem .pl.dest{border-color:#1E60E0;background:#F2F6FF}.v-prem .pl small{display:block;color:var(--muted);font-size:12px}.v-prem .pl b{display:block;font-size:24px;color:var(--ink);margin:2px 0}" +
     ".v-prem .tag{display:inline-block;margin-top:5px;font-size:10.5px;font-weight:800;border-radius:99px;padding:2px 8px}.v-prem .tag.g{background:#DCFCE7;color:#166534}.v-prem .tag.a{background:#FEF3C7;color:#8A5300}" +
@@ -208,9 +212,18 @@
           "<div><span>Cuenta de Google</span><b>" + esc(correo()) + "</b></div><div><span>Válida hasta</span><b>" + fechaLarga(EST.hasta) + "</b></div></div>";
       }
       if (e !== "activa" && e !== "admin") {
-        h += '<div class="lista"><i>✓</i>Ingresos, gastos y facturas en PDF sin límite<br><i>✓</i>Hecha para Universal Credit (periodos del 7 al 6)<br><i>✓</i>Año HMRC e impuesto estimado<br><i>✓</i>Varios negocios, tu logo y copias en tu Drive</div>' +
+        var conUC = !!(window.SHELL && window.SHELL.usaUC && window.SHELL.usaUC());
+        h += '<div class="lista"><i>✓</i>Ingresos, gastos y facturas en PDF sin límite<br><i>✓</i>' + (conUC ? "Resumen listo para Universal Credit, con tu periodo" : "Periodos del día que tú elijas") + '<br><i>✓</i>Año HMRC e impuesto estimado<br><i>✓</i>Varios negocios, tu logo y copias en tu Drive</div>' +
           '<div class="planes"><div class="pl"><small>Mensual</small><b>£4.99</b><small>al mes</small></div><div class="pl"><small>Anual</small><b>£44.99</b><small>al año</small><span class="tag g">AHORRAS 25%</span></div>' +
           '<div class="pl dest"><small>Fundador</small><b>£34.99</b><small>al año</small><span class="tag a">SOLO 100 PLAZAS</span></div></div>';
+      }
+      if (e !== "activa" && e !== "admin") {
+        /* 5.0.0-alpha32: cómo se compra (transferencia bancaria; respuesta en menos de 24 h) */
+        h += '<div class="como"><h3>Cómo se compra</h3><ol>' +
+          '<li><b>Escríbenos</b> con el plan que quieres (botón de abajo).</li>' +
+          '<li><b>Te mandamos los datos para pagar</b> por transferencia bancaria.</li>' +
+          '<li><b>En menos de 24 horas</b> te llega tu código por correo. Lo pegas aquí en «Tengo un código» y listo.</li></ol>' +
+          '<div class="seg">🔒 Pagas directo a Odlare por transferencia. Nunca te pedimos tarjeta ni contraseñas.</div></div>';
       }
       if (e !== "admin" && e !== "demo") {
         var asunto = encodeURIComponent("Quiero PuntoBalance Premium"), cuerpo = encodeURIComponent("Hola, quiero PuntoBalance Premium.\nMi cuenta de Google: " + correo() + "\nPlan: (Mensual / Anual / Fundador)\n");

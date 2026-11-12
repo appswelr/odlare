@@ -333,7 +333,7 @@
     '</div>' +
     '<div class="card" style="margin-top:16px"><h2>📥 Importar</h2><div class="d">Trae datos de fuera a PuntoBalance: tus ventas de eBay o Etsy, tu banco, o tu hoja anterior.</div>' +
     '<div class="it"><div class="e">🧾</div><div class="tx"><b>Importar movimientos</b><small>Archivo de eBay, Etsy, tu banco u otro CSV / Excel</small></div><button type="button" class="go p" id="dt-mov">Importar</button></div>' +
-    '<div class="it"><div class="e">📥</div><div class="tx"><b>Importar mi hoja anterior</b><small>Trae tus datos de otra hoja (ej. DJ_Invoice_v3.3)</small></div><button type="button" class="go" id="dt-imp">Importar</button></div>' +
+    '<div class="it"><div class="e">📥</div><div class="tx"><b>Importar mi hoja anterior</b><small>Trae tus datos de otra hoja de Google</small></div><button type="button" class="go" id="dt-imp">Importar</button></div>' +
     '<div class="msg" id="dt-m3"></div></div>' +
     '</div>' +
     '<div class="nota">💡 <b>¿Compraste una laptop o un celular nuevo?</b> Abre PuntoBalance, pulsa <b>«Entrar con Google»</b> con el mismo Gmail y la app encuentra sola tu hoja. No se pierde nada, porque nada se guarda solo en el aparato.</div>' +

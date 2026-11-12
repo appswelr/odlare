@@ -163,7 +163,7 @@
     function empezar() {
       $("pbEntD").innerHTML = "<h1>¡Hola" + (CUENTA.nombre ? ", " + esc(CUENTA.nombre.split(" ")[0]) : "") + "!</h1><p>¿Cómo quieres empezar con PuntoBalance?</p>" +
         '<div class="negs"><button type="button" class="neg" id="pbCero"><b>🆕 Empezar de cero</b><small>Creo una hoja nueva y vacía en tu Google Drive</small></button>' +
-        '<button type="button" class="neg" id="pbTengo"><b>📥 Ya tengo una hoja con mis datos</b><small>La de la versión anterior (ej. DJ_Invoice_v3.3). La eliges y traigo todo: ingresos, gastos, clientes…</small></button></div>' +
+        '<button type="button" class="neg" id="pbTengo"><b>📥 Ya tengo una hoja con mis datos</b><small>Una hoja de Google que ya usabas para tus cuentas. La eliges y traigo todo: ingresos, gastos, clientes…</small></button></div>' +
         '<div class="err" id="pbErr"></div><div class="odl" style="margin-top:auto">Tu hoja anterior solo se lee: no se cambia ni se borra.</div>';
       $("pbCero").onclick = paso2;
       $("pbTengo").onclick = traer;
