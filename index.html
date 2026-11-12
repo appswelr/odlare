@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-GP7jNWcJCqDrfZ66b+iFN2iRUcAVp8lkjjLlC83vrmI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://docs.google.com; form-action 'self' https://docs.google.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-PKRbaItygMz1jG6Hbm/GybFY2T4hLe5v3ifD0xQzjv8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://docs.google.com; form-action 'self' https://docs.google.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -970,10 +970,14 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
     reloj=setInterval(function(){if(!movil.matches||!visto)return;var n=+shS.getAttribute("data-p");ponP(n%4+1)},3200);
   }
   var cab=document.getElementById("cab"), bM=document.getElementById("bMenu");
-  function menu(o){cab.classList.toggle("open",o);bM.setAttribute("aria-expanded",o?"true":"false")}
+  var y0=0;function menu(o){if(o)y0=scrollY;cab.classList.toggle("open",o);bM.setAttribute("aria-expanded",o?"true":"false")}
   bM.onclick=function(){menu(!cab.classList.contains("open"))};
   document.querySelectorAll("#menu a").forEach(function(a){a.addEventListener("click",function(){menu(false)})});
   addEventListener("scroll",function(){cab.classList.toggle("scrolled",scrollY>8)},{passive:true});
+  addEventListener("scroll",function(){if(cab.classList.contains("open")&&Math.abs(scrollY-y0)>12)menu(false)},{passive:true});
+  addEventListener("keydown",function(e){if(e.key==="Escape")menu(false)});
+  document.addEventListener("click",function(e){if(cab.classList.contains("open")&&!cab.contains(e.target))menu(false)});
+  matchMedia("(min-width:901px)").addEventListener("change",function(e){if(e.matches)menu(false)});
 
   if("IntersectionObserver" in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{threshold:.12});
