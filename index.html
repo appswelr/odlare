@@ -457,6 +457,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
 }
 </style>
 <link rel="stylesheet" href="css/detalle.css">
+<link rel="stylesheet" href="css/mejoras.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://odlare.uk/#org","name":"Odlare","url":"https://odlare.uk/","logo":"https://odlare.uk/img/apple-touch-icon.png","email":"info@odlare.uk"},
@@ -648,6 +649,38 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   </div>
 </section>
 
+<section id="prueba">
+  <div class="wrap">
+    <div class="demo rv">
+      <div>
+        <span class="lbl" style="text-align:left" data-es="Pruébala aquí, sin registrarte" data-en="Try it here, no sign-up">Pruébala aquí, sin registrarte</span>
+        <h2 style="font-size:clamp(30px,4vw,44px);margin-bottom:12px" data-es="Toca un paso. Mis Finanzas te contesta." data-en="Tap a step. My Finances answers.">Toca un paso. Mis Finanzas te contesta.</h2>
+        <p style="font-size:17px;color:var(--muted);margin-bottom:24px" data-es="Así se siente: pagas, apuntas con un toque y baja lo que puedes gastar hoy." data-en="This is how it feels: you pay, add it with one tap and what you can spend today goes down.">Así se siente: pagas, apuntas con un toque y baja lo que puedes gastar hoy.</p>
+        <div class="pasosd">
+          <button type="button" data-paso="1" data-es="1 · Pagas<small>«£17.43 en Tesco»</small>" data-en="1 · You pay<small>“£17.43 at Tesco”</small>">1 · Pagas<small>«£17.43 en Tesco»</small></button>
+          <button type="button" data-paso="2" data-es="2 · Apuntar<small>un solo toque</small>" data-en="2 · Add it<small>just one tap</small>">2 · Apuntar<small>un solo toque</small></button>
+          <button type="button" data-paso="3" data-es="3 · ¿Cuánto me queda?<small>hoy y hasta fin de mes</small>" data-en="3 · What's left?<small>today and to month-end</small>">3 · ¿Cuánto me queda?<small>hoy y hasta fin de mes</small></button>
+          <button type="button" data-paso="4" data-es="4 · Aviso de pago<small>antes de la renta</small>" data-en="4 · Payment reminder<small>before the rent</small>">4 · Aviso de pago<small>antes de la renta</small></button>
+        </div>
+        <p class="nota" data-es="Ejemplo con datos inventados · no se guarda nada" data-en="Example with made-up data · nothing is saved">Ejemplo con datos inventados · no se guarda nada</p>
+      </div>
+      <div class="dphone" aria-live="polite">
+        <div class="dnoti" id="dNoti" data-ver="1" style="cursor:pointer"><img src="img/icono-finanzas.png" alt=""><div><b data-es="Mis Finanzas" data-en="My Finances">Mis Finanzas</b><p data-es="Pagaste <b>£17.43</b> en Tesco" data-en="You paid <b>£17.43</b> at Tesco">Pagaste <b>£17.43</b> en Tesco</p><em data-es="Toca para apuntarlo" data-en="Tap to add it">Toca para apuntarlo</em></div></div>
+        <div class="dsheet" data-ver="2" hidden><div class="t" data-es="Nuevo gasto" data-en="New expense">Nuevo gasto</div><div class="m">£17.43</div>
+          <div class="f"><span data-es="Dónde" data-en="Where">Dónde</span><b>Tesco</b></div>
+          <div class="f"><span data-es="Categoría" data-en="Category">Categoría</span><b data-es="🛒 Comida" data-en="🛒 Groceries">🛒 Comida</b></div>
+          <div class="f"><span data-es="Cuenta" data-en="Account">Cuenta</span><b>Lloyds</b></div>
+          <button type="button" id="dApuntar" data-es="Apuntar" data-en="Add it">Apuntar</button></div>
+        <div class="dok" data-ver="3" data-si-apuntado hidden data-es="✓ Apuntado: Tesco −£17.43" data-en="✓ Added: Tesco −£17.43">✓ Apuntado: Tesco −£17.43</div>
+        <div class="dinfo" data-ver="3" hidden><b data-es="Hasta el día 28" data-en="Until the 28th">Hasta el día 28</b><span data-es="Oli ya contó la renta y tus pagos fijos." data-en="Oli has already counted the rent and your fixed payments.">Oli ya contó la renta y tus pagos fijos.</span>
+          <div class="row"><span data-es="Te queda para gastar" data-en="Left to spend">Te queda para gastar</span><b style="display:inline">£351.12</b></div></div>
+        <div class="dinfo" data-ver="4" hidden><b data-es="🔔 Mañana se paga la renta" data-en="🔔 Rent is due tomorrow">🔔 Mañana se paga la renta</b><span data-es="£450 desde Nationwide. Ya está contado en lo que puedes gastar." data-en="£450 from Nationwide. It's already counted in what you can spend.">£450 desde Nationwide. Ya está contado en lo que puedes gastar.</span></div>
+        <div class="dhoy"><small data-es="HOY PUEDES GASTAR" data-en="YOU CAN SPEND TODAY">HOY PUEDES GASTAR</small><div class="n"><span id="dNum">£42.51</span><s id="dAntes" hidden>£42.51</s></div><div class="d" data-es="✅ Llegas bien al 28" data-en="✅ You'll make it to the 28th">✅ Llegas bien al 28</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="por-que">
   <div class="wrap">
     <div class="head rv">
@@ -672,8 +705,10 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
   <div class="wrap">
     <div class="segura rv">
       <div>
-        <h2 data-es="Tu dinero, seguro y solo tuyo" data-en="Your money, safe and only yours">Tu dinero, seguro y solo tuyo</h2>
-        <p class="sub" data-es="No tenemos servidores con tus datos. Lo que apuntas se queda contigo." data-en="We have no servers holding your data. What you log stays with you.">No tenemos servidores con tus datos. Lo que apuntas se queda contigo.</p>
+        <div class="k" data-es="Contraseñas de tu banco que te pedimos" data-en="Bank passwords we ask you for">Contraseñas de tu banco que te pedimos</div>
+        <div class="cero" aria-hidden="true">0</div>
+        <div class="k a" data-es="Ni PIN · ni número de tarjeta · ni usuario" data-en="No PIN · no card number · no username">Ni PIN · ni número de tarjeta · ni usuario</div>
+        <p class="sub" data-es="Mis Finanzas no se conecta a tu banco y no puede mover tu dinero. Solo lee el aviso del pago en tu teléfono." data-en="My Finances doesn't connect to your bank and can't move your money. It only reads the payment alert on your phone.">Mis Finanzas no se conecta a tu banco y no puede mover tu dinero. Solo lee el aviso del pago en tu teléfono.</p>
         <div class="pols">
           <a href="privacidad.html"><img src="img/icono-finanzas.png" alt=""><span data-es="Privacidad · Mis Finanzas" data-en="Privacy · My Finances">Privacidad · Mis Finanzas</span></a>
           <a href="privacidad-puntobalance.html"><img src="img/icono-puntobalance.png" alt=""><span data-es="Privacidad · PuntoBalance" data-en="Privacy · PuntoBalance">Privacidad · PuntoBalance</span></a>
@@ -687,6 +722,38 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
         <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b data-es="Sin cookies de seguimiento" data-en="No tracking cookies">Sin cookies de seguimiento</b><span data-es="Ni anuncios ni rastreadores. Esta web solo recuerda tu idioma y tu tema." data-en="No ads, no trackers. This site only remembers your language and theme.">Ni anuncios ni rastreadores. Esta web solo recuerda tu idioma y tu tema.</span></div></li>
       </ul>
     </div>
+  </div>
+</section>
+
+<section id="precios">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="lbl" data-es="Precios" data-en="Pricing">Precios</span>
+      <h2 data-es="Gratis para empezar. Premium cuando quieras más." data-en="Free to start. Premium when you want more.">Gratis para empezar. Premium cuando quieras más.</h2>
+      <p data-es="Mis Finanzas: 14 días con todo, sin tarjeta. Si no pagas, sigues gratis y no pierdes nada." data-en="My Finances: 14 days with everything, no card. If you don't pay, you stay free and lose nothing.">Mis Finanzas: 14 días con todo, sin tarjeta. Si no pagas, sigues gratis y no pierdes nada.</p>
+    </div>
+    <div class="planes rv">
+      <div class="plan"><h3 data-es="Gratis" data-en="Free">Gratis</h3><div class="t" data-es="para empezar a ordenarte" data-en="to get organised">para empezar a ordenarte</div>
+        <ul>
+          <li><i>✓</i><span data-es="Apuntar a mano" data-en="Add by hand">Apuntar a mano</span></li>
+          <li><i>✓</i><span data-es="Cuentas y movimientos" data-en="Accounts and transactions">Cuentas y movimientos</span></li>
+          <li class="no"><i>✕</i><span data-es="Pagos sin escribir" data-en="Payments without typing">Pagos sin escribir</span></li>
+          <li class="no"><i>✕</i><span data-es="Avisos de pagos" data-en="Payment reminders">Avisos de pagos</span></li>
+          <li class="no"><i>✕</i><span data-es="Presupuestos y metas" data-en="Budgets and goals">Presupuestos y metas</span></li>
+          <li class="no"><i>✕</i><span data-es="Copias, PDF y Excel" data-en="Backups, PDF and Excel">Copias, PDF y Excel</span></li>
+        </ul>
+        <div class="pr">£0</div><div class="pr2"></div></div>
+      <div class="plan pro"><span class="badge" data-es="LA APP TRABAJA POR TI" data-en="THE APP WORKS FOR YOU">LA APP TRABAJA POR TI</span><h3>Premium</h3><div class="t" data-es="todo, sin límites" data-en="everything, no limits">todo, sin límites</div>
+        <ul>
+          <li><i>✓</i><span data-es="Todo lo de Gratis" data-en="Everything in Free">Todo lo de Gratis</span></li>
+          <li><i>✓</i><span data-es="Pagos sin escribir (Wallet y bancos)" data-en="Payments without typing (Wallet and banks)">Pagos sin escribir (Wallet y bancos)</span></li>
+          <li><i>✓</i><span data-es="Avisos de pagos" data-en="Payment reminders">Avisos de pagos</span></li>
+          <li><i>✓</i><span data-es="Presupuestos y metas" data-en="Budgets and goals">Presupuestos y metas</span></li>
+          <li><i>✓</i><span data-es="Copias, PDF y Excel" data-en="Backups, PDF and Excel">Copias, PDF y Excel</span></li>
+        </ul>
+        <div class="pr">£1.99 <small data-es="/mes" data-en="/month">/mes</small></div><div class="pr2" data-es="o £14.99 al año" data-en="or £14.99 a year">o £14.99 al año</div></div>
+    </div>
+    <p class="precios-pie" data-es="El pago lo hace Google Play. Puedes cancelar cuando quieras." data-en="Payment is handled by Google Play. Cancel any time.">El pago lo hace Google Play. Puedes cancelar cuando quieras.</p>
   </div>
 </section>
 
@@ -1022,6 +1089,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
 })();
 </script>
 <script src="js/detalle.js" defer></script>
+<script src="js/prueba.js" defer></script>
 
 </body>
 </html>
