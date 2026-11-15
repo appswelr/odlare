@@ -1047,6 +1047,85 @@ html[data-tema="oscuro"] .avc button.bt { background: #131D38; color: #F5E6C4; b
 html[data-tema="oscuro"] .avc.ok { background: #0F2A1B; border-color: #166534; color: #BBF7D0; }
 .ucsw { display: flex; gap: 16px; align-items: center; justify-content: space-between; border: 1px solid var(--line); background: var(--card); border-radius: 14px; padding: 12px 16px; margin: 10px 0 14px; }
 .ucsw b { color: var(--ink); } .ucsw p { margin: 3px 0 0; font-size: 12.5px; color: var(--muted); }
+/* ===== 5.0.0-alpha33 · Inicio «qué hago hoy» ===== */
+.v-inicio .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.v-inicio .rs { border-radius: 20px; padding: 16px 18px; color: #fff; position: relative; overflow: hidden; min-width: 0; }
+.v-inicio .rs.uc { background: linear-gradient(135deg, #1B2B5B, #2E4A8F); }
+.v-inicio .rs.hm { background: linear-gradient(135deg, #2B3445, #4A5568); }
+.v-inicio .rs .hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.v-inicio .rs .hd small { display: block; color: rgba(255,255,255,.75); font-size: 12px; } .v-inicio .rs .hd b { font-size: 15px; color: #fff; }
+.v-inicio .rs .hd button { color: #FFD58A; font-weight: 700; font-size: 12.5px; white-space: nowrap; }
+.v-inicio .rs .nn { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.v-inicio .rs.hm .nn { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.v-inicio .rs .nn div { background: rgba(255,255,255,.1); border-radius: 12px; padding: 9px 11px; min-width: 0; }
+.v-inicio .rs .nn small { font-size: 11.5px; color: rgba(255,255,255,.75); display: block; }
+.v-inicio .rs .nn b { display: block; font-size: 18px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.v-inicio .rs .ok { color: #7CE3A6; } .v-inicio .rs .bad { color: #FFA7A0; } .v-inicio .rs .am { color: #FFD58A; }
+.v-inicio .rs .ft { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; font-size: 12.5px; color: rgba(255,255,255,.85); }
+.v-inicio .rs .bar { flex: 1; max-width: 220px; min-width: 90px; height: 8px; border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; }
+.v-inicio .rs .bar i { display: block; height: 100%; background: #F4A62A; border-radius: 99px; }
+.v-inicio .rs .ft .hmok { margin-left: auto; border: 1.5px solid rgba(255,255,255,.6); border-radius: 9px; padding: 4px 10px; font-weight: 700; font-size: 12px; color: #fff; }
+.v-inicio .qa { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.v-inicio .qa > button { border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; border: 1.5px solid var(--line); background: var(--card); }
+.v-inicio .qa > button:hover { border-color: #1B2B5B; }
+.v-inicio .qa > button > span { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; flex: none; font-weight: 800; }
+.v-inicio .qa b { display: block; font-size: 15.5px; color: var(--ink); } .v-inicio .qa small { display: block; font-size: 12px; color: var(--muted); }
+.v-inicio .qa .qi > span { background: #DCFCE7; color: #12804A; } .v-inicio .qa .qg > span { background: #FEE2E2; color: #D92D20; } .v-inicio .qa .qf > span { background: #E0E7FF; }
+.v-inicio .cols { display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; }
+.v-inicio .bx { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; min-width: 0; }
+.v-inicio .bx h3 { margin: 0 0 6px; font-size: 15px; display: flex; align-items: center; justify-content: space-between; color: var(--ink); }
+.v-inicio .bx h3 button { font-size: 13px; color: #1E60E0; font-weight: 700; }
+.v-inicio .cnt { background: #FEE2E2; color: #B42318; border-radius: 99px; font-size: 12px; padding: 2px 9px; margin-left: 8px; }
+.v-inicio .cnt.ok { background: #DCFCE7; color: #12804A; }
+.v-inicio .it { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.v-inicio .it:first-of-type { border-top: 0; }
+.v-inicio .it .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none; font-size: 16px; }
+.v-inicio .it .t { flex: 1; min-width: 0; } .v-inicio .it .t b { display: block; font-weight: 700; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v-inicio .it .t small { color: var(--muted); font-size: 12.5px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v-inicio .it.ok .t b { color: #12804A; }
+.v-inicio .it .ac { border: 1.5px solid #1B2B5B; border-radius: 10px; padding: 6px 12px; font-weight: 800; font-size: 12.5px; color: #1B2B5B; background: var(--card); white-space: nowrap; flex: none; }
+.v-inicio .it .ac.p { background: #1B2B5B; color: #fff; }
+.v-inicio .it .m { font-weight: 800; white-space: nowrap; } .v-inicio .it .m.mi { color: #12804A; } .v-inicio .it .m.mg { color: #D92D20; }
+.v-inicio .it .cp { border: 1.5px solid var(--line); border-radius: 9px; padding: 4px 9px; font-size: 12px; font-weight: 700; color: #1B2B5B; white-space: nowrap; flex: none; }
+.v-inicio .it .cp:hover { border-color: #1B2B5B; }
+.v-inicio .vac { color: var(--muted); font-size: 13.5px; padding: 10px 0; }
+@media (max-width: 1100px) { .v-inicio .rs.hm .nn { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .v-inicio .dos, .v-inicio .cols { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .v-inicio .qa { gap: 8px; } .v-inicio .qa > button { flex-direction: column; text-align: center; padding: 12px 6px; gap: 6px; }
+  .v-inicio .qa small { display: none; } .v-inicio .qa b { font-size: 13.5px; }
+  .v-inicio .rs .nn { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } .v-inicio .rs .nn div:last-child:nth-child(3) { grid-column: 1 / -1; }
+}
+html[data-tema="oscuro"] .v-inicio .it .ac { background: transparent; color: #DDE3F7; border-color: #DDE3F7; } html[data-tema="oscuro"] .v-inicio .it .ac.p { background: #DDE3F7; color: #151A2D; }
+html[data-tema="oscuro"] .v-inicio .it .cp { color: #DDE3F7; } html[data-tema="oscuro"] .v-inicio .qa .qi > span, html[data-tema="oscuro"] .v-inicio .qa .qg > span, html[data-tema="oscuro"] .v-inicio .qa .qf > span, html[data-tema="oscuro"] .v-inicio .it .ic { background: #1C2A52 !important; }
+/* resumen HMRC (Dashboard) */
+.v-dashboard .hmsa h2 { display: flex; align-items: center; gap: 8px; }
+.v-dashboard .hmsa table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
+.v-dashboard .hmsa td { padding: 9px 10px; border-top: 1px solid var(--border); vertical-align: top; }
+.v-dashboard .hmsa td.c { width: 92px; color: #1B2B5B; font-weight: 800; white-space: nowrap; }
+.v-dashboard .hmsa td.r { text-align: right; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.v-dashboard .hmsa td small { display: block; color: var(--muted); font-size: 12px; }
+.v-dashboard .hmsa tr.t td { background: #F3F5FB; font-weight: 800; } .v-dashboard .hmsa tr.p td { background: #ECFDF3; color: #12804A; font-weight: 800; }
+.v-dashboard .hmsa tr.l td { background: #FEF2F2; color: #B42318; font-weight: 800; } .v-dashboard .hmsa tr.f td { color: var(--muted); }
+.v-dashboard .hmsa .rev { background: #FEF3C7; color: #8A5300; font-size: 11px; font-weight: 800; border-radius: 99px; padding: 2px 8px; margin-left: 6px; }
+.v-dashboard .hmsa .av { background: #EFF4FF; border-radius: 10px; padding: 9px 12px; font-size: 12.5px; color: #2A3F7A; margin-top: 10px; line-height: 1.5; }
+.v-dashboard .hmsa .av.w { background: #FFF7E0; color: #7A4B00; }
+.v-dashboard .hmsa .bts { display: flex; gap: 10px; justify-content: flex-end; margin-top: 12px; flex-wrap: wrap; }
+.v-dashboard .hmsa .bts button { border-radius: 12px; padding: 9px 18px; font-weight: 700; font-size: 14px; border: 1.5px solid #1B2B5B; background: var(--surface); color: #1B2B5B; cursor: pointer; font-family: inherit; }
+.v-dashboard .hmsa .bts button.p { background: #1B2B5B; color: #fff; }
+.v-dashboard .hmsa .bts span { margin-right: auto; align-self: center; font-size: 12.5px; color: var(--muted); }
+html[data-tema="oscuro"] .v-dashboard .hmsa tr.t td { background: #16224A; } html[data-tema="oscuro"] .v-dashboard .hmsa tr.p td { background: #0F2A1C; color: #4ADE80; }
+html[data-tema="oscuro"] .v-dashboard .hmsa td.c { color: #AFC3F5; } html[data-tema="oscuro"] .v-dashboard .hmsa .av { background: #16224A; color: #C9D4F5; }
+html[data-tema="oscuro"] .v-dashboard .hmsa .bts button { color: #DDE3F7; border-color: #DDE3F7; } html[data-tema="oscuro"] .v-dashboard .hmsa .bts button.p { background: #DDE3F7; color: #151A2D; }
+/* Nuevo gasto: Compra / Millas y proveedor repetido */
+.gmodo { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.gmodo button { border: 1.5px solid var(--line); border-radius: 99px; padding: 7px 14px; font-weight: 700; font-size: 13.5px; background: var(--card); color: var(--ink); cursor: pointer; font-family: inherit; }
+.gmodo button[aria-pressed="true"] { background: #1B2B5B; border-color: #1B2B5B; color: #fff; }
+.gmodo small { color: var(--muted); font-size: 12.5px; }
+.dupw { margin-top: 8px; background: #FFF7E0; border: 1.5px solid #F4C55A; border-radius: 12px; padding: 9px 12px; font-size: 13.5px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; color: #151A2D; }
+.dupw.hidden { display: none; } .dupw span { flex: 1; min-width: 180px; }
+.dupw button { border-radius: 10px; padding: 6px 12px; font-weight: 700; font-size: 13px; border: 1.5px solid #1B2B5B; background: #fff; color: #1B2B5B; cursor: pointer; font-family: inherit; }
+.dupw button.p { background: #1B2B5B; color: #fff; }
 /* ===== 5.0.0-alpha32 ===== */
 .ucsw .diasel { flex: none; display: flex; gap: 8px; align-items: center; }
 .ucsw .diasel select { width: auto; min-width: 86px; height: 38px; }
@@ -1171,25 +1250,21 @@ html[data-tema="oscuro"] .v-ayuda summary .q { background: #1C2A52; color: #DDE3
   <p class="lead" id="ini-fecha"></p>
   <div id="aviso-cierre"></div>
   <div id="pasos" class="pasos hidden"></div>
-  <div class="estado" id="ini-est">
-    <div class="card"><span class="ic" style="background:#E0E7FF">📅</span><div><small>Faltan para cerrar el periodo</small><b id="e-dias">…</b></div></div>
-    <div class="card"><span class="ic" style="background:#FFEDD5">⏳</span><div><small>Pendiente de cobro</small><b id="e-pend">…</b></div></div>
-    <div class="card" id="e-copia-c"><span class="ic" style="background:#DCFCE7">☁️</span><div><small>Última copia de seguridad</small><b id="e-copia">…</b></div></div>
-    <div class="card hm" id="e-hmrc-c"><span class="ic" id="e-hmrc-ic" style="background:#FEF3C7">🏛️</span><div class="hmb"><small id="e-hmrc-l">Declaración HMRC</small><div class="hmc"><div><i id="e-hmrc-l1">Declarar desde</i><b id="e-hmrc-1">…</b><em id="e-hmrc-d1"></em></div><div><i>Último día</i><b id="e-hmrc-2">…</b><em id="e-hmrc-d2"></em></div></div><button type="button" class="hmok hidden" id="e-hmrc-ok">✓ Ya la presenté</button></div></div>
+  <div class="dos">
+    <div class="rs uc" id="ini-uc"><div class="hd"><div><small>📅 Periodo</small><b>Cargando…</b></div></div></div>
+    <div class="rs hm" id="ini-hm"><div class="hd"><div><small>🏛️ Año HMRC</small><b>Cargando…</b></div></div></div>
   </div>
-  <h2 class="qq">¿Qué quieres hacer?</h2>
-  <div class="hero">
-    <button class="h p" type="button" data-go="dashboard"><span class="ib2"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span><b>Dashboard</b><small>Gráficos y resumen por periodo</small></span></button>
-    <button class="h s" type="button" data-go="panel"><span class="ib2"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span><b>Facturas y PDF</b><small>Crear, enviar y marcar pagadas</small></span></button>
+  <div class="qa">
+    <button type="button" class="qi" data-go="form:ingreso"><span>＋</span><div><b>Apuntar ingreso</b><small>Factura, evento o venta</small></div></button>
+    <button type="button" class="qg" data-go="form:gasto"><span>－</span><div><b>Apuntar gasto</b><small>Compra, cuota, millas…</small></div></button>
+    <button type="button" class="qf" data-go="panel"><span>📄</span><div><b>Hacer factura</b><small>PDF y enviar al cliente</small></div></button>
   </div>
-  <h2 class="uc-sec">Universal Credit</h2>
-  <div class="list uc-sec"><button class="row" type="button" id="b-resumen"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><span class="tx"><b>Enviarme el resumen</b><small>Resumen del periodo UC a tu correo</small></span></button><button class="row" type="button" data-go="panel"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><span class="tx"><b>Marcar periodo procesado</b><small>Cuando ya lo subiste a UC (en Facturas y PDF)</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" id="b-rev"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span class="tx"><b>Revisar datos</b><small>Busca posibles errores</small></span><span class="pill" id="n-rev">…</span></button><button class="row" type="button" id="b-rec"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span><span class="tx"><b>Recordatorio</b><small><span id="d-rec">…</span></small></span><span class="sw"></span></button></div>
   <div id="h-msg" role="status" aria-live="polite"></div>
-  <h2>Añadir</h2>
-  <div class="list"><button class="row" type="button" data-go="form:ingreso"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><span class="tx"><b>Nuevo ingreso</b><small>Una factura, evento o venta</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:gasto"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span><span class="tx"><b>Nuevo gasto</b><small>Compras, transporte, equipo</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:cliente"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="tx"><b>Nuevo cliente</b><small>Con dirección y email</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:proveedor"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span><span class="tx"><b>Nuevo proveedor</b><small>Para tus gastos</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:categoria"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span><span class="tx"><b>Nueva categoría</b><small>Para ordenar tus gastos</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:periodos"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="tx"><b>Añadir periodos</b><small id="ini-rango">…</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button></div>
-  <h2>Gestionar</h2>
-  <div class="list"><button class="row" type="button" data-go="form:registros"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span><span class="tx"><b>Editar o eliminar</b><small>Corrige un ingreso o gasto</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button><button class="row" type="button" data-go="form:ajustes"><span class="ib"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span><span class="tx"><b>Ajustes</b><small>Tus datos, banco y notas</small></span><svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button></div>
-  <div id="rev"><div class="card"><h3><span>Revisión de datos</span><button class="x" id="rev-x" type="button" aria-label="Cerrar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></h3><div id="rev-b"></div></div></div>
+  <div class="cols">
+    <div class="bx" id="ini-pend"><h3><span>Tienes pendiente</span></h3><div class="vac">Cargando…</div></div>
+    <div class="bx" id="ini-ult"><h3><span>Lo último que apuntaste</span><button type="button" data-go="movimientos">Ver todos ›</button></h3><div class="vac">Cargando…</div></div>
+  </div>
+  <div id="rev"><div class="card"><h3><span>Revisión de datos</span><button class="x" id="rev-x" type="button" aria-label="Cerrar">✕</button></h3><div id="rev-b"></div></div></div>
 </div>
 </template>
 <template id="tpl-panel">
@@ -1257,8 +1332,9 @@ html[data-tema="oscuro"] .v-ayuda summary .q { background: #1C2A52; color: #DDE3
     <h2>Nuevo gasto</h2>
     <div class="fcol">
     <div class="grid">
-      <div><label for="g-fecha">Fecha</label><input id="g-fecha" type="date"></div>
-      <div>
+      <div class="c4 gmodo" role="group" aria-label="Tipo de gasto"><button type="button" data-gm="compra" aria-pressed="true">🛍️ Compra</button><button type="button" data-gm="millas" aria-pressed="false">🚗 Millas</button><small id="gm-hint">Elige «Millas» para un viaje: no hace falta proveedor.</small></div>
+      <div><label for="g-fecha" id="l-g-fecha">Fecha</label><input id="g-fecha" type="date"></div>
+      <div id="g-prov-w">
         <label for="g-prov">Proveedor</label>
         <select id="g-prov"></select>
       </div>
@@ -1266,21 +1342,22 @@ html[data-tema="oscuro"] .v-ayuda summary .q { background: #1C2A52; color: #DDE3
         <label for="g-nuevo">Nombre del proveedor nuevo</label>
         <input id="g-nuevo" placeholder="Por ejemplo: Amazon">
         <div class="hint">Se añadirá a tu lista de proveedores al guardar.</div>
+        <div class="dupw hidden" id="g-dup"></div>
       </div>
-      <div class="c2"><label for="g-desc">Descripción</label><input id="g-desc" placeholder="Qué compraste o pagaste"></div>
+      <div class="c2"><label for="g-desc" id="l-g-desc">Descripción</label><input id="g-desc" placeholder="Qué compraste o pagaste"></div>
       <div class="c2"><label for="g-cat">Categoría<span class="uc-t"> UC</span></label><select id="g-cat"></select><button class="link" type="button" data-ir="categoria">¿Categoría nueva? Añádela primero</button></div>
-      <div><label for="g-unidad">Unidad</label><select id="g-unidad"><option value="UNIT">Unidad</option><option value="MILLAS">Millas</option></select></div>
-      <div><label for="g-cant">Cantidad</label><input id="g-cant" type="number" min="0" step="0.01" value="1" inputmode="decimal"></div>
+      <div id="g-unidad-w"><label for="g-unidad">Unidad</label><select id="g-unidad"><option value="UNIT">Unidad</option><option value="MILLAS">Millas</option></select></div>
+      <div><label for="g-cant" id="l-g-cant">Cantidad</label><input id="g-cant" type="number" min="0" step="0.01" value="1" inputmode="decimal"></div>
       <div>
-        <label for="g-precio">Precio (£)</label>
+        <label for="g-precio" id="l-g-precio">Precio (£)</label>
         <input id="g-precio" type="number" min="0" step="0.01" inputmode="decimal">
         <div class="hint" id="g-hint">Con Millas: £0.45 por milla.</div>
       </div>
-      <div><label for="g-pago">Forma de pago</label><select id="g-pago"><option value="CARD">Tarjeta</option><option value="TRANSFER">Transferencia</option><option value="CASH">Efectivo</option></select></div>
-      <div><label for="g-cuenta">Cuenta (opcional)</label><input id="g-cuenta" maxlength="40" placeholder="Ej. Monzo" autocomplete="off"></div>
+      <div id="g-pago-w"><label for="g-pago">Forma de pago</label><select id="g-pago"><option value="CARD">Tarjeta</option><option value="TRANSFER">Transferencia</option><option value="CASH">Efectivo</option></select></div>
+      <div id="g-cuenta-w"><label for="g-cuenta">Cuenta (opcional)</label><input id="g-cuenta" maxlength="40" placeholder="Ej. Monzo" autocomplete="off"></div>
       <div><label for="g-notas">Notas (opcional)</label><input id="g-notas" placeholder="Para recordar"></div>
     </div>
-    <aside class="resumen" aria-label="Resumen del gasto"><h3>Resumen</h3><div class="rr"><span>Gasto nº</span><b id="g-r-num"></b></div><div class="rr"><span>Periodo<span class="uc-t"> UC</span></span><b id="g-r-per"></b></div><div class="rr" id="g-r-negw"><span>Negocio</span><b id="g-r-neg"></b></div><div class="rt"><span>Total</span><b id="g-prev-tot">£0.00</b></div><button class="btn primary rg" id="g-rg" type="button">Guardar gasto</button><button class="btn rl" id="g-rl" type="button">Limpiar</button><div class="rmsg" id="g-msg" role="status" aria-live="polite"></div></aside>
+    <aside class="resumen" aria-label="Resumen del gasto"><h3>Resumen</h3><div class="rr"><span>Gasto nº</span><b id="g-r-num"></b></div><div class="rr"><span>Periodo<span class="uc-t"> UC</span></span><b id="g-r-per"></b></div><div class="rr" id="g-r-negw"><span>Negocio</span><b id="g-r-neg"></b></div><div class="rr hidden" id="g-r-ucw"><span>En UC pones</span><b id="g-r-uc"></b></div><div class="rt"><span>Total</span><b id="g-prev-tot">£0.00</b></div><button class="btn primary rg" id="g-rg" type="button">Guardar gasto</button><button class="btn rl" id="g-rl" type="button">Limpiar</button><div class="rmsg" id="g-msg" role="status" aria-live="polite"></div></aside>
     </div>
     <aside class="hist" id="h-gasto"></aside>
   </section>
@@ -1325,6 +1402,7 @@ html[data-tema="oscuro"] .v-ayuda summary .q { background: #1C2A52; color: #DDE3
       <div id="k-editando" class="c4 editando hidden"><span id="k-edtxt"></span><button type="button" id="k-cancel">Cancelar</button></div>
       <div class="c2"><label for="k-nombre">Nombre</label><input id="k-nombre" placeholder="Por ejemplo: Insurance"></div>
       <div class="c2"><label for="k-desc">Descripción (opcional)</label><input id="k-desc" placeholder="Qué tipo de gastos van aquí"></div>
+      <div class="c4"><label for="k-tipo">Tipo de gasto (para UC y HMRC)</label><select id="k-tipo"></select><div class="hint">Así sale en el resumen de UC y en «Resumen para tu declaración (HMRC)». Si no eliges, lo adivino por el nombre.</div></div>
       <div class="c4 hint">Al guardarla aparece al instante en el formulario de gastos y en los resúmenes. <span id="k-cupo"></span></div>
     </div>
     <aside class="resumen" aria-label="Resumen"><h3>Resumen</h3><div class="rr"><span>Categorías usadas</span><b id="k-r-n">…</b></div><div class="rr"><span>Gastado este año</span><b id="k-r-t">…</b></div><button class="btn primary rg" id="k-rg" type="button">Guardar categoría</button><button class="btn rl" id="k-rl" type="button">Limpiar</button><button class="btn rdel hidden" id="k-del" type="button">🗑️ Eliminar</button><div class="rnota hidden" id="k-nota"></div><div class="rmsg" id="k-msg" role="status" aria-live="polite"></div></aside>
@@ -1445,7 +1523,7 @@ html[data-tema="oscuro"] .v-ayuda summary .q { background: #1C2A52; color: #DDE3
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha32',fecha:'12 nov 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha33',fecha:'15 nov 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 /* 5.0.0-alpha32: lo que se ve en pantalla va en español (la hoja y el PDF siguen en inglés) */
@@ -1664,59 +1742,119 @@ function init_movimientos(ROOT, P, S) {
 }
 
 function init_inicio(ROOT, P, S) {
+  /* 5.0.0-alpha33: Inicio «qué hago hoy» (aprobado con imagen el 15 nov 2026) */
   const $ = (id) => document.getElementById(id);
-  const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  function msg(t, tipo) { const m = $('h-msg'); if (!m) return; m.textContent = t; m.className = tipo || ''; }
-  let REC = false;
-  function pintarRec() { const b = $('b-rec'); if (!b) return; b.classList.toggle('on', REC); $('d-rec').textContent = REC ? 'Activado: al cerrar cada periodo recibes el resumen por email.' : 'Desactivado.'; }
-
-  /* 5.0.0-alpha20: tarjeta HMRC */
+  const esc = (t) => String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const gbp = (n) => (n < -0.004 ? '−' : '') + '£' + Math.abs(Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  function msg(t, tipo) { const m = $('h-msg'); if (!m) return; m.textContent = t || ''; m.className = tipo || ''; }
   const MESC = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  const escH = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  function pintarHmrc(h) {
-    if (!$('e-hmrc-c')) return;
-    const f = (s) => { const d = new Date(s + 'T00:00:00'); return d.getDate() + ' ' + MESC[d.getMonth()] + ' ' + d.getFullYear(); };
-    const hoy = new Date(new Date().toDateString()), dias = (s) => Math.round((new Date(s + 'T00:00:00') - hoy) / 864e5);
-    const txt = (n) => n === 0 ? 'Es hoy' : n === 1 ? 'Falta 1 día' : 'Faltan ' + n + ' días';
-    const dd = dias(h.desde), dl = dias(h.limite), ya = dd <= 0;
-    $('e-hmrc-l').innerHTML = 'Impuestos HMRC · año fiscal ' + escH(h.anio) + (h.ini ? '<br><span class="hmp">' + f(h.ini) + ' – ' + f(h.fin) + '</span>' : '');
-    $('e-hmrc-ic').textContent = ya ? '✅' : '🏛️'; $('e-hmrc-ic').style.background = ya ? '#DCFCE7' : '#FEF3C7';
-    $('e-hmrc-l1').textContent = ya ? 'Abierta desde' : 'Presentar desde'; $('e-hmrc-l1').className = ya ? 'ok' : '';
-    $('e-hmrc-1').textContent = f(h.desde);
-    $('e-hmrc-d1').textContent = ya ? '✓ Ya se puede' : txt(dd); $('e-hmrc-d1').className = ya ? 'ok' : 'warn';
-    $('e-hmrc-2').textContent = f(h.limite);
-    $('e-hmrc-d2').textContent = dl < 0 ? 'Venció hace ' + (-dl) + (dl === -1 ? ' día' : ' días') : txt(dl); $('e-hmrc-d2').className = dl < 0 ? 'err' : ya ? 'warn' : '';
-    const b = $('e-hmrc-ok'); b.classList.toggle('hidden', !ya);
-    b.onclick = () => {
-      b.disabled = true; b.textContent = 'Guardando…';
-      google.script.run.withSuccessHandler((n) => { b.disabled = false; b.textContent = '✓ Ya la presenté'; pintarHmrc(n); })
-        .withFailureHandler((e) => { b.disabled = false; b.textContent = '✓ Ya la presenté'; alert(String(e.message || e).replace(/^Exception: /, '')); })
-        .marcarHmrcPresentada(h.anioN);
-    };
-  }
+  const fL = (s) => { if (!s) return ''; const d = new Date(s + 'T00:00:00'); return d.getDate() + ' ' + MESC[d.getMonth()] + ' ' + d.getFullYear(); };
+  const fC = (s) => { if (!s) return ''; const d = new Date(s + 'T00:00:00'); return d.getDate() + ' ' + MESC[d.getMonth()]; };
+  const fd = (s) => (s ? s.slice(8, 10) + '/' + s.slice(5, 7) + '/' + s.slice(0, 4) : '');
+  const hoy0 = () => new Date(new Date().toDateString());
+  const dias = (s) => Math.round((new Date(s + 'T00:00:00') - hoy0()) / 864e5);
+  const faltan = (n) => n === 0 ? 'es hoy' : n === 1 ? 'falta 1 día' : 'faltan ' + n + ' días';
+  const uc = () => !!(S.usaUC && S.usaUC());
+  let HUB = null, DAT = null, COPIA;   // COPIA: undefined = aún no se sabe; null = modo de ejemplo; 0 = nunca; ms = fecha
 
-  /* 5.0.0-alpha11: saludo y tarjetas de estado */
   const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'], MESL = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-  const gbpI = (n) => '£' + (Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  (function () { const h = new Date(); $('ini-fecha').textContent = DIAS[h.getDay()].replace(/^./, (x) => x.toUpperCase()) + ' ' + h.getDate() + ' de ' + MESL[h.getMonth()] + ' de ' + h.getFullYear(); })();
+  (function () { const h = new Date(); $('ini-fecha').textContent = DIAS[h.getDay()].replace(/^./, (x) => x.toUpperCase()) + ' ' + h.getDate() + ' de ' + MESL[h.getMonth()] + ' de ' + h.getFullYear() + ' · ¿qué hacemos hoy?'; })();
+
   S.hub((d) => {
     if (!d || !$('ini-hola')) return;
+    HUB = d;
     const nom = String((window.pbCuenta && window.pbCuenta.nombre && window.pbCuenta.nombre()) || d.nombre || '').trim().split(/\s+/)[0];
     $('ini-hola').textContent = 'Hola' + (nom ? ', ' + nom : '') + ' 👋';
-    if (d.periodo) $('ini-fecha').textContent += ' · periodo ' + d.periodo;
-    if (d.periodoFin) {
-      const f = new Date(d.periodoFin + 'T23:59:59'), dias = Math.max(0, Math.ceil((f - new Date()) / 864e5));
-      $('e-dias').textContent = dias === 0 ? 'hoy se cierra' : dias + (dias === 1 ? ' día' : ' días'); $('e-dias').className = dias <= 3 ? 'warn' : '';
-    } else $('e-dias').textContent = '—';
-    const pe = d.pendiente || { total: 0, n: 0 };
-    $('e-pend').textContent = pe.total ? gbpI(pe.total) + ' · ' + pe.n + (pe.n === 1 ? ' factura' : ' facturas') : 'nada pendiente'; $('e-pend').className = pe.total ? 'warn' : 'ok';
-    if (d.hmrc) pintarHmrc(d.hmrc);
     S.avisoCierre($('aviso-cierre'), d);
-    ROOT.querySelectorAll('.uc-sec').forEach((x) => x.classList.toggle('hidden', !S.usaUC()));
-    if ($('ini-rango')) $('ini-rango').textContent = pbRango(d.diaPeriodo, true);
     pintarPasos(d.pasos);
+    pintar();
   });
-  /* 5.0.0-alpha32: «Primeros pasos» para quien empieza (se oculta solo al terminar o con «Ocultar») */
+  function cargar() {
+    google.script.run.withSuccessHandler((r) => { DAT = r; pintar(); })
+      .withFailureHandler((e) => { const b = $('ini-pend'); if (b) b.innerHTML = '<h3><span>Tienes pendiente</span></h3><div class="vac">No he podido cargar tus datos: ' + esc(String(e.message || e).replace(/^Exception: /, '')) + '</div>'; })
+      .getInicio((S.negocio && S.negocio()) || null);
+  }
+  cargar();
+  if (window.pbDatos && window.pbDatos.ultimaCopia) window.pbDatos.ultimaCopia().then((ms) => { COPIA = ms; pintar(); }).catch(() => { COPIA = undefined; });
+
+  function verDash(modo) { try { localStorage.setItem('pb_dash', modo); } catch (e) { } S.ir('dashboard'); }
+  function pintar() { if (!DAT || !$('ini-uc')) return; pintarUC(); pintarHM(); pintarPend(); pintarUlt(); }
+
+  function pintarUC() {
+    const p = DAT.periodo, box = $('ini-uc'), U = uc();
+    if (!p.etiqueta) { box.innerHTML = '<div class="hd"><div><small>📅 Periodo' + (U ? ' UC' : '') + '</small><b>Sin periodo actual</b></div></div><div class="ft">Añade periodos en el menú › Añadir periodos.</div>'; return; }
+    const tot = Math.max(1, Math.round((new Date(p.fin + 'T00:00:00') - new Date(p.ini + 'T00:00:00')) / 864e5) + 1), n = Math.max(0, dias(p.fin));
+    const pct = Math.min(100, Math.max(3, Math.round((tot - n) / tot * 100))), gan = p.ingresos - p.gastos;
+    box.innerHTML = '<div class="hd"><div><small>📅 Periodo' + (U ? ' UC' : '') + '</small><b>' + esc(String(p.etiqueta).split(' ')[0]) + ' (' + fC(p.ini) + ' – ' + fC(p.fin) + ')</b></div><button type="button" id="ini-uc-d">Ver en Dashboard ›</button></div>' +
+      '<div class="nn"><div><small>Ingresos</small><b class="ok">' + gbp(p.ingresos) + '</b></div><div><small>Gastos</small><b class="bad">' + gbp(p.gastos) + '</b></div>' +
+      '<div><small>Ganancia</small><b class="' + (gan < 0 ? 'bad' : 'ok') + '">' + gbp(gan) + '</b></div></div>' +
+      '<div class="ft"><div class="bar"><i style="width:' + pct + '%"></i></div>' + (n === 0 ? 'Hoy se cierra' : 'Faltan ' + n + (n === 1 ? ' día' : ' días')) + (U ? ' · luego lo subes a UC' : '') + '</div>';
+    $('ini-uc-d').onclick = () => verDash('uc');
+  }
+  function pintarHM() {
+    const h = DAT.hmrc, box = $('ini-hm'), dd = dias(h.desde), dl = dias(h.limite), ya = dd <= 0;
+    box.innerHTML = '<div class="hd"><div><small>🏛️ Año HMRC</small><b>' + esc(h.anio) + ' (' + fL(h.ini) + ' – ' + fL(h.fin) + ')</b></div><button type="button" id="ini-hm-d">Ver en Dashboard ›</button></div>' +
+      '<div class="nn"><div><small>Ingresos</small><b class="ok">' + gbp(h.ingresos) + '</b></div><div><small>Gastos</small><b class="bad">' + gbp(h.gastos) + '</b></div>' +
+      '<div><small>Beneficio</small><b class="' + (h.beneficio < 0 ? 'bad' : 'ok') + '">' + gbp(h.beneficio) + '</b></div><div><small>Impuesto' + (h.impuestoTotal ? ' (todo)' : '') + '</small><b class="am">' + gbp(h.impuesto) + '</b></div></div>' +
+      '<div class="ft">' + (ya ? '✅ Ya puedes declarar · último día ' + fL(h.limite) + (dl < 0 ? ' (venció hace ' + (-dl) + (dl === -1 ? ' día)' : ' días)') : ' (' + faltan(dl) + ')') + '<button type="button" class="hmok" id="ini-hm-ok">✓ Ya la presenté</button>'
+        : 'Presentar desde ' + fL(h.desde) + ' (' + faltan(dd) + ') · último día ' + fL(h.limite)) + '</div>';
+    $('ini-hm-d').onclick = () => verDash('hmrc');
+    const b = $('ini-hm-ok');
+    if (b) b.onclick = () => {
+      b.disabled = true; b.textContent = 'Guardando…';
+      google.script.run.withSuccessHandler(() => { msg('Apuntado: declaración ' + h.anio + ' presentada.', 'ok'); cargar(); })
+        .withFailureHandler((e) => { b.disabled = false; b.textContent = '✓ Ya la presenté'; msg(String(e.message || e).replace(/^Exception: /, ''), 'err'); }).marcarHmrcPresentada(h.anioN);
+    };
+  }
+  function pintarPend() {
+    const L = [], ok = [], U = uc(), pe = DAT.pendientes || [], av = DAT.avisos || [], p = DAT.periodo;
+    pe.slice(0, 3).forEach((x) => {
+      const n = x.fecha ? -dias(x.fecha) : 0;
+      L.push('<div class="it"><span class="ic" style="background:#FFEDD5">⏳</span><div class="t"><b>Cobrar a ' + esc(x.cliente) + ' · ' + gbp(x.total) + '</b><small>Factura ' + esc(x.num || x.id) +
+        (x.fecha ? ' · ' + (n <= 0 ? 'de hoy' : n === 1 ? 'hace 1 día' : 'hace ' + n + ' días') : '') + '</small></div><button type="button" class="ac" data-pagada="' + x.id + '" data-num="' + esc(x.num || x.id) + '">✓ Ya me pagó</button></div>');
+    });
+    if (pe.length > 3) L.push('<div class="it"><span class="ic" style="background:#FFEDD5">🧾</span><div class="t"><b>Y ' + (pe.length - 3) + (pe.length - 3 === 1 ? ' factura más' : ' facturas más') + ' por cobrar</b><small>Las ves todas en Facturas y PDF</small></div><button type="button" class="ac" data-go="panel">Ver</button></div>');
+    if (!pe.length) ok.push('<div class="it ok"><span class="ic" style="background:#DCFCE7">⏳</span><div class="t"><b>Nada pendiente de cobro</b><small>Todas tus facturas están cobradas</small></div></div>');
+    if (av.length) L.push('<div class="it"><span class="ic" style="background:#FEF3C7">🛡️</span><div class="t"><b>Revisar ' + (av.length === 1 ? '1 dato' : av.length + ' datos') + '</b><small>' + esc(av[0].texto) + '</small></div><button type="button" class="ac" id="ini-rev">Revisar</button></div>');
+    else ok.push('<div class="it ok"><span class="ic" style="background:#DCFCE7">🛡️</span><div class="t"><b>Tus datos están bien</b><small>No he encontrado nada que revisar</small></div></div>');
+    if (p.fin) {
+      const n = Math.max(0, dias(p.fin)), cerca = n <= 3;
+      (cerca ? L : ok).push('<div class="it' + (cerca ? '' : ' ok') + '"><span class="ic" style="background:#E0E7FF">🔔</span><div class="t"><b' + (cerca ? '' : ' style="color:var(--ink)"') + '>Cerrar el periodo ' + esc(String(p.etiqueta).split(' ')[0]) + '</b><small>' +
+        (n === 0 ? 'Hoy es el último día' : 'Faltan ' + n + (n === 1 ? ' día' : ' días')) + (U ? ' · luego lo subes a UC' : '') + (cerca ? '' : ' · te aviso 3 días antes') + '</small></div>' + (cerca ? '<button type="button" class="ac" data-go="movimientos">Revisar movimientos</button>' : '') + '</div>');
+    }
+    if (COPIA === 0) L.push('<div class="it"><span class="ic" style="background:#FEF3C7">☁️</span><div class="t"><b>Haz tu primera copia de seguridad</b><small>Se guarda en tu Google Drive</small></div><button type="button" class="ac" data-go="datos">Hacer copia</button></div>');
+    else if (COPIA) {
+      const dd = new Date(COPIA), hh = String(dd.getHours()).padStart(2, '0') + ':' + String(dd.getMinutes()).padStart(2, '0'), nd = Math.floor((hoy0() - new Date(dd.toDateString())) / 864e5);
+      const cu = nd <= 0 ? 'Hoy, ' + hh : nd === 1 ? 'Ayer, ' + hh : 'Hace ' + nd + ' días';
+      if (nd > 7) L.push('<div class="it"><span class="ic" style="background:#FEF3C7">☁️</span><div class="t"><b>Haz una copia de seguridad</b><small>La última: ' + cu + '</small></div><button type="button" class="ac" data-go="datos">Hacer copia</button></div>');
+      else ok.push('<div class="it ok"><span class="ic" style="background:#DCFCE7">☁️</span><div class="t"><b>Copia de seguridad hecha</b><small>' + cu + '</small></div></div>');
+    }
+    $('ini-pend').innerHTML = '<h3><span>Tienes pendiente <span class="cnt' + (L.length ? '' : ' ok') + '">' + (L.length || '✓') + '</span></span></h3>' + L.join('') + ok.join('');
+    ROOT.querySelectorAll('#ini-pend [data-go]').forEach((b) => (b.onclick = () => S.ir(b.dataset.go)));
+    ROOT.querySelectorAll('#ini-pend [data-pagada]').forEach((b) => (b.onclick = () => {
+      b.disabled = true;
+      google.script.run.withSuccessHandler(() => { msg('Factura ' + b.dataset.num + ' marcada como cobrada.', 'ok'); cargar(); })
+        .withFailureHandler((e) => { b.disabled = false; msg(String(e.message || e).replace(/^Exception: /, ''), 'err'); }).marcarFacturaPagada(Number(b.dataset.pagada));
+    }));
+    const r = $('ini-rev'); if (r) r.onclick = () => { $('rev').style.display = 'block'; $('rev-b').innerHTML = '<ul>' + av.map((a) => '<li>' + esc(a.texto) + '</li>').join('') + '</ul>'; $('rev').scrollIntoView({ behavior: 'smooth' }); };
+  }
+  function pintarUlt() {
+    const l = DAT.ultimos || [];
+    const fila = (x, i) => {
+      const ing = x.t === 'i', mi = !ing && x.unidad === 'MILLAS';
+      const tit = ing ? x.cliente : mi ? 'Millas' + (x.desc ? ' · ' + x.desc : '') : x.prov + (x.desc ? ' · ' + x.desc : '');
+      return '<div class="it"><span class="ic" style="background:' + (ing ? '#DCFCE7' : '#FEE2E2') + '">' + (ing ? '🧾' : mi ? '🚗' : '🛍️') + '</span><div class="t"><b>' + esc(tit) + '</b><small>' + fd(x.fecha) + ' · <span class="m ' + (ing ? 'mi' : 'mg') + '">' + (ing ? '+' : '−') + gbp(x.total) + '</span>' +
+        (ing && x.estado === 'PENDING' ? ' · ' + pbEs('PENDING') : '') + '</small></div><button type="button" class="cp" data-otra="' + i + '" title="Abre el formulario con estos datos; solo cambias la fecha">⧉ Otra igual</button></div>';
+    };
+    $('ini-ult').innerHTML = '<h3><span>Lo último que apuntaste</span><button type="button" data-go="movimientos">Ver todos ›</button></h3>' +
+      (l.length ? l.map(fila).join('') : '<div class="vac">Todavía no has apuntado nada. Empieza con «Apuntar ingreso» o «Apuntar gasto».</div>');
+    ROOT.querySelectorAll('#ini-ult [data-go]').forEach((b) => (b.onclick = () => S.ir(b.dataset.go)));
+    ROOT.querySelectorAll('#ini-ult [data-otra]').forEach((b) => (b.onclick = () => {
+      const x = l[Number(b.dataset.otra)]; window.PB_COPIAR = { tipo: x.t === 'i' ? 'ingreso' : 'gasto', r: x }; S.ir('form:' + window.PB_COPIAR.tipo);
+    }));
+  }
+
+  /* «Primeros pasos» para quien empieza (5.0.0-alpha32) */
   function pintarPasos(p) {
     const box = $('pasos'); if (!box || !p) return;
     let off = ''; try { off = localStorage.getItem('pb_pasos_off') || ''; } catch (e) { }
@@ -1733,45 +1871,9 @@ function init_inicio(ROOT, P, S) {
     box.querySelectorAll('[data-ps]').forEach((b) => (b.onclick = () => { if (!b.classList.contains('ok')) S.ir(b.dataset.ps); }));
     $('ps-x').onclick = () => { try { localStorage.setItem('pb_pasos_off', '1'); } catch (e) { } box.classList.add('hidden'); };
   }
-  if (window.pbDatos && window.pbDatos.ultimaCopia) {
-    window.pbDatos.ultimaCopia().then((ms) => {
-      if (ms === null) { $('e-copia').textContent = 'modo de ejemplo'; return; }
-      if (!ms) { $('e-copia').textContent = 'nunca · haz una'; $('e-copia').className = 'warn'; return; }
-      const dd = new Date(ms), hoy = new Date(), hh = String(dd.getHours()).padStart(2, '0') + ':' + String(dd.getMinutes()).padStart(2, '0');
-      const dias = Math.floor((new Date(hoy.toDateString()) - new Date(dd.toDateString())) / 864e5);
-      $('e-copia').textContent = dias <= 0 ? 'hoy, ' + hh : dias === 1 ? 'ayer, ' + hh : 'hace ' + dias + ' días'; $('e-copia').className = dias > 7 ? 'warn' : 'ok';
-    }).catch(() => { $('e-copia').textContent = '—'; });
-    $('e-copia-c').style.cursor = 'pointer'; $('e-copia-c').onclick = () => S.ir('datos');
-  } else $('e-copia-c').classList.add('hidden');
-  S.hub((d) => {
-    const n = $('n-rev'); if (!n) return;
-    if (!d) { n.textContent = '—'; return; }
-    n.textContent = d.avisos ? d.avisos + (d.avisos === 1 ? ' aviso' : ' avisos') : 'todo bien';
-    n.className = 'pill' + (d.avisos ? ' warn' : '');
-    REC = d.recordatorio; pintarRec();
-  });
 
-  ROOT.querySelectorAll('[data-go]').forEach((b) => (b.onclick = () => S.ir(b.dataset.go)));
-
-  $('b-rev').onclick = () => {
-    $('rev').style.display = 'block'; $('rev-b').textContent = 'Revisando…';
-    google.script.run.withSuccessHandler((l) => {
-      $('rev-b').innerHTML = l.length ? '<ul>' + l.map((a) => '<li>' + esc(a.texto) + '</li>').join('') + '</ul>' : 'Todo en orden: no he encontrado nada que revisar.';
-    }).withFailureHandler((e) => { const r = $('rev-b'); if (r) r.textContent = e.message; }).getRevision();
-  };
+  ROOT.querySelectorAll('.qa [data-go]').forEach((b) => (b.onclick = () => S.ir(b.dataset.go)));
   $('rev-x').onclick = () => ($('rev').style.display = 'none');
-
-  $('b-resumen').onclick = () => {
-    const b = $('b-resumen'); b.disabled = true; msg('Enviando el resumen…');
-    google.script.run.withSuccessHandler((para) => { b.disabled = false; msg('Resumen enviado a ' + para, 'ok'); })
-      .withFailureHandler((e) => { b.disabled = false; msg(e.message.replace(/^Exception: /, ''), 'err'); }).hubEnviarResumen();
-  };
-
-  $('b-rec').onclick = () => {
-    const b = $('b-rec'); b.disabled = true;
-    google.script.run.withSuccessHandler((on) => { b.disabled = false; REC = on; pintarRec(); msg(on ? 'Recordatorio mensual activado.' : 'Recordatorio mensual desactivado.', 'ok'); })
-      .withFailureHandler((e) => { b.disabled = false; msg(e.message.replace(/^Exception: /, ''), 'err'); }).hubRecordatorio(!REC);
-  };
   return {};
 }
 
@@ -1958,8 +2060,11 @@ function init_form(ROOT, P, S) {
     $('g-prov').innerHTML = '<option value="">Elige un proveedor…</option>' + opts(D.proveedores) + '<option value="__nuevo__">➕ Nuevo proveedor…</option>';
     if (D.proveedores.indexOf(p) >= 0) $('g-prov').value = p;
     const gc = $('g-cat').value;
-    $('g-cat').innerHTML = '<option value="">Elige una categoría…</option>' + opts(D.categorias);
+    const conUC = S.usaUC && S.usaUC(), tUC = (n) => { const t = (D.tiposGasto || []).find((x) => x.k === (D.catTipo || {})[n]); return t ? t.uc : ''; };
+    $('g-cat').innerHTML = '<option value="">Elige una categoría…</option>' + D.categorias.map((n) => { const s = String(n).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); return '<option value="' + s + '">' + s + (conUC && tUC(n) ? ' · UC: ' + tUC(n) : '') + '</option>'; }).join('');
+    if ($('k-tipo')) { const kv = $('k-tipo').value; $('k-tipo').innerHTML = '<option value="">Que lo adivine por el nombre</option>' + (D.tiposGasto || []).map((t) => '<option value="' + t.k + '">' + t.es + ' · ' + t.uc + (t.casilla ? ' · casilla ' + t.casilla : ' · no va en la declaración') + '</option>').join(''); $('k-tipo').value = kv; }
     if (D.categorias.indexOf(gc) >= 0) $('g-cat').value = gc;
+    pintarTipoUC();
     ['i-evento', 'i-factura', 'g-fecha'].forEach((id) => { if (!$(id).value) $(id).value = D.hoy; });
     $('k-cupo').textContent = 'Categorías usadas: ' + D.nCategorias + ' de ' + D.catMax + '.';
     $('pe-ultimo').textContent = D.ultimoPeriodo || '–';
@@ -2113,7 +2218,7 @@ function init_form(ROOT, P, S) {
   })();
   if ($('aj-uc-b')) $('aj-uc-b').onclick = () => {
     const b = $('aj-uc-b'), nuevo = !S.usaUC(); b.disabled = true;
-    google.script.run.withSuccessHandler((v) => { b.disabled = false; S.setUC(v); pintarUC(); msg(v ? 'Universal Credit activado.' : 'Universal Credit desactivado.', 'ok'); })
+    google.script.run.withSuccessHandler((v) => { b.disabled = false; S.setUC(v); pintarUC(); if (D) poblar(); msg(v ? 'Universal Credit activado.' : 'Universal Credit desactivado.', 'ok'); })
       .withFailureHandler((e) => { b.disabled = false; msg(String(e.message || e).replace(/^Exception: /, ''), 'err'); }).setUsaUC(nuevo);
   };
   const attr = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -2130,11 +2235,56 @@ function init_form(ROOT, P, S) {
   const AJ_MOVIDOS = ['usa_uc', 'dia_inicio_periodo', 'direccion', 'ciudad_postcode', 'telefono', 'email', 'banco', 'titular', 'sort_code', 'cuenta', 'nota_factura', 'plazo_pago_dias', 'color_factura'];
 
   const val = (id) => $(id).value;
+  /* 5.0.0-alpha33: «Compra» / «Millas» (las millas no necesitan proveedor) */
+  let GM = 'compra';
+  function provLeido() {
+    const v = val('g-prov') === '__nuevo__' ? val('g-nuevo') : val('g-prov');
+    return GM === 'millas' && (!v || /^millas$/i.test(String(v).trim())) ? '' : v;
+  }
+  function setGM(m, auto) {
+    GM = m; const mi = m === 'millas';
+    ROOT.querySelectorAll('[data-gm]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.gm === m)));
+    ['g-prov-w', 'g-unidad-w', 'g-pago-w', 'g-cuenta-w'].forEach((id) => $(id).classList.toggle('hidden', mi));
+    $('g-nuevo-wrap').classList.toggle('hidden', mi || $('g-prov').value !== '__nuevo__');
+    $('l-g-fecha').textContent = mi ? 'Fecha del viaje' : 'Fecha';
+    $('l-g-desc').textContent = mi ? 'Viaje (de – a)' : 'Descripción'; $('g-desc').placeholder = mi ? 'Ej. Swansea – Cardiff (ida y vuelta)' : 'Qué compraste o pagaste';
+    $('l-g-cant').textContent = mi ? 'Millas' : 'Cantidad'; $('l-g-precio').textContent = mi ? 'Precio por milla (£)' : 'Precio (£)';
+    $('g-hint').classList.toggle('hidden', mi); $('gm-hint').textContent = mi ? 'Pon el viaje y las millas: el total sale solo.' : 'Elige «Millas» para un viaje: no hace falta proveedor.';
+    if (mi) {
+      $('g-unidad').value = 'MILLAS'; if (!$('g-precio').value) $('g-precio').value = '0.45';
+      if (!$('g-cat').value && D) { const k = (D.categorias || []).find((n) => (D.catTipo || {})[n] === 'vehicle'); if (k) $('g-cat').value = k; }
+    } else if (!auto) { $('g-unidad').value = 'UNIT'; if ($('g-precio').value === '0.45') $('g-precio').value = ''; }
+    previews();
+  }
+  function syncGM() { setGM($('g-unidad').value === 'MILLAS' ? 'millas' : 'compra', true); }
+  ROOT.querySelectorAll('[data-gm]').forEach((b) => (b.onclick = () => setGM(b.dataset.gm)));
+  $('g-unidad').addEventListener('change', syncGM);
+  /* 5.0.0-alpha33: aviso de proveedor repetido («shell» y «Shell») */
+  const normP = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
+  let DUPNO = '';
+  function revisarDup() {
+    const box = $('g-dup'), v = val('g-nuevo'), n = normP(v);
+    const x = n && D ? (D.proveedores || []).find((p) => normP(p) === n) : null;
+    if (!x || DUPNO === n) { box.classList.add('hidden'); return; }
+    box.innerHTML = '<span>⚠️ Ya tienes <b>«' + String(x).replace(/</g, '&lt;') + '»</b> en tu lista de proveedores. ¿Es el mismo?</span><button type="button" class="p" id="g-dup-si">Sí, usar «' + String(x).replace(/</g, '&lt;') + '»</button><button type="button" id="g-dup-no">No, es otro</button>';
+    box.classList.remove('hidden');
+    $('g-dup-si').onclick = () => { $('g-prov').value = x; $('g-nuevo').value = ''; $('g-nuevo-wrap').classList.add('hidden'); box.classList.add('hidden'); syncRg(); };
+    $('g-dup-no').onclick = () => { DUPNO = n; box.classList.add('hidden'); };
+  }
+  $('g-nuevo').addEventListener('input', revisarDup);
+  /* 5.0.0-alpha33: tipo de UC de la categoría elegida */
+  function pintarTipoUC() {
+    const w = $('g-r-ucw'); if (!w || !D) return;
+    const t = (D.tiposGasto || []).find((x) => x.k === (D.catTipo || {})[$('g-cat').value]);
+    w.classList.toggle('hidden', !(S.usaUC && S.usaUC()) || !t); if (t) $('g-r-uc').textContent = t.uc;
+  }
+  $('g-cat').addEventListener('change', pintarTipoUC);
+
   const lecturas = {
     ingreso: () => ({ cliente: val('i-cliente'), descripcion: val('i-desc'), fechaEvento: val('i-evento'), fechaFactura: val('i-factura'),
       unidad: val('i-unidad'), precio: val('i-precio'), cantidad: val('i-cant'), formaPago: val('i-pago'), cuenta: val('i-cuenta'), estado: val('i-estado'), negocio: NF.ingreso }),
-    gasto: () => ({ fecha: val('g-fecha'), proveedor: val('g-prov') === '__nuevo__' ? val('g-nuevo') : val('g-prov'), descripcion: val('g-desc'),
-      categoria: val('g-cat'), unidad: val('g-unidad'), cantidad: val('g-cant'), precio: val('g-precio'), notas: val('g-notas'), formaPago: val('g-pago'), cuenta: val('g-cuenta'), negocio: NF.gasto })
+    gasto: () => ({ fecha: val('g-fecha'), proveedor: provLeido(), descripcion: val('g-desc'),
+      categoria: val('g-cat'), unidad: val('g-unidad'), cantidad: val('g-cant'), precio: val('g-precio'), notas: val('g-notas'), formaPago: GM === 'millas' ? '' : val('g-pago'), cuenta: GM === 'millas' ? '' : val('g-cuenta'), negocio: NF.gasto })
   };
 
   function limpiar(tab) {
@@ -2152,9 +2302,11 @@ function init_form(ROOT, P, S) {
     }
     if (tab === 'gasto') {
       ['g-prov', 'g-cat'].forEach((id) => ($(id).value = ''));
-      $('g-unidad').selectedIndex = 0; $('g-pago').selectedIndex = 0; $('g-cant').value = '1'; $('g-nuevo-wrap').classList.add('hidden'); if (D) $('g-fecha').value = D.hoy;
+      $('g-unidad').selectedIndex = 0; $('g-pago').selectedIndex = 0; $('g-cant').value = '1'; DUPNO = ''; $('g-dup').classList.add('hidden'); $('g-nuevo-wrap').classList.add('hidden'); if (D) $('g-fecha').value = D.hoy;
       H.gasto.fil = ''; if (H.gasto.data) histPintar('gasto');
+      setGM('compra', true);
     }
+    if (tab === 'categoria' && $('k-tipo')) $('k-tipo').value = '';
   }
 
   $('i-rg').onclick = () => $('guardar').onclick();
@@ -2198,7 +2350,7 @@ function init_form(ROOT, P, S) {
     if (tab === 'ingreso') { if (EDIT) run.actualizarIngreso(EDIT.id, lecturas.ingreso()); else run.guardarIngreso(lecturas.ingreso()); }
     else if (tab === 'gasto') { if (EDIT) run.actualizarGasto(EDIT.id, lecturas.gasto()); else run.guardarGasto(lecturas.gasto()); }
     else if (tab === 'proveedor') { if (EDITL.proveedor) run.actualizarProveedor(EDITL.proveedor, val('p-nombre'), val('p-notas')); else run.guardarProveedor(val('p-nombre'), val('p-notas')); }
-    else if (tab === 'categoria') { if (EDITL.categoria) run.actualizarCategoria(EDITL.categoria, val('k-nombre'), val('k-desc')); else run.guardarCategoria(val('k-nombre'), val('k-desc')); }
+    else if (tab === 'categoria') { if (EDITL.categoria) run.actualizarCategoria(EDITL.categoria, val('k-nombre'), val('k-desc'), val('k-tipo')); else run.guardarCategoria(val('k-nombre'), val('k-desc'), val('k-tipo')); }
     else if (tab === 'periodos') run.anadirPeriodos(val('pe-n'));
     else if (tab === 'ajustes') run.guardarAjustes(leerAjustes());
     else {
@@ -2266,7 +2418,7 @@ function init_form(ROOT, P, S) {
         $('i-unidad').value = r.unidad; $('i-precio').value = r.precio; $('i-cant').value = r.cantidad; $('i-pago').value = r.formaPago; $('i-cuenta').value = r.cuenta || ''; $('i-estado').value = r.estado;
       } else {
         $('g-fecha').value = r.fecha; $('g-prov').value = r.proveedor; $('g-nuevo-wrap').classList.add('hidden'); $('g-desc').value = r.descripcion; $('g-cat').value = r.categoria;
-        $('g-unidad').value = r.unidad; $('g-cant').value = r.cantidad; $('g-precio').value = r.precio; $('g-notas').value = r.notas; ponerSelect('g-pago', r.formaPago || 'CARD'); $('g-cuenta').value = r.cuenta || '';
+        $('g-unidad').value = r.unidad; $('g-cant').value = r.cantidad; $('g-precio').value = r.precio; $('g-notas').value = r.notas; ponerSelect('g-pago', r.formaPago || 'CARD'); $('g-cuenta').value = r.cuenta || ''; syncGM(); pintarTipoUC();
       }
       pintarNegCh(tipo);
       $('edit-txt').textContent = 'Editando ' + (tipo === 'ingreso' ? 'la factura ' + (r.num || id) : 'el gasto nº ' + id);
@@ -2444,7 +2596,7 @@ function init_form(ROOT, P, S) {
     else { $('g-prov').value = '__nuevo__'; $('g-nuevo-wrap').classList.remove('hidden'); $('g-nuevo').value = r.prov; }
     $('g-desc').value = r.desc; ponerSelect('g-cat', r.cat); ponerSelect('g-unidad', r.unidad); if (r.pago) ponerSelect('g-pago', r.pago); $('g-cuenta').value = r.cuenta || '';
     $('g-cant').value = r.cantidad; $('g-precio').value = r.precio; $('g-notas').value = r.notas || '';
-    previews(); msg('Copiado. Cambia la fecha si hace falta y pulsa Guardar gasto.', 'ok');
+    syncGM(); pintarTipoUC(); previews(); msg('Copiado. Cambia la fecha si hace falta y pulsa Guardar gasto.', 'ok');
   }
   function copiarIngreso(r) {
     ponerSelect('i-cliente', r.cliente); $('i-desc').value = r.desc; ponerSelect('i-unidad', r.unidad);
@@ -2497,17 +2649,18 @@ function init_form(ROOT, P, S) {
     return l.filter((x) => !q || Object.keys(x).map((k) => x[k]).join(' ').toLowerCase().indexOf(q) >= 0)
       .sort((a, b) => String(a.nombre).localeCompare(String(b.nombre), 'es'));
   }
+  function tipoTxt(k) { const x = D && (D.tiposGasto || []).find((y) => y.k === k); return x ? x.es + ' · ' + (x.casilla ? 'casilla ' + x.casilla : 'no se declara') : ''; }
   function listaPintar(t) {
     const box = $('ls-' + t), l = listaFilas(t);
     const total = ((LISTAS && LISTAS[t === 'cliente' ? 'clientes' : t === 'proveedor' ? 'proveedores' : 'categorias']) || []).length;
     const tit = { cliente: 'Tus clientes', proveedor: 'Tus proveedores', categoria: 'Tus categorías' }[t];
     resumenListas();
-    const cab = t === 'cliente' ? ['Nombre', 'Dirección', 'Ciudad', 'Postcode', 'Teléfono', 'Email', 'Facturas'] : t === 'proveedor' ? ['Nombre', 'Notas', 'Gastos'] : ['Nombre', 'Descripción', 'Gastado ' + (LISTAS ? LISTAS.anio : '')];
+    const cab = t === 'cliente' ? ['Nombre', 'Dirección', 'Ciudad', 'Postcode', 'Teléfono', 'Email', 'Facturas'] : t === 'proveedor' ? ['Nombre', 'Notas', 'Gastos'] : ['Nombre', 'Tipo (UC · HMRC)', 'Descripción', 'Gastado ' + (LISTAS ? LISTAS.anio : '')];
     const fila = (x) => t === 'cliente'
       ? '<tr data-cli="' + attr(x.nombre) + '"' + (x.nombre === EDITCLI ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b>' + (x.nombre === EDITCLI ? ' <span class="corr">✏️ corrigiendo</span>' : '') + '</td><td class="x" title="' + attr(x.direccion) + '">' + esc(x.direccion) + '</td><td class="x">' + esc(x.ciudad) + '</td><td class="x">' + esc(x.postcode) + '</td><td class="x">' + esc(x.telefono) + '</td><td class="x" title="' + attr(x.email) + '">' + esc(x.email) + '</td><td class="m">' + x.facturas + '</td></tr>'
       : t === 'proveedor'
         ? '<tr data-lnom="' + attr(x.nombre) + '"' + (x.nombre === EDITL.proveedor ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b>' + (x.nombre === EDITL.proveedor ? ' <span class="corr">✏️ corrigiendo</span>' : '') + '</td><td class="x" title="' + attr(x.notas) + '">' + esc(x.notas) + '</td><td class="m">' + x.gastos + '</td></tr>'
-        : '<tr data-lnom="' + attr(x.nombre) + '"' + (x.nombre === EDITL.categoria ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b>' + (x.nombre === EDITL.categoria ? ' <span class="corr">✏️ corrigiendo</span>' : '') + '</td><td class="x" title="' + attr(x.descripcion) + '">' + esc(x.descripcion) + '</td><td class="m">' + gbp(x.total) + '</td></tr>';
+        : '<tr data-lnom="' + attr(x.nombre) + '"' + (x.nombre === EDITL.categoria ? ' class="sel"' : '') + '><td class="x"><b>' + esc(x.nombre) + '</b>' + (x.nombre === EDITL.categoria ? ' <span class="corr">✏️ corrigiendo</span>' : '') + '</td><td class="x">' + esc(tipoTxt(x.tipo)) + '</td><td class="x" title="' + attr(x.descripcion) + '">' + esc(x.descripcion) + '</td><td class="m">' + gbp(x.total) + '</td></tr>';
     box.innerHTML = '<div class="hh lh"><b>' + tit + '</b><span class="cnt">' + total + ' ' + ({ cliente: 'clientes', proveedor: 'proveedores', categoria: 'categorías' }[t]) + '</span>' +
       '<input class="buscar" type="search" id="lq-' + t + '" placeholder="🔍 ' + ({ cliente: 'Buscar cliente, ciudad, email…', proveedor: 'Buscar proveedor o nota…', categoria: 'Buscar categoría…' }[t]) + '" value="' + attr(LQ[t]) + '">' +
       '<button class="btn" type="button" data-lcopiar="1">Copiar lista</button></div>' +
@@ -2570,6 +2723,7 @@ function init_form(ROOT, P, S) {
     EDITL[t] = x.nombre;
     const p = PX[t], n = x.gastos || 0;
     $(p + '-nombre').value = x.nombre; $(t === 'proveedor' ? 'p-notas' : 'k-desc').value = t === 'proveedor' ? x.notas : x.descripcion;
+    if (t === 'categoria' && $('k-tipo')) $('k-tipo').value = x.tipo || '';
     $(p + '-edtxt').textContent = '✏️ Corrigiendo ' + x.nombre + ' · ' + (n ? n + (n === 1 ? ' gasto usa' : ' gastos usan') + (t === 'proveedor' ? ' este proveedor' : ' esta categoría') : 'ningún gasto la usa'.replace('la usa', t === 'proveedor' ? 'lo usa' : 'la usa'));
     $(p + '-editando').classList.remove('hidden');
     pintarDel(t, t === 'categoria' && n ? (n === 1 ? 'La usa 1 gasto' : 'La usan ' + n + ' gastos') + ': no se puede eliminar. Si cambias el nombre, también cambia en ' + (n === 1 ? 'ese gasto.' : 'esos gastos.')
@@ -2580,6 +2734,7 @@ function init_form(ROOT, P, S) {
   }
   function finEditarLista(t) {
     EDITL[t] = null; $(PX[t] + '-editando').classList.add('hidden'); pintarDel(t, null); syncRg();
+    if (t === 'categoria' && $('k-tipo')) $('k-tipo').value = '';
     if (LISTAS) listaPintar(t);
   }
   $('p-cancel').onclick = () => { ['p-nombre', 'p-notas'].forEach((id) => ($(id).value = '')); finEditarLista('proveedor'); };
@@ -2748,7 +2903,7 @@ function init_form(ROOT, P, S) {
   };
 
   mostrar(TAB);
-  cargar(() => { const e = window.PB_EDITAR; if (!e) return; window.PB_EDITAR = null; REGTIPO = e.tipo; editar(e.id, e.volver); });
+  cargar(() => { const c = window.PB_COPIAR; if (c) { window.PB_COPIAR = null; if (c.tipo === 'gasto') copiarGasto(c.r); else copiarIngreso(c.r); } const e = window.PB_EDITAR; if (!e) return; window.PB_EDITAR = null; REGTIPO = e.tipo; editar(e.id, e.volver); });
 
   return { mostrar: mostrar, destroy: () => { DEAD = true; clearTimeout(taxT); } };
 }
@@ -2980,6 +3135,64 @@ function pintarModo() {
   ROOT.querySelector('.filtro').style.visibility = MODO === 'hmrc' ? 'hidden' : '';
   $('d-sub').textContent = MODO === 'hmrc' ? 'Tu año fiscal del HMRC (6 de abril – 5 de abril), mes a mes' : (window.SHELL && SHELL.usaUC && SHELL.usaUC() ? 'Ingresos y gastos por periodo de Universal Credit' : 'Ingresos y gastos por periodo');
 }
+/* 5.0.0-alpha33: «Resumen para tu declaración (HMRC)» · hoja corta de autónomo SA103S (casillas comprobadas en gov.uk, SA103S 2026) */
+const CAS_ES = { 11: 'Material y productos para vender', 12: 'Coche, transporte y millas', 13: 'Sueldos y personal', 14: 'Alquiler, luz y seguros', 15: 'Reparaciones',
+  16: 'Gestoría, legal y profesionales', 17: 'Intereses y comisiones del banco', 18: 'Teléfono, papelería y oficina', 19: 'Otros gastos del negocio' };
+let HMRES = null;
+function tarjetaHMRC(ing, gas, tI) {
+  const T = D.tiposGasto || [], CT = D.catTipo || {}, CA = D.casillas || {};
+  const tipo = (c) => T.find((x) => x.k === (CT[c] || 'other')) || { casilla: 19 };
+  const box = {}, cats = {}, rev = {}; let fuera = 0; const fueraC = {};
+  gas.forEach((x) => { const t = tipo(x.categoria); if (!t.casilla) { fuera += x.total; fueraC[x.categoria || 'Sin categoría'] = 1; return; }
+    box[t.casilla] = (box[t.casilla] || 0) + x.total; (cats[t.casilla] = cats[t.casilla] || {})[x.categoria || 'Sin categoría'] = 1; if (t.revisar) rev[t.casilla] = 1; });
+  const ks = Object.keys(box).map(Number).sort((a, b) => a - b), tot = ks.reduce((t, k) => t + box[k], 0), ben = tI - tot;
+  const negs = D.negocios || [], ng = (window.SHELL && SHELL.negocio && SHELL.negocio()) || '', varios = negs.length > 1 && !ng;
+  const nom = ng ? (negs.find((n) => n.id === ng) || {}).nombre : (negs[0] || {}).nombre;
+  HMRES = { anio: etqAnio(ANIO), negocio: varios ? 'Todos los negocios' : nom || '', filas: [['9', 'Ingresos del negocio', 'Turnover', tI]].concat(ks.map((k) => [String(k), CAS_ES[k], CA[k] || '', box[k]]), [['20', 'Total de gastos', 'Total allowable expenses', tot]], [[ben >= 0 ? '21' : '22', ben >= 0 ? 'Beneficio' : 'Pérdida', ben >= 0 ? 'Net profit' : 'Net loss', Math.abs(ben)]]) };
+  const fila = (c, es, en, v, cls, extra) => '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td class="c">Casilla ' + c + '</td><td>' + es + (extra || '') + '<small>' + en + '</small></td><td class="r">' + esc(fmt(v)) + '</td></tr>';
+  let h = '<section class="card hmsa"><h2>📋 Resumen para tu declaración (HMRC) · ' + etqAnio(ANIO) + '</h2>' +
+    '<p class="sub">Para la hoja corta de autónomo <b>SA103S</b> (si vendes menos de £90,000 al año). Copias cada cifra en su casilla.' + (nom && !varios ? ' Negocio: <b>' + esc(nom) + '</b>.' : '') + '</p>';
+  if (varios) h += '<div class="av w">Tienes ' + negs.length + ' negocios: en la declaración cada negocio va en su <b>propia hoja SA103S</b>. Elige un negocio arriba para ver sus cifras.</div>';
+  h += '<table>' + fila('9', 'Ingresos del negocio', 'Your turnover · todas tus facturas del año, cobradas o no', tI) +
+    ks.map((k) => fila(k, esc(CAS_ES[k] || ''), esc((CA[k] || '') + ' · ' + Object.keys(cats[k]).join(', ')), box[k], '', rev[k] ? '<span class="rev">Revisar</span>' : '')).join('') +
+    fila('20', 'Total de gastos', 'Total allowable expenses · con menos de £90,000 puedes poner solo este total', tot, 't') +
+    (ben >= 0 ? fila('21', 'Beneficio', 'Net profit · casilla 9 − casilla 20', ben, 'p') : fila('22', 'Pérdida', 'Net loss · casilla 20 − casilla 9', -ben, 'l')) +
+    (fuera > 0.004 ? '<tr class="f"><td class="c">—</td><td>No va en la declaración<small>' + esc(Object.keys(fueraC).join(', ')) + ' (Seguridad Social, impuestos o pensiones no son gastos del negocio)</small></td><td class="r">' + esc(fmt(fuera)) + '</td></tr>' : '') + '</table>';
+  if (Object.keys(rev).length) h += '<div class="av w">«Revisar»: los <b>equipos</b> (laptop, tablet, bocinas…) y la <b>ropa</b> pueden ir distinto en el HMRC que en UC. Confírmalo antes de presentar.</div>';
+  const tr = D.trading || 1000;
+  h += '<div class="av">' + (tI <= tr ? '💡 Este año has ingresado ' + esc(fmt(tI)) + ': con £1,000 o menos de ingresos de autónomo no tienes que declarar (Trading Allowance).'
+    : tot < tr ? '💡 Con el descuento fijo de £1,000 (<b>Trading Allowance</b>, casilla 10.1) pagas sobre menos: ' + esc(fmt(tI - tr)) + ' en vez de ' + esc(fmt(ben)) + '. Si lo usas, <b>no</b> pones gastos.'
+    : '💡 Tus gastos (' + esc(fmt(tot)) + ') son más que el descuento fijo de £1,000 (Trading Allowance): te conviene poner tus gastos.') + '</div>' +
+    '<div class="bts"><span>Orientativo, no es asesoría de impuestos.</span><button type="button" data-hm="copiar">📋 Copiar</button><button type="button" class="p" data-hm="pdf">📄 PDF</button></div></section>';
+  return h;
+}
+function hmAccion(a) {
+  const R = HMRES; if (!R) return;
+  const lin = R.filas.map((f) => 'Casilla ' + f[0] + ' · ' + f[1] + (f[2] ? ' (' + f[2] + ')' : '') + ': ' + fmt(f[3]));
+  if (a === 'copiar') {
+    const txt = 'Resumen para la declaración (HMRC) · SA103S · ' + R.anio + (R.negocio ? ' · ' + R.negocio : '') + '\n' + lin.join('\n');
+    const ok = () => { const b = document.querySelector('[data-hm="copiar"]'); if (b) { b.textContent = '✓ Copiado'; setTimeout(() => { b.textContent = '📋 Copiar'; }, 2000); } };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, () => prompt('Copia el resumen:', txt)); else prompt('Copia el resumen:', txt);
+    return;
+  }
+  const J = window.jspdf && window.jspdf.jsPDF;
+  if (!J) { window.print(); return; }
+  const doc = new J({ unit: 'mm', format: 'a4' });
+  doc.setFillColor(27, 43, 91); doc.rect(0, 0, 210, 26, 'F'); doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(16);
+  doc.text('Resumen para tu declaración (HMRC)', 14, 16); doc.setFontSize(10); doc.setFont('helvetica', 'normal'); doc.text('PuntoBalance · SA103S · ' + R.anio, 14, 22);
+  doc.setTextColor(21, 26, 45); let y = 38; doc.setFontSize(11); if (R.negocio) { doc.text('Negocio: ' + R.negocio, 14, y); y += 8; }
+  R.filas.forEach((f, i) => {
+    const fuerte = f[0] === '20' || f[0] === '21' || f[0] === '22';
+    if (fuerte) { doc.setFillColor(243, 245, 251); doc.rect(12, y - 5, 186, 12, 'F'); }
+    doc.setFont('helvetica', 'bold'); doc.text('Casilla ' + f[0], 14, y); doc.text(fmt(f[3]), 196, y, { align: 'right' });
+    doc.setFont('helvetica', fuerte ? 'bold' : 'normal'); doc.text(String(f[1]), 42, y); doc.setFontSize(8.5); doc.setTextColor(107, 113, 148); doc.text(String(f[2] || ''), 42, y + 4.5); doc.setFontSize(11); doc.setTextColor(21, 26, 45);
+    y += 13;
+  });
+  doc.setFontSize(8.5); doc.setTextColor(107, 113, 148);
+  doc.text(doc.splitTextToSize('Orientativo, no es asesoría de impuestos. Con menos de £90,000 de ventas puedes poner solo el total de gastos en la casilla 20. Confírmalo con el HMRC o un contable antes de presentar.', 182), 14, y + 4);
+  doc.save('Resumen-HMRC-' + R.anio + '.pdf');
+}
+
 function pintarHMRC() {
   const anios = {}; anios[anioDe(D.hoy)] = 1;
   D.ingresos.concat(D.gastos).forEach((x) => { if (x.fecha) anios[anioDe(x.fecha)] = 1; });
@@ -2998,6 +3211,7 @@ function pintarHMRC() {
   if (!ing.length && !gas.length) {
     h += '<div class="card"><div class="vacio">Este año fiscal todavía no tiene ingresos ni gastos.</div></div>';
   } else {
+    h += tarjetaHMRC(ing, gas, tI);
     h += '<section class="card"><div class="cardhead"><div><h2>Flujo de ingresos y gastos del año</h2><p class="sub">Por periodo' + (window.SHELL && SHELL.usaUC && SHELL.usaUC() ? ' UC' : '') + ' dentro del año ' + etqAnio(ANIO) + '</p></div></div>' +
       '<div class="legend"><span class="k"><i class="sw s1"></i>Ingresos<b>' + esc(fmt(it.reduce((t, x) => t + x.ing, 0))) + '</b></span><span class="k"><i class="sw s2"></i>Gastos<b>' + esc(fmt(it.reduce((t, x) => t + x.gas, 0))) + '</b></span></div>' +
       '<div id="chart1"></div>';
@@ -3140,6 +3354,7 @@ $('d-main').addEventListener('click', (e) => {
   if (t.id === 'vtabla') { TABLA = !TABLA; pintar(); }
   else if (t.dataset.anio) { ANIO = Number(t.dataset.anio); pintar(); }
   else if (t.dataset.ir) { S.ir(t.dataset.ir); }
+  else if (t.dataset.hm) { hmAccion(t.dataset.hm); }
   else if (t.dataset.mov) { MOV = t.dataset.mov; MAS = 15; pintar(); }
   else if (t.id === 'mas') { MAS += 25; pintar(); }
 });

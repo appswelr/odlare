@@ -1,7 +1,19 @@
 {
- "ver": "5.0.0-alpha32",
- "fecha": "12 nov 2026",
+ "ver": "5.0.0-alpha33",
+ "fecha": "15 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha33",
+   "fecha": "15 nov 2026",
+   "cambios": [
+    "Inicio nuevo: arriba tu Periodo y tu Año HMRC de un vistazo; botones para apuntar; lo que tienes pendiente (cobrar, revisar datos, cerrar el periodo, copia) y lo último que apuntaste con «Otra igual»",
+    "«Revisar datos» se ve siempre en Inicio, uses Universal Credit o no",
+    "Dashboard › Año HMRC: «Resumen para tu declaración (HMRC)» con cada cifra en su casilla de la hoja SA103S, para copiar o sacar en PDF",
+    "Cada categoría tiene su tipo de gasto: en Nuevo gasto ves cómo se llama en UC y sirve para el resumen del HMRC",
+    "Nuevo gasto: si escribes un proveedor que ya tienes (por ejemplo «shell» y «Shell»), te avisa",
+    "Nuevo gasto: botón «Millas» para un viaje, sin proveedor; pones las millas y el total sale solo (£0.45 por milla)"
+   ]
+  },
   {
    "ver": "5.0.0-alpha32",
    "fecha": "12 nov 2026",
