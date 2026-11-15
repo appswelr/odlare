@@ -1,31 +1,35 @@
-/* 14 nov 2026 · «Pruébala aquí, sin registrarte». Datos inventados, no se guarda nada, no se envía nada. */
+/* 15 nov 2026 · «Pruébala aquí, sin registrarte» con pantallas reales de Mis Finanzas 2.9.9
+   (datos de ejemplo de Alex). No se guarda nada y no se envía nada. */
 (function () {
   var caja = document.getElementById("prueba"); if (!caja) return;
   var bots = [].slice.call(caja.querySelectorAll("[data-paso]"));
-  var partes = [].slice.call(caja.querySelectorAll("[data-ver]"));
-  var num = document.getElementById("dNum"), antes = document.getElementById("dAntes");
-  var apuntado = false, reloj = null;
-  function dinero(v) { return "£" + v.toFixed(2); }
-  function bajar(desde, hasta) {
-    clearInterval(reloj); var i = 0, n = 18;
-    reloj = setInterval(function () { i++; num.textContent = dinero(desde + (hasta - desde) * (i / n)); if (i >= n) clearInterval(reloj); }, 30);
-  }
+  var imgs = {}; [].forEach.call(caja.querySelectorAll("[data-pimg]"), function (i) { imgs[i.getAttribute("data-pimg")] = i; });
+  var n1 = document.getElementById("pNoti1"), n4 = document.getElementById("pNoti4");
+  var bG = document.getElementById("pGuardar"), toast = document.getElementById("pToast"), cambio = document.getElementById("pCambio");
+  var apuntado = false, relojes = [];
+  function lang() { return document.documentElement.lang === "en" ? "en" : "es"; }
+  function fotos() { var l = lang(); for (var k in imgs) { var src = "img/prueba-" + k + "-" + l + ".webp"; if (imgs[k].getAttribute("src") !== src) imgs[k].setAttribute("src", src); } }
+  function ver(k) { for (var x in imgs) { imgs[x].classList.toggle("on", x === k); imgs[x].style.opacity = ""; } }
+  function limpiar() { relojes.forEach(clearTimeout); relojes = []; toast.classList.remove("on"); }
+  function marcar(p) { bots.forEach(function (b) { var on = b.getAttribute("data-paso") === String(p); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); }); }
   function paso(p) {
-    bots.forEach(function (b) { var on = b.getAttribute("data-paso") === String(p); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
-    partes.forEach(function (el) {
-      var lista = el.getAttribute("data-ver").split(" "), ver = lista.indexOf(String(p)) > -1;
-      if (el.hasAttribute("data-si-apuntado") && !apuntado) ver = false;
-      if (el.hasAttribute("data-no-apuntado") && apuntado) ver = false;
-      if (ver && el.hidden) { el.hidden = false; el.classList.remove("ent"); void el.offsetWidth; el.classList.add("ent"); }
-      else if (!ver) el.hidden = true;
-    });
+    limpiar(); marcar(p);
+    n1.classList.toggle("on", p === 1); n4.classList.toggle("on", p === 4);
+    bG.classList.toggle("on", p === 2);
+    if (p === 1) { apuntado = false; cambio.classList.remove("on"); ver("1"); }
+    if (p === 2) ver("2");
+    if (p === 3) { if (apuntado) { ver("3b"); cambio.classList.add("on"); } else guardar(); }
+    if (p === 4) ver(apuntado ? "3b" : "3a");
   }
-  function apuntar() {
-    if (!apuntado) { apuntado = true; antes.hidden = false; bajar(42.51, 25.08); }
-    paso(3);
+  function guardar() {
+    limpiar(); marcar(3); bG.classList.remove("on"); n1.classList.remove("on"); n4.classList.remove("on");
+    ver("3a"); toast.classList.add("on");
+    relojes.push(setTimeout(function () { apuntado = true; ver("3b"); cambio.classList.add("on"); }, 900));
+    relojes.push(setTimeout(function () { toast.classList.remove("on"); }, 2400));
   }
-  bots.forEach(function (b) { b.addEventListener("click", function () { var p = +b.getAttribute("data-paso"); if (p === 3 && !apuntado) { apuntar(); return; } paso(p); }); });
-  var ba = document.getElementById("dApuntar"); if (ba) ba.addEventListener("click", apuntar);
-  var bn = document.getElementById("dNoti"); if (bn) bn.addEventListener("click", function () { paso(2); });
-  paso(1);
+  bots.forEach(function (b) { b.addEventListener("click", function () { paso(+b.getAttribute("data-paso")); }); });
+  n1.addEventListener("click", function () { paso(2); });
+  bG.addEventListener("click", guardar);
+  new MutationObserver(fotos).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+  fotos(); paso(1);
 })();

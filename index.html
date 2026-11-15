@@ -660,22 +660,22 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
           <button type="button" data-paso="1" data-es="1 · Pagas<small>«£17.43 en Tesco»</small>" data-en="1 · You pay<small>“£17.43 at Tesco”</small>">1 · Pagas<small>«£17.43 en Tesco»</small></button>
           <button type="button" data-paso="2" data-es="2 · Apuntar<small>un solo toque</small>" data-en="2 · Add it<small>just one tap</small>">2 · Apuntar<small>un solo toque</small></button>
           <button type="button" data-paso="3" data-es="3 · ¿Cuánto me queda?<small>hoy y hasta fin de mes</small>" data-en="3 · What's left?<small>today and to month-end</small>">3 · ¿Cuánto me queda?<small>hoy y hasta fin de mes</small></button>
-          <button type="button" data-paso="4" data-es="4 · Aviso de pago<small>antes de la renta</small>" data-en="4 · Payment reminder<small>before the rent</small>">4 · Aviso de pago<small>antes de la renta</small></button>
+          <button type="button" data-paso="4" data-es="4 · Aviso de pago<small>un día antes</small>" data-en="4 · Payment reminder<small>the day before</small>">4 · Aviso de pago<small>un día antes</small></button>
         </div>
         <p class="nota" data-es="Ejemplo con datos inventados · no se guarda nada" data-en="Example with made-up data · nothing is saved">Ejemplo con datos inventados · no se guarda nada</p>
       </div>
-      <div class="dphone" aria-live="polite">
-        <div class="dnoti" id="dNoti" data-ver="1" style="cursor:pointer"><img src="img/icono-finanzas.png" alt=""><div><b data-es="Mis Finanzas" data-en="My Finances">Mis Finanzas</b><p data-es="Pagaste <b>£17.43</b> en Tesco" data-en="You paid <b>£17.43</b> at Tesco">Pagaste <b>£17.43</b> en Tesco</p><em data-es="Toca para apuntarlo" data-en="Tap to add it">Toca para apuntarlo</em></div></div>
-        <div class="dsheet" data-ver="2" hidden><div class="t" data-es="Nuevo gasto" data-en="New expense">Nuevo gasto</div><div class="m">£17.43</div>
-          <div class="f"><span data-es="Dónde" data-en="Where">Dónde</span><b>Tesco</b></div>
-          <div class="f"><span data-es="Categoría" data-en="Category">Categoría</span><b data-es="🛒 Comida" data-en="🛒 Groceries">🛒 Comida</b></div>
-          <div class="f"><span data-es="Cuenta" data-en="Account">Cuenta</span><b>Lloyds</b></div>
-          <button type="button" id="dApuntar" data-es="Apuntar" data-en="Add it">Apuntar</button></div>
-        <div class="dok" data-ver="3" data-si-apuntado hidden data-es="✓ Apuntado: Tesco −£17.43" data-en="✓ Added: Tesco −£17.43">✓ Apuntado: Tesco −£17.43</div>
-        <div class="dinfo" data-ver="3" hidden><b data-es="Hasta el día 28" data-en="Until the 28th">Hasta el día 28</b><span data-es="Oli ya contó la renta y tus pagos fijos." data-en="Oli has already counted the rent and your fixed payments.">Oli ya contó la renta y tus pagos fijos.</span>
-          <div class="row"><span data-es="Te queda para gastar" data-en="Left to spend">Te queda para gastar</span><b style="display:inline">£351.12</b></div></div>
-        <div class="dinfo" data-ver="4" hidden><b data-es="🔔 Mañana se paga la renta" data-en="🔔 Rent is due tomorrow">🔔 Mañana se paga la renta</b><span data-es="£450 desde Nationwide. Ya está contado en lo que puedes gastar." data-en="£450 from Nationwide. It's already counted in what you can spend.">£450 desde Nationwide. Ya está contado en lo que puedes gastar.</span></div>
-        <div class="dhoy"><small data-es="HOY PUEDES GASTAR" data-en="YOU CAN SPEND TODAY">HOY PUEDES GASTAR</small><div class="n"><span id="dNum">£42.51</span><s id="dAntes" hidden>£42.51</s></div><div class="d" data-es="✅ Llegas bien al 28" data-en="✅ You'll make it to the 28th">✅ Llegas bien al 28</div></div>
+      <div class="pwrap">
+        <div class="phone shp pph" aria-live="polite"><div class="scr"><div class="sb"><span>12:30</span><span class="ico"><svg viewBox="0 0 16 11"><path d="M1 10h2V7H1zM5 10h2V5H5zM9 10h2V3H9zM13 10h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 14 11"><path d="M7 10.5 0.5 3.6a9.4 9.4 0 0 1 13 0z" fill="currentColor"/></svg><svg viewBox="0 0 22 11"><rect x="0.6" y="0.6" width="18" height="9.8" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="2.4" y="2.4" width="11.5" height="6.2" rx="1.3" fill="currentColor"/><rect x="19.8" y="3.6" width="1.6" height="3.8" rx=".8" fill="currentColor"/></svg></span></div>
+          <img class="pl" data-pimg="1" src="img/prueba-1-es.webp" alt="" style="opacity:1">
+          <img class="pl" data-pimg="2" src="img/prueba-2-es.webp" alt="" loading="lazy" decoding="async">
+          <img class="pl" data-pimg="3a" src="img/prueba-3a-es.webp" alt="" loading="lazy" decoding="async">
+          <img class="pl" data-pimg="3b" src="img/prueba-3b-es.webp" alt="" loading="lazy" decoding="async">
+          <div class="s-noti pnoti" id="pNoti1"><img src="img/icono-finanzas.png" alt=""><div><b data-es="Mis Finanzas · ahora" data-en="My Finances · now">Mis Finanzas · ahora</b><br><span data-es="Pagaste <b>£17.43</b> en Tesco" data-en="You paid <b>£17.43</b> at Tesco">Pagaste <b>£17.43</b> en Tesco</span><br><em data-es="✓ Toca para apuntarlo" data-en="✓ Tap to add it">✓ Toca para apuntarlo</em></div></div>
+          <div class="s-noti pnoti" id="pNoti4"><img src="img/icono-finanzas.png" alt=""><div><b data-es="Mis Finanzas · 9:00" data-en="My Finances · 9:00">Mis Finanzas · 9:00</b><br><span data-es="🔔 <b>Council Tax en 1 día · £111.00</b>" data-en="🔔 <b>Council Tax in 1 day · £111.00</b>">🔔 <b>Council Tax en 1 día · £111.00</b></span><br><span data-es="El lun 16 nov, desde Nationwide." data-en="On Mon 16 Nov, from Nationwide.">El lun 16 nov, desde Nationwide.</span></div></div>
+          <button type="button" class="pguardar" id="pGuardar" data-es="Guardar" data-en="Save">Guardar</button>
+          <div class="ptoast" id="pToast" data-es="Gasto guardado: £17.43" data-en="Expense saved: £17.43">Gasto guardado: £17.43</div>
+        </div></div>
+        <p class="pcambio" id="pCambio" data-es="Para tus gastos: <s>£670.92</s> → <b>£653.49</b>" data-en="For your spending: <s>£670.92</s> → <b>£653.49</b>">Para tus gastos: <s>£670.92</s> → <b>£653.49</b></p>
       </div>
     </div>
   </div>
