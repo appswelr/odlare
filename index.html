@@ -399,7 +399,7 @@ body{overflow-x:clip}
 .s-sheet .f{display:flex;justify-content:space-between;font-size:12.5px;padding:8px 0;border-top:1px solid #EEF0F6}.s-sheet .f b{font-weight:700}
 .s-sheet .ok{margin-top:12px;height:42px;border-radius:12px;background:#4F46E5;color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;animation:latido 1.6s ease-in-out infinite}
 @keyframes latido{50%{box-shadow:0 0 0 7px rgba(79,70,229,.18)}}
-.s-ring{position:absolute;z-index:4;left:6px;right:6px;top:62.3%;height:11.6%;border-radius:16px;border:3px solid var(--amber);opacity:0;transform:scale(1.08);transition:opacity .5s,transform .5s}
+.s-ring{position:absolute;z-index:4;left:6px;right:6px;top:54.4%;height:24.6%;border-radius:16px;border:3px solid var(--amber);opacity:0;transform:scale(1.08);transition:opacity .5s,transform .5s}
 .sh-sticky[data-p="3"] .s-ring{opacity:1;transform:none;animation:latido2 1.8s ease-in-out infinite}
 @keyframes latido2{50%{box-shadow:0 0 0 8px rgba(244,166,42,.22)}}
 .s-chip{position:absolute;z-index:6;left:calc(50% + 50px);top:73%;padding:10px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 16px 30px rgba(20,27,58,.18);font-size:13px;font-weight:700;color:var(--ink);opacity:0;transform:translateX(10px);transition:opacity .5s,transform .5s;white-space:nowrap}
@@ -554,7 +554,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
         <p class="desc" data-es="App para Android. Pagas con el móvil y el gasto se apunta solo. Todas tus cuentas, de todos tus bancos, juntas en un solo sitio. Cada día sabes cuánto puedes gastar y llegas bien a fin de mes." data-en="An Android app. Pay with your phone and the spending logs itself. All your accounts, from all your banks, together in one place. Every day you know how much you can spend, and you make it to the end of the month.">App para Android. Pagas con el móvil y el gasto se apunta solo. Todas tus cuentas, de todos tus bancos, juntas en un solo sitio. Cada día sabes cuánto puedes gastar y llegas bien a fin de mes.</p>
         <ul class="feats">
           <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Pagos que se apuntan solos.</b> Lee los avisos de Google Wallet y de las apps de Lloyds, Halifax, Monzo, Barclays, HSBC, Nationwide, Santander, NatWest, Starling, Revolut y más; tú solo confirmas." data-en="<b>Payments that log themselves.</b> It reads Google Wallet and alerts from the Lloyds, Halifax, Monzo, Barclays, HSBC, Nationwide, Santander, NatWest, Starling and Revolut apps, and more; you just confirm."><b>Pagos que se apuntan solos.</b> Lee los avisos de Google Wallet y de las apps de Lloyds, Halifax, Monzo, Barclays, HSBC, Nationwide, Santander, NatWest, Starling, Revolut y más; tú solo confirmas.</span></li>
-          <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>«Hoy puedes gastar».</b> Oli, tu asistente, te dice cuánto te queda para hoy." data-en="<b>“You can spend today”.</b> Oli, your assistant, tells you what's left for today."><b>«Hoy puedes gastar».</b> Oli, tu asistente, te dice cuánto te queda para hoy.</span></li>
+          <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Cuánto te queda.</b> Oli, tu asistente, te dice cuánto tienes para tus gastos y cuánto al día." data-en="<b>What's left.</b> Oli, your assistant, tells you how much you have for spending, and how much per day."><b>Cuánto te queda.</b> Oli, tu asistente, te dice cuánto tienes para tus gastos y cuánto al día.</span></li>
           <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Avisos antes de cada pago.</b> Renta, facturas y suscripciones, sin sustos." data-en="<b>Reminders before every payment.</b> Rent, bills and subscriptions, no surprises."><b>Avisos antes de cada pago.</b> Renta, facturas y suscripciones, sin sustos.</span></li>
           <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Copias en tu Drive.</b> Y exporta a PDF, Excel o CSV cuando quieras." data-en="<b>Backups in your Drive.</b> And export to PDF, Excel or CSV whenever you like."><b>Copias en tu Drive.</b> Y exporta a PDF, Excel o CSV cuando quieras.</span></li>
         </ul>
@@ -640,7 +640,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
               <div class="f"><span data-es="Cuenta" data-en="Account">Cuenta</span><b data-es="Mi Banco" data-en="My Bank">Mi Banco</b></div>
               <div class="ok" data-es="Apuntar" data-en="Add it">Apuntar</div></div>
           </div></div>
-          <div class="s-chip c3"><small data-es="Hoy puedes gastar" data-en="You can spend today">Hoy puedes gastar</small>£42.51 💡</div>
+          <div class="s-chip c3"><small data-es="Para tus gastos" data-en="For your spending">Para tus gastos</small>£670.92 💡</div>
           <div class="s-chip c4"><small data-es="Este mes" data-en="This month">Este mes</small><span data-es="12 movimientos ✓" data-en="12 transactions ✓">12 movimientos ✓</span></div>
           <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </div>
@@ -887,15 +887,14 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
         </div>
       </div>
       <div class="dv-stage">
-        <p class="dv-note" lang="en">Calendar screen shown in Spanish for now.</p>
-        <div class="dv-ring"></div>
-        <div class="dv-chip l" data-i="0" aria-hidden="true"><span data-es="✅ Llegas bien al 28" data-en="✅ You'll make it to the 28th">✅ Llegas bien al 28</span><small data-es="2 consejos" data-en="2 tips">2 consejos</small></div>
+                <div class="dv-ring"></div>
+        <div class="dv-chip l" data-i="0" aria-hidden="true"><span data-es="✅ Llegas bien al 27" data-en="✅ You'll make it to the 27th">✅ Llegas bien al 27</span><small data-es="2 consejos" data-en="2 tips">2 consejos</small></div>
         <div class="dv-chip l" data-i="1" aria-hidden="true"><span data-es="🔔 Pagaste £17.43" data-en="🔔 You paid £17.43">🔔 Pagaste £17.43</span><small data-es="Apuntado solo" data-en="Logged automatically">Apuntado solo</small></div>
         <div class="dv-chip l" data-i="2" aria-hidden="true"><span data-es="📅 Mié 18 nov" data-en="📅 Wed 18 Nov">📅 Mié 18 nov</span><small data-es="2 pagos previstos" data-en="2 payments due">2 pagos previstos</small></div>
         <div class="phone" aria-hidden="true"><div class="scr"><div class="sb"><span>12:30</span><span></span></div>
           <img class="dv-shot" data-i="0" data-src-es="img/fin-es.jpg" data-src-en="img/fin-en.jpg" alt="" decoding="async">
           <img class="dv-shot" data-i="1" data-src-es="img/fin2-es.jpg" data-src-en="img/fin2-en.jpg" alt="" decoding="async">
-          <img class="dv-shot" data-i="2" data-src-es="img/fin3-es.jpg" data-src-en="img/fin3-es.jpg" alt="" decoding="async">
+          <img class="dv-shot" data-i="2" data-src-es="img/fin3-es.jpg" data-src-en="img/fin3-en.jpg" alt="" decoding="async">
         </div></div>
       </div>
     </div>
