@@ -120,7 +120,7 @@ section{padding:72px 0}
 .meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .play{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--bg);border-radius:14px;padding:9px 16px 9px 13px;font-weight:700;font-size:14px;line-height:1.15}
 .play small{display:block;font-size:11px;font-weight:600;opacity:.75;letter-spacing:.02em}
-.play svg{width:22px;height:22px}
+.play svg{width:22px;height:22px}.btns .play{background:#000;color:#fff;border:1px solid rgba(255,255,255,.4);height:52px;padding:0 18px 0 14px}a.play{text-decoration:none;transition:transform .15s}a.play:hover{transform:translateY(-1px)}
 .price{font-size:14px;font-weight:600;color:var(--muted);padding:8px 2px}
 .noti{position:absolute;z-index:4;left:-34px;bottom:6px;width:262px;display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:18px;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);box-shadow:0 20px 40px -12px rgba(20,27,58,.35);font-size:13px;line-height:1.35;color:var(--text);animation:notiIn .8s .4s both,flota 5s 1.2s ease-in-out infinite}
 .noti img{width:34px;height:34px;border-radius:9px;flex:none}.noti b{color:var(--ink)}.noti .t{color:var(--muted);font-size:11.5px;margin-left:6px}.noti p{margin:2px 0}.noti em{font-style:normal;font-weight:700;color:var(--fin);font-size:12.5px}
@@ -503,6 +503,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
       <div class="btns">
         <a class="btn pri" href="#apps" data-es="Conoce Mis Finanzas <span class=fl>→</span>" data-en="Meet My Finances <span class=fl>→</span>">Conoce Mis Finanzas <span class=fl>→</span></a>
         <button type="button" class="btn sec" data-abrir-form="1" data-es="Escríbenos" data-en="Contact us">Escríbenos</button>
+        <a class="play" href="https://play.google.com/store/apps/details?id=com.odlare.misfinanzas" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-es="YA DISPONIBLE EN" data-en="NOW AVAILABLE ON">YA DISPONIBLE EN</small>Google Play</span></a>
       </div>
       <div class="elige">
         <div class="tt" data-es="Elige tu app" data-en="Choose your app">Elige tu app</div>
@@ -559,7 +560,7 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
           <li><span class="ck"><svg><use href="#ck"/></svg></span><span data-es="<b>Copias en tu Drive.</b> Y exporta a PDF, Excel o CSV cuando quieras." data-en="<b>Backups in your Drive.</b> And export to PDF, Excel or CSV whenever you like."><b>Copias en tu Drive.</b> Y exporta a PDF, Excel o CSV cuando quieras.</span></li>
         </ul>
         <div class="meta">
-          <span class="play"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-es="MUY PRONTO EN" data-en="COMING SOON ON">MUY PRONTO EN</small>Google Play</span></span>
+          <a class="play" href="https://play.google.com/store/apps/details?id=com.odlare.misfinanzas" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-es="YA DISPONIBLE EN" data-en="NOW AVAILABLE ON">YA DISPONIBLE EN</small>Google Play</span></a>
           <span class="price" data-es="14 días gratis, sin tarjeta. Después, Premium: £1.99 al mes o £14.99 al año" data-en="14 days free, no card needed. Then Premium: £1.99 a month or £14.99 a year">14 días gratis, sin tarjeta. Después, Premium: £1.99 al mes o £14.99 al año</span>
           <button type="button" class="btn sec" data-app="fin" data-es="Verla a fondo <span class=fl>→</span>" data-en="See it up close <span class=fl>→</span>">Verla a fondo <span class=fl>→</span></button>
         </div>
@@ -881,8 +882,8 @@ footer .bajo{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;f
           <button type="button" class="dv-st" data-i="2" data-dark="1"><b data-es="Calendario de pagos" data-en="Payment calendar">Calendario de pagos</b><span data-es="Lo que sale y lo que entra, antes de que pase" data-en="What goes out and what comes in, before it happens">Lo que sale y lo que entra, antes de que pase</span><i class="dv-bar"></i></button>
         </div>
         <div class="dv-cta">
-          <button type="button" class="dv-btn" data-abrir-form="aviso" data-es="Quiero tenerla" data-en="I want it">Quiero tenerla</button>
-          <span class="play"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-es="MUY PRONTO EN" data-en="COMING SOON ON">MUY PRONTO EN</small>Google Play</span></span>
+          <a class="dv-btn" href="https://play.google.com/store/apps/details?id=com.odlare.misfinanzas" target="_blank" rel="noopener" data-es="Descargarla gratis" data-en="Get it free" style="text-decoration:none">Descargarla gratis</a>
+          <a class="play" href="https://play.google.com/store/apps/details?id=com.odlare.misfinanzas" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-es="YA DISPONIBLE EN" data-en="NOW AVAILABLE ON">YA DISPONIBLE EN</small>Google Play</span></a>
           <span class="dv-free" data-es="14 días gratis, sin tarjeta" data-en="14 days free, no card needed">14 días gratis, sin tarjeta</span>
         </div>
       </div>
