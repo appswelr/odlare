@@ -39,7 +39,7 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha34';
+const VERSION = '5.0.0-alpha35';
 const VERSION_FECHA = '16 nov 2026';
 
 // ───────────────────────── Menú ─────────────────────────
@@ -111,20 +111,36 @@ function getHubData() {
 function getRevision() { return revisarDatos_(); }
 
 /* 5.0.0-alpha33: Inicio «qué hago hoy». Periodo actual, año HMRC, facturas por cobrar, avisos y lo último apuntado. */
-function getInicio(negocio) {
+function getInicio(negocio, selP, selA) {   // 5.0.0-alpha35: selP = etiqueta de periodo o 'TODOS'; selA = año fiscal (2026) o 'TODOS'
   const neg = negocio || null, r2 = n => Math.round(n * 100) / 100, suma = (a) => r2(a.reduce((t, r) => t + (Number(r['SUBTOTAL']) || 0), 0));
   const ingT = leerTabla_('Ingresos').filter(r => r['ID FACTURA'] !== '' && r['ESTADO'] !== 'CANCELLED');
   const gasT = leerTabla_('Gastos').filter(r => r['ID GASTO'] !== '');
   const ing = filtrarNeg_(ingT, neg), gas = filtrarNeg_(gasT, neg);
-  const p = periodoActual_(), et = p ? p['ETIQUETA'] : '';
-  const ingP = ing.filter(r => r['PERIODO UC'] === et), gasP = gas.filter(r => r['PERIODO UC'] === et);
+  const pa = periodoActual_(), pTodos = selP === 'TODOS', perF = leerTabla_('Periodos').filter(x => x['INICIO'] instanceof Date && x['FIN'] instanceof Date);
+  let p = pa; if (selP && !pTodos) { const f = perF.find(x => x['ETIQUETA'] === selP); if (f) p = f; }
+  if (pTodos) p = null;
+  const et = p ? p['ETIQUETA'] : '';
+  const ingP = pTodos ? ing : ing.filter(r => r['PERIODO UC'] === et), gasP = pTodos ? gas : gas.filter(r => r['PERIODO UC'] === et);
   const idsP = {}; ingP.forEach(r => (idsP[r['ID FACTURA']] = 1));
-  const h = hmrcEstado_(), ini = new Date(h.anioN, 3, 6), fin = new Date(h.anioN + 1, 3, 5, 23, 59, 59);
-  const enAnio = (d) => d instanceof Date && d >= ini && d <= fin;
+  let h = hmrcEstado_(); const anioBase = h.anioN, aTodos = selA === 'TODOS', aSel = Number(selA);
+  if (!aTodos && aSel > 2000) h = Object.assign({}, h, { anio: etiquetaAnio_(aSel), anioN: aSel, ini: iso_(new Date(aSel, 3, 6)), fin: iso_(new Date(aSel + 1, 3, 5)), desde: iso_(new Date(aSel + 1, 3, 6)), limite: iso_(new Date(aSel + 2, 0, 31)) });
+  const ini = new Date(h.anioN, 3, 6), fin = new Date(h.anioN + 1, 3, 5, 23, 59, 59);
+  const setA = {}; setA[anioBase] = 1; setA[anioFiscalDe_(new Date())] = 1;
+  ingT.forEach(r => { if (r['FECHA EVENTO'] instanceof Date) setA[anioFiscalDe_(r['FECHA EVENTO'])] = 1; });
+  gasT.forEach(r => { if (r['FECHA'] instanceof Date) setA[anioFiscalDe_(r['FECHA'])] = 1; });
+  const aniosN = Object.keys(setA).map(Number).sort((a, b) => b - a);
+  const enAnio = (d) => d instanceof Date && (aTodos || (d >= ini && d <= fin));
   const ingY = ing.filter(r => enAnio(r['FECHA EVENTO'])), gasY = gas.filter(r => enAnio(r['FECHA']));
   const ingYT = ingT.filter(r => enAnio(r['FECHA EVENTO'])), gasYT = gasT.filter(r => enAnio(r['FECHA']));
   const sp = PropertiesService.getScriptProperties().getProperty('SUELDO_WH');
-  const imp = calcularImpuestos_(suma(ingYT), suma(gasYT), sp === null || sp === '' ? 0 : Number(sp) || 0);
+  const sueldo = sp === null || sp === '' ? 0 : Number(sp) || 0;
+  let imp = calcularImpuestos_(suma(ingYT), suma(gasYT), sueldo);
+  if (aTodos) {   // todos los años: la suma del impuesto de cada año fiscal
+    let tot = 0;
+    aniosN.forEach(a => { const a0 = new Date(a, 3, 6), a1 = new Date(a + 1, 3, 6), en = d => d instanceof Date && d >= a0 && d < a1;
+      tot += calcularImpuestos_(suma(ingT.filter(r => en(r['FECHA EVENTO']))), suma(gasT.filter(r => en(r['FECHA']))), sueldo).aPagar || 0; });
+    imp = { aPagar: r2(tot) };
+  }
   const pend = {}; ing.filter(r => r['ESTADO'] === 'PENDING').forEach(r => {
     const k = r['ID FACTURA'], x = pend[k] || (pend[k] = { id: Number(k), num: numDe_(r), cliente: txt_(r['CLIENTE']), total: 0, fecha: r['FECHA FACTURA'] instanceof Date ? iso_(r['FECHA FACTURA']) : '' });
     x.total = r2(x.total + (Number(r['SUBTOTAL']) || 0));
@@ -135,25 +151,33 @@ function getInicio(negocio) {
     .concat(gas.map(r => ({ t: 'g', fecha: f(r['FECHA']), id: Number(r['ID GASTO']), num: String(r['ID GASTO']), prov: txt_(r['PROVEEDOR']), desc: txt_(r['DESCRIPCIÓN']), cat: txt_(r['CATEGORÍA UC']),
       unidad: txt_(r['UNIDAD']), cantidad: Number(r['CANTIDAD']) || 0, precio: Number(r['PRECIO']) || 0, notas: txt_(r['NOTAS']), pago: txt_(r['FORMA DE PAGO']), cuenta: txt_(r['CUENTA']), total: Number(r['SUBTOTAL']) || 0, negocio: negDe_(r) })))
     .sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id)).slice(0, 4);
-  /* 5.0.0-alpha34: datos para la gráfica del año, el anillo «Cobrado» y los tanques */
-  const mesesY = [];
-  for (let i = 0; i < 12; i++) {
-    const d0 = i === 0 ? ini : new Date(h.anioN, 3 + i, 1), d1 = i === 11 ? new Date(fin.getTime() + 1) : new Date(h.anioN, 4 + i, 1);
-    mesesY.push({ m: d0.getMonth(), y: d0.getFullYear(),
-      ing: suma(ing.filter(r => r['FECHA EVENTO'] instanceof Date && r['FECHA EVENTO'] >= d0 && r['FECHA EVENTO'] < d1)),
-      gas: suma(gas.filter(r => r['FECHA'] instanceof Date && r['FECHA'] >= d0 && r['FECHA'] < d1)) });
+  /* 5.0.0-alpha34/35: datos para la gráfica (meses del año, o un dato por año si eliges «Todos los años»), el anillo «Cobrado» y los tanques */
+  const enRango = (d, a, b) => d instanceof Date && d >= a && d < b;
+  let mesesY = [];
+  if (aTodos) {
+    mesesY = aniosN.slice().reverse().map(a => { const a0 = new Date(a, 3, 6), a1 = new Date(a + 1, 3, 6);
+      return { y: a, label: etiquetaAnio_(a), ing: suma(ing.filter(r => enRango(r['FECHA EVENTO'], a0, a1))), gas: suma(gas.filter(r => enRango(r['FECHA'], a0, a1))) }; });
+  } else {
+    for (let i = 0; i < 12; i++) {
+      const d0 = i === 0 ? ini : new Date(h.anioN, 3 + i, 1), d1 = i === 11 ? new Date(fin.getTime() + 1) : new Date(h.anioN, 4 + i, 1);
+      mesesY.push({ m: d0.getMonth(), y: d0.getFullYear(), ing: suma(ing.filter(r => enRango(r['FECHA EVENTO'], d0, d1))), gas: suma(gas.filter(r => enRango(r['FECHA'], d0, d1))) });
+    }
   }
   const cobro = { facturado: suma(ingP), cobrado: suma(ingP.filter(r => r['ESTADO'] === 'PAID')), deben: suma(ingP.filter(r => r['ESTADO'] === 'PENDING')) };
-  const porCobrar = suma(ing.filter(r => r['ESTADO'] === 'PENDING'));
-  const perF = leerTabla_('Periodos').filter(x => x['INICIO'] instanceof Date && x['FIN'] instanceof Date);
-  const prevP = p && p['INICIO'] instanceof Date ? perF.filter(x => x['FIN'] < p['INICIO']).sort((a, b) => b['FIN'] - a['FIN'])[0] : null;
+  const porCobrar = cobro.deben;
+  const paEt = pa ? pa['ETIQUETA'] : '';
+  const actual = { etiqueta: paEt, ini: pa && pa['INICIO'] instanceof Date ? iso_(pa['INICIO']) : '', fin: pa && pa['FIN'] instanceof Date ? iso_(pa['FIN']) : '', ingresos: suma(ing.filter(r => r['PERIODO UC'] === paEt)) };
+  const prevP = pa && pa['INICIO'] instanceof Date ? perF.filter(x => x['FIN'] < pa['INICIO']).sort((a, b) => b['FIN'] - a['FIN'])[0] : null;
   const prevIng = prevP ? suma(ing.filter(r => r['PERIODO UC'] === prevP['ETIQUETA'])) : null;
+  const hoyF = new Date();
+  const perL = perF.filter(x => x['INICIO'] <= hoyF).sort((a, b) => b['INICIO'] - a['INICIO']).slice(0, 36).map(x => ({ etiqueta: x['ETIQUETA'], actual: x['ETIQUETA'] === paEt }));
+  const aniosL = aniosN.map(a => ({ n: a, etiqueta: etiquetaAnio_(a), base: a === anioBase }));
   const filtrado = !!neg && negocios_().length > 1;
   return {
-    meses: mesesY, cobro: cobro, porCobrar: porCobrar, prevIng: prevIng,
-    periodo: { etiqueta: et, ini: p && p['INICIO'] instanceof Date ? iso_(p['INICIO']) : '', fin: p && p['FIN'] instanceof Date ? iso_(p['FIN']) : '',
+    meses: mesesY, anual: aTodos, cobro: cobro, porCobrar: porCobrar, prevIng: prevIng, actual: actual, periodos: perL, anios: aniosL,
+    periodo: { todos: pTodos, etiqueta: pTodos ? 'Todos los periodos' : et, ini: p && p['INICIO'] instanceof Date ? iso_(p['INICIO']) : '', fin: p && p['FIN'] instanceof Date ? iso_(p['FIN']) : '',
       ingresos: suma(ingP), gastos: suma(gasP), nFacturas: Object.keys(idsP).length, nGastos: gasP.length },
-    hmrc: Object.assign({}, h, { ingresos: suma(ingY), gastos: suma(gasY), beneficio: r2(suma(ingY) - suma(gasY)), impuesto: imp.aPagar, impuestoTotal: filtrado }),
+    hmrc: Object.assign({}, h, { todos: aTodos, ingresos: suma(ingY), gastos: suma(gasY), beneficio: r2(suma(ingY) - suma(gasY)), impuesto: imp.aPagar, impuestoTotal: filtrado }),
     pendientes: Object.keys(pend).map(k => pend[k]).sort((a, b) => (a.fecha < b.fecha ? -1 : 1)),
     avisos: revisarDatos_().slice(0, 50), ultimos: ult
   };

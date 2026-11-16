@@ -1205,14 +1205,6 @@ html[data-tema="oscuro"] .rb[aria-current="page"] .i { color: #A5B0FF; }
 .rail .ver .acerca { color: var(--muted); }
 .rail .ver .acerca:hover, .rail .ver .acerca[aria-current="page"] { background: rgba(127,140,255,.12); color: var(--ink); }
 .rail .rx { background: var(--bg); color: var(--ink); }
-/* computadora: el menú lateral siempre a la vista */
-@media (min-width: 1100px) {
-  .app { flex-direction: row; }
-  .rail { position: static; transform: none; visibility: visible; width: 248px; box-shadow: none; transition: none; z-index: auto; }
-  body .mtop, .bd, .bd.open { display: none !important; }
-  .rail .rx { display: none; }
-  #vista { height: 100%; }
-}
 /* Inicio */
 .v-inicio .hdr { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px 18px; flex-wrap: wrap; margin-bottom: 16px; }
 .v-inicio .hdr .dia { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
@@ -1282,6 +1274,30 @@ html[data-tema="oscuro"] .rb[aria-current="page"] .i { color: #A5B0FF; }
   .v-inicio .grafw .ln { animation: none; stroke-dashoffset: 0; } .v-inicio .grafw .ar { animation: none; opacity: 1; }
   .v-inicio .tk .tube i, .v-inicio .rn1 { transition: none; } .v-inicio .tk .tube i::before { animation: none; }
 }
+
+/* ===== 5.0.0-alpha35 · UC a la izquierda, HMRC a la derecha ===== */
+.v-inicio .uh { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 14px; align-items: stretch; }
+.v-inicio .uhc { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.v-inicio .uhc .sh { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 2px -4px; font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.v-inicio .uhc .sh > span { display: inline-flex; align-items: center; gap: 8px; }
+.v-inicio .uhc .sh svg { width: 16px; height: 16px; }
+.v-inicio .uhc .sh select { background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 7px 12px; font: inherit; font-size: 13px; font-weight: 700; color: var(--ink); box-shadow: var(--sombra); text-transform: none; letter-spacing: 0; max-width: 62%; cursor: pointer; }
+.v-inicio .ur { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.v-inicio .hmc .gc { flex: 1; display: flex; flex-direction: column; }
+.v-inicio .hmc .grafw { position: relative; flex: 1; min-height: 190px; margin-top: 6px; }
+.v-inicio .hmc .grafw svg { position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - 22px); }
+.v-inicio .grafw .gl, .v-inicio .grafw .ln, .v-inicio .grafw .lg { vector-effect: non-scaling-stroke; }
+.v-inicio .grafw .ln { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
+.v-inicio .grafw .ar { opacity: 1; animation: none; }
+.v-inicio .grafw .clr { transform-box: fill-box; transform-origin: 0 0; animation: pbReveal 1.3s cubic-bezier(.3,.7,.2,1) both; }
+.v-inicio .grafw .bar { transform-box: fill-box; transform-origin: 50% 100%; animation: pbGrow 1s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes pbReveal { from { transform: scaleX(0); } to { transform: scaleX(1); } } @keyframes pbGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.v-inicio .grafw .mtl { position: absolute; left: 0; right: 0; bottom: 0; height: 18px; }
+.v-inicio .grafw .mtl span { position: absolute; bottom: 0; transform: translateX(-50%); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.v-inicio .grafw .dtd { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--card); border: 3px solid #4F46E5; transform: translate(-50%, -50%); opacity: 0; pointer-events: none; transition: opacity .15s; }
+@media (max-width: 1000px) { .v-inicio .uh { grid-template-columns: 1fr; } .v-inicio .hmc .grafw { min-height: 240px; } }
+@media (max-width: 560px) { .v-inicio .ur { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .v-inicio .grafw .clr, .v-inicio .grafw .bar { animation: none; } }
 </style>
 </head>
 <body>
@@ -1360,15 +1376,18 @@ html[data-tema="oscuro"] .rb[aria-current="page"] .i { color: #A5B0FF; }
   </div>
   <div id="aviso-cierre"></div>
   <div id="pasos" class="pasos hidden"></div>
-  <div class="dos">
-    <div class="rs uc" id="ini-uc"><div class="hd"><div><small>📅 Periodo</small><b>Cargando…</b></div></div></div>
-    <div class="rs hm" id="ini-hm"><div class="hd"><div><small>🏛️ Año HMRC</small><b>Cargando…</b></div></div></div>
-  </div>
   <div id="h-msg" role="status" aria-live="polite"></div>
-  <div class="gr3">
-    <div class="gc" id="ini-ch"><div class="lb">Cargando…</div></div>
-    <div class="gc" id="ini-ring"></div>
-    <div class="gc" id="ini-tk"></div>
+  <div class="uh">
+    <div class="uhc">
+      <div class="sh"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><b id="sh-uc">Universal Credit</b></span><select id="sel-p" aria-label="Periodo"></select></div>
+      <div class="rs uc" id="ini-uc"><div class="hd"><div><small>📅 Periodo</small><b>Cargando…</b></div></div></div>
+      <div class="ur"><div class="gc" id="ini-ring"></div><div class="gc" id="ini-tk"></div></div>
+    </div>
+    <div class="uhc hmc">
+      <div class="sh"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V10M19 21V10M9 21V10M15 21V10M2 10l10-7 10 7"/></svg><b>HMRC</b></span><select id="sel-a" aria-label="Año fiscal HMRC"></select></div>
+      <div class="rs hm" id="ini-hm"><div class="hd"><div><small>🏛️ Año HMRC</small><b>Cargando…</b></div></div></div>
+      <div class="gc" id="ini-ch"><div class="lb">Cargando…</div></div>
+    </div>
   </div>
   <div class="cols">
     <div class="bx" id="ini-pend"><h3><span>Tienes pendiente</span></h3><div class="vac">Cargando…</div></div>
@@ -1633,7 +1652,7 @@ html[data-tema="oscuro"] .rb[aria-current="page"] .i { color: #A5B0FF; }
 <div id="tip" role="tooltip"></div></div>
 </template>
 
-<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha34',fecha:'16 nov 2026'};})();</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.CFG={vista:q.get('vista')||'inicio',tab:q.get('tab')||'',ver:'5.0.0-alpha35',fecha:'16 nov 2026'};})();</script>
 <script>
 /* ===== Inicio ===== */
 /* 5.0.0-alpha32: lo que se ve en pantalla va en español (la hoja y el PDF siguen en inglés) */
@@ -1865,7 +1884,7 @@ function init_inicio(ROOT, P, S) {
   const dias = (s) => Math.round((new Date(s + 'T00:00:00') - hoy0()) / 864e5);
   const faltan = (n) => n === 0 ? 'es hoy' : n === 1 ? 'falta 1 día' : 'faltan ' + n + ' días';
   const uc = () => !!(S.usaUC && S.usaUC());
-  let HUB = null, DAT = null, COPIA, ANIM = true;   // COPIA: undefined = aún no se sabe; null = modo de ejemplo; 0 = nunca; ms = fecha
+  let HUB = null, DAT = null, COPIA, ANIM = true, SELP = null, SELA = null;   // COPIA: undefined = aún no se sabe; null = modo de ejemplo; 0 = nunca; ms = fecha
 
   const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'], MESL = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   (function () { const h = new Date(); $('ini-dia').textContent = DIAS[h.getDay()].replace(/^./, (x) => x.toUpperCase()) + ' ' + h.getDate() + ' de ' + MESL[h.getMonth()] + ' de ' + h.getFullYear(); })();
@@ -1923,7 +1942,7 @@ function init_inicio(ROOT, P, S) {
     });
   }
   function pintarLead() {
-    const p = DAT.periodo, pe = DAT.pendientes || [], L = [];
+    const p = DAT.actual || DAT.periodo, pe = DAT.pendientes || [], L = [];
     if (p.etiqueta) {
       let a = 'Llevas <b>' + gbp(p.ingresos) + '</b> este periodo';
       const pv = DAT.prevIng;
@@ -1944,38 +1963,56 @@ function init_inicio(ROOT, P, S) {
     }
     return d;
   }
+  function llenarSel() {
+    const sp = $('sel-p'), sa = $('sel-a'); if (!sp || !sa) return;
+    const sh = $('sh-uc'); if (sh) sh.textContent = uc() ? 'Universal Credit' : 'Periodo';
+    sp.innerHTML = '<option value="TODOS">Todos los periodos</option>' + (DAT.periodos || []).map((x) => '<option value="' + esc(x.etiqueta) + '">' + esc(String(x.etiqueta).split(' ')[0]) + (x.actual ? ' (actual)' : '') + '</option>').join('');
+    sa.innerHTML = '<option value="TODOS">Todos los años</option>' + (DAT.anios || []).map((x) => '<option value="' + x.n + '">' + esc(x.etiqueta) + (x.base ? ' (actual)' : '') + '</option>').join('');
+    sp.value = DAT.periodo.todos ? 'TODOS' : DAT.periodo.etiqueta; sa.value = DAT.hmrc.todos ? 'TODOS' : String(DAT.hmrc.anioN);
+    if (!sp.value) sp.value = 'TODOS';
+    sp.onchange = () => { SELP = sp.value; cargar(); };
+    sa.onchange = () => { SELA = sa.value; cargar(); };
+  }
   function pintarGraf() {
-    const M = DAT.meses || [], box = $('ini-ch'), h0 = DAT.hmrc, hoy = new Date();
-    const iH = M.findIndex((x) => x.m === hoy.getMonth() && x.y === hoy.getFullYear()), last = iH < 0 ? (hoy < new Date(h0.ini + 'T00:00:00') ? -1 : 11) : iH;
+    const M = DAT.meses || [], box = $('ini-ch'), h0 = DAT.hmrc, hoy = new Date(), AN = !!DAT.anual;
+    let last = M.length - 1;
+    if (!AN) { const iH = M.findIndex((x) => x.m === hoy.getMonth() && x.y === hoy.getFullYear()); last = iH < 0 ? (hoy < new Date(h0.ini + 'T00:00:00') ? -1 : 11) : iH; }
     const hay = M.some((x, i) => i <= last && (x.ing > 0 || x.gas > 0));
-    const cab = '<div class="lb">Ingresos del año HMRC · ' + esc(h0.anio) + '</div><div class="big">' + gbp(h0.ingresos) + '</div>' +
+    const cab = '<div class="lb">' + (AN ? 'Ingresos por año fiscal' : 'Ingresos del año HMRC · ' + esc(h0.anio)) + '</div><div class="big">' + gbp(h0.ingresos) + '</div>' +
       '<div class="leg"><span><i></i>Ingresos</span><span><i class="g"></i>Gastos</span></div>';
-    if (!hay) { box.innerHTML = cab + '<div class="vac" style="padding:50px 0;text-align:center">Aquí verás tu año mes a mes cuando apuntes tus primeros ingresos.</div>'; return; }
-    const W = 640, H = 250, pl = 14, pr = 14, pt = 16, pb = 6, px = (i) => pl + i * (W - pl - pr) / 11;
-    const mx = Math.max(1, ...M.filter((x, i) => i <= last).map((x) => Math.max(x.ing, x.gas))) * 1.12, py = (v) => pt + (H - pt - pb) * (1 - v / mx);
-    const pI = [], pG = []; M.forEach((x, i) => { if (i <= last) { pI.push([px(i), py(x.ing)]); pG.push([px(i), py(x.gas)]); } });
-    const dI = suave(pI), dG = suave(pG), base = (H - pb).toFixed(1);
-    const area = pI.length > 1 ? dI + ' L' + pI[pI.length - 1][0].toFixed(1) + ' ' + base + ' L' + pI[0][0].toFixed(1) + ' ' + base + 'Z' : '';
+    if (!hay) { box.innerHTML = cab + '<div class="vac" style="padding:50px 0;text-align:center;flex:1">Aquí verás tu año mes a mes cuando apuntes tus primeros ingresos.</div>'; return; }
+    const W = 640, H = 250, pl = 14, pr = 14, pt = 16, pb = 6, n = M.length, paso = (W - pl - pr) / (AN ? n : 11);
+    const px = (i) => (AN ? pl + (i + .5) * paso : pl + i * paso);
+    const mx = Math.max(1, ...M.filter((x, i) => i <= last).map((x) => Math.max(x.ing, x.gas))) * 1.12, py = (v) => pt + (H - pt - pb) * (1 - v / mx), base = (H - pb).toFixed(1);
     let gl = ''; for (let k = 0; k < 4; k++) { const y = (pt + (H - pt - pb) * k / 3).toFixed(1); gl += '<line class="gl" x1="0" x2="' + W + '" y1="' + y + '" y2="' + y + '"/>'; }
-    const mt = M.map((x, i) => '<text class="mt" x="' + px(i).toFixed(1) + '" y="' + (H + 20) + '" text-anchor="middle">' + MESC[x.m] + '</text>').join('');
-    box.innerHTML = cab + '<div class="grafw"><svg viewBox="0 0 ' + W + ' ' + (H + 26) + '" role="img" aria-label="Ingresos y gastos mes a mes del año HMRC"><defs><linearGradient id="pbAg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4F46E5" stop-opacity=".32"/><stop offset="1" stop-color="#4F46E5" stop-opacity="0"/></linearGradient></defs>' +
-      gl + (area ? '<path class="ar" d="' + area + '" fill="url(#pbAg)"/>' : '') + (dG ? '<path class="lg" d="' + dG + '"/>' : '') +
-      (dI ? '<path class="ln" d="' + dI + '"/>' : '<circle cx="' + pI[0][0] + '" cy="' + pI[0][1] + '" r="5" fill="#4F46E5"/>') + mt +
-      '<circle class="dt" r="6" cx="0" cy="0"/></svg><div class="tip"></div></div>';
-    const svg = box.querySelector('svg'), ln = box.querySelector('.ln'), dt = box.querySelector('.dt'), tip = box.querySelector('.tip'), cont = box.querySelector('.grafw');
-    if (ln && ln.getTotalLength) ln.style.setProperty('--len', Math.ceil(ln.getTotalLength()) + 2);
+    let dib = '';
+    if (AN) {
+      const bw = Math.min(46, paso * .28);
+      M.forEach((x, i) => { dib += '<rect class="bar" x="' + (px(i) - bw - 2).toFixed(1) + '" y="' + py(x.ing).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + Math.max(0, base - py(x.ing)).toFixed(1) + '" rx="5" fill="#4F46E5"/>' +
+        '<rect class="bar" x="' + (px(i) + 2).toFixed(1) + '" y="' + py(x.gas).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + Math.max(0, base - py(x.gas)).toFixed(1) + '" rx="5" fill="#8A91B0" fill-opacity=".6"/>'; });
+    } else {
+      const pI = [], pG = []; M.forEach((x, i) => { if (i <= last) { pI.push([px(i), py(x.ing)]); pG.push([px(i), py(x.gas)]); } });
+      const dI = suave(pI), dG = suave(pG), area = pI.length > 1 ? dI + ' L' + pI[pI.length - 1][0].toFixed(1) + ' ' + base + ' L' + pI[0][0].toFixed(1) + ' ' + base + 'Z' : '';
+      dib = '<g clip-path="url(#pbCl)">' + (area ? '<path class="ar" d="' + area + '" fill="url(#pbAg)"/>' : '') + (dG ? '<path class="lg" d="' + dG + '"/>' : '') + (dI ? '<path class="ln" d="' + dI + '"/>' : '') + '</g>';
+    }
+    const etq = (x) => (AN ? esc(x.label) : MESC[x.m]);
+    const mtl = M.map((x, i) => '<span style="left:' + (px(i) / W * 100).toFixed(2) + '%">' + etq(x) + '</span>').join('');
+    box.innerHTML = cab + '<div class="grafw"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Ingresos y gastos del año HMRC"><defs><linearGradient id="pbAg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4F46E5" stop-opacity=".32"/><stop offset="1" stop-color="#4F46E5" stop-opacity="0"/></linearGradient>' +
+      '<clipPath id="pbCl"><rect class="clr" x="0" y="0" width="' + W + '" height="' + (H + 10) + '"/></clipPath></defs>' + gl + dib + '</svg><div class="dtd"></div><div class="tip"></div><div class="mtl">' + mtl + '</div></div>';
+    const svg = box.querySelector('svg'), dt = box.querySelector('.dtd'), tip = box.querySelector('.tip'), cont = box.querySelector('.grafw');
     cont.addEventListener('pointermove', (ev) => {
-      const r = svg.getBoundingClientRect(), vx = (ev.clientX - r.left) / r.width * W, i = Math.max(0, Math.min(last, Math.round((vx - pl) / ((W - pl - pr) / 11)))), x = M[i];
-      dt.setAttribute('cx', px(i)); dt.setAttribute('cy', py(x.ing)); dt.style.opacity = 1;
-      tip.innerHTML = MESC[x.m] + ' ' + x.y + '<small>Ingresos ' + gbp(x.ing) + ' · Gastos ' + gbp(x.gas) + '</small>';
-      tip.style.left = (px(i) / W * r.width) + 'px'; tip.style.top = (py(x.ing) / (H + 26) * r.height) + 'px'; tip.style.opacity = 1;
+      const r = svg.getBoundingClientRect(), vx = (ev.clientX - r.left) / r.width * W, i = Math.max(0, Math.min(last, Math.round((vx - px(0)) / paso))), x = M[i];
+      const top = (py(AN ? Math.max(x.ing, x.gas) : x.ing) / H * r.height) + 'px', left = (px(i) / W * r.width) + 'px';
+      if (!AN) { dt.style.left = left; dt.style.top = top; dt.style.opacity = 1; }
+      tip.innerHTML = (AN ? esc(x.label) : MESC[x.m] + ' ' + x.y) + '<small>Ingresos ' + gbp(x.ing) + ' · Gastos ' + gbp(x.gas) + '</small>';
+      tip.style.left = left; tip.style.top = top; tip.style.opacity = 1;
     });
     cont.addEventListener('pointerleave', () => { dt.style.opacity = 0; tip.style.opacity = 0; });
   }
   function pintarAnillo() {
     const box = $('ini-ring'), c = DAT.cobro || { facturado: 0, cobrado: 0, deben: 0 }, U = uc(), p = DAT.periodo;
     const pct = c.facturado > 0 ? Math.max(0, Math.min(100, Math.round(c.cobrado / c.facturado * 100))) : null, C = 490;
-    box.innerHTML = '<div class="lb">Cobrado · periodo' + (U ? ' UC' : '') + '</div><div class="ringw"><svg viewBox="0 0 200 200" role="img" aria-label="' + (pct == null ? 'Sin facturas en este periodo' : pct + ' por ciento cobrado') + '"><defs><linearGradient id="pbRg" x1="0" x2="1"><stop offset="0" stop-color="#A78BFA"/><stop offset="1" stop-color="#4F46E5"/></linearGradient></defs>' +
+    box.innerHTML = '<div class="lb">Cobrado · ' + (p.todos ? 'todos los periodos' : 'periodo' + (U ? ' UC' : '')) + '</div><div class="ringw"><svg viewBox="0 0 200 200" role="img" aria-label="' + (pct == null ? 'Sin facturas en este periodo' : pct + ' por ciento cobrado') + '"><defs><linearGradient id="pbRg" x1="0" x2="1"><stop offset="0" stop-color="#A78BFA"/><stop offset="1" stop-color="#4F46E5"/></linearGradient></defs>' +
       '<circle class="rn0" cx="100" cy="100" r="78"/><circle class="rn1" cx="100" cy="100" r="78" stroke-dasharray="' + C + '" stroke-dashoffset="' + C + '"/>' +
       '<text class="rp" x="100" y="106" text-anchor="middle">' + (pct == null ? '—' : pct + '%') + '</text><text class="rs2" x="100" y="128" text-anchor="middle">' + (pct == null ? 'sin facturas' : 'de ' + g0(c.facturado)) + '</text></svg></div>' +
       '<div class="fil"><span>Facturado</span><b>' + g0(c.facturado) + '</b></div><div class="fil"><span>Ya cobrado</span><b class="g">' + g0(c.cobrado) + '</b></div><div class="fil"><span>Te deben</span><b class="o">' + g0(c.deben) + '</b></div>';
@@ -1984,8 +2021,8 @@ function init_inicio(ROOT, P, S) {
   function pintarTanques() {
     const box = $('ini-tk'), p = DAT.periodo, U = uc(), gan = p.ingresos - p.gastos, por = DAT.porCobrar || 0;
     const T = [['Ingresos', p.ingresos, 'g'], ['Gastos', p.gastos, 'r'], ['Por cobrar', por, 'o'], ['Ganancia', gan, 'b']], mx = Math.max(1, ...T.map((x) => Math.abs(x[1])));
-    box.innerHTML = '<div class="lb">Tanques · periodo' + (U ? ' UC' : '') + '</div><div class="tk">' + T.map((x) => '<div class="t"><div class="v">' + g0(x[1]) + '</div><div class="tube"><i class="' + x[2] + '" data-h="' + (Math.abs(x[1]) > 0 ? Math.max(6, Math.round(Math.abs(x[1]) / mx * 100)) : 0) + '"></i></div><div class="nm">' + x[0] + '</div></div>').join('') + '</div>' +
-      '<div class="sub">' + (p.etiqueta ? esc(String(p.etiqueta).split(' ')[0]) + ' · el líquido sube cuando entra dinero' : 'Sin periodo actual') + '</div>';
+    box.innerHTML = '<div class="lb">Tanques · ' + (p.todos ? 'todos' : 'periodo' + (U ? ' UC' : '')) + '</div><div class="tk">' + T.map((x) => '<div class="t"><div class="v">' + g0(x[1]) + '</div><div class="tube"><i class="' + x[2] + '" data-h="' + (Math.abs(x[1]) > 0 ? Math.max(6, Math.round(Math.abs(x[1]) / mx * 100)) : 0) + '"></i></div><div class="nm">' + x[0] + '</div></div>').join('') + '</div>' +
+      '<div class="sub">' + (p.todos ? 'Todos los periodos' : p.etiqueta ? esc(String(p.etiqueta).split(' ')[0]) + ' · el líquido sube cuando entra dinero' : 'Sin periodo actual') + '</div>';
     const ti = box.querySelectorAll('.tube i');
     if (REDUCE) ti.forEach((i) => (i.style.height = i.dataset.h + '%')); else requestAnimationFrame(() => requestAnimationFrame(() => ti.forEach((i) => (i.style.height = i.dataset.h + '%'))));
   }
@@ -2004,7 +2041,7 @@ function init_inicio(ROOT, P, S) {
   function cargar() {
     google.script.run.withSuccessHandler((r) => { DAT = r; pintar(); })
       .withFailureHandler((e) => { const b = $('ini-pend'); if (b) b.innerHTML = '<h3><span>Tienes pendiente</span></h3><div class="vac">No he podido cargar tus datos: ' + esc(String(e.message || e).replace(/^Exception: /, '')) + '</div>'; })
-      .getInicio((S.negocio && S.negocio()) || null);
+      .getInicio((S.negocio && S.negocio()) || null, SELP, SELA);
   }
   cargar();
   if (window.pbDatos && window.pbDatos.ultimaCopia) window.pbDatos.ultimaCopia().then((ms) => { COPIA = ms; pintar(); }).catch(() => { COPIA = undefined; });
@@ -2012,24 +2049,38 @@ function init_inicio(ROOT, P, S) {
   function verDash(modo) { try { localStorage.setItem('pb_dash', modo); } catch (e) { } S.ir('dashboard'); }
   function pintar() {
     if (!DAT || !$('ini-uc')) return;
-    pintarUC(); pintarHM(); pintarLead(); pintarGraf(); pintarAnillo(); pintarTanques(); pintarPend(); pintarUlt();
+    llenarSel(); pintarUC(); pintarHM(); pintarLead(); pintarGraf(); pintarAnillo(); pintarTanques(); pintarPend(); pintarUlt();
     sinEmo(ROOT);
     if (ANIM) { ANIM = false; animarNums(ROOT); }
   }
 
   function pintarUC() {
     const p = DAT.periodo, box = $('ini-uc'), U = uc();
+    if (p.todos) {
+      const gt = p.ingresos - p.gastos;
+      box.innerHTML = '<div class="hd"><div><small>📅 Periodo' + (U ? ' UC' : '') + '</small><b>Todos los periodos</b></div><button type="button" id="ini-uc-d">Ver en Dashboard ›</button></div>' +
+        '<div class="nn"><div><small>Ingresos</small><b class="ok">' + gbp(p.ingresos) + '</b></div><div><small>Gastos</small><b class="bad">' + gbp(p.gastos) + '</b></div><div><small>Ganancia</small><b class="' + (gt < 0 ? 'bad' : 'ok') + '">' + gbp(gt) + '</b></div></div>' +
+        '<div class="ft">Suma de todos tus periodos · ' + p.nFacturas + (p.nFacturas === 1 ? ' factura' : ' facturas') + ' y ' + p.nGastos + (p.nGastos === 1 ? ' gasto' : ' gastos') + '</div>';
+      $('ini-uc-d').onclick = () => verDash('uc'); return;
+    }
     if (!p.etiqueta) { box.innerHTML = '<div class="hd"><div><small>📅 Periodo' + (U ? ' UC' : '') + '</small><b>Sin periodo actual</b></div></div><div class="ft">Añade periodos en el menú › Añadir periodos.</div>'; return; }
     const tot = Math.max(1, Math.round((new Date(p.fin + 'T00:00:00') - new Date(p.ini + 'T00:00:00')) / 864e5) + 1), n = Math.max(0, dias(p.fin));
     const pct = Math.min(100, Math.max(3, Math.round((tot - n) / tot * 100))), gan = p.ingresos - p.gastos;
     box.innerHTML = '<div class="hd"><div><small>📅 Periodo' + (U ? ' UC' : '') + '</small><b>' + esc(String(p.etiqueta).split(' ')[0]) + ' (' + fC(p.ini) + ' – ' + fC(p.fin) + ')</b></div><button type="button" id="ini-uc-d">Ver en Dashboard ›</button></div>' +
       '<div class="nn"><div><small>Ingresos</small><b class="ok">' + gbp(p.ingresos) + '</b></div><div><small>Gastos</small><b class="bad">' + gbp(p.gastos) + '</b></div>' +
       '<div><small>Ganancia</small><b class="' + (gan < 0 ? 'bad' : 'ok') + '">' + gbp(gan) + '</b></div></div>' +
-      '<div class="ft"><div class="bar"><i style="width:' + pct + '%"></i></div>' + (n === 0 ? 'Hoy se cierra' : 'Faltan ' + n + (n === 1 ? ' día' : ' días')) + (U ? ' · luego lo subes a UC' : '') + '</div>';
+      '<div class="ft"><div class="bar"><i style="width:' + pct + '%"></i></div>' + (dias(p.fin) < 0 ? 'Periodo cerrado' : n === 0 ? 'Hoy se cierra' : 'Faltan ' + n + (n === 1 ? ' día' : ' días')) + (U ? ' · luego lo subes a UC' : '') + '</div>';
     $('ini-uc-d').onclick = () => verDash('uc');
   }
   function pintarHM() {
     const h = DAT.hmrc, box = $('ini-hm'), dd = dias(h.desde), dl = dias(h.limite), ya = dd <= 0;
+    if (h.todos) {
+      box.innerHTML = '<div class="hd"><div><small>🏛️ Año HMRC</small><b>Todos los años</b></div><button type="button" id="ini-hm-d">Ver en Dashboard ›</button></div>' +
+        '<div class="nn"><div><small>Ingresos</small><b class="ok">' + gbp(h.ingresos) + '</b></div><div><small>Gastos</small><b class="bad">' + gbp(h.gastos) + '</b></div>' +
+        '<div><small>Beneficio</small><b class="' + (h.beneficio < 0 ? 'bad' : 'ok') + '">' + gbp(h.beneficio) + '</b></div><div><small>Impuesto' + (h.impuestoTotal ? ' (todo)' : '') + '</small><b class="am">' + gbp(h.impuesto) + '</b></div></div>' +
+        '<div class="ft">Suma de todos tus años fiscales</div>';
+      $('ini-hm-d').onclick = () => verDash('hmrc'); return;
+    }
     box.innerHTML = '<div class="hd"><div><small>🏛️ Año HMRC</small><b>' + esc(h.anio) + ' (' + fL(h.ini) + ' – ' + fL(h.fin) + ')</b></div><button type="button" id="ini-hm-d">Ver en Dashboard ›</button></div>' +
       '<div class="nn"><div><small>Ingresos</small><b class="ok">' + gbp(h.ingresos) + '</b></div><div><small>Gastos</small><b class="bad">' + gbp(h.gastos) + '</b></div>' +
       '<div><small>Beneficio</small><b class="' + (h.beneficio < 0 ? 'bad' : 'ok') + '">' + gbp(h.beneficio) + '</b></div><div><small>Impuesto' + (h.impuestoTotal ? ' (todo)' : '') + '</small><b class="am">' + gbp(h.impuesto) + '</b></div></div>' +
@@ -2044,7 +2095,7 @@ function init_inicio(ROOT, P, S) {
     };
   }
   function pintarPend() {
-    const L = [], ok = [], U = uc(), pe = DAT.pendientes || [], av = DAT.avisos || [], p = DAT.periodo;
+    const L = [], ok = [], U = uc(), pe = DAT.pendientes || [], av = DAT.avisos || [], p = DAT.actual || DAT.periodo;
     pe.slice(0, 3).forEach((x) => {
       const n = x.fecha ? -dias(x.fecha) : 0;
       L.push('<div class="it"><span class="ic" style="background:#FFEDD5">⏳</span><div class="t"><b>Cobrar a ' + esc(x.cliente) + ' · ' + gbp(x.total) + '</b><small>Factura ' + esc(x.num || x.id) +

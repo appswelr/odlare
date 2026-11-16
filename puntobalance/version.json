@@ -1,7 +1,17 @@
 {
- "ver": "5.0.0-alpha34",
+ "ver": "5.0.0-alpha35",
  "fecha": "16 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha35",
+   "fecha": "16 nov 2026",
+   "cambios": [
+    "Inicio: lo de Universal Credit a la izquierda (tarjeta del periodo, anillo «Cobrado» y tanques) y lo del HMRC a la derecha (tarjeta del año y gráfica)",
+    "Cada lado tiene su selector: «Periodo» (cada periodo o «Todos los periodos») y «Año» (cada año fiscal o «Todos los años»). Solo cambian lo que ves en Inicio",
+    "La gráfica ocupa toda la altura de su columna, sin espacio vacío; con «Todos los años» muestra una barra por año",
+    "El menú lateral vuelve a esconderse con ☰, como antes (con el diseño nuevo)"
+   ]
+  },
   {
    "ver": "5.0.0-alpha34",
    "fecha": "16 nov 2026",
