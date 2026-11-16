@@ -39,8 +39,8 @@ window.PB_CODE = (function (SpreadsheetApp, Utilities, Session, LockService, Mai
  * Formato MAYOR.MENOR.PARCHE (igual que Mis Finanzas): sube el último número en arreglos pequeños,
  * el del medio al añadir algo nuevo, y el primero en cambios grandes. Cambia también VERSION_FECHA.
  */
-const VERSION = '5.0.0-alpha33';
-const VERSION_FECHA = '15 nov 2026';
+const VERSION = '5.0.0-alpha34';
+const VERSION_FECHA = '16 nov 2026';
 
 // ───────────────────────── Menú ─────────────────────────
 function onOpen() {
@@ -135,8 +135,22 @@ function getInicio(negocio) {
     .concat(gas.map(r => ({ t: 'g', fecha: f(r['FECHA']), id: Number(r['ID GASTO']), num: String(r['ID GASTO']), prov: txt_(r['PROVEEDOR']), desc: txt_(r['DESCRIPCIÓN']), cat: txt_(r['CATEGORÍA UC']),
       unidad: txt_(r['UNIDAD']), cantidad: Number(r['CANTIDAD']) || 0, precio: Number(r['PRECIO']) || 0, notas: txt_(r['NOTAS']), pago: txt_(r['FORMA DE PAGO']), cuenta: txt_(r['CUENTA']), total: Number(r['SUBTOTAL']) || 0, negocio: negDe_(r) })))
     .sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id)).slice(0, 4);
+  /* 5.0.0-alpha34: datos para la gráfica del año, el anillo «Cobrado» y los tanques */
+  const mesesY = [];
+  for (let i = 0; i < 12; i++) {
+    const d0 = i === 0 ? ini : new Date(h.anioN, 3 + i, 1), d1 = i === 11 ? new Date(fin.getTime() + 1) : new Date(h.anioN, 4 + i, 1);
+    mesesY.push({ m: d0.getMonth(), y: d0.getFullYear(),
+      ing: suma(ing.filter(r => r['FECHA EVENTO'] instanceof Date && r['FECHA EVENTO'] >= d0 && r['FECHA EVENTO'] < d1)),
+      gas: suma(gas.filter(r => r['FECHA'] instanceof Date && r['FECHA'] >= d0 && r['FECHA'] < d1)) });
+  }
+  const cobro = { facturado: suma(ingP), cobrado: suma(ingP.filter(r => r['ESTADO'] === 'PAID')), deben: suma(ingP.filter(r => r['ESTADO'] === 'PENDING')) };
+  const porCobrar = suma(ing.filter(r => r['ESTADO'] === 'PENDING'));
+  const perF = leerTabla_('Periodos').filter(x => x['INICIO'] instanceof Date && x['FIN'] instanceof Date);
+  const prevP = p && p['INICIO'] instanceof Date ? perF.filter(x => x['FIN'] < p['INICIO']).sort((a, b) => b['FIN'] - a['FIN'])[0] : null;
+  const prevIng = prevP ? suma(ing.filter(r => r['PERIODO UC'] === prevP['ETIQUETA'])) : null;
   const filtrado = !!neg && negocios_().length > 1;
   return {
+    meses: mesesY, cobro: cobro, porCobrar: porCobrar, prevIng: prevIng,
     periodo: { etiqueta: et, ini: p && p['INICIO'] instanceof Date ? iso_(p['INICIO']) : '', fin: p && p['FIN'] instanceof Date ? iso_(p['FIN']) : '',
       ingresos: suma(ingP), gastos: suma(gasP), nFacturas: Object.keys(idsP).length, nGastos: gasP.length },
     hmrc: Object.assign({}, h, { ingresos: suma(ingY), gastos: suma(gasY), beneficio: r2(suma(ingY) - suma(gasY)), impuesto: imp.aPagar, impuestoTotal: filtrado }),

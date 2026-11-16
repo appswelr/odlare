@@ -1,7 +1,17 @@
 {
- "ver": "5.0.0-alpha33",
- "fecha": "15 nov 2026",
+ "ver": "5.0.0-alpha34",
+ "fecha": "16 nov 2026",
  "novedades": [
+  {
+   "ver": "5.0.0-alpha34",
+   "fecha": "16 nov 2026",
+   "cambios": [
+    "Diseño nuevo, más profesional: tarjetas redondeadas con sombra suave, fondo con luz suave y iconos de línea (sin emojis) en el Inicio",
+    "En computadora el menú lateral queda siempre a la vista (con tus mismos iconos); en tablet y celular se sigue abriendo con ☰",
+    "Inicio: gráfica del año HMRC que se dibuja sola (ingresos y gastos mes a mes), anillo «Cobrado» del periodo y 4 tanques de líquido: Ingresos (verde), Gastos (rojo), Por cobrar (amarillo) y Ganancia (azul)",
+    "Inicio: botones Apuntar ingreso (verde) y Apuntar gasto (rojo) siempre juntos arriba; los números suben contando; el saludo cambia según la hora y te dice cómo vas frente al periodo anterior"
+   ]
+  },
   {
    "ver": "5.0.0-alpha33",
    "fecha": "15 nov 2026",
