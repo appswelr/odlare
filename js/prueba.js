@@ -8,7 +8,7 @@
   var bG = document.getElementById("pGuardar"), toast = document.getElementById("pToast"), cambio = document.getElementById("pCambio");
   var apuntado = false, relojes = [];
   function lang() { return document.documentElement.lang === "en" ? "en" : "es"; }
-  function fotos() { var l = lang(); for (var k in imgs) { var src = "img/prueba-" + k + "-" + l + ".webp"; if (imgs[k].getAttribute("src") !== src) imgs[k].setAttribute("src", src); } }
+  function fotos() { var l = lang(); for (var k in imgs) { var src = "img/prueba-" + k + "-" + l + "-v2.webp"; if (imgs[k].getAttribute("src") !== src) imgs[k].setAttribute("src", src); } }
   function ver(k) { for (var x in imgs) { imgs[x].classList.toggle("on", x === k); imgs[x].style.opacity = ""; } }
   function limpiar() { relojes.forEach(clearTimeout); relojes = []; toast.classList.remove("on"); }
   function marcar(p) { bots.forEach(function (b) { var on = b.getAttribute("data-paso") === String(p); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); }); }
